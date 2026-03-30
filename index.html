@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grace Lee — Portfolio Presentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green: #1a6b4a;
+    --green-light: #2d9068;
+    --green-pale: #e8f5ef;
+    --green-mid: #c2e0d0;
+    --blue: #1a3d6b;
+    --blue-light: #2d5f9e;
+    --blue-pale: #e8eef7;
+    --blue-mid: #b8cce8;
+    --ink: #111;
+    --ink-soft: #444;
+    --ink-muted: #888;
+    --paper: #faf9f7;
+    --paper-warm: #f3f1ec;
+    --white: #fff;
+    --border: rgba(0,0,0,0.08);
+    --shadow: 0 2px 24px rgba(0,0,0,0.08);
+    --slide-w: 1280px;
+    --slide-h: 720px;
+  }
+
+  html, body {
+    width: 100%; height: 100%;
+    background: #1a1a1a;
+    overflow: hidden;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  #stage {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  #viewport {
+    position: relative;
+    width: var(--slide-w);
+    height: var(--slide-h);
+    overflow: hidden;
+    border-radius: 4px;
+    box-shadow: 0 8px 64px rgba(0,0,0,0.6);
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+    overflow: hidden;
+  }
+  .slide.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  /* ── NAV ── */
+  #nav {
+    position: fixed;
+    bottom: 32px; left: 50%;
+    transform: translateX(-50%);
+    display: flex; align-items: center; gap: 20px;
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 100px;
+    padding: 10px 20px;
+    z-index: 100;
+    color: #fff;
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    user-select: none;
+  }
+  #nav button {
+    background: none; border: none; cursor: pointer;
+    color: rgba(255,255,255,0.8); font-size: 18px;
+    width: 32px; height: 32px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    transition: background 0.2s, color 0.2s;
+  }
+  #nav button:hover { background: rgba(255,255,255,0.15); color: #fff; }
+  #nav button:disabled { opacity: 0.3; cursor: default; }
+  #counter { color: rgba(255,255,255,0.7); min-width: 48px; text-align: center; }
+
+  /* ── SLIDE 1: COVER ── */
+  .s1 {
+    background: var(--ink);
+    display: flex; flex-direction: column;
+    justify-content: center;
+    padding: 80px 100px;
+  }
+  .s1-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    height: 100%;
+    align-items: center;
+  }
+  .s1-left {}
+  .s1-tag {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 32px;
+  }
+  .s1-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 64px;
+    color: #fff;
+    line-height: 1.05;
+    margin-bottom: 20px;
+  }
+  .s1-title {
+    font-size: 16px;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.6;
+    max-width: 360px;
+  }
+  .s1-right {
+    display: flex; flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    height: 100%;
+    padding-bottom: 0;
+    gap: 40px;
+  }
+  .s1-meta-block {
+    text-align: right;
+  }
+  .s1-meta-label {
+    font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: rgba(255,255,255,0.3); margin-bottom: 6px;
+  }
+  .s1-meta-value {
+    font-size: 15px; color: rgba(255,255,255,0.7);
+  }
+  .s1-pill {
+    display: inline-block;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 100px;
+    padding: 8px 20px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.03em;
+  }
+  .s1-accent-line {
+    width: 48px; height: 2px;
+    background: var(--green-light);
+    margin-bottom: 40px;
+  }
+
+  /* ── SLIDE 2: AGENDA ── */
+  .s2 {
+    background: var(--paper);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .s2-left {
+    background: var(--ink);
+    padding: 80px 72px;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .s2-heading {
+    font-family: 'DM Serif Display', serif;
+    font-size: 48px; color: #fff; line-height: 1.1; margin-bottom: 40px;
+  }
+  .s2-label {
+    font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: rgba(255,255,255,0.35); margin-bottom: 12px;
+  }
+  .s2-right {
+    padding: 80px 72px;
+    display: flex; flex-direction: column; justify-content: center; gap: 40px;
+  }
+  .s2-case {
+    border-left: 3px solid transparent;
+    padding-left: 24px;
+  }
+  .s2-case.green { border-color: var(--green); }
+  .s2-case.blue { border-color: var(--blue); }
+  .s2-case-num {
+    font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink-muted); margin-bottom: 8px;
+  }
+  .s2-case-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px; color: var(--ink); line-height: 1.2; margin-bottom: 10px;
+  }
+  .s2-case-tags {
+    display: flex; flex-wrap: wrap; gap: 6px;
+  }
+  .s2-tag {
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 100px;
+    background: var(--paper-warm);
+    color: var(--ink-soft);
+  }
+
+  /* ── SLIDE 3: CASE 1 COVER ── */
+  .s3 {
+    background: var(--green);
+    display: flex; flex-direction: column;
+    justify-content: flex-end;
+    padding: 80px 100px;
+  }
+  .s3-eyebrow {
+    font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: rgba(255,255,255,0.45); margin-bottom: 16px;
+  }
+  .s3-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 52px; color: #fff; line-height: 1.1; margin-bottom: 20px;
+    max-width: 720px;
+  }
+  .s3-subtitle {
+    font-size: 16px; color: rgba(255,255,255,0.65); max-width: 580px;
+    line-height: 1.6; margin-bottom: 56px;
+  }
+  .s3-meta {
+    display: flex; gap: 64px;
+  }
+  .s3-meta-item {}
+  .s3-meta-label {
+    font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: rgba(255,255,255,0.4); margin-bottom: 6px;
+  }
+  .s3-meta-value {
+    font-size: 14px; color: rgba(255,255,255,0.8);
+  }
+  .s3-stripe {
+    position: absolute; top: 0; right: 0;
+    width: 320px; height: 100%;
+    background: rgba(255,255,255,0.04);
+    clip-path: polygon(40% 0, 100% 0, 100% 100%, 0% 100%);
+  }
+
+  /* ── SLIDE 4: PROBLEM ── */
+  .s4 {
+    background: var(--paper);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .s4-left {
+    padding: 72px;
+    display: flex; flex-direction: column; justify-content: center;
+    border-right: 1px solid var(--border);
+  }
+  .s4-eyebrow {
+    font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--green); margin-bottom: 20px;
+  }
+  .s4-heading {
+    font-family: 'DM Serif Display', serif;
+    font-size: 40px; color: var(--ink); line-height: 1.15; margin-bottom: 28px;
+  }
+  .s4-body { font-size: 15px; color: var(--ink-soft); line-height: 1.7; }
+  .s4-right {
+    padding: 72px;
+    display: flex; flex-direction: column; justify-content: center; gap: 28px;
+  }
+  .s4-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px 28px;
+  }
+  .s4-card-label {
+    font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--ink-muted); margin-bottom: 8px;
+  }
+  .s4-card-text { font-size: 14px; color: var(--ink-soft); line-height: 1.6; }
+  .s4-flow {
+    display: flex; align-items: center; gap: 4px; flex-wrap: wrap;
+    margin-top: 16px;
+  }
+  .s4-flow-step {
+    font-size: 12px; padding: 5px 12px;
+    background: var(--paper-warm); border-radius: 100px;
+    color: var(--ink-soft);
+  }
+  .s4-flow-arrow { color: var(--ink-muted); font-size: 12px; }
+  .s4-flow-step.error { background: #fde8e8; color: #c0392b; }
+
+  /* ── SLIDE 5: INSIGHT ── */
+  .s5 {
+    background: var(--ink);
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 80px 100px;
+  }
+  .s5-eyebrow {
+    font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--green-light); margin-bottom: 32px;
+  }
+  .s5-reframe {
+    display: flex; align-items: center; gap: 32px;
+    margin-bottom: 56px;
+  }
+  .s5-before, .s5-after {
+    flex: 1; padding: 28px 32px; border-radius: 12px;
+  }
+  .s5-before {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .s5-after {
+    background: rgba(45,144,104,0.2);
+    border: 1px solid rgba(45,144,104,0.4);
+  }
+  .s5-frame-label {
+    font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .s5-before .s5-frame-label { color: rgba(255,255,255,0.35); }
+  .s5-after .s5-frame-label { color: var(--green-light); }
+  .s5-frame-text {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px; line-height: 1.2;
+  }
+  .s5-before .s5-frame-text { color: rgba(255,255,255,0.5); font-style: italic; }
+  .s5-after .s5-frame-text { color: #fff; }
+  .s5-arrow { font-size: 32px; color: var(--green-light); flex-shrink: 0; }
+  .s5-insight {
+    background: rgba(255,255,255,0.05);
+    border-left: 3px solid var(--green-light);
+    padding: 24px 32px;
+    border-radius: 0 8px 8px 0;
+  }
+  .s5-insight-label {
+    font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: rgba(255,255,255,0.35); margin-bottom: 10px;
+  }
+  .s5-insight-text {
+    font-size: 17px; color: rgba(255,255,255,0.85); line-height: 1.6;
+  }
+
+  /* ── SLIDE 6: SOLUTION ── */
+  .s6 {
+    background: var(--paper);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .s6-left {
+    padding: 72px;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .s6-eyebrow {
+    font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--green); margin-bottom: 20px;
+  }
+  .s6-heading {
+    font-family: 'DM Serif Display', serif;
+    font-size: 36px; color: var(--ink); line-height: 1.2; margin-bottom: 40px;
+  }
+  .s6-features { display: flex; flex-direction: column; gap: 20px; }
+  .s6-feature {
+    display: flex; gap: 16px; align-items: flex-start;
+  }
+  .s6-feat-icon {
+    width: 36px; height: 36px; flex-shrink: 0;
+    background: var(--green-pale);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+  }
+  .s6-feat-title {
+    font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 4px;
+  }
+  .s6-feat-body { font-size: 13px; color: var(--ink-soft); line-height: 1.6; }
+  .s6-right {
+    background: var(--green);
+    display: flex; align-items: center; justify-content: center;
+    padding: 72px;
+  }
+  .s6-visual {
+    width: 100%; background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 12px;
+    aspect-ratio: 4/3;
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(255,255,255,0.3);
+    font-size: 13px; text-align: center; padding: 32px;
+    line-height: 1.6;
+  }
+
+  /* ── SLIDE 7: TRADE-OFF ── */
+  .s7 {
+    background: var(--paper);
+    display: flex; flex-direction: column;
+    padding: 72px 100px;
+  }
+  .s7-eyebrow {
+    font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--green); margin-bottom: 16px;
+  }
+  .s7-heading {
+    font-family: 'DM Serif Display', serif;
+    font-size: 36px; color: var(--ink); margin-bottom: 40px;
+  }
+  .s7-compare {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 24px; flex: 1;
+  }
+  .s7-col {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px; padding: 28px;
+    display: flex; flex-direction: column;
+  }
+  .s7-col.chosen {
+    border-color: var(--green);
+    box-shadow: 0 0 0 1px var(--green);
+  }
+  .s7-col-label {
+    font-size: 16px; font-weight: 500; color: var(--ink);
+    margin-bottom: 16px; display: flex; align-items: center; gap: 10px;
+  }
+  .s7-chosen-badge {
+    font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+    background: var(--green); color: #fff;
+    padding: 3px 8px; border-radius: 100px;
+  }
+  .s7-point {
+    font-size: 13px; color: var(--ink-soft); line-height: 1.5;
+    padding: 6px 0; border-bottom: 1px solid var(--border);
+    display: flex; gap: 10px;
+  }
+  .s7-point:last-child { border-bottom: none; }
+  .s7-point .sign { font-weight: 600; }
+  .s7-point .sign.pos { color: var(--green); }
+  .s7-point .sign.neg { color: #c0392b; }
+  .s7-validate {
+    margin-top: 24px; padding: 16px 24px;
+    background: var(--green-pale);
+    border-radius: 8px;
+    font-size: 13px; color: var(--green);
+    line-height: 1.6;
+    border-left: 3px solid var(--green);
+  }
+
+  /* ── SLIDE 8 & 9: DESIGN DETAILS ── */
+  .s8, .s9 {
+    background: var(--paper);
+    display: grid; grid-template-columns: 1fr 1fr;
+  }
+  .s8-left, .s9-left {
+    padding: 72px;
+    display: flex; flex-direction: column; justify-content: center;
+    border-right: 1px solid var(--border);
+  }
+  .s8-eyebrow, .s9-eyebrow {
+    font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--green); margin-bottom: 20px;
+  }
+  .s8-heading, .s9-heading {
+    font-family: 'DM Serif Display', serif;
+    font-size: 32px; color: var(--ink); line-height: 1.2; margin-bottom: 24px;
+  }
+  .s8-body, .s9-body {
+    font-size: 14px; color: var(--ink-soft); line-height: 1.7;
+  }
+  .s8-flow, .s9-flow {
+    margin-top: 24px;
+    display: flex; align-items: center; flex-wrap: wrap; gap: 6px;
+  }
+  .s8-step, .s9-step {
+    font-size: 12px; padding: 6px 12px;
+    background: var(--green-pale); border-radius: 100px;
+    color: var(--green);
+  }
+  .s8-right, .s9-right {
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 72px; background: var(--paper-warm);
+  }
+  .s-visual-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px; padding: 32px;
+    display: flex; align-items: center; justify-content: center;
+    min-height: 280px;
+    color: var(--ink-muted);
+    font-size: 13px; text-align: center; line-height: 1.6;
+  }
+
+  /* ── SLIDE 10: IMPACT ── */
+  .s10 {
+    background: var(--ink);
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 80px 100px;
+  }
+  .s10-eyebrow {
+    font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--green-light); margin-bottom: 48px;
+  }
+  .s10-stat {
+    margin-bottom: 48px;
+  }
+  .s10-number {
+    font-family: 'DM Serif Display', serif;
+    font-size: 96px; color: #fff; line-height: 1; margin-bottom: 8px;
+    display: flex; align-items: baseline; gap: 16px;
+  }
+  .s10-number-label {
+    font-size: 22px; color: rgba(255,255,255,0.5);
+    font-family: 'DM Sans', sans-serif; font-weight: 300;
+  }
+  .s10-stat-detail {
+    font-size: 15px; color: rgba(255,255,255,0.5);
+  }
+  .s10-bullets {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+  }
+  .s10-bullet {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px; padding: 20px 24px;
+  }
+  .s10-bullet-label {
+    font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--green-light); margin-bottom: 8px;
+  }
+  .s10-bullet-text { font-size: 14px; color: rgba(255,255,255,0.65); line-height: 1.5; }
+  .s10-learning {
+    margin-top: 32px;
+    border-left: 3px solid var(--green-light);
+    padding: 20px 28px;
+    background: rgba(45,144,104,0.1);
+    border-radius: 0 8px 8px 0;
+  }
+  .s10-learning-label {
+    font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: rgba(255,255,255,0.35); margin-bottom: 8px;
+  }
+  .s10-learning-text { font-size: 15px; color: rgba(255,255,255,0.75); line-height: 1.6; font-style: italic; }
+
+  /* ── SLIDE 11: CASE 2 COVER ── */
+  .s11 {
+    background: var(--blue);
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 80px 100px;
+    position: relative;
+  }
+  .s11-eyebrow {
+    font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: rgba(255,255,255,0.45); margin-bottom: 16px;
+  }
+  .s11-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 52px; color: #fff; line-height: 1.1; margin-bottom: 20px;
+    max-width: 720px;
+  }
+  .s11-subtitle {
+    font-size: 16px; color: rgba(255,255,255,0.65); max-width: 580px;
+    line-height: 1.6; margin-bottom: 56px;
+  }
+  .s11-meta { display: flex; gap: 64px; }
+  .s11-meta-label {
+    font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: rgba(255,255,255,0.4); margin-bottom: 6px;
+  }
+  .s11-meta-value { font-size: 14px; color: rgba(255,255,255,0.8); }
+  .s11-stripe {
+    position: absolute; top: 0; right: 0;
+    width: 320px; height: 100%;
+    background: rgba(255,255,255,0.04);
+    clip-path: polygon(40% 0, 100% 0, 100% 100%, 0% 100%);
+  }
+
+  /* ── SLIDE 12: DS PROBLEM ── */
+  .s12 {
+    background: var(--paper);
+    display: grid; grid-template-columns: 1fr 1fr;
+  }
+  .s12-left {
+    padding: 72px;
+    display: flex; flex-direction: column; justify-content: center;
+    border-right: 1px solid var(--border);
+  }
+  .s12-eyebrow {
+    font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--blue); margin-bottom: 20px;
+  }
+  .s12-heading {
+    font-family: 'DM Serif Display', serif;
+    font-size: 36px; color: var(--ink); line-height: 1.2; margin-bottom: 16px;
+  }
+  .s12-subheading {
+    font-size: 16px; color: var(--ink-muted); line-height: 1.5;
+  }
+  .s12-right {
+    padding: 72px;
+    display: flex; flex-direction: column; justify-content: center; gap: 20px;
+  }
+  .s12-issue {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px; padding: 20px 24px;
+    border-left: 3px solid transparent;
+  }
+  .s12-issue.solved { border-left-color: var(--green); }
+  .s12-issue.open { border-left-color: #e67e22; }
+  .s12-issue.worse { border-left-color: #c0392b; }
+  .s12-issue-label {
+    font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--ink-muted); margin-bottom: 6px;
+  }
+  .s12-issue-text { font-size: 14px; color: var(--ink-soft); line-height: 1.5; }
+
+  /* ── SLIDE 13: ARCHITECTURE ── */
+  .s13 {
+    background: var(--paper);
+    display: flex; flex-direction: column;
+    padding: 72px 100px;
+  }
+  .s13-eyebrow {
+    font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--blue); margin-bottom: 16px;
+  }
+  .s13-heading {
+    font-family: 'DM Serif Display', serif;
+    font-size: 36px; color: var(--ink); margin-bottom: 40px;
+  }
+  .s13-layers {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px; flex: 1;
+  }
+  .s13-layer {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px; padding: 28px;
+  }
+  .s13-layer-num {
+    font-size: 48px; font-weight: 300;
+    color: rgba(0,0,0,0.08); line-height: 1; margin-bottom: 16px;
+  }
+  .s13-layer-name {
+    font-size: 16px; font-weight: 500; color: var(--ink); margin-bottom: 8px;
+  }
+  .s13-layer-eg {
+    font-size: 12px; font-family: monospace;
+    background: var(--paper-warm); padding: 4px 8px; border-radius: 4px;
+    color: var(--blue); margin-bottom: 12px; display: inline-block;
+  }
+  .s13-layer-body { font-size: 13px; color: var(--ink-soft); line-height: 1.6; }
+  .s13-layer.private { border-color: var(--blue); position: relative; overflow: hidden; }
+  .s13-private-badge {
+    position: absolute; top: 16px; right: 16px;
+    font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+    background: var(--blue-pale); color: var(--blue);
+    padding: 3px 8px; border-radius: 100px;
+  }
+
+  /* ── SLIDE 14: DECISION ── */
+  .s14 {
+    background: var(--paper);
+    display: flex; flex-direction: column;
+    padding: 72px 100px;
+  }
+  .s14-eyebrow {
+    font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--blue); margin-bottom: 16px;
+  }
+  .s14-heading {
+    font-family: 'DM Serif Display', serif;
+    font-size: 36px; color: var(--ink); margin-bottom: 40px;
+  }
+  .s14-compare {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 24px; flex: 1;
+  }
+  .s14-col {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: 12px; padding: 28px;
+  }
+  .s14-col.chosen { border-color: var(--blue); box-shadow: 0 0 0 1px var(--blue); }
+  .s14-col-label {
+    font-size: 16px; font-weight: 500; color: var(--ink);
+    margin-bottom: 16px; display: flex; align-items: center; gap: 10px;
+  }
+  .s14-chosen-badge {
+    font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+    background: var(--blue); color: #fff;
+    padding: 3px 8px; border-radius: 100px;
+  }
+  .s14-point {
+    font-size: 13px; color: var(--ink-soft); line-height: 1.5;
+    padding: 6px 0; border-bottom: 1px solid var(--border);
+    display: flex; gap: 10px;
+  }
+  .s14-point:last-child { border-bottom: none; }
+  .s14-point .sign { font-weight: 600; }
+  .s14-point .sign.pos { color: var(--blue-light); }
+  .s14-point .sign.neg { color: #c0392b; }
+
+  /* ── SLIDE 15: PROGRESSIVE ADOPTION ── */
+  .s15 {
+    background: var(--paper);
+    display: grid; grid-template-columns: 1fr 1fr;
+  }
+  .s15-left {
+    padding: 72px;
+    display: flex; flex-direction: column; justify-content: center;
+    border-right: 1px solid var(--border);
+  }
+  .s15-eyebrow {
+    font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--blue); margin-bottom: 20px;
+  }
+  .s15-heading {
+    font-family: 'DM Serif Display', serif;
+    font-size: 36px; color: var(--ink); line-height: 1.2; margin-bottom: 16px;
+  }
+  .s15-body { font-size: 15px; color: var(--ink-soft); line-height: 1.7; }
+  .s15-right {
+    padding: 72px;
+    display: flex; flex-direction: column; justify-content: center; gap: 20px;
+  }
+  .s15-step {
+    display: flex; gap: 20px; align-items: flex-start;
+  }
+  .s15-step-num {
+    width: 36px; height: 36px; flex-shrink: 0;
+    background: var(--blue-pale); border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 500; color: var(--blue);
+  }
+  .s15-step-title { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+  .s15-step-body { font-size: 13px; color: var(--ink-soft); line-height: 1.5; }
+
+  /* ── SLIDE 16: HANDOFF ── */
+  .s16 {
+    background: var(--blue);
+    display: grid; grid-template-columns: 1fr 1fr;
+  }
+  .s16-left {
+    padding: 80px 72px;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .s16-eyebrow {
+    font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: rgba(255,255,255,0.45); margin-bottom: 20px;
+  }
+  .s16-heading {
+    font-family: 'DM Serif Display', serif;
+    font-size: 40px; color: #fff; line-height: 1.1; margin-bottom: 24px;
+  }
+  .s16-body { font-size: 15px; color: rgba(255,255,255,0.65); line-height: 1.7; }
+  .s16-result {
+    margin-top: 32px; padding: 20px 24px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 8px;
+  }
+  .s16-result-label {
+    font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: rgba(255,255,255,0.4); margin-bottom: 6px;
+  }
+  .s16-result-text { font-size: 15px; color: rgba(255,255,255,0.85); }
+  .s16-right {
+    display: flex; align-items: center; justify-content: center;
+    padding: 72px;
+    background: rgba(0,0,0,0.15);
+  }
+  .s16-visual-card {
+    width: 100%; background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 12px; padding: 32px;
+    min-height: 280px;
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(255,255,255,0.3); font-size: 13px; text-align: center;
+    line-height: 1.6;
+  }
+
+  /* ── SLIDE 17: DS IMPACT ── */
+  .s17 {
+    background: var(--paper);
+    display: flex; flex-direction: column;
+    padding: 72px 100px;
+  }
+  .s17-eyebrow {
+    font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--blue); margin-bottom: 16px;
+  }
+  .s17-heading {
+    font-family: 'DM Serif Display', serif;
+    font-size: 36px; color: var(--ink); margin-bottom: 40px;
+  }
+  .s17-grid {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px;
+  }
+  .s17-card {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: 12px; padding: 28px;
+  }
+  .s17-card-label {
+    font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--blue); margin-bottom: 12px;
+  }
+  .s17-card-text { font-size: 14px; color: var(--ink-soft); line-height: 1.6; }
+  .s17-reflection {
+    margin-top: 32px;
+    border-left: 3px solid var(--blue);
+    padding: 20px 28px;
+    background: var(--blue-pale);
+    border-radius: 0 8px 8px 0;
+  }
+  .s17-reflection-label {
+    font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--blue); margin-bottom: 8px;
+  }
+  .s17-reflection-text { font-size: 14px; color: var(--blue); line-height: 1.6; }
+
+  /* ── SLIDE 18: CLOSING ── */
+  .s18 {
+    background: var(--ink);
+    display: grid; grid-template-columns: 1fr 1fr;
+  }
+  .s18-left {
+    padding: 80px 72px;
+    display: flex; flex-direction: column; justify-content: center;
+    border-right: 1px solid rgba(255,255,255,0.08);
+  }
+  .s18-label {
+    font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: rgba(255,255,255,0.35); margin-bottom: 24px;
+  }
+  .s18-heading {
+    font-family: 'DM Serif Display', serif;
+    font-size: 44px; color: #fff; line-height: 1.1; margin-bottom: 32px;
+  }
+  .s18-contact { font-size: 15px; color: rgba(255,255,255,0.5); line-height: 1.8; }
+  .s18-contact a { color: rgba(255,255,255,0.7); text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.2); }
+  .s18-right {
+    padding: 80px 72px;
+    display: flex; flex-direction: column; justify-content: center; gap: 32px;
+  }
+  .s18-thread {
+    border-left: 3px solid rgba(255,255,255,0.1);
+    padding-left: 24px;
+  }
+  .s18-thread-label {
+    font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: rgba(255,255,255,0.3); margin-bottom: 8px;
+  }
+  .s18-thread-text { font-size: 14px; color: rgba(255,255,255,0.65); line-height: 1.6; }
+</style>
+</head>
+<body>
+
+<div id="stage">
+  <div id="viewport">
+
+    <!-- SLIDE 1: COVER -->
+    <div class="slide s1 active">
+      <div class="s1-grid">
+        <div class="s1-left">
+          <div class="s1-accent-line"></div>
+          <div class="s1-tag">Portfolio Presentation</div>
+          <div class="s1-name">Grace<br>Lee</div>
+          <div class="s1-title">Senior Product Designer<br>AI & data platforms · workflow design · design systems</div>
+        </div>
+        <div class="s1-right">
+          <div class="s1-meta-block">
+            <div class="s1-meta-label">Focus</div>
+            <div class="s1-meta-value">Helping non-technical users<br>understand complex AI systems</div>
+          </div>
+          <div class="s1-meta-block">
+            <div class="s1-meta-label">Background</div>
+            <div class="s1-meta-value">9 years · dotData, Kahuna, Wislite</div>
+          </div>
+          <div class="s1-pill">Enterprise redesign · Design system</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2: AGENDA -->
+    <div class="slide s2">
+      <div class="s2-left">
+        <div class="s2-label">Today's agenda</div>
+        <div class="s2-heading">Two case<br>studies</div>
+      </div>
+      <div class="s2-right">
+        <div class="s2-case green">
+          <div class="s2-case-num">Case 1</div>
+          <div class="s2-case-title">Designing a Safer AI Modeling Workflow</div>
+          <div class="s2-case-tags">
+            <span class="s2-tag">Enterprise AutoML platform</span>
+            <span class="s2-tag">Workflow redesign</span>
+            <span class="s2-tag">Senior product designer</span>
+          </div>
+        </div>
+        <div class="s2-case blue">
+          <div class="s2-case-num">Case 2</div>
+          <div class="s2-case-title">Building a Scalable Design System with Logic-Driven Tokens</div>
+          <div class="s2-case-tags">
+            <span class="s2-tag">3-layer token architecture</span>
+            <span class="s2-tag">0 → 1 design system</span>
+            <span class="s2-tag">Solo designer</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3: CASE 1 COVER -->
+    <div class="slide s3">
+      <div class="s3-stripe"></div>
+      <div class="s3-eyebrow">Case 1</div>
+      <div class="s3-title">Designing a Safer AI Modeling Workflow for Business Analysts</div>
+      <div class="s3-subtitle">Redesigning the end-to-end model configuration workflow on an enterprise AutoML platform, so business analysts could build prediction models without needing data science expertise.</div>
+      <div class="s3-meta">
+        <div class="s3-meta-item">
+          <div class="s3-meta-label">Role</div>
+          <div class="s3-meta-value">Senior product designer</div>
+        </div>
+        <div class="s3-meta-item">
+          <div class="s3-meta-label">Team</div>
+          <div class="s3-meta-value">2 designers · 7 engineers</div>
+        </div>
+        <div class="s3-meta-item">
+          <div class="s3-meta-label">Focus</div>
+          <div class="s3-meta-value">Workflow redesign · Complex systems UX</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4: PROBLEM -->
+    <div class="slide s4">
+      <div class="s4-left">
+        <div class="s4-eyebrow">The problem</div>
+        <div class="s4-heading">Business analysts were flying blind</div>
+        <div class="s4-body">Each step looked independent, but changes in one silently affected others downstream. Models trained on the wrong data. Users kept backtracking, unsure what they'd broken or where to fix it.</div>
+      </div>
+      <div class="s4-right">
+        <div class="s4-card">
+          <div class="s4-card-label">Who</div>
+          <div class="s4-card-text">Business analysts building prediction models, with no data science background to rely on</div>
+        </div>
+        <div class="s4-card">
+          <div class="s4-card-label">What was broken</div>
+          <div class="s4-card-text">Each step looked independent, but changes in one silently affected others downstream</div>
+        </div>
+        <div class="s4-card">
+          <div class="s4-card-label">The loop</div>
+          <div class="s4-flow">
+            <span class="s4-flow-step">Configure params</span>
+            <span class="s4-flow-arrow">→</span>
+            <span class="s4-flow-step">Run model</span>
+            <span class="s4-flow-arrow">→</span>
+            <span class="s4-flow-step error">Error</span>
+            <span class="s4-flow-arrow">→</span>
+            <span class="s4-flow-step">Backtrack</span>
+            <span class="s4-flow-arrow">→</span>
+            <span class="s4-flow-step error">Error again</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 5: INSIGHT -->
+    <div class="slide s5">
+      <div class="s5-eyebrow">The core insight</div>
+      <div class="s5-reframe">
+        <div class="s5-before">
+          <div class="s5-frame-label">Original question</div>
+          <div class="s5-frame-text">How do we simplify the wizard?</div>
+        </div>
+        <div class="s5-arrow">→</div>
+        <div class="s5-after">
+          <div class="s5-frame-label">Reframed</div>
+          <div class="s5-frame-text">How do we make the training table visible?</div>
+        </div>
+      </div>
+      <div class="s5-insight">
+        <div class="s5-insight-label">Discovery</div>
+        <div class="s5-insight-text">BAs were really defining a single flat training table, but the system split this into 5 wizard steps with no visible connection between them. Working sessions with engineers and data scientists helped us map how the ML pipeline actually generates training data — and that reframed the design challenge entirely.</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 6: SOLUTION -->
+    <div class="slide s6">
+      <div class="s6-left">
+        <div class="s6-eyebrow">The solution</div>
+        <div class="s6-heading">From wizard to canvas workspace</div>
+        <div class="s6-features">
+          <div class="s6-feature">
+            <div class="s6-feat-icon">👁</div>
+            <div>
+              <div class="s6-feat-title">Dependencies visible upfront</div>
+              <div class="s6-feat-body">Users can see how each setting affects the training dataset as they configure it</div>
+            </div>
+          </div>
+          <div class="s6-feature">
+            <div class="s6-feat-icon">✏️</div>
+            <div>
+              <div class="s6-feat-title">Inline PTT config</div>
+              <div class="s6-feat-body">No context switching. Edit Prediction Target Time directly within the workflow</div>
+            </div>
+          </div>
+          <div class="s6-feature">
+            <div class="s6-feat-icon">🔗</div>
+            <div>
+              <div class="s6-feat-title">Auto-connect tables</div>
+              <div class="s6-feat-body">System scans schema and suggests join keys. Reduces errors for users unfamiliar with database relationships</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="s6-right">
+        <div class="s6-visual">Workspace UI screenshot<br>(add your actual design here)</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 7: TRADE-OFF -->
+    <div class="slide s7">
+      <div class="s7-eyebrow">Key design decision</div>
+      <div class="s7-heading">Why we chose workspace over wizard</div>
+      <div class="s7-compare">
+        <div class="s7-col">
+          <div class="s7-col-label">Wizard</div>
+          <div class="s7-point"><span class="sign pos">+</span> Simpler navigation</div>
+          <div class="s7-point"><span class="sign pos">+</span> Each table configured independently</div>
+          <div class="s7-point"><span class="sign neg">−</span> Dependencies hidden until error</div>
+          <div class="s7-point"><span class="sign neg">−</span> Forced linear path</div>
+          <div class="s7-point"><span class="sign neg">−</span> Iteration requires restarting</div>
+        </div>
+        <div class="s7-col chosen">
+          <div class="s7-col-label">Workspace <span class="s7-chosen-badge">Chosen</span></div>
+          <div class="s7-point"><span class="sign pos">+</span> Parameter changes show impact immediately, without restarting</div>
+          <div class="s7-point"><span class="sign pos">+</span> System surfaces feedback in context, not at the end</div>
+          <div class="s7-point"><span class="sign pos">+</span> Less guesswork about whether the configuration is correct</div>
+          <div class="s7-point"><span class="sign neg">−</span> Higher initial complexity</div>
+          <div class="s7-point"><span class="sign neg">−</span> More engineering effort</div>
+        </div>
+      </div>
+      <div class="s7-validate">Validated — usability testing showed users switching panels repeatedly to reconcile parameters, confirming workspace was the right call. Early feedback outweighed layout complexity.</div>
+    </div>
+
+    <!-- SLIDE 8: DETAIL 01 -->
+    <div class="slide s8">
+      <div class="s8-left">
+        <div class="s8-eyebrow">Design detail 01</div>
+        <div class="s8-heading">Inline PTT configuration</div>
+        <div class="s8-body">PTT appears in the Target panel but is needed later during table connection. Old flow forced users to backtrack across steps to define it. Solution: a click-to-edit panel appears inline. Users define PTT without leaving their current context.</div>
+        <div class="s8-flow">
+          <span class="s8-step">PTT detected</span>
+          <span>→</span>
+          <span class="s8-step">Edit icon appears</span>
+          <span>→</span>
+          <span class="s8-step">Inline panel opens</span>
+          <span>→</span>
+          <span class="s8-step">User defines PTT</span>
+          <span>→</span>
+          <span class="s8-step">Returns to workflow</span>
+        </div>
+      </div>
+      <div class="s8-right">
+        <div class="s-visual-card">PTT inline configuration UI<br>(add screenshot here)</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 9: DETAIL 02 -->
+    <div class="slide s9">
+      <div class="s9-left">
+        <div class="s9-eyebrow">Design detail 02</div>
+        <div class="s9-heading">Auto-connect tables</div>
+        <div class="s9-body">BAs were unfamiliar with database join keys. Old flow required manually selecting join columns for each table, causing frequent errors. Solution: system scans schema on table add and suggests the most likely relationship. Users can accept or manually edit.</div>
+        <div class="s9-flow">
+          <span class="s9-step">Table added</span>
+          <span>→</span>
+          <span class="s9-step">Schema scanned</span>
+          <span>→</span>
+          <span class="s9-step">Join suggested</span>
+          <span>→</span>
+          <span class="s9-step">User accepts or edits</span>
+        </div>
+      </div>
+      <div class="s9-right">
+        <div class="s-visual-card">Auto-connect UI<br>(add screenshot here)</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 10: IMPACT -->
+    <div class="slide s10">
+      <div class="s10-eyebrow">Impact</div>
+      <div class="s10-stat">
+        <div class="s10-number">50%<span class="s10-number-label">reduction in configuration time</span></div>
+        <div class="s10-stat-detail">10 min → 5 min average</div>
+      </div>
+      <div class="s10-bullets">
+        <div class="s10-bullet">
+          <div class="s10-bullet-label">Iteration without restarting</div>
+          <div class="s10-bullet-text">Users could adjust any parameter without starting the workflow over. The CS team flagged this as one of the most noticeable improvements after launch.</div>
+        </div>
+        <div class="s10-bullet">
+          <div class="s10-bullet-label">The bigger change</div>
+          <div class="s10-bullet-text">Users could adjust any part of the configuration without starting over — the shift from a fragile one-shot process to an iterative one.</div>
+        </div>
+      </div>
+      <div class="s10-learning">
+        <div class="s10-learning-label">What I learned</div>
+        <div class="s10-learning-text">I came in thinking the fix was to show people more. I left knowing the real question is: does the user actually need to know this, or will it just make them feel like they're doing something wrong?</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 11: CASE 2 COVER -->
+    <div class="slide s11">
+      <div class="s11-stripe"></div>
+      <div class="s11-eyebrow">Case 2</div>
+      <div class="s11-title">Building a Scalable Design System with Logic-Driven Tokens</div>
+      <div class="s11-subtitle">Designing a 3-layer token architecture that aligns design and engineering while enabling scalable product development. Built solo.</div>
+      <div class="s11-meta">
+        <div>
+          <div class="s11-meta-label">Role</div>
+          <div class="s11-meta-value">Solo product designer</div>
+        </div>
+        <div>
+          <div class="s11-meta-label">Team</div>
+          <div class="s11-meta-value">2 designers · 7 engineers</div>
+        </div>
+        <div>
+          <div class="s11-meta-label">Focus</div>
+          <div class="s11-meta-value">Figma Variables · Dev Mode · Progressive adoption</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 12: DS PROBLEM -->
+    <div class="slide s12">
+      <div class="s12-left">
+        <div class="s12-eyebrow">The problem</div>
+        <div class="s12-heading">The first design system solved fragmentation. But it left behind a new problem.</div>
+        <div class="s12-subheading">We had a shared library. But ambiguity and engineering drift were getting worse.</div>
+      </div>
+      <div class="s12-right">
+        <div class="s12-issue solved">
+          <div class="s12-issue-label">Fragmentation — solved</div>
+          <div class="s12-issue-text">We had a shared library. Components had a source of truth. Designers weren't recreating things from scratch anymore.</div>
+        </div>
+        <div class="s12-issue open">
+          <div class="s12-issue-label">Ambiguity — still there</div>
+          <div class="s12-issue-text">Two designers, same component, same context, but different tokens. Neither was exactly wrong. The system just didn't encode the right answer.</div>
+        </div>
+        <div class="s12-issue worse">
+          <div class="s12-issue-label">Engineering drift — getting worse</div>
+          <div class="s12-issue-text">Engineers started making decisions on their own because asking designers gave inconsistent answers. The gap between design files and production code kept growing.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 13: ARCHITECTURE -->
+    <div class="slide s13">
+      <div class="s13-eyebrow">The architecture</div>
+      <div class="s13-heading">3-layer token architecture</div>
+      <div class="s13-layers">
+        <div class="s13-layer">
+          <div class="s13-layer-num">01</div>
+          <div class="s13-layer-name">Primitive</div>
+          <div class="s13-layer-eg">color-green-700</div>
+          <div class="s13-layer-body">Raw values. The actual color, spacing, or radius. Nobody picks these directly.</div>
+        </div>
+        <div class="s13-layer">
+          <div class="s13-layer-num">02</div>
+          <div class="s13-layer-name">Semantic</div>
+          <div class="s13-layer-eg">color.background.brand</div>
+          <div class="s13-layer-body">Intent-based tokens. "background-brand" tells you what it's for, not what it looks like. Still abstract enough to be misread.</div>
+        </div>
+        <div class="s13-layer private">
+          <div class="s13-private-badge">Private</div>
+          <div class="s13-layer-num">03</div>
+          <div class="s13-layer-name">Component</div>
+          <div class="s13-layer-eg">--comp-button-bg</div>
+          <div class="s13-layer-body">The third layer I introduced. "button-bg" tells you exactly where to use it. No guessing.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 14: DS DECISION -->
+    <div class="slide s14">
+      <div class="s14-eyebrow">Key design decision</div>
+      <div class="s14-heading">Why component tokens stay private</div>
+      <div class="s14-compare">
+        <div class="s14-col">
+          <div class="s14-col-label">Publish globally</div>
+          <div class="s14-point"><span class="sign pos">+</span> Every token visible to every designer</div>
+          <div class="s14-point"><span class="sign neg">−</span> More tokens visible means more decisions to make</div>
+          <div class="s14-point"><span class="sign neg">−</span> Gets harder to govern as the system scales</div>
+          <div class="s14-point"><span class="sign neg">−</span> Designers can reach for tokens that were never meant for their context</div>
+        </div>
+        <div class="s14-col chosen">
+          <div class="s14-col-label">Keep private (scoped to module) <span class="s14-chosen-badge">Chosen</span></div>
+          <div class="s14-point"><span class="sign pos">+</span> Narrowed decision space — pick by function, not by guessing which color fits</div>
+          <div class="s14-point"><span class="sign pos">+</span> System stays manageable as it grows</div>
+          <div class="s14-point"><span class="sign pos">+</span> Token sprawl stays manageable — only repeating patterns earn a component token</div>
+          <div class="s14-point"><span class="sign neg">−</span> Less visible, requires documentation</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 15: PROGRESSIVE ADOPTION -->
+    <div class="slide s15">
+      <div class="s15-left">
+        <div class="s15-eyebrow">Progressive adoption strategy</div>
+        <div class="s15-heading">Adopt gradually. Nothing breaks.</div>
+        <div class="s15-body">Instead of forcing a big-bang migration, I designed the system to layer onto what engineering already had. The foundation was ready in Figma before engineering had capacity to implement it.</div>
+      </div>
+      <div class="s15-right">
+        <div class="s15-step">
+          <div class="s15-step-num">01</div>
+          <div>
+            <div class="s15-step-title">Component tokens in Figma</div>
+            <div class="s15-step-body">Fully structured and aligned with engineering naming conventions. Designers apply functional logic, not color choices.</div>
+          </div>
+        </div>
+        <div class="s15-step">
+          <div class="s15-step-num">02</div>
+          <div>
+            <div class="s15-step-title">Inspect via Dev Mode</div>
+            <div class="s15-step-body">Engineers inspect token logic directly in Figma Dev Mode when they're ready. No separate spec docs. No waiting for designers to write them.</div>
+          </div>
+        </div>
+        <div class="s15-step">
+          <div class="s15-step-num">03</div>
+          <div>
+            <div class="s15-step-title">Gradual codebase adoption</div>
+            <div class="s15-step-body">When engineering has capacity, tokens replace hard-coded values progressively. Nothing breaks. The foundation is already there.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 16: HANDOFF -->
+    <div class="slide s16">
+      <div class="s16-left">
+        <div class="s16-eyebrow">Governance + engineering handoff</div>
+        <div class="s16-heading">From Figma to code, without the guesswork</div>
+        <div class="s16-body">Engineers inspect components in Dev Mode and see exact token values. No manual specs, no translation errors.</div>
+        <div class="s16-result">
+          <div class="s16-result-label">Result</div>
+          <div class="s16-result-text">Faster, more accurate handoff. Engineering questions to design dropped from roughly once a week to once a month.</div>
+        </div>
+      </div>
+      <div class="s16-right">
+        <div class="s16-visual-card">Dev Mode handoff screenshot<br>(add screenshot here)</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 17: DS IMPACT -->
+    <div class="slide s17">
+      <div class="s17-eyebrow">Impact</div>
+      <div class="s17-heading">Architectural scalability, built in from day one</div>
+      <div class="s17-grid">
+        <div class="s17-card">
+          <div class="s17-card-label">Streamlined design decisions</div>
+          <div class="s17-card-text">Designers stopped second-guessing token choices. Design reviews shifted from token debates to actual design decisions.</div>
+        </div>
+        <div class="s17-card">
+          <div class="s17-card-label">Reduced handoff friction</div>
+          <div class="s17-card-text">Handoff went from 5 steps to 2. Engineering questions to design dropped from roughly once a week to once a month.</div>
+        </div>
+        <div class="s17-card">
+          <div class="s17-card-label">Future-proof architecture</div>
+          <div class="s17-card-text">Token architecture supports dark mode and multi-theme without restructuring the foundation. That work is already done.</div>
+        </div>
+      </div>
+      <div class="s17-reflection">
+        <div class="s17-reflection-label">Reflection</div>
+        <div class="s17-reflection-text">The system ended up being mostly my responsibility to maintain. Without formal contribution guidelines and a clear ownership structure, it was hard to create shared ownership. If I could do it again, I'd establish contribution norms earlier, even informally.</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 18: CLOSING -->
+    <div class="slide s18">
+      <div class="s18-left">
+        <div class="s18-label">What I'm doing next</div>
+        <div class="s18-heading">Grace Lee</div>
+        <div class="s18-contact">
+          yahuilee0618@gmail.com<br>
+          415-860-1585<br>
+          <a href="https://gracelee.design">gracelee.design</a>
+        </div>
+      </div>
+      <div class="s18-right">
+        <div class="s18-thread">
+          <div class="s18-thread-label">AI workflow in practice</div>
+          <div class="s18-thread-text">I use Cursor, Claude, and MCP as part of my design workflow. This deck was built using Claude and Figma MCP. Still figuring out where it helps most and where it gets in the way.</div>
+        </div>
+        <div class="s18-thread">
+          <div class="s18-thread-label">Design systems for non-designers</div>
+          <div class="s18-thread-text">How do you give teams a path from scrappy first builds into a structured, scalable design foundation — without starting over?</div>
+        </div>
+        <div class="s18-thread">
+          <div class="s18-thread-label">Making AI behavior legible</div>
+          <div class="s18-thread-text">The core thread across my work. How do you show users what a system is doing, so they can trust it, correct it, and build on it?</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /viewport -->
+</div><!-- /stage -->
+
+<div id="nav">
+  <button id="prev" onclick="go(-1)" disabled>←</button>
+  <span id="counter">1 / 18</span>
+  <button id="next" onclick="go(1)">→</button>
+</div>
+
+<script>
+  let current = 0;
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+
+  function go(dir) {
+    slides[current].classList.remove('active');
+    current = Math.max(0, Math.min(total - 1, current + dir));
+    slides[current].classList.add('active');
+    document.getElementById('counter').textContent = `${current + 1} / ${total}`;
+    document.getElementById('prev').disabled = current === 0;
+    document.getElementById('next').disabled = current === total - 1;
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') go(1);
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') go(-1);
+  });
+
+  // Scale to fit window
+  function scaleViewport() {
+    const stage = document.getElementById('stage');
+    const vp = document.getElementById('viewport');
+    const sw = stage.clientWidth, sh = stage.clientHeight;
+    const vw = 1280, vh = 720;
+    const scale = Math.min(sw / vw, sh / vh) * 0.92;
+    vp.style.transform = `scale(${scale})`;
+    vp.style.transformOrigin = 'center center';
+  }
+  scaleViewport();
+  window.addEventListener('resize', scaleViewport);
+</script>
+
+</body>
+</html>
