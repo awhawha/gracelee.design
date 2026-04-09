@@ -33,6 +33,20 @@ function CaseStudyImage({
   )
 }
 
+function CaseStudyVideo({ src, label }: { src: string; label: string }) {
+  return (
+    <video
+      className="mb-12 mt-8 block h-auto w-full max-w-full object-top"
+      controls
+      playsInline
+      preload="metadata"
+      aria-label={label}
+    >
+      <source src={src} type="video/mp4" />
+    </video>
+  )
+}
+
 export default function EnterpriseRedesignPage() {
   return (
     <article className="bg-[var(--color-bg)]">
@@ -62,11 +76,11 @@ export default function EnterpriseRedesignPage() {
                 { label: 'Role', value: 'Senior Product Designer' },
                 {
                   label: 'Product',
-                  value: 'dotData Enterprise AI Platform',
+                  value: 'dotData Enterprise AutoML Platform',
                 },
                 {
                   label: 'Team',
-                  value: '2 designers, engineering, solutions',
+                  value: '2 designers, engineering',
                 },
                 {
                   label: 'Focus',
@@ -247,7 +261,7 @@ export default function EnterpriseRedesignPage() {
           </div>
           <div className="mx-auto max-w-hero">
             <CaseStudyImage
-              src="/images/Enterprise_Redesign2.png"
+              src="/images/Enterprise_Redesign2.avif"
               alt="Prediction Target Time inline editing in the configuration workspace"
             />
           </div>
@@ -272,9 +286,9 @@ export default function EnterpriseRedesignPage() {
             </div>
           </div>
           <div className="mx-auto max-w-hero">
-            <CaseStudyImage
-              src="/images/Enterprise_Redesign3.png"
-              alt="Auto-connect table relationships in the schema workspace"
+            <CaseStudyVideo
+              src="/images/Enterprise_Redesign3.mp4"
+              label="Auto-connect table relationships in the schema workspace"
             />
           </div>
         </section>
@@ -430,7 +444,7 @@ export default function EnterpriseRedesignPage() {
               model configuration.
             </p>
             <a
-              href="https://gracelee.design/enterprise-new-concept/ai-modeling-advisor.html"
+              href="/prototypes/ai-modeling-advisor.html"
               target="_blank"
               rel="noopener noreferrer"
               className="mt-6 inline-flex items-center gap-2 border border-[var(--color-border)] px-5 py-3 font-sans text-sm font-medium text-[var(--color-text)] transition-colors hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"

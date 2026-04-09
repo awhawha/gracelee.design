@@ -1,0 +1,3065 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Auto-Connect — dotData Experiment</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* Tokens aligned to Figma Portfolio Portotype / Enterprise library (node 145:23840) */
+    :root {
+      --canvas-bg: #eef2f6;
+      --canvas-grid-line: #e3e8ef;
+      --border: #e3e8ef;
+      --border-input: #cdd5df;
+      --text: #121926;
+      --text-secondary: #364152;
+      --muted: #697586;
+      --card-border: #eef2f6;
+      --card-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
+      --nav-shadow: 0 1px 3px rgba(16, 24, 40, 0.1), 0 1px 2px rgba(16, 24, 40, 0.06);
+      --header-source: #d5d9eb;
+      --header-target: #067647;
+      --accent-green: #079455;
+      --text-on-green: #ffffff;
+      --table-header-gray: #d5d9eb;
+      --line: #47cd89;
+      --conn-green: #079455;
+      --conn-gray: #9ca3af;
+      --join-highlight-bg: #ecfdf3;
+      --join-highlight-border: #079455;
+      --join-time-bg: #dbeafe;
+      --join-time-border: #3b82f6;
+      --primary-dark: #364152;
+      --logo-blue: #2563eb;
+      --orange-badge-bg: #fdb022;
+      --btn-secondary-bg: #fafcff;
+      --toast-positive-bg: #ecfdf3;
+      --toast-positive-border: #079455;
+      --toast-positive-text: #067647;
+      --toast-shadow: 0 4px 8px rgba(16, 24, 40, 0.1), 0 2px 4px rgba(16, 24, 40, 0.06);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Inter", system-ui, -apple-system, sans-serif;
+      background: var(--canvas-bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Top nav — elevated white shell + experiment field (Figma Input Navigation) */
+    .top-nav {
+      display: flex;
+      align-items: stretch;
+      gap: 12px;
+      padding: 12px 16px;
+      background: var(--canvas-bg);
+      flex-shrink: 0;
+      flex-wrap: wrap;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1 1 220px;
+      min-width: 0;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      border-radius: 8px;
+      box-shadow: var(--nav-shadow);
+      padding: 8px 16px;
+    }
+
+    .logo-mark {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: var(--logo-blue);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+
+    .pill-btn {
+      flex: 1;
+      background: #fff;
+      border: 1px solid var(--border-input);
+      border-radius: 6px;
+      min-height: 36px;
+      padding: 6px 12px;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      color: var(--text-secondary);
+      cursor: default;
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-center-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex: 2 1 400px;
+      min-width: 0;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      border-radius: 8px;
+      box-shadow: var(--nav-shadow);
+      padding: 8px 16px;
+      min-height: 52px;
+    }
+
+    .nav-tabs {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+      min-width: 0;
+      flex-wrap: wrap;
+    }
+
+    .nav-tab {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 20px;
+      letter-spacing: 0.0175em;
+      color: var(--text);
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+
+    .nav-tab:hover {
+      background: #f8fafc;
+    }
+
+    .nav-tab.active {
+      color: #121926;
+      font-weight: 500;
+      background: #fff;
+      box-shadow: 0 0 0 1px var(--card-border);
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .btn-ghost {
+      padding: 8px 12px;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 1.25;
+      letter-spacing: 0.02em;
+      border: 1px solid var(--border-input);
+      background: var(--btn-secondary-bg);
+      color: var(--text-secondary);
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: var(--card-shadow);
+      min-height: 36px;
+    }
+
+    .btn-ghost:hover {
+      background: #fff;
+    }
+
+    .btn-primary-dark {
+      padding: 8px 12px;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 20px;
+      letter-spacing: 0.02em;
+      border: 1px solid var(--primary-dark);
+      background: var(--primary-dark);
+      color: #fff;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 36px;
+      box-shadow: var(--card-shadow);
+    }
+
+    .btn-primary-dark:hover {
+      opacity: 0.94;
+    }
+
+    /* Canvas area */
+    .canvas-wrap {
+      position: relative;
+      min-height: calc(100vh - 76px);
+      background-color: var(--canvas-bg);
+      background-image: linear-gradient(
+          to right,
+          var(--canvas-grid-line) 1px,
+          transparent 1px
+        ),
+        linear-gradient(to bottom, var(--canvas-grid-line) 1px, transparent 1px);
+      background-size: 40px 40px;
+      overflow: auto;
+    }
+
+    .canvas-inner {
+      position: relative;
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 80px 24px 64px;
+      min-height: calc(100vh - 76px);
+    }
+
+    /* Figma “Canvas actions” — right rail */
+    .canvas-actions {
+      position: fixed;
+      right: 24px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 15;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 16px;
+      pointer-events: none;
+    }
+
+    .canvas-actions button {
+      pointer-events: auto;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border-input);
+      background: var(--btn-secondary-bg);
+      border-radius: 8px;
+      box-shadow: var(--card-shadow);
+      cursor: pointer;
+      font-size: 16px;
+      line-height: 1;
+      color: var(--text-secondary);
+    }
+
+    .canvas-actions button:hover {
+      background: #fff;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 48px 56px;
+      justify-items: center;
+      align-items: start;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Table card */
+    .table-card {
+      width: 100%;
+      max-width: 380px;
+      background: #fff;
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      box-shadow: var(--card-shadow);
+      overflow: hidden;
+      position: relative;
+      z-index: 3;
+    }
+
+    .col-row.join-key-highlight {
+      background: var(--join-highlight-bg);
+      border-left: 3px solid var(--join-highlight-border);
+    }
+
+    .col-row.join-key-highlight-time {
+      background: var(--join-time-bg);
+      border-left: 3px solid var(--join-time-border);
+    }
+
+    .table-card .header {
+      padding: 10px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .table-card .header.gray {
+      background: var(--header-source);
+      color: var(--text-secondary);
+    }
+
+    .table-card .header.green {
+      background: var(--header-target);
+      color: var(--text-on-green);
+    }
+
+    .badge-target {
+      background: var(--orange-badge-bg);
+      color: var(--text-on-green);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 999px;
+    }
+
+    .col-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      min-height: 32px;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 20px;
+      border-bottom: 1px solid var(--card-border);
+      color: var(--text-secondary);
+    }
+
+    .col-row:last-of-type {
+      border-bottom: none;
+    }
+
+    .type-icon {
+      width: 16px;
+      height: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .type-icon img {
+      width: 16px;
+      height: 16px;
+      display: block;
+    }
+
+    .table-card .footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 16px;
+      background: var(--btn-secondary-bg);
+      border-top: 1px solid var(--border);
+      font-size: 12px;
+      line-height: 18px;
+      color: var(--muted);
+    }
+
+    .btn-view {
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 500;
+      border: 1px solid var(--border-input);
+      background: var(--btn-secondary-bg);
+      border-radius: 6px;
+      cursor: pointer;
+      color: var(--text-secondary);
+      box-shadow: var(--card-shadow);
+    }
+
+    .btn-view:hover {
+      background: #fff;
+    }
+
+    /* SVG connections — above cards so hover hit-strokes work */
+    .connections-svg {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 5;
+      overflow: visible;
+    }
+
+    .conn-group {
+      pointer-events: auto;
+    }
+
+    .conn-line-visible {
+      fill: none;
+      stroke: var(--conn-green);
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      pointer-events: none;
+      transition: stroke 300ms ease, stroke-width 200ms ease;
+    }
+
+    .conn-group.is-hover .conn-line-visible {
+      stroke-width: 3;
+    }
+
+    .conn-group.conn-settled .conn-line-visible {
+      stroke: var(--conn-gray);
+    }
+
+    .conn-group.conn-settled.is-hover .conn-line-visible {
+      stroke: var(--conn-green);
+      stroke-width: 3;
+    }
+
+    /* Quick Run validation: activity_logs → sub_status needs PTT */
+    @keyframes conn-ptt-pulse-stroke {
+      0%,
+      33.333%,
+      66.666% {
+        stroke: var(--conn-gray);
+      }
+      16.666%,
+      50%,
+      83.333% {
+        stroke: #f59e0b;
+      }
+      100% {
+        stroke: #f59e0b;
+      }
+    }
+
+    .conn-group.conn-ptt-pulsing .conn-line-visible {
+      animation: conn-ptt-pulse-stroke 1.8s ease-in-out forwards;
+    }
+
+    .conn-group.conn-needs-ptt .conn-line-visible {
+      stroke: #f59e0b;
+    }
+
+    .conn-group.conn-needs-ptt.is-hover .conn-line-visible {
+      stroke: var(--conn-green);
+      stroke-width: 3;
+    }
+
+    .conn-group.conn-needs-ptt .conn-dot.visible {
+      fill: #f59e0b;
+    }
+
+    .conn-group.conn-needs-ptt.is-hover .conn-dot.visible {
+      fill: var(--conn-green);
+    }
+
+    /* Quick Run validation banner — use same right-side toast pattern */
+    .qr-validation-banner-outer {
+      position: fixed;
+      top: 72px;
+      right: 24px;
+      z-index: 1000;
+      width: min(360px, calc(100vw - 48px));
+      max-width: 360px;
+      pointer-events: none;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.3s ease, visibility 0.3s;
+    }
+
+    .qr-validation-banner-outer.is-visible {
+      visibility: visible;
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .qr-validation-banner-outer.is-hiding {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .qr-validation-banner-outer.is-hiding .qr-validation-banner-inner {
+      transform: translateY(0);
+    }
+
+    .qr-validation-banner-inner {
+      transform: translateY(-12px);
+      transition: transform 0.3s ease-out;
+    }
+
+    .qr-validation-banner-outer.is-visible:not(.is-hiding) .qr-validation-banner-inner {
+      transform: translateY(0);
+    }
+
+    .qr-validation-banner {
+      background: #fef3c7;
+      border: 1px solid #f59e0b;
+      border-radius: 8px;
+      box-shadow: var(--toast-shadow);
+      padding: 12px 40px 12px 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 14px;
+      color: #92400e;
+      line-height: 1.45;
+    }
+
+    .qr-validation-banner-dismiss {
+      position: absolute;
+      top: 8px;
+      right: 10px;
+      border: none;
+      background: transparent;
+      font-size: 20px;
+      line-height: 1;
+      cursor: pointer;
+      color: #92400e;
+      opacity: 0.65;
+      padding: 4px;
+      border-radius: 4px;
+    }
+
+    .qr-validation-banner-dismiss:hover {
+      opacity: 1;
+      background: rgba(245, 158, 11, 0.2);
+    }
+
+    .qr-validation-banner a.qr-define-now {
+      color: #b45309;
+      font-weight: 600;
+      text-decoration: underline;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .qr-validation-banner a.qr-define-now:hover {
+      color: #92400e;
+    }
+
+    .btn-primary-dark.qr-flash-ready {
+      animation: qr-btn-ready-flash 0.45s ease-in-out 2;
+    }
+
+    @keyframes qr-btn-ready-flash {
+      0%,
+      100% {
+        background: var(--primary-dark);
+      }
+      50% {
+        background: #22c55e;
+        border-color: #16a34a;
+      }
+    }
+
+    .er-ptt-trigger.required-highlight {
+      border: 2px solid #ef4444;
+      background: #fff;
+      box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.15);
+    }
+
+    .er-ptt-required-msg {
+      font-size: 12px;
+      color: #ef4444;
+      margin-top: 8px;
+      font-weight: 500;
+    }
+
+    .toast-info-mini {
+      background: #fff;
+      border: 1px solid var(--border-input);
+      border-radius: 8px;
+      padding: 10px 36px 10px 12px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      box-shadow: var(--toast-shadow);
+      position: relative;
+      width: 100%;
+    }
+
+    .conn-hit {
+      fill: none;
+      stroke: #000;
+      stroke-opacity: 0;
+      stroke-width: 20;
+      pointer-events: stroke;
+      cursor: pointer;
+    }
+
+    .conn-dot {
+      fill: var(--conn-green);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 150ms ease, fill 300ms ease;
+    }
+
+    .conn-dot.visible {
+      opacity: 1;
+    }
+
+    .conn-group.conn-settled .conn-dot.visible {
+      fill: var(--conn-gray);
+    }
+
+    .conn-group.conn-settled.is-hover .conn-dot.visible {
+      fill: var(--conn-green);
+    }
+
+    .conn-tooltip {
+      position: fixed;
+      z-index: 100;
+      left: 0;
+      top: 0;
+      margin: 0;
+      padding: 8px 12px;
+      background: #fff;
+      border-radius: 6px;
+      font-size: 12px;
+      color: var(--text);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+      pointer-events: none;
+      white-space: nowrap;
+      display: none;
+    }
+
+    .conn-tooltip.is-visible {
+      display: block;
+    }
+
+    .conn-tooltip .tt-line {
+      line-height: 1.45;
+    }
+
+    .conn-tooltip .tt-line + .tt-line {
+      margin-top: 4px;
+    }
+
+    .conn-click-popover {
+      position: fixed;
+      z-index: 200;
+      left: 0;
+      top: 0;
+      min-width: 200px;
+      max-width: 280px;
+      padding: 12px 14px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
+      border: 1px solid #cdd5df;
+      display: none;
+    }
+
+    .conn-click-popover.is-visible {
+      display: block;
+    }
+
+    .conn-click-popover .pop-line {
+      font-size: 12px;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .conn-click-popover .pop-line:last-of-type {
+      margin-bottom: 10px;
+    }
+
+    .conn-click-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .conn-click-actions button {
+      border: 1px solid #cdd5df;
+      background: #fafcff;
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #364152;
+      cursor: pointer;
+      line-height: 1.25;
+      box-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
+    }
+
+    .conn-click-actions button:hover {
+      background: #fff;
+    }
+
+    /* Add entity relationship modal — Clean screens / Enterprise DS (Figma I3wE3wsaFiRUrixI8Xe95y) */
+    .edit-modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      background: rgba(0, 0, 0, 0.45);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .edit-modal-overlay.is-visible {
+      display: flex;
+    }
+
+    .edit-modal-panel {
+      width: 100%;
+      max-width: 700px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow:
+        0 1px 2px rgba(16, 24, 40, 0.05),
+        0 12px 40px rgba(0, 0, 0, 0.12);
+      max-height: 90vh;
+      overflow: auto;
+    }
+
+    .edit-modal-panel header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 20px;
+      border-bottom: 1px solid #e3e8ef;
+    }
+
+    .edit-modal-panel header h2 {
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 24px;
+      color: #121926;
+    }
+
+    .edit-modal-panel .edit-close {
+      border: none;
+      background: transparent;
+      font-size: 22px;
+      line-height: 1;
+      cursor: pointer;
+      color: #697586;
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+
+    .edit-modal-panel .edit-close:hover {
+      background: #f6f8fa;
+      color: #121926;
+    }
+
+    .edit-modal-body {
+      padding: 20px 20px 24px;
+    }
+
+    .er-section {
+      margin-bottom: 48px;
+    }
+
+    .er-section:last-of-type {
+      margin-bottom: 16px;
+    }
+
+    .er-section--search {
+      margin-bottom: 32px;
+    }
+
+    .er-section-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #111;
+      margin-bottom: 12px;
+    }
+
+    .er-field-section-label {
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 20px;
+      letter-spacing: 0.0175em;
+      color: #364152;
+      margin-bottom: 8px;
+    }
+
+    /* Join columns — Table 1 / Table 2 grid */
+    .er-join-pair-set {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .er-join-grid-meta {
+      display: grid;
+      grid-template-columns: 1fr 40px 1fr 38px;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .er-join-head-cell {
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 24px;
+      color: #121926;
+    }
+
+    .er-join-name-cell {
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      color: #121926;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      min-width: 0;
+    }
+
+    .er-join-conn {
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      color: #697586;
+      text-align: center;
+    }
+
+    .er-join-tool-spacer {
+      width: 38px;
+    }
+
+    #erJoinRows {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .er-join-row {
+      display: grid;
+      grid-template-columns: 1fr 40px 1fr 38px;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 0;
+    }
+
+    .er-dd-wrap {
+      position: relative;
+      min-width: 0;
+    }
+
+    .er-dd-wrap::after {
+      content: "";
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      width: 0;
+      height: 0;
+      border-left: 4px solid transparent;
+      border-right: 4px solid transparent;
+      border-top: 5px solid #697586;
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+
+    .er-join-row select,
+    .er-dd {
+      width: 100%;
+      min-height: 30px;
+      padding: 3px 28px 3px 8px;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      font-family: inherit;
+      color: #121926;
+      border: 1px solid #cdd5df;
+      border-radius: 6px;
+      background: #f6f8fa;
+      appearance: none;
+      cursor: pointer;
+    }
+
+    .er-join-row select:focus,
+    .er-dd:focus {
+      outline: none;
+      border-color: #6366f1;
+      box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+    }
+
+    .er-row-remove-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 30px;
+      padding: 7px;
+      border: 1px solid #cdd5df;
+      border-radius: 8px;
+      background: #fafcff;
+      box-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
+      cursor: pointer;
+      flex-shrink: 0;
+      color: #364152;
+    }
+
+    .er-row-remove-btn:hover {
+      background: #fff;
+    }
+
+    .er-row-remove-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    .er-row-remove-btn svg {
+      display: block;
+    }
+
+    .er-join-add-wrap {
+      display: flex;
+      justify-content: center;
+      margin-top: 8px;
+    }
+
+    .er-btn-add-col {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      min-height: 36px;
+      padding: 8px 12px;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 1.25;
+      letter-spacing: 0.02em;
+      color: #364152;
+      border: 1px solid #cdd5df;
+      border-radius: 8px;
+      background: #fafcff;
+      box-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .er-btn-add-col:hover {
+      background: #fff;
+    }
+
+    .er-btn-add-col .er-plus {
+      font-size: 18px;
+      line-height: 1;
+      font-weight: 400;
+    }
+
+    .er-radio-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .er-radio-block {
+      border: 1px solid #cdd5df;
+      border-radius: 8px;
+      padding: 8px 16px 12px;
+      background: #fafcff;
+    }
+
+    .er-radio-block.is-selected {
+      background: #fafcff;
+      border-color: #6366f1;
+      box-shadow: 0 0 0 1px #6366f1 inset;
+    }
+
+    .er-radio-label {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      cursor: pointer;
+      margin: 0;
+    }
+
+    .er-radio-label input {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .er-radio-ui {
+      flex-shrink: 0;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 1px solid #cdd5df;
+      margin-top: 2px;
+      background: #fff;
+      position: relative;
+    }
+
+    .er-radio-label input:checked + .er-radio-ui {
+      border-color: #6366f1;
+      background: #fff;
+    }
+
+    .er-radio-label input:checked + .er-radio-ui::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #6366f1;
+    }
+
+    .er-radio-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .er-radio-title {
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 20px;
+      letter-spacing: 0.0175em;
+      color: #121926;
+      margin-bottom: 0;
+    }
+
+    .er-radio-desc {
+      margin-top: 0;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 18px;
+      color: #697586;
+    }
+
+    .er-guidance-acc {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      width: 100%;
+      margin-top: 12px;
+      padding: 8px 16px;
+      border: 1px solid #bdb4fe;
+      border-radius: 8px;
+      background: #f4f3ff;
+      cursor: pointer;
+      font-family: inherit;
+      text-align: left;
+      transition: background 0.15s ease;
+    }
+
+    .er-guidance-acc:hover {
+      background: #ebe9fe;
+    }
+
+    .er-guidance-acc__main {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 20px;
+      letter-spacing: 0.0175em;
+      color: #364152;
+    }
+
+    .er-info-ico {
+      flex-shrink: 0;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 1.5px solid #6366f1;
+      color: #6366f1;
+      font-size: 10px;
+      font-weight: 700;
+      line-height: 13px;
+      text-align: center;
+    }
+
+    .er-guidance-acc__chev {
+      flex-shrink: 0;
+      font-size: 10px;
+      color: #697586;
+      transition: transform 0.2s ease;
+    }
+
+    .er-guidance-acc[aria-expanded="true"] .er-guidance-acc__chev {
+      transform: rotate(180deg);
+    }
+
+    .er-disclosure-panel {
+      margin-top: 0;
+      padding: 0 4px;
+      font-size: 12px;
+      color: #697586;
+      line-height: 1.5;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.25s ease;
+    }
+
+    .er-disclosure-panel.is-open {
+      max-height: 160px;
+      margin-top: 8px;
+    }
+
+    .er-search-range-hidden {
+      display: none !important;
+    }
+
+    .er-manual-range-wrap {
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.35s ease;
+      margin-top: 0;
+    }
+
+    .er-manual-range-wrap.is-open {
+      max-height: 160px;
+      margin-top: 12px;
+    }
+
+    .er-manual-range-inner {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding-top: 4px;
+    }
+
+    .er-manual-range-inner label {
+      font-size: 13px;
+      color: #374151;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .er-manual-range-inner input[type="number"] {
+      width: 48px;
+      padding: 6px 8px;
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+      font-size: 13px;
+    }
+
+    .er-manual-range-inner select {
+      padding: 6px 8px;
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+      font-size: 13px;
+      background: #fff;
+    }
+
+    .er-ptt-trigger {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      font-size: 14px;
+      color: #374151;
+      padding: 8px 12px;
+      border: 1px dashed #d1d5db;
+      border-radius: 8px;
+      background: #fafafa;
+    }
+
+    .er-ptt-edit {
+      border: none;
+      background: none;
+      cursor: pointer;
+      font-size: 15px;
+      padding: 2px 4px;
+      line-height: 1;
+      border-radius: 4px;
+    }
+
+    .er-ptt-edit:hover {
+      background: #e5e7eb;
+    }
+
+    .er-ptt-inline-panel {
+      margin-top: 12px;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 16px;
+      background: #fff;
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 0.35s ease, opacity 0.2s ease, margin-top 0.2s ease;
+    }
+
+    .er-ptt-inline-panel.is-open {
+      max-height: 520px;
+      opacity: 1;
+    }
+
+    .er-ptt-inline-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .er-ptt-inline-head h3 {
+      font-size: 14px;
+      font-weight: 600;
+      color: #111;
+    }
+
+    .er-ptt-inline-close {
+      border: none;
+      background: transparent;
+      font-size: 20px;
+      cursor: pointer;
+      color: #6b7280;
+      line-height: 1;
+      padding: 4px;
+      border-radius: 4px;
+    }
+
+    .er-ptt-inline-close:hover {
+      background: #f3f4f6;
+      color: #111;
+    }
+
+    .er-ptt-field {
+      margin-bottom: 16px;
+    }
+
+    .er-ptt-field-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #111;
+      margin-bottom: 4px;
+    }
+
+    .er-ptt-field-hint {
+      font-size: 12px;
+      color: #6b7280;
+      line-height: 1.45;
+      margin-bottom: 8px;
+    }
+
+    .er-ptt-field select,
+    .er-ptt-field input[type="number"] {
+      width: 100%;
+      max-width: 280px;
+      padding: 8px 10px;
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+      font-size: 13px;
+    }
+
+    .er-ptt-lead-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .er-ptt-lead-row input {
+      max-width: 72px;
+    }
+
+    .er-ptt-lead-row select {
+      max-width: 120px;
+    }
+
+    .er-ptt-view-link {
+      display: inline-block;
+      margin-top: 8px;
+      font-size: 12px;
+      color: #2563eb;
+      text-decoration: none;
+    }
+
+    .er-ptt-view-link:hover {
+      text-decoration: underline;
+    }
+
+    .er-ptt-inline-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 8px;
+      padding-top: 12px;
+      border-top: 1px solid #f3f4f6;
+    }
+
+    .er-ptt-btn-reset {
+      padding: 8px 14px;
+      font-size: 13px;
+      border: 1px solid #e5e7eb;
+      background: #fff;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .er-ptt-btn-apply {
+      padding: 8px 16px;
+      font-size: 13px;
+      border: none;
+      background: #1a1a2e;
+      color: #fff;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .er-ptt-btn-apply:hover {
+      opacity: 0.92;
+    }
+
+    .er-timeline-wrap {
+      margin-top: 8px;
+      padding: 12px 8px 8px;
+      background: #fafafa;
+      border-radius: 8px;
+      border: 1px solid #f3f4f6;
+    }
+
+    .er-timeline-wrap svg {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+    }
+
+    .er-tl-foot {
+      text-align: center;
+      font-size: 11px;
+      color: #9ca3af;
+      margin-top: 4px;
+    }
+
+    .edit-modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      padding: 16px 20px;
+      border-top: 1px solid #e3e8ef;
+    }
+
+    .edit-modal-footer .btn-cancel-edit {
+      padding: 9px 16px;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 1.25;
+      border: 1px solid #cdd5df;
+      background: #fafcff;
+      color: #364152;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
+    }
+
+    .edit-modal-footer .btn-cancel-edit:hover {
+      background: #fff;
+    }
+
+    .edit-modal-footer .btn-save-edit {
+      padding: 9px 18px;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 1.25;
+      border: 1px solid #364152;
+      background: #364152;
+      color: #fff;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .edit-modal-footer .btn-save-edit:disabled {
+      background: #d1d5db;
+      color: #6b7280;
+      cursor: not-allowed;
+    }
+
+    .edit-modal-footer .btn-save-edit:not(:disabled):hover {
+      opacity: 0.92;
+    }
+
+    /* Toasts — fixed to viewport, above canvas + cards */
+    .toast-layer {
+      position: fixed;
+      top: 72px;
+      right: 24px;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 12px;
+      width: min(360px, calc(100vw - 48px));
+      max-width: 360px;
+      pointer-events: none;
+    }
+
+    .toast-layer > * {
+      pointer-events: auto;
+    }
+
+    .toast {
+      background: var(--toast-positive-bg);
+      border: 1px solid var(--toast-positive-border);
+      border-radius: 8px;
+      box-shadow: var(--toast-shadow);
+      padding: 16px 40px 16px 16px;
+      position: relative;
+      opacity: 1;
+      transition: opacity 300ms ease;
+    }
+
+    .toast.hiding {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .toast-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 28px;
+      height: 28px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 1;
+      color: var(--text-secondary);
+      opacity: 0.65;
+      border-radius: 4px;
+    }
+
+    .toast-close:hover {
+      background: rgba(255, 255, 255, 0.6);
+      opacity: 1;
+      color: var(--text);
+    }
+
+    .toast-main-title {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .toast-check {
+      color: var(--toast-positive-text);
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .toast-title-text {
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 24px;
+      color: var(--toast-positive-text);
+    }
+
+    .toast-sub {
+      margin-top: 8px;
+      margin-left: 30px;
+      font-size: 14px;
+      line-height: 20px;
+      color: var(--toast-positive-text);
+    }
+
+    .toast-actions {
+      margin-top: 14px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn-auto {
+      padding: 8px 14px;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 20px;
+      border: 1px solid var(--border-input);
+      border-radius: 8px;
+      background: var(--btn-secondary-bg);
+      color: var(--text-secondary);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: var(--card-shadow);
+    }
+
+    .btn-auto:hover {
+      background: #fff;
+    }
+
+    .btn-manual {
+      padding: 8px 12px;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 20px;
+      border: none;
+      border-radius: 8px;
+      background: transparent;
+      color: var(--text-secondary);
+      cursor: pointer;
+      box-shadow: none;
+    }
+
+    .btn-manual:hover {
+      background: rgba(255, 255, 255, 0.5);
+    }
+
+    .toast-success-mini {
+      background: var(--toast-positive-bg);
+      border: 1px solid var(--toast-positive-border);
+      border-radius: 8px;
+      padding: 10px 36px 10px 12px;
+      font-size: 13px;
+      color: var(--toast-positive-text);
+      font-weight: 500;
+      box-shadow: var(--card-shadow);
+      position: relative;
+      width: 100%;
+      opacity: 1;
+      transition: opacity 300ms ease;
+    }
+
+    .toast-success-mini.hiding {
+      opacity: 0;
+    }
+
+    /* Reset */
+    .btn-reset {
+      position: absolute;
+      bottom: 20px;
+      left: 24px;
+      z-index: 10;
+      padding: 8px 14px;
+      font-size: 12px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--muted);
+      cursor: pointer;
+      box-shadow: var(--card-shadow);
+    }
+
+    .btn-reset:hover {
+      background: #fff;
+      color: var(--text);
+    }
+
+    @media (max-width: 780px) {
+      .nav-center-wrap .nav-tabs {
+        display: none;
+      }
+
+      .cards-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .canvas-actions {
+        right: 12px;
+        padding: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="top-nav">
+    <div class="nav-left">
+      <div class="logo-mark">d</div>
+      <span class="pill-btn">New experiment</span>
+    </div>
+    <div class="nav-center-wrap">
+      <nav class="nav-tabs" aria-label="Workflow steps">
+        <button type="button" class="nav-tab">
+          <span>➕</span> Add table
+        </button>
+        <button type="button" class="nav-tab">
+          <span>◎</span> Define Target
+        </button>
+        <button type="button" class="nav-tab active" aria-current="page">
+          <span>🔗</span> Connect Tables
+        </button>
+        <button type="button" class="nav-tab">
+          <span>⚙</span> Advanced
+        </button>
+      </nav>
+      <div class="nav-right">
+        <button type="button" class="btn-ghost">Cancel</button>
+        <button type="button" class="btn-primary-dark" id="btnQuickRun">
+          Quick Run <span>▾</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div
+    id="qrValidationBannerOuter"
+    class="qr-validation-banner-outer"
+    aria-live="polite"
+    aria-hidden="true"
+    hidden
+  >
+    <div class="qr-validation-banner-inner">
+      <div class="qr-validation-banner" style="position: relative">
+        <button type="button" class="qr-validation-banner-dismiss" id="qrValidationBannerDismiss" aria-label="Dismiss">
+          ×
+        </button>
+        <span aria-hidden="true">⚠️</span>
+        <div>
+          <span id="qrValidationBannerText">
+            Prediction Execution Time is required for the activity_logs → sub_status connection before running the
+            model.
+          </span>
+          <br />
+          <a href="#" class="qr-define-now" id="qrDefineNowLink">Define now →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-layer" id="toastLayer">
+    <div class="toast" id="mainToast">
+      <button type="button" class="toast-close" id="mainToastClose" aria-label="Close">×</button>
+      <div class="toast-main-title">
+        <span class="toast-check">✓</span>
+        <div>
+          <div class="toast-title-text">2 tables Added Successfully</div>
+        </div>
+      </div>
+      <p class="toast-sub">
+        All tables must be connected to enable a prediction run.
+      </p>
+      <div class="toast-actions">
+        <button type="button" class="btn-auto" id="btnAutoConnect">
+          <span>⚡</span> Auto Connect
+        </button>
+        <button type="button" class="btn-manual" id="btnManualEdit">
+          Manually Edit
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="canvas-wrap" id="canvasWrap">
+    <div class="canvas-actions" aria-label="Canvas controls">
+      <button type="button" title="Fullscreen">⛶</button>
+      <button type="button" title="Zoom out">−</button>
+      <button type="button" title="Zoom in">+</button>
+      <button type="button" title="Fit view">⊡</button>
+    </div>
+    <div class="canvas-inner" id="canvasInner">
+      <svg class="connections-svg" id="connSvg" xmlns="http://www.w3.org/2000/svg">
+        <defs />
+        <!-- paths and dots injected by JS -->
+      </svg>
+
+      <div class="cards-grid" id="cardsGrid">
+        <div class="table-card" id="card-activity" data-card-id="activity_logs">
+          <div class="header gray">
+            <span>activity_logs</span>
+          </div>
+          <div class="col-row" data-col-name="user_id"><span class="type-icon"><img alt="" src="https://www.figma.com/api/mcp/asset/d807d84a-d396-4f6a-a476-0b7e0ff1aa6d" /></span> user_id</div>
+          <div class="col-row" data-col-name="action_type"><span class="type-icon"><img alt="" src="https://www.figma.com/api/mcp/asset/18de7ba1-c0e0-4551-94db-fe58adc7fe25" /></span> action_type</div>
+          <div class="col-row" data-col-name="store_number"><span class="type-icon"><img alt="" src="https://www.figma.com/api/mcp/asset/795cb9bf-f219-4f56-8dee-a45868e6e68b" /></span> store_number</div>
+          <div class="col-row" data-col-name="timestamp"><span class="type-icon"><img alt="" src="https://www.figma.com/api/mcp/asset/effebca0-a766-4c82-95c5-4ac9fa6f8c43" /></span> timestamp</div>
+          <div class="footer">
+            <span>Total 4 columns</span>
+            <button type="button" class="btn-view">View</button>
+          </div>
+        </div>
+
+        <div class="table-card" id="card-sub" data-card-id="sub_status">
+          <div class="header green">
+            <span>sub_status</span>
+            <span class="badge-target">Target</span>
+          </div>
+          <div class="col-row" data-col-name="user_id"><span class="type-icon"><img alt="" src="https://www.figma.com/api/mcp/asset/d807d84a-d396-4f6a-a476-0b7e0ff1aa6d" /></span> user_id</div>
+          <div class="col-row" data-col-name="status"><span class="type-icon"><img alt="" src="https://www.figma.com/api/mcp/asset/18de7ba1-c0e0-4551-94db-fe58adc7fe25" /></span> status</div>
+          <div class="col-row" data-col-name="event_date"><span class="type-icon"><img alt="" src="https://www.figma.com/api/mcp/asset/effebca0-a766-4c82-95c5-4ac9fa6f8c43" /></span> event_date</div>
+          <div class="col-row" data-col-name="quantity"><span class="type-icon"><img alt="" src="https://www.figma.com/api/mcp/asset/795cb9bf-f219-4f56-8dee-a45868e6e68b" /></span> quantity</div>
+          <div class="col-row" data-col-name="total"><span class="type-icon"><img alt="" src="https://www.figma.com/api/mcp/asset/795cb9bf-f219-4f56-8dee-a45868e6e68b" /></span> total</div>
+          <div class="footer">
+            <span>Total 5 columns</span>
+            <button type="button" class="btn-view">View</button>
+          </div>
+        </div>
+
+        <div class="table-card" id="card-customer" data-card-id="customer_data">
+          <div class="header gray">
+            <span>customer_data</span>
+          </div>
+          <div class="col-row" data-col-name="user_id"><span class="type-icon"><img alt="" src="https://www.figma.com/api/mcp/asset/d807d84a-d396-4f6a-a476-0b7e0ff1aa6d" /></span> user_id</div>
+          <div class="col-row" data-col-name="first_name"><span class="type-icon"><img alt="" src="https://www.figma.com/api/mcp/asset/18de7ba1-c0e0-4551-94db-fe58adc7fe25" /></span> first_name</div>
+          <div class="col-row" data-col-name="last_name"><span class="type-icon"><img alt="" src="https://www.figma.com/api/mcp/asset/18de7ba1-c0e0-4551-94db-fe58adc7fe25" /></span> last_name</div>
+          <div class="col-row" data-col-name="age_group"><span class="type-icon"><img alt="" src="https://www.figma.com/api/mcp/asset/18de7ba1-c0e0-4551-94db-fe58adc7fe25" /></span> age_group</div>
+          <div class="col-row" data-col-name="region"><span class="type-icon"><img alt="" src="https://www.figma.com/api/mcp/asset/18de7ba1-c0e0-4551-94db-fe58adc7fe25" /></span> region</div>
+          <div class="footer">
+            <span>Total 8 columns</span>
+            <button type="button" class="btn-view">View</button>
+          </div>
+        </div>
+
+        <div class="table-card" id="card-support" data-card-id="support_tickets">
+          <div class="header gray">
+            <span>support_tickets</span>
+          </div>
+          <div class="col-row" data-col-name="user_id"><span class="type-icon"><img alt="" src="https://www.figma.com/api/mcp/asset/d807d84a-d396-4f6a-a476-0b7e0ff1aa6d" /></span> user_id</div>
+          <div class="col-row" data-col-name="issue_type"><span class="type-icon"><img alt="" src="https://www.figma.com/api/mcp/asset/18de7ba1-c0e0-4551-94db-fe58adc7fe25" /></span> issue_type</div>
+          <div class="col-row" data-col-name="created_at"><span class="type-icon"><img alt="" src="https://www.figma.com/api/mcp/asset/effebca0-a766-4c82-95c5-4ac9fa6f8c43" /></span> created_at</div>
+          <div class="footer">
+            <span>Total 3 columns</span>
+            <button type="button" class="btn-view">View</button>
+          </div>
+        </div>
+      </div>
+
+      <button type="button" class="btn-reset" id="btnReset">Reset</button>
+      <div id="connTooltip" class="conn-tooltip" role="tooltip"></div>
+      <div id="connClickPopover" class="conn-click-popover" role="dialog" aria-label="Connection actions">
+        <div id="connClickPopoverLines"></div>
+        <div class="conn-click-actions">
+          <button type="button" id="connPopEdit" title="Edit">✏️ Edit</button>
+          <button type="button" id="connPopDelete" title="Delete">🗑️ Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="editModal" class="edit-modal-overlay" aria-hidden="true">
+    <div class="edit-modal-panel" role="dialog" aria-labelledby="erModalTitle" aria-modal="true">
+      <header>
+        <h2 id="erModalTitle">Add entity relationship</h2>
+        <button type="button" class="edit-close" id="editModalClose" aria-label="Close">×</button>
+      </header>
+      <div class="edit-modal-body">
+        <section class="er-section" aria-labelledby="erJoinHeading">
+          <h3 class="er-section-title" id="erJoinHeading">Join columns</h3>
+          <div class="er-join-pair-set">
+            <div class="er-join-grid-meta">
+              <div class="er-join-head-cell">Table 1</div>
+              <div class="er-join-conn" aria-hidden="true"></div>
+              <div class="er-join-head-cell">Table 2</div>
+              <div class="er-join-tool-spacer" aria-hidden="true"></div>
+              <div class="er-join-name-cell" id="erJoinTableLeft"></div>
+              <div class="er-join-conn">and</div>
+              <div class="er-join-name-cell" id="erJoinTableRight"></div>
+              <div class="er-join-tool-spacer" aria-hidden="true"></div>
+            </div>
+            <div id="erJoinRows"></div>
+            <div class="er-join-add-wrap">
+              <button type="button" class="er-btn-add-col" id="erJoinAdd">
+                <span class="er-plus" aria-hidden="true">+</span> Add column
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section class="er-section" aria-labelledby="erPredHeading">
+          <h3 class="er-field-section-label" id="erPredHeading">Specify what data you want to use for prediction</h3>
+          <div class="er-radio-stack">
+            <div class="er-radio-block" id="erBlockTimeMatch">
+              <label class="er-radio-label">
+                <input type="radio" name="erPredMode" value="time-match" id="erPredTimeMatch" />
+                <span class="er-radio-ui" aria-hidden="true"></span>
+                <span class="er-radio-body">
+                  <div class="er-radio-title">Time match</div>
+                  <p class="er-radio-desc">
+                    Match records in two tables based on the selected DateTime column.
+                  </p>
+                </span>
+              </label>
+              <button type="button" class="er-guidance-acc" data-er-disclosure="kc-tm" aria-expanded="false">
+                <span class="er-guidance-acc__main">
+                  <span class="er-info-ico" aria-hidden="true">i</span>
+                  <span>What is time match?</span>
+                </span>
+                <span class="er-guidance-acc__chev" aria-hidden="true">▼</span>
+              </button>
+              <div class="er-disclosure-panel" id="er-panel-kc-tm">
+                Use the same absolute moment in time across tables so each prediction row joins the correct historical facts.
+              </div>
+            </div>
+            <div class="er-radio-block is-selected" id="erBlockTimeRange">
+              <label class="er-radio-label">
+                <input type="radio" name="erPredMode" value="time-range" id="erPredTimeRange" checked />
+                <span class="er-radio-ui" aria-hidden="true"></span>
+                <span class="er-radio-body">
+                  <div class="er-radio-title">Time range</div>
+                  <p class="er-radio-desc">
+                    Define the range of data for exploring features, such as the last 3 months, 14 days, 10 hours.
+                  </p>
+                </span>
+              </label>
+              <button type="button" class="er-guidance-acc" data-er-disclosure="kc-tr" aria-expanded="false">
+                <span class="er-guidance-acc__main">
+                  <span class="er-info-ico" aria-hidden="true">i</span>
+                  <span>What is time range?</span>
+                </span>
+                <span class="er-guidance-acc__chev" aria-hidden="true">▼</span>
+              </button>
+              <div class="er-disclosure-panel" id="er-panel-kc-tr">
+                The model only sees features from within the chosen window before each prediction event.
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="er-section er-section--search" id="erSearchRangeSection" aria-labelledby="erSearchHeading">
+          <h3 class="er-field-section-label" id="erSearchHeading">Search range</h3>
+          <div class="er-radio-stack">
+            <div class="er-radio-block is-selected" id="erBlockRangeAuto">
+              <label class="er-radio-label">
+                <input type="radio" name="erRangeMode" value="auto" id="erRangeAuto" checked />
+                <span class="er-radio-ui" aria-hidden="true"></span>
+                <span class="er-radio-body">
+                  <div class="er-radio-title">Auto range</div>
+                  <p class="er-radio-desc" id="erAutoRangeDesc">
+                    Search all available range for the historical data of credit_units
+                  </p>
+                </span>
+              </label>
+            </div>
+            <div class="er-radio-block" id="erBlockRangeManual">
+              <label class="er-radio-label">
+                <input type="radio" name="erRangeMode" value="manual" id="erRangeManual" />
+                <span class="er-radio-ui" aria-hidden="true"></span>
+                <span class="er-radio-body">
+                  <div class="er-radio-title">Define range manually</div>
+                </span>
+              </label>
+            </div>
+          </div>
+          <div class="er-manual-range-wrap" id="erManualRangeWrap" aria-hidden="true">
+            <div class="er-manual-range-inner">
+              <label>
+                From
+                <input type="number" id="erFromVal" value="4" min="0" step="1" />
+                <select id="erFromUnit" aria-label="From unit">
+                  <option value="month" selected>month</option>
+                  <option value="week">week</option>
+                  <option value="day">day</option>
+                  <option value="hour">hour</option>
+                </select>
+              </label>
+              <label>
+                To
+                <input type="number" id="erToVal" value="0" min="0" step="1" />
+                <select id="erToUnit" aria-label="To unit">
+                  <option value="month" selected>month</option>
+                  <option value="week">week</option>
+                  <option value="day">day</option>
+                  <option value="hour">hour</option>
+                </select>
+              </label>
+            </div>
+          </div>
+        </section>
+
+        <section class="er-section" id="erPttSection" aria-labelledby="erPttHeading">
+          <h3 class="er-field-section-label" id="erPttHeading">Prediction execution time</h3>
+          <div class="er-ptt-trigger" id="erPttTriggerWrap">
+            <span id="erPttSummaryText">Undefined</span>
+            <button type="button" class="er-ptt-edit" id="erPttEditBtn" title="Define" aria-label="Define prediction execution time">
+              ✏️
+            </button>
+          </div>
+          <p class="er-ptt-required-msg" id="erPttRequiredMsg" hidden>Required to run the model</p>
+          <div class="er-ptt-inline-panel" id="erPttPanel" aria-hidden="true">
+            <div class="er-ptt-inline-head">
+              <h3>Define Prediction Execution time</h3>
+              <button type="button" class="er-ptt-inline-close" id="erPttPanelClose" aria-label="Close panel">×</button>
+            </div>
+            <div class="er-ptt-field">
+              <div class="er-ptt-field-label">Prediction target time column</div>
+              <p class="er-ptt-field-hint">
+                Choose a time column from the target table to serve as the reference point indicating when the
+                prediction event occurs.
+              </p>
+              <select id="erPttColSelect" aria-label="Prediction target time column"></select>
+              <a href="#" class="er-ptt-view-link" id="erPttViewTable">View target table</a>
+            </div>
+            <div class="er-ptt-field">
+              <div class="er-ptt-field-label">Prediction lead time (Optional)</div>
+              <p class="er-ptt-field-hint">
+                Specify the lead time for the prediction, for instance, a forecast made 2 days in advance, then
+                Prediction lead time = 2 days.
+              </p>
+              <div class="er-ptt-lead-row">
+                <input type="number" id="erPttLeadVal" value="3" min="0" step="1" aria-label="Lead time amount" />
+                <select id="erPttLeadUnit" aria-label="Lead time unit">
+                  <option value="days" selected>days</option>
+                  <option value="hours">hours</option>
+                  <option value="months">months</option>
+                </select>
+              </div>
+            </div>
+            <div class="er-ptt-inline-footer">
+              <button type="button" class="er-ptt-btn-reset" id="erPttReset">Reset</button>
+              <button type="button" class="er-ptt-btn-apply" id="erPttApply">Apply</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="er-section er-timeline-wrap" aria-label="Timeline preview">
+          <div id="erTimelineHost"></div>
+          <p class="er-tl-foot" id="erTimelineFootnote" style="display: none">
+            The graph is for reference only.
+          </p>
+        </section>
+      </div>
+      <footer class="edit-modal-footer">
+        <button type="button" class="btn-cancel-edit" id="editModalCancel">Cancel</button>
+        <button type="button" class="btn-save-edit" id="editModalSave" disabled>Save</button>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var canvasInner = document.getElementById("canvasInner");
+      var connSvg = document.getElementById("connSvg");
+      var connTooltip = document.getElementById("connTooltip");
+      var connClickPopover = document.getElementById("connClickPopover");
+      var connClickPopoverLines = document.getElementById("connClickPopoverLines");
+      var connPopEdit = document.getElementById("connPopEdit");
+      var connPopDelete = document.getElementById("connPopDelete");
+      var editModal = document.getElementById("editModal");
+      var editModalClose = document.getElementById("editModalClose");
+      var editModalCancel = document.getElementById("editModalCancel");
+      var editModalSave = document.getElementById("editModalSave");
+      var erJoinRows = document.getElementById("erJoinRows");
+      var erJoinAdd = document.getElementById("erJoinAdd");
+      var erPredTimeMatch = document.getElementById("erPredTimeMatch");
+      var erPredTimeRange = document.getElementById("erPredTimeRange");
+      var erBlockTimeMatch = document.getElementById("erBlockTimeMatch");
+      var erBlockTimeRange = document.getElementById("erBlockTimeRange");
+      var erSearchRangeSection = document.getElementById("erSearchRangeSection");
+      var erRangeAuto = document.getElementById("erRangeAuto");
+      var erRangeManual = document.getElementById("erRangeManual");
+      var erBlockRangeAuto = document.getElementById("erBlockRangeAuto");
+      var erBlockRangeManual = document.getElementById("erBlockRangeManual");
+      var erManualRangeWrap = document.getElementById("erManualRangeWrap");
+      var erFromVal = document.getElementById("erFromVal");
+      var erFromUnit = document.getElementById("erFromUnit");
+      var erToVal = document.getElementById("erToVal");
+      var erToUnit = document.getElementById("erToUnit");
+      var erAutoRangeDesc = document.getElementById("erAutoRangeDesc");
+      var erPttSummaryText = document.getElementById("erPttSummaryText");
+      var erPttEditBtn = document.getElementById("erPttEditBtn");
+      var erPttPanel = document.getElementById("erPttPanel");
+      var erPttPanelClose = document.getElementById("erPttPanelClose");
+      var erPttColSelect = document.getElementById("erPttColSelect");
+      var erPttLeadVal = document.getElementById("erPttLeadVal");
+      var erPttLeadUnit = document.getElementById("erPttLeadUnit");
+      var erPttReset = document.getElementById("erPttReset");
+      var erPttApply = document.getElementById("erPttApply");
+      var erPttViewTable = document.getElementById("erPttViewTable");
+      var erTimelineHost = document.getElementById("erTimelineHost");
+      var erTimelineFootnote = document.getElementById("erTimelineFootnote");
+      var erPttSection = document.getElementById("erPttSection");
+      var erPttRequiredMsg = document.getElementById("erPttRequiredMsg");
+      var btnQuickRun = document.getElementById("btnQuickRun");
+      var qrValidationBannerOuter = document.getElementById("qrValidationBannerOuter");
+      var qrValidationBannerDismiss = document.getElementById("qrValidationBannerDismiss");
+      var qrDefineNowLink = document.getElementById("qrDefineNowLink");
+
+      var erModalConn = null;
+      var erPttState = {
+        defined: false,
+        column: "",
+        leadVal: "",
+        leadUnit: "",
+        summaryLine: "",
+      };
+
+      /** Persisted Quick Run gate: PTT applied on activity_logs → sub_status (modal Apply). */
+      var pttDefinedForActivitySub = false;
+      /** Line strokes amber until PTT defined (set during Quick Run validation). */
+      var qrValidationLineAttention = false;
+
+      var mainToast = document.getElementById("mainToast");
+      var toastLayer = document.getElementById("toastLayer");
+      var mainToastClose = document.getElementById("mainToastClose");
+      var btnAutoConnect = document.getElementById("btnAutoConnect");
+      var btnManualEdit = document.getElementById("btnManualEdit");
+      var btnReset = document.getElementById("btnReset");
+
+      var NS = "http://www.w3.org/2000/svg";
+
+      var cards = {
+        activity_logs: document.getElementById("card-activity"),
+        sub_status: document.getElementById("card-sub"),
+        customer_data: document.getElementById("card-customer"),
+        support_tickets: document.getElementById("card-support"),
+      };
+
+      var connections = [
+        {
+          from: "activity_logs",
+          to: "sub_status",
+          joinPairs: [
+            { fromCol: "user_id", toCol: "user_id", type: "entity" },
+            { fromCol: "timestamp", toCol: "event_date", type: "time" },
+          ],
+        },
+        { from: "customer_data", to: "sub_status", joinKey: "user_id" },
+        { from: "customer_data", to: "support_tickets", joinKey: "user_id" },
+      ];
+
+      var linesDrawn = false;
+
+      function isActivityLogsToSubStatus(conn) {
+        return conn && conn.from === "activity_logs" && conn.to === "sub_status";
+      }
+
+      function getActivitySubConn() {
+        for (var i = 0; i < connections.length; i++) {
+          if (isActivityLogsToSubStatus(connections[i])) return connections[i];
+        }
+        return null;
+      }
+
+      function findActivitySubConnGroup() {
+        return connSvg.querySelector('[data-conn-key="activity_logs::sub_status"]');
+      }
+
+      function setQrNavOffset() {
+        // No-op: banner is rendered as a right-side toast now.
+      }
+
+      function clearModalPttValidationHints() {
+        erPttTriggerWrap.classList.remove("required-highlight");
+        erPttRequiredMsg.setAttribute("hidden", "");
+        erPttRequiredMsg.style.display = "";
+      }
+
+      function showQrValidationBanner() {
+        setQrNavOffset();
+        qrValidationBannerOuter.removeAttribute("hidden");
+        qrValidationBannerOuter.setAttribute("aria-hidden", "false");
+        qrValidationBannerOuter.classList.remove("is-hiding");
+        void qrValidationBannerOuter.offsetWidth;
+        qrValidationBannerOuter.classList.add("is-visible");
+      }
+
+      function dismissQrValidationBanner(clearConnectionLine) {
+        if (qrValidationBannerOuter.classList.contains("is-visible")) {
+          qrValidationBannerOuter.classList.add("is-hiding");
+          setTimeout(function () {
+            qrValidationBannerOuter.classList.remove("is-visible", "is-hiding");
+            qrValidationBannerOuter.setAttribute("aria-hidden", "true");
+            qrValidationBannerOuter.setAttribute("hidden", "");
+          }, 300);
+        }
+        if (clearConnectionLine) {
+          qrValidationLineAttention = false;
+          var gLine = findActivitySubConnGroup();
+          if (gLine) gLine.classList.remove("conn-needs-ptt", "conn-ptt-pulsing");
+        }
+      }
+
+      function flashQuickRunReady() {
+        btnQuickRun.classList.add("qr-flash-ready");
+        setTimeout(function () {
+          btnQuickRun.classList.remove("qr-flash-ready");
+        }, 900);
+      }
+
+      function showConnectFirstToast() {
+        var t = document.createElement("div");
+        t.className = "toast-info-mini";
+        t.textContent = "Please connect all tables first";
+        toastLayer.appendChild(t);
+        setTimeout(function () {
+          if (t.parentNode) t.remove();
+        }, 3200);
+      }
+
+      function showRunningModelToast() {
+        var t = document.createElement("div");
+        t.className = "toast-info-mini";
+        t.textContent = "Running model…";
+        toastLayer.appendChild(t);
+        setTimeout(function () {
+          if (t.parentNode) t.remove();
+        }, 2800);
+      }
+
+      function startQuickRunPttValidation() {
+        showQrValidationBanner();
+        var g = findActivitySubConnGroup();
+        if (!g) return;
+        if (g.classList.contains("conn-needs-ptt")) {
+          qrValidationLineAttention = true;
+          return;
+        }
+        g.classList.remove("conn-needs-ptt");
+        var pathLine = g.querySelector(".conn-line-visible");
+        if (!pathLine) return;
+        function onPulseEnd() {
+          pathLine.removeEventListener("animationend", onPulseEnd);
+          g.classList.remove("conn-ptt-pulsing");
+          if (!pttDefinedForActivitySub) {
+            g.classList.add("conn-needs-ptt");
+            qrValidationLineAttention = true;
+          }
+        }
+        pathLine.addEventListener("animationend", onPulseEnd, false);
+        g.classList.add("conn-ptt-pulsing");
+      }
+      var successToastTimer = null;
+      var activeClickPathVisible = null;
+      var activeClickConn = null;
+
+      function getJoinPairs(conn) {
+        if (conn.joinPairs && conn.joinPairs.length) return conn.joinPairs;
+        var k = conn.joinKey || "user_id";
+        return [{ fromCol: k, toCol: k, type: "entity" }];
+      }
+
+      /** Modal / form: time row first, then entity */
+      function getJoinPairsModalOrder(conn) {
+        var pairs = getJoinPairs(conn).slice();
+        pairs.sort(function (a, b) {
+          if (a.type === "time" && b.type !== "time") return -1;
+          if (a.type !== "time" && b.type === "time") return 1;
+          return 0;
+        });
+        return pairs;
+      }
+
+      function getColumnsForTable(cardId) {
+        var card = cards[cardId];
+        if (!card) return [];
+        return Array.prototype.map.call(
+          card.querySelectorAll(".col-row[data-col-name]"),
+          function (row) {
+            return row.getAttribute("data-col-name");
+          }
+        );
+      }
+
+      function setSvgSize() {
+        var w = canvasInner.offsetWidth;
+        var h = canvasInner.offsetHeight;
+        connSvg.setAttribute("width", w);
+        connSvg.setAttribute("height", h);
+        connSvg.setAttribute("viewBox", "0 0 " + w + " " + h);
+        connSvg.style.width = w + "px";
+        connSvg.style.height = h + "px";
+        if (activeClickPathVisible && connClickPopover.classList.contains("is-visible")) {
+          positionAtPath(connClickPopover, activeClickPathVisible);
+        }
+      }
+
+      function getAnchorPoints() {
+        var innerRect = canvasInner.getBoundingClientRect();
+        function anchor(cardId, side) {
+          var el = cards[cardId];
+          if (!el) return { x: 0, y: 0 };
+          var r = el.getBoundingClientRect();
+          var y = r.top - innerRect.top + r.height / 2;
+          if (side === "right") {
+            return { x: r.right - innerRect.left, y: y };
+          }
+          return { x: r.left - innerRect.left, y: y };
+        }
+        return {
+          activity_logs: { out: anchor("activity_logs", "right"), in: anchor("activity_logs", "left") },
+          sub_status: { out: anchor("sub_status", "right"), in: anchor("sub_status", "left") },
+          customer_data: { out: anchor("customer_data", "right"), in: anchor("customer_data", "left") },
+          support_tickets: { out: anchor("support_tickets", "right"), in: anchor("support_tickets", "left") },
+        };
+      }
+
+      function buildOrthogonalPath(x1, y1, x2, y2) {
+        var midX = (x1 + x2) / 2;
+        return "M " + x1 + " " + y1 + " L " + midX + " " + y1 + " L " + midX + " " + y2 + " L " + x2 + " " + y2;
+      }
+
+      function hideConnTooltip() {
+        connTooltip.classList.remove("is-visible");
+        connTooltip.innerHTML = "";
+      }
+
+      function clearJoinHighlights() {
+        document
+          .querySelectorAll(".col-row.join-key-highlight, .col-row.join-key-highlight-time")
+          .forEach(function (el) {
+            el.classList.remove("join-key-highlight");
+            el.classList.remove("join-key-highlight-time");
+          });
+      }
+
+      function highlightJoinForConn(conn) {
+        clearJoinHighlights();
+        getJoinPairs(conn).forEach(function (pair) {
+          var fromCard = cards[conn.from];
+          var toCard = cards[conn.to];
+          if (!fromCard || !toCard) return;
+          var cls =
+            pair.type === "time" ? "join-key-highlight-time" : "join-key-highlight";
+          var fr = fromCard.querySelector(
+            '.col-row[data-col-name="' + pair.fromCol + '"]'
+          );
+          var tr = toCard.querySelector(
+            '.col-row[data-col-name="' + pair.toCol + '"]'
+          );
+          if (fr) fr.classList.add(cls);
+          if (tr) tr.classList.add(cls);
+        });
+      }
+
+      function pathMidpointClient(path) {
+        var len = path.getTotalLength();
+        var mid = path.getPointAtLength(len * 0.5);
+        var pt = connSvg.createSVGPoint();
+        pt.x = mid.x;
+        pt.y = mid.y;
+        var ctm = path.getScreenCTM();
+        if (!ctm) return { x: 0, y: 0 };
+        return pt.matrixTransform(ctm);
+      }
+
+      function positionAtPath(el, pathVisible) {
+        var p = pathMidpointClient(pathVisible);
+        el.style.left = Math.round(p.x) + "px";
+        el.style.top = Math.round(p.y) + "px";
+        el.style.transform = "translate(-50%, -120%)";
+      }
+
+      function buildHoverTooltipHtml(conn) {
+        if (conn.joinPairs && conn.joinPairs.length) {
+          var entity = null;
+          var time = null;
+          conn.joinPairs.forEach(function (x) {
+            if (x.type === "entity") entity = x;
+            if (x.type === "time") time = x;
+          });
+          var html = "";
+          if (entity) {
+            html +=
+              '<div class="tt-line">' +
+              entity.fromCol +
+              " → " +
+              entity.toCol +
+              "</div>";
+          }
+          if (time) {
+            html +=
+              '<div class="tt-line">' +
+              time.fromCol +
+              " → " +
+              time.toCol +
+              "  📅</div>";
+          }
+          return html;
+        }
+        var k = conn.joinKey || "user_id";
+        return '<div class="tt-line">' + k + " → " + k + "</div>";
+      }
+
+      function showConnTooltip(conn, pathVisible) {
+        connTooltip.innerHTML = buildHoverTooltipHtml(conn);
+        connTooltip.classList.add("is-visible");
+        positionAtPath(connTooltip, pathVisible);
+      }
+
+      function hideClickPopover() {
+        connClickPopover.classList.remove("is-visible");
+        connClickPopoverLines.innerHTML = "";
+        activeClickPathVisible = null;
+        activeClickConn = null;
+      }
+
+      function showClickPopover(conn, pathVisible) {
+        hideConnTooltip();
+        activeClickConn = conn;
+        activeClickPathVisible = pathVisible;
+        var linesHtml = "";
+        getJoinPairs(conn).forEach(function (pair) {
+          linesHtml +=
+            '<div class="pop-line">' +
+            pair.fromCol +
+            " - " +
+            pair.toCol +
+            "</div>";
+        });
+        connClickPopoverLines.innerHTML = linesHtml;
+        connClickPopover.classList.add("is-visible");
+        positionAtPath(connClickPopover, pathVisible);
+      }
+
+      function getTableTitle(cardId) {
+        var card = cards[cardId];
+        if (!card) return cardId;
+        var h = card.querySelector(".header span");
+        return h ? h.textContent.trim() : cardId;
+      }
+
+      function closeEditModal() {
+        setPttPanelOpen(false);
+        clearModalPttValidationHints();
+        editModal.classList.remove("is-visible");
+        editModal.setAttribute("aria-hidden", "true");
+        erModalConn = null;
+        erJoinRows.innerHTML = "";
+      }
+
+      function buildSelect(options, selected) {
+        var s = "<select>";
+        options.forEach(function (opt) {
+          s +=
+            '<option value="' +
+            opt +
+            '"' +
+            (opt === selected ? " selected" : "") +
+            ">" +
+            opt +
+            "</option>";
+        });
+        s += "</select>";
+        return s;
+      }
+
+      function buildPttColOptions(cols, selected) {
+        var s = "";
+        cols.forEach(function (opt) {
+          s +=
+            '<option value="' +
+            opt +
+            '"' +
+            (opt === selected ? " selected" : "") +
+            ">" +
+            opt +
+            "</option>";
+        });
+        return s;
+      }
+
+      var ER_TRASH_SVG =
+        '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M2 4h12" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M5.5 3.5V3a1 1 0 011-1h3a1 1 0 011 1v.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M6 7v6M10 7v6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M3.5 4l.8 9.1a1 1 0 00.99.9h6.42a1 1 0 00.99-.9l.8-9.1" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>';
+
+      function buildErJoinRowHtml(leftCols, rightCols, pair, idx, totalRows) {
+        var dis = totalRows <= 1 ? " disabled" : "";
+        return (
+          '<div class="er-join-row" data-row="' +
+          idx +
+          '"><div class="er-dd-wrap">' +
+          buildSelect(leftCols, pair.fromCol) +
+          '</div><span class="er-join-conn">with</span><div class="er-dd-wrap">' +
+          buildSelect(rightCols, pair.toCol) +
+          '</div><button type="button" class="er-row-remove-btn" aria-label="Remove row"' +
+          dis +
+          ">" +
+          ER_TRASH_SVG +
+          "</button></div>"
+        );
+      }
+
+      function refreshJoinRemoveButtons() {
+        var rows = erJoinRows.querySelectorAll(".er-join-row");
+        var n = rows.length;
+        rows.forEach(function (row) {
+          var btn = row.querySelector(".er-row-remove-btn");
+          if (btn) btn.disabled = n <= 1;
+        });
+      }
+
+      function populateJoinRows(conn) {
+        var pairs = getJoinPairsModalOrder(conn);
+        var leftCols = getColumnsForTable(conn.from);
+        var rightCols = getColumnsForTable(conn.to);
+        var n = pairs.length;
+        erJoinRows.innerHTML = pairs
+          .map(function (pair, idx) {
+            return buildErJoinRowHtml(leftCols, rightCols, pair, idx, n);
+          })
+          .join("");
+        refreshJoinRemoveButtons();
+      }
+
+      function populatePttSelect(conn) {
+        var cols = getColumnsForTable(conn.to);
+        var preferred =
+          cols.indexOf("event_date") >= 0
+            ? "event_date"
+            : cols.indexOf("date") >= 0
+              ? "date"
+              : cols[0] || "";
+        erPttColSelect.innerHTML = buildPttColOptions(cols, preferred);
+      }
+
+      function resetErModalForm(conn) {
+        erPredTimeRange.checked = true;
+        erPredTimeMatch.checked = false;
+        syncPredModeBlocks();
+        erRangeAuto.checked = true;
+        erRangeManual.checked = false;
+        syncRangeModeBlocks();
+        erFromVal.value = "4";
+        erFromUnit.value = "month";
+        erToVal.value = "0";
+        erToUnit.value = "month";
+        erAutoRangeDesc.textContent =
+          "Search all available range for the historical data of credit_units";
+        var ejL = document.getElementById("erJoinTableLeft");
+        var ejR = document.getElementById("erJoinTableRight");
+        if (ejL) ejL.textContent = getTableTitle(conn.from);
+        if (ejR) ejR.textContent = getTableTitle(conn.to);
+        erPttState.defined = false;
+        erPttState.summaryLine = "";
+        erPttSummaryText.textContent = "Undefined";
+        editModalSave.disabled = true;
+        erPttLeadVal.value = "3";
+        erPttLeadUnit.value = "days";
+        populatePttSelect(conn);
+        setPttPanelOpen(false);
+        document.querySelectorAll(".er-disclosure-panel").forEach(function (p) {
+          p.classList.remove("is-open");
+        });
+        document.querySelectorAll(".er-guidance-acc").forEach(function (b) {
+          b.setAttribute("aria-expanded", "false");
+        });
+      }
+
+      function setPttPanelOpen(open) {
+        erPttPanel.classList.toggle("is-open", open);
+        erPttPanel.setAttribute("aria-hidden", open ? "false" : "true");
+      }
+
+      function syncPredModeBlocks() {
+        var tr = erPredTimeRange.checked;
+        erBlockTimeMatch.classList.toggle("is-selected", !tr);
+        erBlockTimeRange.classList.toggle("is-selected", tr);
+        erSearchRangeSection.classList.toggle("er-search-range-hidden", !tr);
+        updateTimeline();
+      }
+
+      function syncRangeModeBlocks() {
+        var manual = erRangeManual.checked;
+        erBlockRangeAuto.classList.toggle("is-selected", !manual);
+        erBlockRangeManual.classList.toggle("is-selected", manual);
+        erManualRangeWrap.classList.toggle("is-open", manual);
+        erManualRangeWrap.setAttribute("aria-hidden", manual ? "false" : "true");
+        updateTimeline();
+      }
+
+      function getTimelineRangeLabels() {
+        var timeRange = erPredTimeRange.checked;
+        var manual = erRangeManual.checked;
+        var fv = parseInt(erFromVal.value, 10);
+        if (isNaN(fv)) fv = 4;
+        var tv = parseInt(erToVal.value, 10);
+        if (isNaN(tv)) tv = 0;
+        var fu = erFromUnit.options[erFromUnit.selectedIndex]
+          ? erFromUnit.options[erFromUnit.selectedIndex].text
+          : erFromUnit.value;
+        var tu = erToUnit.options[erToUnit.selectedIndex]
+          ? erToUnit.options[erToUnit.selectedIndex].text
+          : erToUnit.value;
+        if (!timeRange || !manual) {
+          return { left: "4 month", right: "2 month" };
+        }
+        return { left: fv + " " + fu, right: tv + " " + tu };
+      }
+
+      function truncateStr(s, n) {
+        s = String(s);
+        if (s.length <= n) return s;
+        return s.slice(0, n - 1) + "…";
+      }
+
+      function escSvg(t) {
+        return String(t)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      function updateTimeline() {
+        if (!erTimelineHost) return;
+        var timeRange = erPredTimeRange && erPredTimeRange.checked;
+        var rangeAuto = erRangeAuto && erRangeAuto.checked;
+        var rangeManual = erRangeManual && erRangeManual.checked;
+
+        var labels = getTimelineRangeLabels(); // { left, right } (e.g. 4 month / 2 month)
+        var pttOk = erPttState.defined;
+        var leadValNum = parseInt(erPttLeadVal && erPttLeadVal.value, 10);
+        if (isNaN(leadValNum)) leadValNum = 0;
+        var leadUnit = (erPttLeadUnit && erPttLeadUnit.value) || "days";
+        var hasLead = leadValNum > 0;
+
+        var toV = parseInt(erToVal && erToVal.value, 10);
+        if (isNaN(toV)) toV = 0;
+        var toZero = rangeManual && toV === 0;
+
+        // Figma-ish geometry (viewBox is fixed, SVG scales to container).
+        var W = 552;
+        var H = 102;
+        var x0 = 0;
+        var x1 = 509; // baseline length per Figma
+        var y = 25;
+        var r = 6;
+
+        // Anchor points: illustrative (not data-accurate), matches Figma proportions.
+        var xFrom = x0 + Math.round((x1 - x0) * 0.235); // ~120
+        var xTo = x0 + Math.round((x1 - x0) * 0.585); // ~297
+        var xPet = x0 + Math.round((x1 - x0) * 0.785); // ~400
+        if (toZero) xTo = xPet;
+
+        // Colors from the Figma sample.
+        var C_BASE = "#CDD5DF";
+        var C_BLUE = "#84ADFF";
+        var C_BLUE_DOT = "#2970FF";
+        var C_ORANGE = "#F7B27A";
+        var C_TEXT = "#364152";
+        var C_MUTED = "#4B5565";
+        var C_PLACE = "#9AA4B2";
+        var C_PET_DOT = "#6B7280";
+
+        function line(xa, xb, stroke) {
+          return (
+            '<line x1="' +
+            xa +
+            '" y1="' +
+            y +
+            '" x2="' +
+            xb +
+            '" y2="' +
+            y +
+            '" stroke="' +
+            stroke +
+            '" stroke-width="6" stroke-linecap="round" />'
+          );
+        }
+        function dotFilled(cx, fill, rr) {
+          rr = rr || r;
+          return '<circle cx="' + cx + '" cy="' + y + '" r="' + rr + '" fill="' + fill + '" />';
+        }
+        function dotRing(cx, stroke) {
+          return (
+            '<circle cx="' +
+            cx +
+            '" cy="' +
+            y +
+            '" r="' +
+            r +
+            '" fill="#fff" stroke="' +
+            stroke +
+            '" stroke-width="2" />'
+          );
+        }
+        function tickDown(cx) {
+          return (
+            '<line x1="' +
+            (cx + 5) +
+            '" y1="' +
+            (y + 3) +
+            '" x2="' +
+            (cx + 5) +
+            '" y2="' +
+            (y + 35) +
+            '" stroke="' +
+            C_PET_DOT +
+            '" stroke-width="2" stroke-linecap="round" />'
+          );
+        }
+        function txt(x, yy, t, size, weight, fill, anchor) {
+          return (
+            '<text x="' +
+            x +
+            '" y="' +
+            yy +
+            '" font-size="' +
+            size +
+            '" font-weight="' +
+            (weight || 400) +
+            '" fill="' +
+            fill +
+            '"' +
+            (anchor ? ' text-anchor="' + anchor + '"' : "") +
+            ' font-family="Inter, system-ui, -apple-system, sans-serif">' +
+            escSvg(t) +
+            "</text>"
+          );
+        }
+
+        var histName = erModalConn ? getTableTitle(erModalConn.to) : "credit_units";
+        var histLabel =
+          "Historical data of " + (histName ? histName : "credit_units");
+
+        var petValue;
+        if (!pttOk) {
+          petValue = "Undefined";
+        } else {
+          // Figma uses: date - 3 days in credit_card_data
+          var tbl = erModalConn ? getTableTitle(erModalConn.to) : "";
+          petValue =
+            erPttState.column +
+            " - " +
+            erPttState.leadVal +
+            " " +
+            erPttState.leadUnit +
+            " in " +
+            tbl;
+        }
+
+        var svg = [];
+        svg.push(
+          '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' +
+            W +
+            " " +
+            H +
+            '" width="100%" height="102" aria-hidden="true">'
+        );
+
+        // Baseline.
+        svg.push(line(x0, x1, C_BASE));
+
+        // Decide what to draw for the blue/orange overlays.
+        if (timeRange && rangeAuto) {
+          // Auto range.
+          svg.push(line(x0 + 5, xPet, C_BLUE));
+          svg.push(dotRing(x0, C_BLUE_DOT));
+          svg.push(txt((x0 + x1) / 2, 12, "All range", 12, 600, C_MUTED, "middle"));
+        } else if (timeRange && rangeManual) {
+          // Manual ranges.
+          svg.push(line(xFrom, xTo, C_BLUE));
+          svg.push(dotRing(xFrom, C_BLUE_DOT));
+          if (!toZero) svg.push(dotRing(xTo, C_BLUE_DOT));
+          svg.push(txt(xFrom - 20, 12, labels.left, 12, 600, C_MUTED));
+          svg.push(txt(xTo - 20, 12, toZero ? "0 " + (erToUnit ? erToUnit.value : "month") : labels.right, 12, 600, C_MUTED));
+
+          // Lead time highlight (orange) when lead time exists.
+          if (hasLead && !toZero) {
+            svg.push(line(xTo, xPet, C_ORANGE));
+          }
+        } else {
+          // Time match or nothing selected: show baseline only.
+          svg.push(txt((x0 + x1) / 2, 12, "All range", 12, 600, C_MUTED, "middle"));
+        }
+
+        // Historical label (left).
+        svg.push(txt(x0, 52, histLabel, 12, 400, C_TEXT));
+
+        // PET marker (dot + tick + labels).
+        svg.push(dotFilled(xPet, "#fff", r));
+        svg.push('<circle cx="' + xPet + '" cy="' + y + '" r="' + r + '" fill="#fff" stroke="' + C_PET_DOT + '" stroke-width="3" />');
+        svg.push(tickDown(xPet));
+        svg.push(txt(xPet - 88, 74, "Prediction execution time", 12, 600, C_TEXT));
+        svg.push(txt(xPet - 88, 92, petValue, 12, pttOk ? 600 : 400, pttOk ? C_MUTED : C_PLACE));
+
+        // Lead time annotation (Range 3 variants).
+        if (timeRange && rangeManual && hasLead) {
+          var unitDisp = leadUnit;
+          if (leadValNum === 1 && unitDisp.endsWith("s")) unitDisp = unitDisp.slice(0, -1);
+          svg.push(txt(xPet - 90, 38, leadValNum + " " + unitDisp + " lead time", 10, 400, C_MUTED));
+        }
+
+        // Right axis label.
+        svg.push(txt(518, 32, "Time", 14, 500, C_TEXT));
+
+        svg.push("</svg>");
+        erTimelineHost.innerHTML = svg.join("");
+        // In the Figma variants the footnote is always visible under the graph.
+        erTimelineFootnote.style.display = "block";
+      }
+
+      function applyPtt() {
+        if (!erModalConn) return;
+        var col = erPttColSelect.value;
+        var lead = erPttLeadVal.value;
+        var unit = erPttLeadUnit.value;
+        var tbl = getTableTitle(erModalConn.to);
+        erPttState.defined = true;
+        erPttState.column = col;
+        erPttState.leadVal = lead;
+        erPttState.leadUnit = unit;
+        erPttState.summaryLine = col + " · " + lead + " " + unit + " in " + tbl;
+        erPttSummaryText.textContent = erPttState.summaryLine;
+        editModalSave.disabled = false;
+        setPttPanelOpen(false);
+        updateTimeline();
+        if (isActivityLogsToSubStatus(erModalConn)) {
+          pttDefinedForActivitySub = true;
+          dismissQrValidationBanner(true);
+          clearModalPttValidationHints();
+          flashQuickRunReady();
+        }
+      }
+
+      function openEditModal(conn, opts) {
+        opts = opts || {};
+        clearModalPttValidationHints();
+        erModalConn = conn;
+        resetErModalForm(conn);
+        populateJoinRows(conn);
+        editModal.classList.add("is-visible");
+        editModal.setAttribute("aria-hidden", "false");
+        updateTimeline();
+        if (opts.scrollToPtt) {
+          setTimeout(function () {
+            if (erPttSection) {
+              erPttSection.scrollIntoView({ behavior: "smooth", block: "center" });
+            }
+            erPttTriggerWrap.classList.add("required-highlight");
+            erPttRequiredMsg.removeAttribute("hidden");
+            erPttRequiredMsg.style.display = "block";
+          }, 150);
+        }
+      }
+
+      erPredTimeMatch.addEventListener("change", syncPredModeBlocks);
+      erPredTimeRange.addEventListener("change", syncPredModeBlocks);
+      erRangeAuto.addEventListener("change", syncRangeModeBlocks);
+      erRangeManual.addEventListener("change", syncRangeModeBlocks);
+
+      [erFromVal, erToVal].forEach(function (el) {
+        if (el) el.addEventListener("input", updateTimeline);
+      });
+      [erFromUnit, erToUnit].forEach(function (el) {
+        if (el) el.addEventListener("change", updateTimeline);
+      });
+
+      erJoinRows.addEventListener("click", function (e) {
+        var rm = e.target.closest && e.target.closest(".er-row-remove-btn");
+        if (!rm || rm.disabled) return;
+        e.preventDefault();
+        var row = rm.closest(".er-join-row");
+        if (row) {
+          row.remove();
+          refreshJoinRemoveButtons();
+        }
+      });
+
+      erJoinAdd.addEventListener("click", function () {
+        if (!erModalConn) return;
+        var leftCols = getColumnsForTable(erModalConn.from);
+        var rightCols = getColumnsForTable(erModalConn.to);
+        var pair = {
+          fromCol: leftCols[0] || "",
+          toCol: rightCols[0] || "",
+        };
+        var total = erJoinRows.querySelectorAll(".er-join-row").length + 1;
+        var idx = total - 1;
+        erJoinRows.insertAdjacentHTML(
+          "beforeend",
+          buildErJoinRowHtml(leftCols, rightCols, pair, idx, total)
+        );
+        refreshJoinRemoveButtons();
+      });
+
+      erPttEditBtn.addEventListener("click", function () {
+        var open = !erPttPanel.classList.contains("is-open");
+        setPttPanelOpen(open);
+      });
+      erPttPanelClose.addEventListener("click", function () {
+        setPttPanelOpen(false);
+      });
+      erPttReset.addEventListener("click", function () {
+        erPttLeadVal.value = "3";
+        erPttLeadUnit.value = "days";
+        if (erPttColSelect.options.length) erPttColSelect.selectedIndex = 0;
+      });
+      erPttApply.addEventListener("click", applyPtt);
+      erPttViewTable.addEventListener("click", function (e) {
+        e.preventDefault();
+      });
+
+      document.querySelectorAll(".er-guidance-acc").forEach(function (btn) {
+        btn.addEventListener("mousedown", function (e) {
+          e.stopPropagation();
+        });
+        btn.addEventListener("click", function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          var id = "er-panel-" + btn.getAttribute("data-er-disclosure");
+          var panel = document.getElementById(id);
+          var open = btn.getAttribute("aria-expanded") === "true";
+          var next = !open;
+          btn.setAttribute("aria-expanded", next ? "true" : "false");
+          if (panel) panel.classList.toggle("is-open", next);
+        });
+      });
+
+      function clearConnections() {
+        hideConnTooltip();
+        hideClickPopover();
+        closeEditModal();
+        clearJoinHighlights();
+        connSvg.innerHTML = "";
+        linesDrawn = false;
+        pttDefinedForActivitySub = false;
+        qrValidationLineAttention = false;
+        qrValidationBannerOuter.classList.remove("is-visible", "is-hiding");
+        qrValidationBannerOuter.setAttribute("hidden", "");
+        qrValidationBannerOuter.setAttribute("aria-hidden", "true");
+      }
+
+      function drawAndAnimateConnections() {
+        clearConnections();
+        setSvgSize();
+        var A = getAnchorPoints();
+
+        connections.forEach(function (conn) {
+          var p0 = A[conn.from].out;
+          var p1 = A[conn.to].in;
+          var d = buildOrthogonalPath(p0.x, p0.y, p1.x, p1.y);
+
+          var g = document.createElementNS(NS, "g");
+          g.setAttribute("class", "conn-group");
+
+          var pathVisible = document.createElementNS(NS, "path");
+          pathVisible.setAttribute("d", d);
+          pathVisible.setAttribute("class", "conn-line-visible");
+
+          var c0 = document.createElementNS(NS, "circle");
+          c0.setAttribute("class", "conn-dot");
+          c0.setAttribute("r", "4");
+          c0.setAttribute("cx", p0.x);
+          c0.setAttribute("cy", p0.y);
+
+          var c1 = document.createElementNS(NS, "circle");
+          c1.setAttribute("class", "conn-dot");
+          c1.setAttribute("r", "4");
+          c1.setAttribute("cx", p1.x);
+          c1.setAttribute("cy", p1.y);
+
+          var pathHit = document.createElementNS(NS, "path");
+          pathHit.setAttribute("d", d);
+          pathHit.setAttribute("class", "conn-hit");
+
+          g.appendChild(pathVisible);
+          g.appendChild(c0);
+          g.appendChild(c1);
+          g.appendChild(pathHit);
+          connSvg.appendChild(g);
+
+          if (conn.from === "activity_logs" && conn.to === "sub_status") {
+            g.setAttribute("data-conn-key", "activity_logs::sub_status");
+          }
+
+          var len = pathVisible.getTotalLength();
+          pathVisible.style.strokeDasharray = String(len);
+          pathVisible.style.strokeDashoffset = String(len);
+
+          requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+              pathVisible.style.transition =
+                "stroke-dashoffset 400ms ease-in, stroke 300ms ease, stroke-width 200ms ease";
+              pathVisible.style.strokeDashoffset = "0";
+            });
+          });
+
+          setTimeout(function () {
+            c0.classList.add("visible");
+            c1.classList.add("visible");
+          }, 400);
+
+          setTimeout(function () {
+            pathVisible.style.strokeDasharray = "";
+            pathVisible.style.strokeDashoffset = "";
+            pathVisible.style.transition =
+              "stroke 300ms ease, stroke-width 200ms ease";
+          }, 405);
+
+          setTimeout(function () {
+            g.classList.add("conn-settled");
+          }, 600);
+
+          function onEnter() {
+            g.classList.add("is-hover");
+            highlightJoinForConn(conn);
+            showConnTooltip(conn, pathVisible);
+          }
+
+          function onLeave() {
+            g.classList.remove("is-hover");
+            clearJoinHighlights();
+            hideConnTooltip();
+          }
+
+          pathHit.addEventListener("mouseenter", onEnter);
+          pathHit.addEventListener("mouseleave", onLeave);
+
+          pathHit.addEventListener("click", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            showClickPopover(conn, pathVisible);
+          });
+        });
+
+        linesDrawn = true;
+        if (qrValidationLineAttention && !pttDefinedForActivitySub) {
+          var gSub = findActivitySubConnGroup();
+          if (gSub) gSub.classList.add("conn-needs-ptt");
+        }
+      }
+
+      function onDocumentMouseDown(e) {
+        if (!connClickPopover.classList.contains("is-visible")) return;
+        if (connClickPopover.contains(e.target)) return;
+        var hit = e.target.closest && e.target.closest(".conn-hit");
+        if (hit) return;
+        hideClickPopover();
+      }
+
+      document.addEventListener("mousedown", onDocumentMouseDown);
+
+      qrDefineNowLink.addEventListener("click", function (e) {
+        e.preventDefault();
+        var c = getActivitySubConn();
+        if (c) openEditModal(c, { scrollToPtt: true });
+      });
+      qrValidationBannerDismiss.addEventListener("click", function () {
+        dismissQrValidationBanner(false);
+      });
+      btnQuickRun.addEventListener("click", function () {
+        if (!linesDrawn) {
+          showConnectFirstToast();
+          return;
+        }
+        if (!pttDefinedForActivitySub) {
+          startQuickRunPttValidation();
+          return;
+        }
+        showRunningModelToast();
+      });
+
+      connPopEdit.addEventListener("click", function (e) {
+        e.stopPropagation();
+        var connForModal = activeClickConn;
+        hideClickPopover();
+        if (connForModal) openEditModal(connForModal);
+      });
+
+      connPopDelete.addEventListener("click", function (e) {
+        e.stopPropagation();
+        hideClickPopover();
+      });
+
+      editModalClose.addEventListener("click", closeEditModal);
+      editModalCancel.addEventListener("click", closeEditModal);
+      editModalSave.addEventListener("click", function () {
+        if (editModalSave.disabled) return;
+        closeEditModal();
+      });
+
+      editModal.addEventListener("mousedown", function (e) {
+        if (e.target === editModal) closeEditModal();
+      });
+
+      function hideMainToast(cb) {
+        mainToast.classList.add("hiding");
+        setTimeout(function () {
+          mainToast.style.display = "none";
+          mainToast.classList.remove("hiding");
+          if (cb) cb();
+        }, 300);
+      }
+
+      function showMainToast() {
+        mainToast.style.display = "block";
+        mainToast.style.opacity = "1";
+        mainToast.classList.remove("hiding");
+      }
+
+      function showSuccessToast() {
+        var existing = document.getElementById("successToast");
+        if (existing) existing.remove();
+        if (successToastTimer) {
+          clearTimeout(successToastTimer);
+          successToastTimer = null;
+        }
+
+        var t = document.createElement("div");
+        t.id = "successToast";
+        t.className = "toast-success-mini";
+        t.innerHTML =
+          '<button type="button" class="toast-close" aria-label="Close">×</button>' +
+          "✓ 3 connections have been added.";
+        var close = t.querySelector(".toast-close");
+        close.addEventListener("click", function () {
+          t.classList.add("hiding");
+          setTimeout(function () {
+            t.remove();
+          }, 300);
+          if (successToastTimer) clearTimeout(successToastTimer);
+        });
+        toastLayer.appendChild(t);
+
+        successToastTimer = setTimeout(function () {
+          if (t.parentNode) {
+            t.classList.add("hiding");
+            setTimeout(function () {
+              if (t.parentNode) t.remove();
+            }, 300);
+          }
+          successToastTimer = null;
+        }, 3000);
+      }
+
+      function onAutoConnect() {
+        hideMainToast(function () {
+          setTimeout(function () {
+            setSvgSize();
+            drawAndAnimateConnections();
+            setTimeout(function () {
+              showSuccessToast();
+            }, 800);
+          }, 400);
+        });
+      }
+
+      function onManualOrClose() {
+        hideMainToast();
+      }
+
+      btnAutoConnect.addEventListener("click", onAutoConnect);
+      btnManualEdit.addEventListener("click", onManualOrClose);
+      mainToastClose.addEventListener("click", onManualOrClose);
+
+      btnReset.addEventListener("click", function () {
+        clearConnections();
+        if (successToastTimer) {
+          clearTimeout(successToastTimer);
+          successToastTimer = null;
+        }
+        var st = document.getElementById("successToast");
+        if (st) st.remove();
+        showMainToast();
+        setSvgSize();
+      });
+
+      window.addEventListener("resize", function () {
+        setQrNavOffset();
+        if (linesDrawn) {
+          drawAndAnimateConnections();
+        } else {
+          setSvgSize();
+        }
+      });
+
+      setQrNavOffset();
+      setSvgSize();
+    })();
+  </script>
+</body>
+</html>
