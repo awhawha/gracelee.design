@@ -8,7 +8,7 @@ type CaseStudyCardProps = {
   tags: string[]
   href: string
   surface?: boolean
-  /** First card on home: flush under hero (64px gap from hero), 48px bottom before bg transition */
+  /** First card on home: same top padding as surface cards (pt-12); 48px bottom before bg transition */
   isFirst?: boolean
   /** When set, shows hero image instead of the placeholder block */
   imageSrc?: string
@@ -27,7 +27,7 @@ export function CaseStudyCard({
   imageAlt = '',
 }: CaseStudyCardProps) {
   const articlePadding = isFirst
-    ? 'px-6 pt-0 pb-12'
+    ? 'px-6 pt-12 pb-12'
     : surface
       ? 'px-6 pt-12 pb-section'
       : 'px-6 py-section'
@@ -37,8 +37,8 @@ export function CaseStudyCard({
       href={href}
       className={`group block outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-4 ${
         surface
-          ? 'bg-[var(--color-surface)] focus-visible:ring-offset-[var(--color-surface)]'
-          : 'bg-[var(--color-bg)] focus-visible:ring-offset-[var(--color-bg)]'
+          ? 'bg-[var(--color-bg)] focus-visible:ring-offset-[var(--color-bg)]'
+          : 'bg-[var(--color-surface)] focus-visible:ring-offset-[var(--color-surface)]'
       }`}
     >
       <article className={`mx-auto max-w-wide ${articlePadding}`}>

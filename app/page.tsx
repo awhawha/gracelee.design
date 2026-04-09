@@ -3,18 +3,20 @@ import { CaseStudyCard } from '@/components/CaseStudyCard'
 export default function HomePage() {
   return (
     <>
-      <section className="border-b border-[var(--color-border)] bg-[var(--color-bg)] px-6 pb-16 pt-20">
-        <div className="mx-auto max-w-content">
-          <p className="font-mono text-xs uppercase tracking-[0.12em] text-[var(--color-muted)]">
-            Senior product designer
-          </p>
-          <h1 className="mt-6 font-display text-4xl leading-[1.15] tracking-tight text-[var(--color-text)] md:text-5xl md:leading-[1.1]">
-            I design AI systems that people can actually use.
-          </h1>
-          <p className="mt-8 max-w-[420px] font-sans text-lg leading-relaxed text-[var(--color-muted)] text-balance">
-            9 years designing enterprise workflows for data and AI platforms.
-            Engineering background. Based in the Bay Area.
-          </p>
+      <section className="border-b border-[var(--color-border)] bg-[var(--color-bg)] pb-16 pt-20">
+        <div className="mx-auto max-w-wide px-6">
+          <div className="max-w-content">
+            <p className="font-mono text-xs uppercase tracking-[0.12em] text-[var(--color-muted)]">
+              Senior product designer
+            </p>
+            <h1 className="mt-6 font-display text-4xl leading-[1.15] tracking-tight text-[var(--color-text)] md:text-5xl md:leading-[1.1]">
+              I design AI systems that people can actually use.
+            </h1>
+            <p className="mt-8 max-w-[680px] font-sans text-lg leading-relaxed text-[var(--color-muted)] text-balance">
+              9 years designing enterprise workflows for data and AI platforms.
+              Engineering background. Based in the Bay Area.
+            </p>
+          </div>
         </div>
       </section>
 

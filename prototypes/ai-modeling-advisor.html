@@ -150,26 +150,6 @@
   .run-btn.done { background: var(--success); pointer-events: none; }
   .run-note { font-size: 12px; color: var(--text-3); }
 
-  /* SIDEBAR DQ ENTRY */
-  .dq-entry { display: none; margin-top: 4px; background: #fffbf3; border: 1px solid rgba(193,127,36,0.22); border-left: none; border-radius: 0 8px 8px 0; padding: 9px 11px 9px 20px; cursor: pointer; transition: background 150ms, border-color 150ms; }
-  .dq-entry:hover { background: var(--accent-light); border-color: rgba(193,127,36,0.45); }
-  .dq-entry-top { display: flex; align-items: center; justify-content: space-between; }
-  .dq-entry-label { font-size: 11px; font-weight: 600; color: var(--accent); display: flex; align-items: center; gap: 5px; }
-  .dq-entry-status { font-size: 10.5px; color: var(--text-3); margin-top: 2px; }
-  .dq-entry-chevron { color: var(--accent); font-size: 11px; }
-
-  /* DQ MODAL */
-  .dq-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.18); backdrop-filter: blur(2px); z-index: 100; align-items: center; justify-content: center; }
-  .dq-overlay.open { display: flex; }
-  .dq-modal { background: #fff; border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.12); width: 420px; padding: 24px; position: relative; animation: modalIn 200ms ease; }
-  @keyframes modalIn { from { opacity: 0; transform: translateY(8px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
-  .dq-modal-close { position: absolute; top: 14px; right: 14px; width: 24px; height: 24px; border: none; background: rgba(0,0,0,0.06); border-radius: 50%; cursor: pointer; font-size: 13px; color: var(--text-2); display: flex; align-items: center; justify-content: center; transition: background 150ms; }
-  .dq-modal-close:hover { background: rgba(0,0,0,0.12); }
-  .dq-modal-title { font-family: 'Lora', serif; font-size: 17px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
-  .dq-modal-sub { font-size: 12.5px; color: var(--text-2); margin-bottom: 16px; }
-  .dq-modal-apply { width: 100%; padding: 10px; background: var(--accent); color: #fff; border: none; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; margin-top: 16px; transition: background 150ms, transform 100ms; }
-  .dq-modal-apply:hover { background: var(--accent-hover); }
-
   /* ISSUE CARDS */
   .issue-card { border-radius: 10px; margin-top: 10px; overflow: hidden; transition: border-color 300ms, background 300ms; }
   .issue-card.active { background: #fffbf3; border: 1px solid rgba(193,127,36,0.25); }
@@ -263,38 +243,9 @@
     <div id="fileSection" style="display:none;">
       <div class="sidebar-label" style="margin-bottom:10px;">Uploaded Files</div>
       <div class="file-list" id="fileList"></div>
-      <div class="dq-entry" id="dqEntry" onclick="openDQModal()">
-        <div class="dq-entry-top">
-          <div class="dq-entry-label">
-            <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M6 1L11.5 11H0.5L6 1Z" stroke="#c17f24" stroke-width="1.4" stroke-linejoin="round"/><line x1="6" y1="4.5" x2="6" y2="7" stroke="#c17f24" stroke-width="1.4" stroke-linecap="round"/><circle cx="6" cy="9" r="0.7" fill="#c17f24"/></svg>
-            Data quality
-          </div>
-          <span class="dq-entry-chevron">›</span>
-        </div>
-        <div class="dq-entry-status" id="dqStatusText">2 issues · rolling average</div>
-      </div>
     </div>
     <div class="sidebar-footer"><a class="restart-link" onclick="location.reload()">↺ Start over</a></div>
   </aside>
-
-  <div class="dq-overlay" id="dqOverlay" onclick="closeDQModal(event)">
-    <div class="dq-modal">
-      <button class="dq-modal-close" onclick="closeDQModalDirect()">✕</button>
-      <div class="dq-modal-title">Data Quality Settings</div>
-      <div class="dq-modal-sub">Adjust how missing values in <span class="mono">weekly_attributes.csv</span> are handled.</div>
-      <div style="margin-bottom:10px;">
-        <div class="warning-row" style="padding:6px 0;"><div class="warning-col"><span class="mono">CPI</span></div><div style="display:flex;gap:8px;align-items:center;"><span style="font-size:12px;color:var(--text-2);">585 missing values</span><span class="warning-pct">7.1%</span></div></div>
-        <div class="warning-row" style="padding:6px 0;"><div class="warning-col"><span class="mono">Unemployment</span></div><div style="display:flex;gap:8px;align-items:center;"><span style="font-size:12px;color:var(--text-2);">585 missing values</span><span class="warning-pct">7.1%</span></div></div>
-      </div>
-      <div style="font-size:12px;color:var(--text-2);margin-bottom:8px;font-weight:500;">How should I handle this?</div>
-      <div class="fix-options" id="modalFixOptions">
-        <div class="fix-option selected" onclick="selectModalFix(this,'rolling')" id="mfix-rolling"><div class="fix-radio"></div><div><div class="fix-option-title">Auto-fill with rolling average</div><div class="fix-option-desc">Fill gaps using the 4-week rolling average per store. Recommended.</div></div></div>
-        <div class="fix-option" onclick="selectModalFix(this,'exclude')" id="mfix-exclude"><div class="fix-radio"></div><div><div class="fix-option-title">Exclude these columns</div><div class="fix-option-desc">Remove CPI and Unemployment from features entirely.</div></div></div>
-        <div class="fix-option" onclick="selectModalFix(this,'drop')" id="mfix-drop"><div class="fix-radio"></div><div><div class="fix-option-title">Drop affected rows</div><div class="fix-option-desc">Remove the 585 rows — reduces training data by 7.1%.</div></div></div>
-      </div>
-      <button class="dq-modal-apply" onclick="applyModalFix()">Apply change</button>
-    </div>
-  </div>
 
   <main class="main">
     <div class="chat-scroll" id="chatScroll">
@@ -351,7 +302,6 @@ function loadSampleData() {
   });
   document.getElementById('inputBar').style.display = 'flex';
   document.getElementById('sendBtn').disabled = true;
-  setTimeout(() => { const e = document.getElementById('dqEntry'); if (e) e.style.display = 'block'; }, FILES.length * 200 + 400);
   setTimeout(() => showTyping(() => showLargeFilePrompt()), 600);
 }
 
@@ -789,19 +739,6 @@ function buildChart() {
 
 function setHorizon(val, btn) { horizon = val; btn.closest('.seg-control').querySelectorAll('.seg-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); const el = document.getElementById('sumHorizon'); if (el) el.textContent = val; }
 function setGranularity(val, btn) { granularity = val; btn.closest('.seg-control').querySelectorAll('.seg-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); const el = document.getElementById('sumGran'); if (el) el.textContent = val; const s = document.getElementById('sumSeries'); if (s) s.textContent = val === 'Per department' ? '3,555' : '45'; }
-
-let modalFix = 'rolling';
-const fixLabels = { rolling: 'rolling average', exclude: 'columns excluded', drop: 'rows dropped' };
-function openDQModal() { document.querySelectorAll('#modalFixOptions .fix-option').forEach(o => o.classList.remove('selected')); const c = document.getElementById('mfix-' + selectedFix); if (c) c.classList.add('selected'); modalFix = selectedFix; document.getElementById('dqOverlay').classList.add('open'); }
-function closeDQModal(e) { if (e.target === document.getElementById('dqOverlay')) closeDQModalDirect(); }
-function closeDQModalDirect() { document.getElementById('dqOverlay').classList.remove('open'); }
-function selectModalFix(el, val) { modalFix = val; document.querySelectorAll('#modalFixOptions .fix-option').forEach(o => o.classList.remove('selected')); el.classList.add('selected'); }
-function applyModalFix() {
-  const changed = modalFix !== selectedFix; selectedFix = modalFix;
-  const statusEl = document.getElementById('dqStatusText'); if (statusEl) statusEl.textContent = `2 issues · ${fixLabels[selectedFix]}`;
-  closeDQModalDirect();
-  if (changed) { const msgs = { rolling: 'Updated. I\'ll fill gaps in <span class="mono">CPI</span> and <span class="mono">Unemployment</span> using a 4-week rolling average per store.', exclude: 'Updated. <span class="mono">CPI</span> and <span class="mono">Unemployment</span> will be excluded from the feature set.', drop: 'Updated. The 585 rows with missing values will be dropped before training.' }; setTimeout(() => showTyping(() => addAIBubble(`<div style="color:var(--text-2);">${msgs[selectedFix]}</div>`), 500), 200); }
-}
 
 function selectRunMode(el, val) { runMode = val; document.querySelectorAll('#runModeSelector .run-mode-option').forEach(o => o.classList.remove('selected')); el.classList.add('selected'); const n = document.getElementById('runNote'); if (n) n.textContent = val === 'quick' ? 'Results from quick run available in ~2 min.' : 'Full run queued — results available in ~18 min.'; }
 function runModel() { const btn = document.getElementById('runBtn'); btn.textContent = runMode === 'quick' ? '✓ Quick run queued' : '✓ Full run queued'; btn.classList.add('done'); }

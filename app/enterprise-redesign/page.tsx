@@ -62,7 +62,7 @@ export default function EnterpriseRedesignPage() {
       <header className="border-b border-[var(--color-border)] px-6 pb-24 pt-8">
         <div className="mx-auto max-w-content">
           <h1 className="font-display text-4xl leading-tight tracking-tight text-[var(--color-text)] md:text-5xl">
-            Enterprise AutoML Workflow Redesign 1
+            Enterprise AutoML Workflow Redesign
           </h1>
           <p className="mt-6 max-w-[680px] font-sans text-lg leading-[1.75] text-[var(--color-muted)]">
             The configuration workflow for dotData&apos;s AutoML platform was
@@ -107,22 +107,31 @@ export default function EnterpriseRedesignPage() {
           <SectionHeading>The Problem</SectionHeading>
           <div className="mt-8 max-w-[680px] space-y-6 font-sans leading-[1.75] text-[var(--color-text)]">
             <p>
-              Building a prediction model in dotData means configuring several
-              parameters that control how training data gets generated — things
-              like the time column, prediction target time, lead time, and
-              feature window. These aren&apos;t just form fields. They&apos;re
-              tightly coupled, and getting one wrong silently breaks the others.
+              The primary users were <strong>business analysts</strong> — people who understood
+              their domain well but had limited hands-on experience with machine
+              learning. Most of them were introduced to dotData by their
+              organization, not by choice. Before the platform, many had relied
+              on Excel or leaned on their data science team to run analyses.
             </p>
             <p>
-              The original workflow was a five-step wizard. Each step felt
-              manageable on its own, but the system never surfaced how the steps
-              connected. Users would configure the target in step one, then hit
-              an error in step four — with no explanation of why, or what to
-              change.
+              That dependency didn&apos;t go away when dotData arrived. During
+              configuration, analysts would typically work through settings in
+              regular check-ins with a dotData data scientist — and in many
+              cases, <strong>the DS would end up configuring the model on their behalf</strong>.
+              The tool existed to give business users independence, but in
+              practice, it still required expert support to operate.
             </p>
             <p>
-              The real issue wasn&apos;t the interface. It was that the system
-              never showed users the consequences of their decisions.
+              <strong>The cost of a misconfiguration was hours.</strong> Model training could
+              take one to two hours depending on data size. If a user set the
+              wrong data type, they&apos;d have to re-upload the dataset and
+              start over from scratch. If the model ran but accuracy came back
+              low, they often had no idea why. Most of dotData&apos;s customers
+              didn&apos;t have an internal data science team — that&apos;s
+              exactly why they were using the platform. But every time something
+              went wrong, they were filing it into our DS team&apos;s calendar.
+              <strong>We were absorbing the cost of a UX problem as customer support
+              hours.</strong>
             </p>
           </div>
           <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3">
@@ -131,8 +140,10 @@ export default function EnterpriseRedesignPage() {
                 Expert Trap
               </p>
               <p className="mt-2 font-sans leading-[1.75] text-[var(--color-text)]">
-                The terminology assumed data science knowledge. Business analysts
-                had no frame of reference.
+                The interface was graphical, but the concepts were still framed
+                in data science terminology. A business analyst had no way to
+                know what &ldquo;prediction target time&rdquo; meant or why
+                getting it wrong would break everything downstream.
               </p>
             </div>
             <div>
@@ -140,8 +151,9 @@ export default function EnterpriseRedesignPage() {
                 Invisible Ripple Effects
               </p>
               <p className="mt-2 font-sans leading-[1.75] text-[var(--color-text)]">
-                A parameter change in one step silently altered the dataset in
-                another. Users only found out at the end.
+                Configuration changes silently altered the dataset used for
+                modeling. The only signal was a low accuracy score at the
+                end — with no explanation attached.
               </p>
             </div>
             <div>
@@ -149,8 +161,9 @@ export default function EnterpriseRedesignPage() {
                 Rigid Workflow
               </p>
               <p className="mt-2 font-sans leading-[1.75] text-[var(--color-text)]">
-                The linear wizard forced users through a fixed sequence, making
-                trial and error expensive.
+                The step-based wizard forced users into a linear sequence. If
+                something went wrong, there was no way to adjust a single
+                parameter — users had to restart from the beginning.
               </p>
             </div>
           </div>
@@ -160,23 +173,37 @@ export default function EnterpriseRedesignPage() {
           <SectionHeading>Understanding the System</SectionHeading>
           <div className="mt-8 max-w-[680px] space-y-6 font-sans leading-[1.75] text-[var(--color-text)]">
             <p>
-              Before I touched the UI, I spent time with engineers and data
-              scientists mapping how the modeling pipeline actually worked. Four
-              parameters turned out to be tightly coupled in ways the interface
-              never communicated:
+              Going into this project, I assumed the problem was mostly
+              terminology. The interface used data science language, and business
+              analysts weren&apos;t data scientists — so the fix should be a
+              language problem, right?
+            </p>
+            <p>
+              An engineer pushed back on that early. He told me to take a real
+              dataset and try to configure a task myself. See if I could get it
+              right without help.
+            </p>
+            <p>
+              I couldn&apos;t.
+            </p>
+            <p>
+              That changed how I thought about the problem. I started reading
+              documentation, asking engineers to walk me through the pipeline
+              logic, and using ChatGPT to translate technical concepts into plain
+              language with concrete examples. Slowly I built up a mental model
+              of what the system was actually doing. And that&apos;s when I
+              realized <strong>the terminology wasn&apos;t the real issue. The issue was
+              that the interface gave users no way to understand the consequences
+              of their decisions</strong> before it was too late to fix them.
             </p>
             <p className="font-mono text-sm text-[var(--color-text)]">
               Time column → Prediction Target Time → Lead Time → Feature Window
             </p>
             <p>
-              Each one determines how the system slices data for training.
-              Without understanding these dependencies, it would&apos;ve been
-              impossible to design something that helped users make correct
-              decisions.
-            </p>
-            <p>
-              This is when I realized the UX challenge wasn&apos;t complexity —
-              it was invisibility.
+              These four parameters are tightly coupled. Each one determines how
+              the system slices data for training. The interface never
+              communicated that — and without understanding it, designing
+              something helpful was impossible.
             </p>
           </div>
         </section>
@@ -185,15 +212,25 @@ export default function EnterpriseRedesignPage() {
           <SectionHeading>From Wizard to Workspace</SectionHeading>
           <div className="mt-8 max-w-[680px] space-y-6 font-sans leading-[1.75] text-[var(--color-text)]">
             <p>
-              The wizard locked users into a sequence that felt logical but
-              didn&apos;t match how modeling decisions actually work.
-              Configuration isn&apos;t linear — you need to see the whole
-              picture before any single step makes sense.
+              Our first instinct wasn&apos;t to scrap the wizard. We spent time
+              exploring how to make it better — clearer section labels, easier
+              navigation between steps, more explicit definitions for each
+              parameter. But the more we dug in, the more something felt off.
             </p>
             <p>
-              I proposed shifting to a canvas workspace where all parameters are
-              visible simultaneously, and the system surfaces consequences in
-              real time as users make changes.
+              At some point I realized: <strong>what users were actually doing, across
+              all these steps, was defining a single flat table.</strong> That table was
+              the training dataset. Every parameter — time column, prediction
+              target time, lead time, feature windows — was just determining
+              what that table would look like. The wizard was hiding that. It
+              was breaking one coherent decision into a sequence of isolated
+              steps, so users never had a mental model of what they were building
+              toward.
+            </p>
+            <p>
+              That&apos;s when the canvas idea came in. <strong>If the real task was
+              constructing a dataset, the interface should make that visible</strong> —
+              not walk users through it one field at a time.
             </p>
           </div>
           <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2">
@@ -247,22 +284,29 @@ export default function EnterpriseRedesignPage() {
             </h3>
             <div className="mt-4 space-y-6 font-sans leading-[1.75] text-[var(--color-text)]">
               <p>
-                One of the trickiest parameters to design around was Prediction
-                Target Time — the reference point the system uses to align
+                One of the trickiest parameters to design around was <strong>Prediction
+                Target Time</strong> — the reference point the system uses to align
                 historical data with training samples. It appears in multiple
                 steps, and users almost never understood why it kept showing up.
               </p>
               <p>
                 The fix: instead of asking users to navigate back to configure
-                it, we let them set it inline wherever it appeared. A small edit
+                it, <strong>we let them set it inline wherever it appeared.</strong> A small edit
                 icon opens a lightweight panel — the workflow never breaks.
               </p>
             </div>
           </div>
           <div className="mx-auto max-w-hero">
-            <CaseStudyImage
+            <img
               src="/images/Enterprise_Redesign2.avif"
-              alt="Prediction Target Time inline editing in the configuration workspace"
+              alt="Prediction Target Time inline configuration"
+              className="mb-12"
+              style={{
+                width: '100%',
+                height: 'auto',
+                display: 'block',
+                marginTop: '32px',
+              }}
             />
           </div>
 
@@ -273,15 +317,15 @@ export default function EnterpriseRedesignPage() {
             <div className="mt-4 space-y-6 font-sans leading-[1.75] text-[var(--color-text)]">
               <p>
                 Connecting tables was another drop-off point. Business analysts
-                aren&apos;t database engineers — manually selecting join keys for
-                each table connection caused a lot of errors.
+                aren&apos;t database engineers — <strong>manually selecting join keys for
+                each table connection caused a lot of errors.</strong>
               </p>
               <p>
-                We introduced auto-connect: when a user adds a table, the
+                We introduced <strong>auto-connect</strong>: when a user adds a table, the
                 system scans the schema and suggests a likely relationship
                 based on column matches. Users can override it, but the default
-                is usually right. That alone eliminated a whole category of
-                silent failures.
+                is usually right. That alone <strong>eliminated a whole category of
+                silent failures.</strong>
               </p>
             </div>
           </div>
@@ -290,6 +334,44 @@ export default function EnterpriseRedesignPage() {
               src="/images/Enterprise_Redesign3.mp4"
               label="Auto-connect table relationships in the schema workspace"
             />
+          </div>
+        </section>
+
+        <section>
+          <SectionHeading>Validation</SectionHeading>
+          <div className="mt-8 max-w-[680px] space-y-6 font-sans leading-[1.75] text-[var(--color-text)]">
+            <p>
+              We tested with three external participants — master&apos;s students
+              in business analytics — given a real dataset and a concrete problem
+              to solve: predict which servers were likely to fail in the next
+              seven days. A PM briefed them on the scenario beforehand. During
+              the sessions, I sat back and observed, tracking behavior rather
+              than what they said.
+            </p>
+            <p>
+              One thing stood out immediately. <strong>All three skipped every tooltip
+              and description text without reading it</strong> — not because they were
+              rushing, but because they were focused on getting through the task.
+              They weren&apos;t learning the system; they were trying to use it.
+              That confirmed that <strong>any solution relying on user education would
+              fail in practice.</strong>
+            </p>
+            <p>
+              One tester flagged something that directly shaped a later design
+              decision: she found herself going back and forth between the
+              description text and the configuration panel trying to understand
+              prediction target time, and suggested <strong>the concept should be
+              interactive rather than explained in static text.</strong> That observation
+              led directly to the timeline visualization.
+            </p>
+          </div>
+          <div className="mt-12 border-l-2 border-[var(--color-accent)] pl-6">
+            <p className="font-sans text-lg leading-[1.75] text-[var(--color-text)]">
+              &ldquo;The canvas flow is so much smoother than before.&rdquo;
+            </p>
+            <p className="mt-2 font-mono text-xs text-[var(--color-muted)]">
+              dotData DS team, post-launch
+            </p>
           </div>
         </section>
 
@@ -304,45 +386,67 @@ export default function EnterpriseRedesignPage() {
                 reduction in configuration time
               </p>
               <p className="mt-2 font-sans text-xs text-[var(--color-muted)]">
-                10 min → 5 min
+                10 min → 5 min, in benchmarks where users knew the task and hit
+                no errors
               </p>
             </div>
             <div>
-              <p className="font-display text-[48px] leading-none tracking-tight text-[var(--color-text)]">
-                0 data scientists
+              <p className="font-mono text-[32px] text-[var(--color-accent)]">
+                ↓
               </p>
               <p className="mt-3 font-sans text-sm leading-snug text-[var(--color-muted)]">
-                required for setup
+                dependency on the data science team for setup
               </p>
               <p className="mt-2 font-sans text-xs text-[var(--color-muted)]">
-                business analysts became self-sufficient
+                business analysts could complete configuration independently
               </p>
             </div>
             <div>
-              <p className="font-display text-[48px] leading-tight tracking-tight text-[var(--color-text)]">
-                Fewer silent failures
+              <p className="font-mono text-[32px] text-[var(--color-accent)]">
+                ↓
               </p>
               <p className="mt-3 font-sans text-sm leading-snug text-[var(--color-muted)]">
-                smart defaults and inline validation caught errors before
+                configuration errors from silent failures
+              </p>
+              <p className="mt-2 font-sans text-xs text-[var(--color-muted)]">
+                smart defaults and inline validation caught mistakes before
                 training ran
               </p>
             </div>
           </div>
+          <p className="mt-12 max-w-[680px] font-sans leading-[1.75] text-[var(--color-muted)]">
+            The bigger change was around iteration. Users could now adjust any
+            part of the configuration without starting over — something that
+            wasn&apos;t possible in the original workflow. The CS team flagged
+            this as one of the most noticeable improvements after launch.
+          </p>
         </section>
 
         <section>
           <SectionHeading>Reflection</SectionHeading>
-          <div className="mt-8 max-w-[680px] font-sans leading-[1.75] text-[var(--color-text)]">
+          <div className="mt-8 max-w-[680px] space-y-6 font-sans leading-[1.75] text-[var(--color-text)]">
             <p>
-              The moment that changed how I approached this project was when an
-              engineer asked me to configure a use case myself. I couldn&apos;t
-              do it. I&apos;d been designing the interface for weeks and still
-              couldn&apos;t complete the workflow without help.
+              When I first looked at this system, it felt like a black box.
+              Users put data in, waited an hour or two, and got a result they
+              couldn&apos;t interpret. My assumption was that the fix was simple
+              — just show people more.
             </p>
-            <p className="mt-6">
-              That told me the problem wasn&apos;t terminology or visual design.
-              It was that users had no way to see what their decisions were
-              actually doing to the system. Everything else followed from that.
+            <p>
+              That turned out to be wrong. The question I kept coming back to
+              was: <strong>does the user actually need to know this?</strong> Or is it just going
+              to make them feel like they&apos;re doing something wrong? Some
+              information helped. Some just made people second-guess themselves.
+              Most of the real design work was figuring out which was which —
+              and I&apos;m still not sure we drew the line in exactly the right
+              place.
+            </p>
+            <p>
+              One thing I wanted to push further but didn&apos;t get to: closing
+              the loop between configuration and model performance. Right now
+              users set things up, wait, and get a result — but they can&apos;t
+              connect what they configured to what came out. That gap is still
+              there, and I think it&apos;s the most important thing to go after
+              next.
             </p>
           </div>
         </section>
