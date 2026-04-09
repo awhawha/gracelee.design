@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Modeling Advisor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600&family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f2efe8;
+    --sidebar-bg: #ebe7df;
+    --card: #ffffff;
+    --border: rgba(0,0,0,0.08);
+    --border-strong: rgba(0,0,0,0.13);
+    --accent: #c17f24;
+    --accent-hover: #a86d1a;
+    --accent-light: rgba(193,127,36,0.10);
+    --success: #3d8f6a;
+    --text: #1a1a18;
+    --text-2: #6b6860;
+    --text-3: #9c9890;
+    --divider: rgba(0,0,0,0.07);
+    --shadow: 0 1px 4px rgba(0,0,0,0.07);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.09);
+  }
+
+  html, body { height: 100%; background: var(--bg); font-family: 'Inter', sans-serif; color: var(--text); font-size: 14px; line-height: 1.6; }
+  .app { display: flex; height: 100vh; }
+
+  .sidebar { width: 280px; min-width: 280px; background: var(--sidebar-bg); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 24px 16px 24px 0; gap: 24px; }
+  .sidebar-label { font-size: 10px; font-weight: 600; letter-spacing: 0.1em; color: var(--text-3); padding-left: 20px; text-transform: uppercase; }
+  .file-list { display: flex; flex-direction: column; gap: 8px; }
+  .file-pill { background: var(--card); border: 1px solid var(--border); border-left: none; border-radius: 0 8px 8px 0; padding: 10px 12px 10px 20px; display: flex; align-items: center; gap: 10px; opacity: 0; transform: translateY(6px); transition: opacity 300ms ease, transform 300ms ease; }
+  .file-pill.visible { opacity: 1; transform: translateY(0); }
+  .file-check { width: 18px; height: 18px; background: var(--success); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .file-check svg { width: 10px; height: 10px; }
+  .file-info { flex: 1; min-width: 0; }
+  .file-name { font-family: 'DM Mono', monospace; font-size: 11.5px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .file-rows { font-size: 11px; color: var(--text-3); }
+  .sidebar-footer { margin-top: auto; padding-left: 20px; }
+  .restart-link { font-size: 12px; color: var(--text-3); cursor: pointer; text-decoration: none; transition: color 200ms; }
+  .restart-link:hover { color: var(--accent); }
+
+  .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+  .chat-scroll { flex: 1; overflow-y: auto; padding: 32px 40px 24px; display: flex; flex-direction: column; gap: 20px; scroll-behavior: smooth; align-items: stretch; scrollbar-width: thin; scrollbar-color: var(--border-strong) transparent; }
+  .chat-scroll::-webkit-scrollbar { width: 4px; }
+  .chat-scroll::-webkit-scrollbar-track { background: transparent; }
+  .chat-scroll::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 4px; }
+  .chat-inner { width: 100%; max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+
+  .upload-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 32px; max-width: 480px; align-self: center; width: 100%; box-shadow: var(--shadow); transition: opacity 300ms ease, transform 300ms ease; }
+  .upload-card.hidden { opacity: 0; transform: translateY(-8px); pointer-events: none; }
+  .upload-title { font-family: 'Lora', serif; font-size: 20px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+  .upload-sub { font-size: 13px; color: var(--text-2); margin-bottom: 20px; }
+  .drop-zone { border: 1.5px dashed var(--border-strong); border-radius: 8px; padding: 28px; text-align: center; background: rgba(255,255,255,0.5); margin-bottom: 16px; }
+  .drop-icon { font-size: 24px; margin-bottom: 8px; opacity: 0.4; }
+  .drop-label { font-size: 13px; color: var(--text-2); }
+  .drop-note { font-size: 11px; color: var(--text-3); margin-top: 4px; }
+  .load-btn { width: 100%; padding: 10px; background: transparent; border: 1px solid var(--accent); border-radius: 8px; color: var(--accent); font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: background 200ms, color 200ms, transform 100ms; }
+  .load-btn:hover { background: var(--accent-light); }
+  .load-btn:active { transform: scale(0.98); }
+
+  .msg-group { display: flex; flex-direction: column; gap: 4px; opacity: 0; transform: translateY(8px); transition: opacity 280ms ease, transform 280ms ease; }
+  .msg-group.visible { opacity: 1; transform: translateY(0); }
+  .msg-label { font-size: 11px; color: var(--text-3); font-weight: 500; padding: 0 4px; }
+  .msg-label.user-label { text-align: right; }
+  .bubble { padding: 14px 16px; border-radius: 12px; line-height: 1.65; font-size: 13.5px; }
+  .bubble-ai { background: var(--card); border: 1px solid var(--border); box-shadow: var(--shadow); max-width: 75%; color: var(--text); }
+  .bubble-user { background: var(--accent); color: #fff; max-width: 65%; align-self: flex-end; font-size: 13.5px; }
+  .bubble-ai .data-row { display: flex; gap: 6px; align-items: flex-start; margin: 2px 0; color: var(--text-2); font-size: 13px; }
+  .bubble-ai .data-row span.dash { color: var(--text-3); flex-shrink: 0; }
+  .check-item { display: flex; gap: 8px; align-items: flex-start; margin: 3px 0; font-size: 13px; color: var(--text-2); }
+  .check-item .ck { color: var(--success); flex-shrink: 0; font-weight: 600; }
+  .mono { font-family: 'DM Mono', monospace; font-size: 11.5px; background: rgba(0,0,0,0.06); padding: 1px 5px; border-radius: 4px; color: var(--text); }
+  .bubble-section-label { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-3); margin-bottom: 6px; margin-top: 12px; }
+  .bubble-section-label:first-child { margin-top: 0; }
+  .rec-title { font-family: 'Lora', serif; font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+
+  .typing-indicator { display: flex; gap: 5px; align-items: center; padding: 14px 16px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; width: fit-content; box-shadow: var(--shadow); }
+  .typing-dot { width: 6px; height: 6px; background: var(--text-3); border-radius: 50%; animation: typingBounce 1.2s infinite ease-in-out; }
+  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes typingBounce { 0%, 60%, 100% { transform: translateY(0); opacity: 0.4; } 30% { transform: translateY(-4px); opacity: 1; } }
+
+  .chips-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; opacity: 0; transition: opacity 250ms ease; }
+  .chips-row.visible { opacity: 1; }
+  .chip { padding: 7px 14px; border: 1px solid var(--accent); border-radius: 20px; color: var(--accent); font-family: 'Inter', sans-serif; font-size: 12.5px; font-weight: 500; background: #fff; cursor: pointer; transition: background 150ms, color 150ms, transform 100ms, opacity 200ms; }
+  .chip:hover { background: var(--accent-light); }
+  .chip:active { transform: scale(0.97); }
+  .chip.used { opacity: 0; pointer-events: none; }
+
+  .input-bar { padding: 16px 40px 20px; border-top: 1px solid var(--divider); display: flex; gap: 10px; align-items: center; background: var(--bg); }
+  .input-field { flex: 1; padding: 10px 14px; background: var(--card); border: 1px solid var(--border-strong); border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 13.5px; color: var(--text); outline: none; transition: border-color 200ms; }
+  .input-field:focus { border-color: var(--accent); }
+  .input-field::placeholder { color: var(--text-3); }
+  .send-btn { padding: 10px 18px; background: var(--accent); color: #fff; border: none; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: background 150ms, transform 100ms; }
+  .send-btn:hover { background: var(--accent-hover); }
+  .send-btn:active { transform: scale(0.97); }
+  .send-btn:disabled { opacity: 0.4; pointer-events: none; }
+
+  /* CONFIG MODAL */
+  .config-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.25); backdrop-filter: blur(3px); z-index: 200; align-items: flex-start; justify-content: center; padding: 40px 24px 60px; overflow-y: auto; }
+  .config-overlay.open { display: flex; }
+  .config-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; box-shadow: 0 16px 48px rgba(0,0,0,0.14); width: 100%; max-width: 860px; position: relative; animation: configIn 220ms ease; flex-shrink: 0; }
+  @keyframes configIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+  .config-close-btn { position: absolute; top: 16px; right: 16px; width: 28px; height: 28px; border: none; background: rgba(0,0,0,0.07); border-radius: 50%; cursor: pointer; font-size: 14px; color: var(--text-2); display: flex; align-items: center; justify-content: center; transition: background 150ms; line-height: 1; }
+  .config-close-btn:hover { background: rgba(0,0,0,0.13); }
+  .config-header { padding: 20px 24px 16px; border-bottom: 1px solid var(--divider); }
+  .config-badge { font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 4px; }
+  .config-title { font-family: 'Lora', serif; font-size: 20px; font-weight: 600; color: var(--text); }
+  .config-sub { font-size: 13px; color: var(--text-2); margin-top: 2px; }
+  .config-body { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+  .config-left { padding: 20px 24px; border-right: 1px solid var(--divider); }
+  .config-section-label { font-size: 10px; font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--text-3); display: flex; align-items: center; gap: 5px; margin-bottom: 12px; }
+  .config-section-label.user-label { color: var(--accent); }
+  .prefilled-fields { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+  .pf-row { display: flex; flex-direction: column; gap: 2px; }
+  .pf-label { font-size: 11.5px; color: var(--text-2); font-weight: 500; }
+  .pf-value { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .pf-note { font-size: 11px; color: var(--text-3); font-style: italic; }
+  .divider { height: 1px; background: var(--divider); margin: 16px 0; }
+  .user-fields { display: flex; flex-direction: column; gap: 16px; }
+  .uf-row { display: flex; flex-direction: column; gap: 6px; }
+  .uf-label { font-size: 12px; color: var(--text); font-weight: 500; }
+  .uf-helper { font-size: 11px; color: var(--text-3); }
+  .seg-control { display: flex; background: rgba(0,0,0,0.05); border-radius: 6px; padding: 3px; gap: 2px; }
+  .seg-btn { flex: 1; padding: 6px 10px; border: none; background: transparent; border-radius: 4px; font-family: 'Inter', sans-serif; font-size: 12px; color: var(--text-2); cursor: pointer; transition: background 150ms, color 150ms; text-align: center; }
+  .seg-btn.active { background: #fff; color: var(--text); font-weight: 500; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+  .config-right { padding: 20px 24px; display: flex; flex-direction: column; gap: 16px; }
+  .summary-label { font-size: 10px; font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--text-3); margin-bottom: 8px; }
+  .summary-items { display: flex; flex-direction: column; gap: 7px; }
+  .summary-row { display: flex; justify-content: space-between; align-items: center; font-size: 12.5px; }
+  .summary-key { color: var(--text-2); }
+  .summary-val { color: var(--text); font-weight: 500; }
+  .mini-chart { margin-top: 4px; }
+  .chart-label { font-size: 11px; color: var(--text-3); margin-bottom: 8px; }
+  .chart-bars { display: flex; align-items: flex-end; gap: 3px; height: 60px; }
+  .bar { flex: 1; background: var(--accent); border-radius: 2px 2px 0 0; opacity: 0.7; transition: opacity 200ms; }
+  .bar:hover { opacity: 1; }
+  .bar.forecast { background: rgba(193,127,36,0.3); border: 1px dashed var(--accent); }
+  .chart-axis { display: flex; justify-content: space-between; margin-top: 4px; font-size: 10px; color: var(--text-3); }
+  .forecast-line-label { font-size: 10px; color: var(--accent); text-align: right; margin-top: 2px; }
+  .config-footer { padding: 16px 24px; border-top: 1px solid var(--divider); display: flex; align-items: center; gap: 12px; }
+  .run-btn { padding: 10px 24px; background: var(--accent); color: #fff; border: none; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 13.5px; font-weight: 500; cursor: pointer; transition: background 150ms, transform 100ms; }
+  .run-btn:hover { background: var(--accent-hover); }
+  .run-btn:active { transform: scale(0.97); }
+  .run-btn.done { background: var(--success); pointer-events: none; }
+  .run-note { font-size: 12px; color: var(--text-3); }
+
+  /* SIDEBAR DQ ENTRY */
+  .dq-entry { display: none; margin-top: 4px; background: #fffbf3; border: 1px solid rgba(193,127,36,0.22); border-left: none; border-radius: 0 8px 8px 0; padding: 9px 11px 9px 20px; cursor: pointer; transition: background 150ms, border-color 150ms; }
+  .dq-entry:hover { background: var(--accent-light); border-color: rgba(193,127,36,0.45); }
+  .dq-entry-top { display: flex; align-items: center; justify-content: space-between; }
+  .dq-entry-label { font-size: 11px; font-weight: 600; color: var(--accent); display: flex; align-items: center; gap: 5px; }
+  .dq-entry-status { font-size: 10.5px; color: var(--text-3); margin-top: 2px; }
+  .dq-entry-chevron { color: var(--accent); font-size: 11px; }
+
+  /* DQ MODAL */
+  .dq-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.18); backdrop-filter: blur(2px); z-index: 100; align-items: center; justify-content: center; }
+  .dq-overlay.open { display: flex; }
+  .dq-modal { background: #fff; border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.12); width: 420px; padding: 24px; position: relative; animation: modalIn 200ms ease; }
+  @keyframes modalIn { from { opacity: 0; transform: translateY(8px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+  .dq-modal-close { position: absolute; top: 14px; right: 14px; width: 24px; height: 24px; border: none; background: rgba(0,0,0,0.06); border-radius: 50%; cursor: pointer; font-size: 13px; color: var(--text-2); display: flex; align-items: center; justify-content: center; transition: background 150ms; }
+  .dq-modal-close:hover { background: rgba(0,0,0,0.12); }
+  .dq-modal-title { font-family: 'Lora', serif; font-size: 17px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .dq-modal-sub { font-size: 12.5px; color: var(--text-2); margin-bottom: 16px; }
+  .dq-modal-apply { width: 100%; padding: 10px; background: var(--accent); color: #fff; border: none; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; margin-top: 16px; transition: background 150ms, transform 100ms; }
+  .dq-modal-apply:hover { background: var(--accent-hover); }
+
+  /* ISSUE CARDS */
+  .issue-card { border-radius: 10px; margin-top: 10px; overflow: hidden; transition: border-color 300ms, background 300ms; }
+  .issue-card.active { background: #fffbf3; border: 1px solid rgba(193,127,36,0.25); }
+  .issue-card.resolved { background: #f8f7f4; border: 1px solid var(--border); }
+  .issue-summary { display: none; align-items: center; justify-content: space-between; padding: 10px 14px; cursor: pointer; transition: background 150ms; }
+  .issue-summary:hover { background: rgba(0,0,0,0.03); }
+  .issue-card.resolved .issue-summary { display: flex; }
+  .issue-card.resolved .issue-body { display: none; }
+  .issue-card.active .issue-summary { display: none; }
+  .issue-card.active .issue-body { display: block; }
+  .issue-card.resolved.expanded .issue-summary { display: none; }
+  .issue-card.resolved.expanded .issue-body { display: block; }
+  .issue-card.resolved.expanded { background: #fffbf3; border-color: rgba(193,127,36,0.25); }
+  .issue-summary-left { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--text-2); }
+  .issue-summary-check { color: var(--success); font-size: 13px; }
+  .issue-summary-edit { font-size: 11.5px; color: var(--accent); background: none; border: none; cursor: pointer; text-decoration: underline; text-underline-offset: 2px; padding: 0; transition: color 150ms; }
+  .issue-summary-edit:hover { color: var(--accent-hover); }
+  .issue-body { padding: 14px 16px; }
+  .issue-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .issue-header-left { display: flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 600; color: var(--accent); }
+  .issue-counter { font-size: 11px; color: var(--text-3); }
+  .warning-row { display: flex; align-items: center; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid rgba(0,0,0,0.05); font-size: 12.5px; }
+  .warning-row:last-child { border-bottom: none; }
+  .warning-col { display: flex; align-items: center; gap: 7px; color: var(--text); }
+  .warning-pct { font-size: 11.5px; color: var(--text-3); background: rgba(0,0,0,0.05); padding: 1px 6px; border-radius: 10px; }
+  .issue-footer { display: flex; justify-content: flex-end; margin-top: 12px; }
+  .issue-next-btn { padding: 8px 18px; background: var(--accent); color: #fff; border: none; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: background 150ms, transform 100ms; }
+  .issue-next-btn:hover { background: var(--accent-hover); }
+  .issue-next-btn:active { transform: scale(0.97); }
+
+  /* FIX OPTIONS */
+  .fix-options { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; }
+  .fix-option { display: flex; align-items: flex-start; gap: 8px; padding: 8px 10px; border-radius: 7px; border: 1px solid var(--border); background: #fff; cursor: pointer; transition: border-color 150ms, background 150ms; text-align: left; }
+  .fix-option:hover { border-color: var(--accent); background: var(--accent-light); }
+  .fix-option.selected { border-color: var(--accent); background: var(--accent-light); }
+  .fix-option-title { font-size: 12.5px; font-weight: 500; color: var(--text); }
+  .fix-option-desc { font-size: 11.5px; color: var(--text-3); margin-top: 1px; }
+  .fix-radio { width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid var(--border-strong); flex-shrink: 0; margin-top: 2px; transition: border-color 150ms, background 150ms; }
+  .fix-option.selected .fix-radio { border-color: var(--accent); background: var(--accent); }
+
+  /* SAMPLE CARD */
+  .sample-card { background: #f5f3ef; border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; margin-top: 10px; }
+  .sample-options { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; }
+  .sample-option { display: flex; align-items: flex-start; gap: 8px; padding: 9px 11px; border-radius: 7px; border: 1px solid var(--border); background: #fff; cursor: pointer; transition: border-color 150ms, background 150ms; text-align: left; }
+  .sample-option:hover { border-color: var(--accent); background: var(--accent-light); }
+  .sample-option.selected { border-color: var(--accent); background: var(--accent-light); }
+  .sample-option .fix-radio { width:14px; height:14px; border-radius:50%; border:1.5px solid var(--border-strong); flex-shrink:0; margin-top:2px; transition:border-color 150ms,background 150ms; }
+  .sample-option.selected .fix-radio { border-color:var(--accent); background:var(--accent); }
+  .sample-badge { display: inline-flex; align-items: center; font-size: 10px; font-weight: 600; letter-spacing: 0.06em; padding: 2px 7px; border-radius: 10px; margin-left: 6px; }
+  .sample-badge.fast { background: rgba(61,143,106,0.12); color: var(--success); }
+  .sample-badge.full { background: rgba(0,0,0,0.06); color: var(--text-3); }
+
+  /* AUTOFIX */
+  .autofix-row { display: flex; align-items: flex-start; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--divider); gap: 10px; flex-direction: column; }
+  .autofix-row:last-child { border-bottom: none; }
+  .autofix-row-top { display: flex; align-items: flex-start; justify-content: space-between; width: 100%; gap: 10px; }
+  .autofix-left { display: flex; align-items: flex-start; gap: 7px; flex: 1; }
+  .autofix-icon { flex-shrink: 0; margin-top: 1px; font-size: 12px; }
+  .autofix-desc { font-size: 12px; color: var(--text-2); line-height: 1.5; }
+  .autofix-desc strong { color: var(--text); font-weight: 500; }
+  .autofix-change-btn { font-size: 11px; color: var(--accent); background: none; border: none; cursor: pointer; white-space: nowrap; padding: 1px 0; text-decoration: underline; text-underline-offset: 2px; flex-shrink: 0; }
+  .autofix-change-btn:hover { color: var(--accent-hover); }
+  .autofix-ambiguous { color: var(--accent) !important; }
+  .autofix-toggle { font-size: 11px; color: var(--text-3); background: none; border: none; cursor: pointer; padding: 0; margin-left: 19px; margin-top: 2px; transition: color 150ms; }
+  .autofix-toggle:hover { color: var(--text-2); }
+  .autofix-detail { display: none; margin-left: 19px; margin-top: 8px; background: rgba(0,0,0,0.03); border-radius: 6px; padding: 10px 12px; width: calc(100% - 19px); }
+  .autofix-detail.open { display: block; }
+  .autofix-before-after { display: grid; grid-template-columns: auto 1fr; gap: 4px 10px; font-size: 11.5px; }
+  .ba-label { color: var(--text-3); font-weight: 500; white-space: nowrap; padding-top: 2px; }
+  .ba-values { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+  .ba-chip { font-family: 'DM Mono', monospace; font-size: 11px; padding: 2px 7px; border-radius: 4px; background: rgba(0,0,0,0.06); color: var(--text); }
+  .ba-chip.after { background: rgba(61,143,106,0.12); color: var(--success); }
+  .ba-chip.ambiguous { background: rgba(193,127,36,0.1); color: var(--accent); }
+  .autofix-why { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--divider); font-size: 11.5px; color: var(--text-2); }
+
+  /* RUN MODE */
+  .run-mode-selector { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+  .run-mode-option { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border); background: #fff; cursor: pointer; transition: border-color 150ms, background 150ms; }
+  .run-mode-option:hover { border-color: var(--accent); background: var(--accent-light); }
+  .run-mode-option.selected { border-color: var(--accent); background: var(--accent-light); }
+  .run-mode-option .fix-radio { width:14px; height:14px; border-radius:50%; border:1.5px solid var(--border-strong); flex-shrink:0; margin-top:3px; transition:border-color 150ms,background 150ms; }
+  .run-mode-option.selected .fix-radio { border-color:var(--accent); background:var(--accent); }
+  .run-mode-title { font-size: 13px; font-weight: 500; color: var(--text); }
+  .run-mode-meta { font-size: 11.5px; color: var(--text-3); margin-top: 2px; }
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div><div class="sidebar-label">AI Modeling Advisor</div></div>
+    <div id="fileSection" style="display:none;">
+      <div class="sidebar-label" style="margin-bottom:10px;">Uploaded Files</div>
+      <div class="file-list" id="fileList"></div>
+      <div class="dq-entry" id="dqEntry" onclick="openDQModal()">
+        <div class="dq-entry-top">
+          <div class="dq-entry-label">
+            <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M6 1L11.5 11H0.5L6 1Z" stroke="#c17f24" stroke-width="1.4" stroke-linejoin="round"/><line x1="6" y1="4.5" x2="6" y2="7" stroke="#c17f24" stroke-width="1.4" stroke-linecap="round"/><circle cx="6" cy="9" r="0.7" fill="#c17f24"/></svg>
+            Data quality
+          </div>
+          <span class="dq-entry-chevron">›</span>
+        </div>
+        <div class="dq-entry-status" id="dqStatusText">2 issues · rolling average</div>
+      </div>
+    </div>
+    <div class="sidebar-footer"><a class="restart-link" onclick="location.reload()">↺ Start over</a></div>
+  </aside>
+
+  <div class="dq-overlay" id="dqOverlay" onclick="closeDQModal(event)">
+    <div class="dq-modal">
+      <button class="dq-modal-close" onclick="closeDQModalDirect()">✕</button>
+      <div class="dq-modal-title">Data Quality Settings</div>
+      <div class="dq-modal-sub">Adjust how missing values in <span class="mono">weekly_attributes.csv</span> are handled.</div>
+      <div style="margin-bottom:10px;">
+        <div class="warning-row" style="padding:6px 0;"><div class="warning-col"><span class="mono">CPI</span></div><div style="display:flex;gap:8px;align-items:center;"><span style="font-size:12px;color:var(--text-2);">585 missing values</span><span class="warning-pct">7.1%</span></div></div>
+        <div class="warning-row" style="padding:6px 0;"><div class="warning-col"><span class="mono">Unemployment</span></div><div style="display:flex;gap:8px;align-items:center;"><span style="font-size:12px;color:var(--text-2);">585 missing values</span><span class="warning-pct">7.1%</span></div></div>
+      </div>
+      <div style="font-size:12px;color:var(--text-2);margin-bottom:8px;font-weight:500;">How should I handle this?</div>
+      <div class="fix-options" id="modalFixOptions">
+        <div class="fix-option selected" onclick="selectModalFix(this,'rolling')" id="mfix-rolling"><div class="fix-radio"></div><div><div class="fix-option-title">Auto-fill with rolling average</div><div class="fix-option-desc">Fill gaps using the 4-week rolling average per store. Recommended.</div></div></div>
+        <div class="fix-option" onclick="selectModalFix(this,'exclude')" id="mfix-exclude"><div class="fix-radio"></div><div><div class="fix-option-title">Exclude these columns</div><div class="fix-option-desc">Remove CPI and Unemployment from features entirely.</div></div></div>
+        <div class="fix-option" onclick="selectModalFix(this,'drop')" id="mfix-drop"><div class="fix-radio"></div><div><div class="fix-option-title">Drop affected rows</div><div class="fix-option-desc">Remove the 585 rows — reduces training data by 7.1%.</div></div></div>
+      </div>
+      <button class="dq-modal-apply" onclick="applyModalFix()">Apply change</button>
+    </div>
+  </div>
+
+  <main class="main">
+    <div class="chat-scroll" id="chatScroll">
+      <div class="chat-inner" id="chatInner">
+        <div class="upload-card" id="uploadCard">
+          <div class="upload-title">Upload your data to get started</div>
+          <div class="upload-sub">I'll analyze the structure and help you figure out what to build.</div>
+          <div class="drop-zone"><div class="drop-icon">⬆</div><div class="drop-label">Drop CSV files here</div><div class="drop-note">No data is processed — this is a prototype</div></div>
+          <button class="load-btn" onclick="loadSampleData()">Load sample data</button>
+        </div>
+      </div>
+    </div>
+    <div class="input-bar" id="inputBar" style="display:none;">
+      <input class="input-field" id="inputField" type="text" placeholder="Type a message..." />
+      <button class="send-btn" id="sendBtn" onclick="handleFreeText()">Send</button>
+    </div>
+  </main>
+</div>
+
+<div class="config-overlay" id="configOverlay" onclick="closeConfigOnBackdrop(event)"></div>
+
+<script>
+const FILES = [
+  { name: 'sales_history.csv', rows: '84,422 rows' },
+  { name: 'weekly_attributes.csv', rows: '6,435 rows' },
+  { name: 'stores.csv', rows: '45 rows' },
+];
+
+let horizon = '4 weeks';
+let granularity = 'Per department';
+let conversationStep = 0;
+let chipsVisible = null;
+let waitingForInput = false;
+let runMode = 'quick';
+
+function scrollToBottom() {
+  const el = document.getElementById('chatScroll');
+  setTimeout(() => el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' }), 50);
+}
+
+function loadSampleData() {
+  document.getElementById('uploadCard').classList.add('hidden');
+  const section = document.getElementById('fileSection');
+  const list = document.getElementById('fileList');
+  section.style.display = 'block';
+  FILES.forEach((f, i) => {
+    setTimeout(() => {
+      const pill = document.createElement('div');
+      pill.className = 'file-pill';
+      pill.innerHTML = `<div class="file-check"><svg viewBox="0 0 10 8" fill="none" stroke="white" stroke-width="1.8"><polyline points="1,4 4,7 9,1"/></svg></div><div class="file-info"><div class="file-name">${f.name}</div><div class="file-rows">${f.rows}</div></div>`;
+      list.appendChild(pill);
+      requestAnimationFrame(() => pill.classList.add('visible'));
+    }, i * 200);
+  });
+  document.getElementById('inputBar').style.display = 'flex';
+  document.getElementById('sendBtn').disabled = true;
+  setTimeout(() => { const e = document.getElementById('dqEntry'); if (e) e.style.display = 'block'; }, FILES.length * 200 + 400);
+  setTimeout(() => showTyping(() => showLargeFilePrompt()), 600);
+}
+
+function showTyping(callback, delay = 700) {
+  const group = createGroup();
+  const label = document.createElement('div'); label.className = 'msg-label'; label.textContent = 'AI';
+  const indicator = document.createElement('div'); indicator.className = 'typing-indicator';
+  indicator.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+  group.appendChild(label); group.appendChild(indicator);
+  appendToChat(group);
+  requestAnimationFrame(() => group.classList.add('visible'));
+  scrollToBottom();
+  setTimeout(() => { group.remove(); callback(); }, delay);
+}
+
+function createGroup() { const g = document.createElement('div'); g.className = 'msg-group'; return g; }
+function appendToChat(el) { document.getElementById('chatInner').appendChild(el); }
+
+function addAIBubble(html) {
+  const group = createGroup();
+  const label = document.createElement('div'); label.className = 'msg-label'; label.textContent = 'AI';
+  const bubble = document.createElement('div'); bubble.className = 'bubble bubble-ai'; bubble.innerHTML = html;
+  group.appendChild(label); group.appendChild(bubble);
+  appendToChat(group);
+  requestAnimationFrame(() => group.classList.add('visible'));
+  scrollToBottom();
+  return bubble;
+}
+
+function addUserBubble(text) {
+  const group = createGroup();
+  const label = document.createElement('div'); label.className = 'msg-label user-label'; label.textContent = 'You';
+  const bubble = document.createElement('div'); bubble.className = 'bubble bubble-user'; bubble.textContent = text;
+  group.style.alignItems = 'flex-end';
+  group.appendChild(label); group.appendChild(bubble);
+  appendToChat(group);
+  requestAnimationFrame(() => group.classList.add('visible'));
+  scrollToBottom();
+}
+
+function addChips(options, onSelect) {
+  if (chipsVisible) chipsVisible.forEach(c => c.classList.add('used'));
+  const row = document.createElement('div'); row.className = 'chips-row';
+  options.forEach(opt => {
+    const chip = document.createElement('button'); chip.className = 'chip'; chip.textContent = opt;
+    chip.onclick = () => { row.querySelectorAll('.chip').forEach(c => c.classList.add('used')); onSelect(opt); };
+    row.appendChild(chip);
+  });
+  appendToChat(row);
+  setTimeout(() => row.classList.add('visible'), 80);
+  chipsVisible = Array.from(row.querySelectorAll('.chip'));
+  scrollToBottom();
+}
+
+function showLargeFilePrompt() {
+  addAIBubble(`
+    <div style="margin-bottom:8px;">I detected a large file in your upload:</div>
+    <div class="data-row"><span class="dash">—</span><span><span class="mono">sales_history.csv</span> · 84,422 rows · ~2.3 GB</span></div>
+    <div style="margin-top:12px; color:var(--text-2); margin-bottom:4px;">For <strong style="color:var(--text);">configuration</strong>, I don't need the full dataset — a sample is enough to analyze structure and recommend use cases.</div>
+    <div class="sample-card">
+      <div style="font-size:12px; color:var(--text-2); font-weight:500; margin-bottom:8px;">How much data should I use for configuration?</div>
+      <div class="sample-options" id="sampleOptions">
+        <div class="sample-option selected" onclick="selectSampleMode(this,'sample')">
+          <div class="fix-radio"></div>
+          <div><div class="fix-option-title">Use a 10% sample <span class="sample-badge fast">FAST</span></div><div class="fix-option-desc">~8,400 rows. Enough to detect schema, time series structure, and feature signals. Ready in seconds.</div></div>
+        </div>
+        <div class="sample-option" onclick="selectSampleMode(this,'full')">
+          <div class="fix-radio"></div>
+          <div><div class="fix-option-title">Use the full dataset <span class="sample-badge full">~2 MIN</span></div><div class="fix-option-desc">All 84,422 rows. More precise analysis, but slower to start.</div></div>
+        </div>
+      </div>
+    </div>
+  `);
+  setTimeout(() => {
+    addChips(['Confirm and continue'], (c) => { addUserBubble(c); setTimeout(() => showTyping(() => showMessage1()), 500); });
+    document.getElementById('sendBtn').disabled = false;
+  }, 300);
+}
+
+let selectedSampleMode = 'sample';
+function selectSampleMode(el, val) {
+  selectedSampleMode = val;
+  document.querySelectorAll('#sampleOptions .sample-option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function showMessage1() {
+  addAIBubble(`
+    <div style="margin-bottom:10px;">I've reviewed your data. Here's what I found:</div>
+    <div class="data-row"><span class="dash">—</span><span>3 connected datasets: sales history, weekly store attributes, and store metadata</span></div>
+    <div class="data-row"><span class="dash">—</span><span>45 stores · 79 departments · 143 weeks of data (Feb 2010 – Oct 2012)</span></div>
+    <div class="data-row"><span class="dash">—</span><span>5 external signals: temperature, fuel price, CPI, unemployment, holiday flags</span></div>
+    <div style="margin-top:14px; margin-bottom:6px; color:var(--text-2);">Before we continue — I found 2 issues that need your input.</div>
+    <div class="issue-card active" id="issueCard">
+      <div class="issue-summary" onclick="toggleIssueExpand()">
+        <div class="issue-summary-left"><span class="issue-summary-check">✓</span><span id="issueSummaryText">2 issues resolved</span></div>
+        <button class="issue-summary-edit">Edit →</button>
+      </div>
+      <div class="issue-body" id="issueBody">
+        <div id="issue1Content">
+          <div class="issue-header">
+            <div class="issue-header-left"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1L13 12H1L7 1Z" stroke="#c17f24" stroke-width="1.5" stroke-linejoin="round"/><line x1="7" y1="5.5" x2="7" y2="8" stroke="#c17f24" stroke-width="1.5" stroke-linecap="round"/><circle cx="7" cy="10" r="0.75" fill="#c17f24"/></svg>Issue 1 of 2 — Missing values</div>
+            <span class="issue-counter">1 / 2</span>
+          </div>
+          <div class="warning-row"><div class="warning-col"><span class="mono">CPI</span></div><div style="display:flex;gap:8px;align-items:center;"><span style="font-size:12px;color:var(--text-2);">585 missing values</span><span class="warning-pct">7.1%</span></div></div>
+          <div class="warning-row"><div class="warning-col"><span class="mono">Unemployment</span></div><div style="display:flex;gap:8px;align-items:center;"><span style="font-size:12px;color:var(--text-2);">585 missing values</span><span class="warning-pct">7.1%</span></div></div>
+          <div style="margin-top:8px;">
+            <button class="autofix-change-btn" style="font-size:12px;" onclick="toggleSamplePreview()"><span id="previewToggleLabel">▸ Preview sample data</span></button>
+            <div id="samplePreview" style="display:none; margin-top:10px; overflow-x:auto;">
+              <table style="width:100%; border-collapse:collapse; font-size:11.5px; font-family:'DM Mono',monospace;">
+                <thead><tr style="border-bottom:1px solid var(--border-strong);"><th style="text-align:left;padding:5px 8px;color:var(--text-3);font-weight:500;">Store_ID</th><th style="text-align:left;padding:5px 8px;color:var(--text-3);font-weight:500;">Date</th><th style="text-align:left;padding:5px 8px;color:var(--text-3);font-weight:500;">Temp</th><th style="text-align:left;padding:5px 8px;color:var(--text-3);font-weight:500;">CPI</th><th style="text-align:left;padding:5px 8px;color:var(--text-3);font-weight:500;">Unemployment</th><th style="text-align:left;padding:5px 8px;color:var(--text-3);font-weight:500;">IsHoliday</th></tr></thead>
+                <tbody>
+                  <tr style="border-bottom:1px solid var(--divider);"><td style="padding:5px 8px;color:var(--text-2);">1</td><td style="padding:5px 8px;color:var(--text-2);">2010-02-05</td><td style="padding:5px 8px;color:var(--text-2);">42.31</td><td style="padding:5px 8px;color:var(--text-2);">211.096</td><td style="padding:5px 8px;color:var(--text-2);">8.106</td><td style="padding:5px 8px;color:var(--text-2);">false</td></tr>
+                  <tr style="border-bottom:1px solid var(--divider);"><td style="padding:5px 8px;color:var(--text-2);">1</td><td style="padding:5px 8px;color:var(--text-2);">2010-02-12</td><td style="padding:5px 8px;color:var(--text-2);">38.51</td><td style="padding:5px 8px;color:var(--text-2);">211.242</td><td style="padding:5px 8px;color:var(--text-2);">8.106</td><td style="padding:5px 8px;color:var(--text-2);">true</td></tr>
+                  <tr style="border-bottom:1px solid var(--divider);background:rgba(193,127,36,0.07);"><td style="padding:5px 8px;color:var(--text-2);">3</td><td style="padding:5px 8px;color:var(--text-2);">2011-11-25</td><td style="padding:5px 8px;color:var(--text-2);">53.20</td><td style="padding:5px 8px;color:var(--accent);font-weight:600;">—</td><td style="padding:5px 8px;color:var(--accent);font-weight:600;">—</td><td style="padding:5px 8px;color:var(--text-2);">false</td></tr>
+                  <tr style="border-bottom:1px solid var(--divider);background:rgba(193,127,36,0.07);"><td style="padding:5px 8px;color:var(--text-2);">7</td><td style="padding:5px 8px;color:var(--text-2);">2012-03-02</td><td style="padding:5px 8px;color:var(--text-2);">61.44</td><td style="padding:5px 8px;color:var(--accent);font-weight:600;">—</td><td style="padding:5px 8px;color:var(--accent);font-weight:600;">—</td><td style="padding:5px 8px;color:var(--text-2);">true</td></tr>
+                  <tr><td style="padding:5px 8px;color:var(--text-2);">12</td><td style="padding:5px 8px;color:var(--text-2);">2012-05-18</td><td style="padding:5px 8px;color:var(--text-2);">71.88</td><td style="padding:5px 8px;color:var(--text-2);">229.103</td><td style="padding:5px 8px;color:var(--text-2);">7.842</td><td style="padding:5px 8px;color:var(--text-2);">false</td></tr>
+                </tbody>
+              </table>
+              <div style="font-size:11px;color:var(--text-3);margin-top:5px;">Rows highlighted in amber have missing values.</div>
+            </div>
+          </div>
+          <div style="margin-top:12px;font-size:12.5px;color:var(--text-2);margin-bottom:8px;">How should I handle this?</div>
+          <div class="fix-options" id="fixOptions">
+            <div class="fix-option selected" onclick="selectFix(this,'rolling')" id="fix-rolling"><div class="fix-radio"></div><div><div class="fix-option-title">Auto-fill with rolling average</div><div class="fix-option-desc">Fill gaps using the 4-week rolling average per store. Recommended — preserves seasonal patterns.</div></div></div>
+            <div class="fix-option" onclick="selectFix(this,'exclude')" id="fix-exclude"><div class="fix-radio"></div><div><div class="fix-option-title">Exclude these columns</div><div class="fix-option-desc">Remove CPI and Unemployment from features. Model uses remaining 3 signals.</div></div></div>
+            <div class="fix-option" onclick="selectFix(this,'drop')" id="fix-drop"><div class="fix-radio"></div><div><div class="fix-option-title">Drop affected rows</div><div class="fix-option-desc">Remove the 585 rows with missing values. Reduces training data by 7.1%.</div></div></div>
+          </div>
+          <div class="issue-footer"><button class="issue-next-btn" onclick="applyMissingFix()">Apply · Next issue →</button></div>
+        </div>
+        <div id="issue2Content" style="display:none;">
+          <div class="issue-header">
+            <div class="issue-header-left"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="var(--text-3)" stroke-width="1.5"/><polyline points="4,7 6,9 10,5" stroke="var(--success)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>Issue 2 of 2 — Data type fixes</div>
+            <span class="issue-counter">2 / 2</span>
+          </div>
+          <div style="font-size:12.5px;color:var(--text-2);margin-bottom:10px;">I fixed these automatically. Click any row to see exactly what changed.</div>
+          <div class="autofix-row">
+            <div class="autofix-row-top"><div class="autofix-left"><span class="autofix-icon">✓</span><div class="autofix-desc"><strong>Date</strong> — dates were in different formats across rows. I standardized them.</div></div><button class="autofix-change-btn" onclick="showAutofixEdit('date')">Change →</button></div>
+            <button class="autofix-toggle" onclick="toggleAutofixDetail('detail-date', this)">▸ See what changed</button>
+            <div class="autofix-detail" id="detail-date">
+              <div class="autofix-before-after"><span class="ba-label">Before</span><div class="ba-values"><span class="ba-chip">02/05/2010</span><span class="ba-chip">5-Feb-10</span><span class="ba-chip">2010.02.19</span></div><span class="ba-label">After</span><div class="ba-values"><span class="ba-chip after">2010-02-05</span><span class="ba-chip after">2010-02-05</span><span class="ba-chip after">2010-02-19</span></div></div>
+              <div class="autofix-why">All dates now follow the same format (year-month-day), so the model can correctly understand time order.</div>
+            </div>
+          </div>
+          <div class="autofix-row">
+            <div class="autofix-row-top"><div class="autofix-left"><span class="autofix-icon">✓</span><div class="autofix-desc"><strong>store_type</strong> — stored as numbers (1, 2, 3) but actually represents store categories. I converted them to labels.</div></div><button class="autofix-change-btn" onclick="showAutofixEdit('store_type')">Change →</button></div>
+            <button class="autofix-toggle" onclick="toggleAutofixDetail('detail-store', this)">▸ See what changed</button>
+            <div class="autofix-detail" id="detail-store">
+              <div class="autofix-before-after"><span class="ba-label">Before</span><div class="ba-values"><span class="ba-chip">1</span><span class="ba-chip">2</span><span class="ba-chip">3</span></div><span class="ba-label">After</span><div class="ba-values"><span class="ba-chip after">A</span><span class="ba-chip after">B</span><span class="ba-chip after">C</span></div></div>
+              <div class="autofix-why">Treating these as categories (A/B/C) instead of numbers prevents the model from assuming store 3 is "3× bigger" than store 1.</div>
+            </div>
+          </div>
+          <div class="autofix-row">
+            <div class="autofix-row-top"><div class="autofix-left"><span class="autofix-icon autofix-ambiguous">⚠</span><div class="autofix-desc autofix-ambiguous"><strong>region_code</strong> — I'm not sure if this is a number or a category. I made a guess. Review it.</div></div><button class="autofix-change-btn" onclick="showAutofixEdit('region_code')">Change →</button></div>
+            <button class="autofix-toggle" onclick="toggleAutofixDetail('detail-region', this)" style="color:var(--accent);">▸ See why I'm not sure</button>
+            <div class="autofix-detail" id="detail-region">
+              <div class="autofix-before-after"><span class="ba-label">Values</span><div class="ba-values"><span class="ba-chip ambiguous">101</span><span class="ba-chip ambiguous">203</span><span class="ba-chip ambiguous">445</span><span class="ba-chip ambiguous">102</span><span class="ba-chip ambiguous">203</span></div><span class="ba-label">My guess</span><div class="ba-values"><span class="ba-chip after">Treat as category</span></div></div>
+              <div class="autofix-why">The values are numbers, but they repeat and don't form a continuous range — that pattern usually means they're codes, not measurements. If region_code is actually a real number (like a zip code you want to do math on), change it.</div>
+            </div>
+          </div>
+          <div class="issue-footer"><button class="issue-next-btn" onclick="finishDataQuality()">Done, continue →</button></div>
+        </div>
+      </div>
+    </div>
+  `);
+  conversationStep = 1;
+}
+
+function toggleSamplePreview() {
+  const preview = document.getElementById('samplePreview');
+  const label = document.getElementById('previewToggleLabel');
+  const isHidden = preview.style.display === 'none';
+  preview.style.display = isHidden ? 'block' : 'none';
+  label.textContent = isHidden ? '▾ Hide sample data' : '▸ Preview sample data';
+  scrollToBottom();
+}
+
+function toggleIssueExpand() {
+  document.getElementById('issueCard').classList.toggle('expanded');
+  scrollToBottom();
+}
+
+function applyMissingFix() {
+  const fixLabels = { rolling: 'rolling average', exclude: 'columns excluded', drop: 'rows dropped' };
+  const summaryText = document.getElementById('issueSummaryText');
+  if (summaryText) summaryText.textContent = `Missing values — ${fixLabels[selectedFix]}`;
+  const i1 = document.getElementById('issue1Content');
+  const i2 = document.getElementById('issue2Content');
+  i1.style.transition = 'opacity 180ms ease'; i1.style.opacity = '0';
+  setTimeout(() => {
+    i1.style.display = 'none'; i2.style.display = 'block'; i2.style.opacity = '0'; i2.style.transition = 'opacity 220ms ease';
+    requestAnimationFrame(() => requestAnimationFrame(() => { i2.style.opacity = '1'; }));
+    scrollToBottom();
+  }, 200);
+}
+
+function finishDataQuality() {
+  const card = document.getElementById('issueCard');
+  card.classList.remove('active', 'expanded'); card.classList.add('resolved');
+  const summaryText = document.getElementById('issueSummaryText');
+  if (summaryText) summaryText.textContent = '2 issues resolved';
+  setTimeout(() => showTyping(() => showMissingAck(), 600), 300);
+}
+
+let selectedFix = 'rolling';
+function selectFix(el, val) {
+  selectedFix = val;
+  document.querySelectorAll('.fix-option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+const autofixLabels = {
+  date: { field: 'Date', options: ['Keep standardized format — year-month-day (recommended)', 'Keep original mixed formats', 'Use a number (days since Jan 1, 1970)'] },
+  store_type: { field: 'store_type', options: ['Treat as category — A, B, C (recommended)', 'Treat as number — 1, 2, 3', 'Exclude this column from the model'] },
+  region_code: { field: 'region_code', options: ['Treat as category — each code is a distinct group (recommended)', 'Treat as number — do math on this value', 'Exclude this column from the model'] },
+};
+
+function toggleAutofixDetail(id, btn) {
+  const detail = document.getElementById(id);
+  const isOpen = detail.classList.contains('open');
+  detail.classList.toggle('open');
+  btn.textContent = isOpen ? (id === 'detail-region' ? "▸ See why I'm not sure" : '▸ See what changed') : '▾ Hide';
+  scrollToBottom();
+}
+
+function showAutofixEdit(key) {
+  const def = autofixLabels[key];
+  const containerId = `change-panel-${key}`;
+  const existing = document.getElementById(containerId);
+  if (existing) { existing.remove(); return; }
+  const detailEl = document.getElementById(`detail-${key === 'date' ? 'date' : key === 'store_type' ? 'store' : 'region'}`);
+  const row = detailEl ? detailEl.closest('.autofix-row') : null;
+  if (!row) return;
+  const panel = document.createElement('div');
+  panel.id = containerId;
+  panel.style.cssText = 'margin-left:19px; margin-top:8px; padding:12px; background:#fff; border:1px solid var(--border); border-radius:8px; width:calc(100% - 19px);';
+  panel.innerHTML = `
+    <div style="font-size:12px;color:var(--text-2);margin-bottom:8px;font-weight:500;">How should I treat <strong style="color:var(--text);">${def.field}</strong>?</div>
+    <div class="fix-options" id="afedit-${key}" style="gap:5px;">
+      ${def.options.map((o, i) => `<div class="fix-option ${i===0?'selected':''}" onclick="selectAutofixOption(this,'${key}',${i})" style="padding:7px 10px;"><div class="fix-radio"></div><div class="fix-option-title" style="font-size:12px;">${o}</div></div>`).join('')}
+    </div>
+    <div style="display:flex;gap:8px;margin-top:10px;">
+      <button class="issue-next-btn" style="padding:6px 14px;font-size:12px;" onclick="applyAutofixEdit('${key}', this)">Apply</button>
+      <button onclick="document.getElementById('${containerId}').remove()" style="padding:6px 12px;font-size:12px;background:none;border:1px solid var(--border);border-radius:6px;cursor:pointer;color:var(--text-2);font-family:Inter,sans-serif;">Cancel</button>
+    </div>
+  `;
+  row.appendChild(panel);
+  panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function selectAutofixOption(el, key, idx) {
+  el.closest(`#afedit-${key}`).querySelectorAll('.fix-option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function applyAutofixEdit(key, btn) {
+  const container = document.getElementById(`afedit-${key}`);
+  const selected = container ? container.querySelector('.fix-option.selected .fix-option-title') : null;
+  const choice = selected ? selected.textContent : 'default';
+  const detailKey = key === 'date' ? 'date' : key === 'store_type' ? 'store' : 'region';
+  const detailEl = document.getElementById(`detail-${detailKey}`);
+  const row = detailEl ? detailEl.closest('.autofix-row') : null;
+  if (row) {
+    const desc = row.querySelector('.autofix-desc');
+    if (desc) { const icon = row.querySelector('.autofix-icon'); if (icon) { icon.textContent = '✓'; icon.className = 'autofix-icon'; } desc.className = 'autofix-desc'; desc.innerHTML = `<strong>${autofixLabels[key].field}</strong> — updated to: <span style="color:var(--success);font-weight:500;">${choice}</span>`; }
+  }
+  const panel = document.getElementById(`change-panel-${key}`); if (panel) panel.remove();
+}
+
+function showMissingAck() {
+  const messages = {
+    rolling: `Got it. I'll fill the gaps in <span class="mono">CPI</span> and <span class="mono">Unemployment</span> using a 4-week rolling average per store. The affected weeks are distributed across 2011–2012, so the rolling average should be a reliable estimate.<br><br><span style="color:var(--text-2);">Your data supports several modeling use cases. What kind of problem are you trying to solve?</span>`,
+    exclude: `Understood. I'll remove <span class="mono">CPI</span> and <span class="mono">Unemployment</span> from the feature set. The model will use Temperature, Fuel Price, and Holiday flags instead — still a solid set of signals.<br><br><span style="color:var(--text-2);">Your data supports several modeling use cases. What kind of problem are you trying to solve?</span>`,
+    drop: `Got it. I'll drop the 585 rows with missing values, leaving 7,605 rows in weekly_attributes.csv. Training data is reduced slightly but the time series remains continuous enough for modeling.<br><br><span style="color:var(--text-2);">Your data supports several modeling use cases. What kind of problem are you trying to solve?</span>`,
+  };
+  addAIBubble(`<div>${messages[selectedFix]}</div>`);
+  setTimeout(() => {
+    addChips(['Predict future sales', 'Understand holiday impact', 'Identify underperforming stores'], handleUseCase);
+    document.getElementById('sendBtn').disabled = false;
+    waitingForInput = true;
+  }, 300);
+  conversationStep = 1;
+}
+
+function handleUseCase(choice) {
+  waitingForInput = false; document.getElementById('sendBtn').disabled = true; addUserBubble(choice);
+  if (choice === 'Predict future sales' || choice.toLowerCase().includes('sales') || choice.toLowerCase().includes('forecast') || choice.toLowerCase().includes('revenue')) setTimeout(() => showTyping(() => showMessage2Sales()), 400);
+  else if (choice === 'Understand holiday impact' || choice.toLowerCase().includes('holiday')) setTimeout(() => showTyping(() => showMessage2Holiday()), 400);
+  else if (choice === 'Identify underperforming stores' || choice.toLowerCase().includes('store') || choice.toLowerCase().includes('perform')) setTimeout(() => showTyping(() => showMessage2Stores()), 400);
+  else setTimeout(() => showTyping(() => showFallback()), 400);
+}
+
+function showMessage2Sales() {
+  addAIBubble(`<div style="margin-bottom:10px;">Your data is well-suited for sales forecasting. A few things stood out:</div><div class="check-item"><span class="ck">✓</span><span><span class="mono">Weekly_Sales</span> is a clean numeric target with no gaps</span></div><div class="check-item"><span class="ck">✓</span><span>The time series is continuous — 143 weeks is enough for seasonal modeling</span></div><div class="check-item"><span class="ck">✓</span><span>External signals like CPI and holiday flags can improve prediction accuracy</span></div><div style="margin-top:12px; color:var(--text-2);">One question: how far ahead do you need to forecast?</div>`);
+  setTimeout(() => { addChips(['1–2 weeks', 'Up to 4 weeks', "I'm not sure yet"], handleHorizon); document.getElementById('sendBtn').disabled = false; waitingForInput = true; }, 300);
+  conversationStep = 2;
+}
+
+function handleHorizon(choice) {
+  waitingForInput = false; document.getElementById('sendBtn').disabled = true; addUserBubble(choice);
+  horizon = choice.includes('1') ? '2 weeks' : '4 weeks';
+  setTimeout(() => showTyping(() => showMessage3Granularity()), 500);
+}
+
+function showMessage3Granularity() {
+  addAIBubble(`<div style="margin-bottom:10px;">Got it. Last question: do you want predictions at the department level, or rolled up by store?</div><div class="check-item"><span style="color:var(--accent);font-weight:600;flex-shrink:0;">↳</span><span><strong>Department level</strong> — 79 prediction targets per store, more granular</span></div><div class="check-item"><span style="color:var(--accent);font-weight:600;flex-shrink:0;">↳</span><span><strong>Store level</strong> — one number per store, simpler to act on</span></div>`);
+  setTimeout(() => { addChips(['Department level', 'Store level', 'Show me both options'], handleGranularity); document.getElementById('sendBtn').disabled = false; waitingForInput = true; }, 300);
+  conversationStep = 3;
+}
+
+function handleGranularity(choice) {
+  waitingForInput = false; document.getElementById('sendBtn').disabled = true;
+  if (choice === 'Show me both options') { addUserBubble(choice); setTimeout(() => showTyping(() => showBothOptions()), 500); return; }
+  granularity = choice.includes('Department') ? 'Per department' : 'Per store';
+  addUserBubble(choice); setTimeout(() => showTyping(() => showRecommendation()), 600);
+}
+
+function showBothOptions() {
+  addAIBubble(`<div style="margin-bottom:10px;">Both options are supported by your data. Here's the trade-off:</div><div class="check-item"><span style="color:var(--accent);font-weight:600;flex-shrink:0;">↳</span><span><strong>Department level:</strong> 45 × 79 = 3,555 individual time series. More actionable for inventory or staffing by department.</span></div><div class="check-item"><span style="color:var(--accent);font-weight:600;flex-shrink:0;">↳</span><span><strong>Store level:</strong> 45 time series. Faster to train, easier to interpret for regional planning.</span></div><div style="margin-top:10px;color:var(--text-2);">Which would you like to configure?</div>`);
+  setTimeout(() => { addChips(['Department level', 'Store level'], handleGranularity); document.getElementById('sendBtn').disabled = false; }, 300);
+}
+
+function showRecommendation() {
+  const seriesCheck = granularity === 'Per department' ? '45 stores × 79 departments — 3,555 individual time series' : '45 stores, one forecast per store per week';
+  addAIBubble(`<div class="bubble-section-label">Recommendation</div><div class="rec-title">Weekly Sales Forecasting</div><div style="color:var(--text-2);font-size:13px;margin-bottom:12px;">Predict <span class="mono">Weekly_Sales</span> ${granularity === 'Per department' ? 'per department' : 'per store'} up to ${horizon} ahead.</div><div class="bubble-section-label">Why your data supports this</div><div class="check-item"><span class="ck">✓</span><span>143 weeks of continuous history — sufficient for seasonal pattern detection</span></div><div class="check-item"><span class="ck">✓</span><span>Holiday flags capture demand spikes automatically</span></div><div class="check-item"><span class="ck">✓</span><span>CPI and fuel price data add macroeconomic context</span></div><div class="check-item"><span class="ck">✓</span><span>${seriesCheck}</span></div><div style="margin-top:14px;color:var(--text-2);">I've pre-configured everything I'm confident about. You can review before running.</div>`);
+  addReviewButton(); conversationStep = 4;
+}
+
+function addReviewButton() {
+  setTimeout(() => {
+    const btn = document.createElement('button'); btn.className = 'run-btn'; btn.textContent = 'Review configuration →'; btn.style.cssText = 'display:block;margin:8px 0;';
+    btn.onclick = function() { this.disabled = true; this.textContent = 'Opening...'; showConfigCard(); };
+    appendToChat(btn); scrollToBottom();
+  }, 500);
+}
+
+function showMessage2Holiday() {
+  addAIBubble(`<div style="margin-bottom:10px;">Your data has clear holiday flags across all 143 weeks, with enough non-holiday baseline for comparison.</div><div style="margin-bottom:12px;color:var(--text-2);">This use case would quantify how much holiday weeks lift or suppress <span class="mono">Weekly_Sales</span> by store type and department.</div><div style="color:var(--text-2);">Do you want to continue with this, or explore other options?</div>`);
+  setTimeout(() => {
+    addChips(['Yes, configure this', 'Show me other use cases'], (c) => {
+      addUserBubble(c);
+      if (c === 'Yes, configure this') { granularity = 'Per department'; horizon = '4 weeks'; setTimeout(() => showTyping(() => showRecommendationHoliday()), 500); }
+      else setTimeout(() => showTyping(() => showAllOptions()), 500);
+    }); document.getElementById('sendBtn').disabled = false;
+  }, 300);
+}
+
+function showRecommendationHoliday() {
+  addAIBubble(`<div class="bubble-section-label">Recommendation</div><div class="rec-title">Holiday Impact Analysis</div><div style="color:var(--text-2);font-size:13px;margin-bottom:12px;">Quantify how much holiday weeks lift or suppress <span class="mono">Weekly_Sales</span> by store type and department.</div><div class="bubble-section-label">Why your data supports this</div><div class="check-item"><span class="ck">✓</span><span><span class="mono">IsHoliday</span> flag present across all 143 weeks</span></div><div class="check-item"><span class="ck">✓</span><span>Sufficient non-holiday baseline for comparison</span></div><div class="check-item"><span class="ck">✓</span><span>Sales variance on holiday weeks is clearly detectable in the data</span></div><div style="margin-top:14px;color:var(--text-2);">I've pre-configured everything I'm confident about. You can review before running.</div>`);
+  addReviewButton();
+}
+
+function showMessage2Stores() {
+  addAIBubble(`<div style="margin-bottom:10px;">Your data supports store performance classification. The 3 store types (A, B, C) have distinct size and sales profiles.</div><div style="margin-bottom:12px;color:var(--text-2);">The model can learn to predict whether a store will over or underperform its type average — useful for resource allocation and regional planning.</div><div style="color:var(--text-2);">This is a classification use case rather than forecasting. Want to continue?</div>`);
+  setTimeout(() => {
+    addChips(['Yes, configure this', 'Go back to forecasting'], (c) => {
+      addUserBubble(c);
+      if (c === 'Yes, configure this') { granularity = 'Per store'; horizon = '4 weeks'; setTimeout(() => showTyping(() => showRecommendationStores()), 500); }
+      else setTimeout(() => showTyping(() => showMessage2Sales()), 500);
+    }); document.getElementById('sendBtn').disabled = false;
+  }, 300);
+}
+
+function showRecommendationStores() {
+  addAIBubble(`<div class="bubble-section-label">Recommendation</div><div class="rec-title">Store Performance Segmentation</div><div style="color:var(--text-2);font-size:13px;margin-bottom:12px;">Classify stores by predicted performance tier relative to their type average.</div><div class="bubble-section-label">Why your data supports this</div><div class="check-item"><span class="ck">✓</span><span>3 store types (A, B, C) with distinct size profiles: Type A avg 180k sqft, Type C avg 40k sqft</span></div><div class="check-item"><span class="ck">✓</span><span>Sales variance across stores is significant and consistent over time</span></div><div class="check-item"><span class="ck">✓</span><span>Enough data per store to define reliable over/underperformance thresholds</span></div><div style="margin-top:14px;color:var(--text-2);">I've pre-configured everything I'm confident about. You can review before running.</div>`);
+  addReviewButton();
+}
+
+function showAllOptions() {
+  addAIBubble(`<div style="margin-bottom:10px;">Here are the use cases your data supports:</div><div class="data-row" style="margin:6px 0;"><span class="dash">1.</span><span><strong>Weekly Sales Forecasting</strong> — predict future <span class="mono">Weekly_Sales</span> by store or department</span></div><div class="data-row" style="margin:6px 0;"><span class="dash">2.</span><span><strong>Holiday Impact Analysis</strong> — quantify how holidays affect sales by store type</span></div><div class="data-row" style="margin:6px 0;"><span class="dash">3.</span><span><strong>Store Performance Segmentation</strong> — classify stores by predicted performance tier</span></div><div style="margin-top:10px;color:var(--text-2);">Which would you like to explore?</div>`);
+  setTimeout(() => { addChips(['Weekly Sales Forecasting', 'Holiday Impact Analysis', 'Store Performance Segmentation'], handleUseCase); document.getElementById('sendBtn').disabled = false; }, 300);
+}
+
+function showFallback() {
+  addAIBubble(`<div style="color:var(--text-2);">I'm not sure I understood that. Here are the use cases your data supports:</div>`);
+  setTimeout(() => showAllOptions(), 300);
+}
+
+function handleFreeText() {
+  const input = document.getElementById('inputField');
+  const text = input.value.trim(); if (!text) return;
+  input.value = ''; document.getElementById('sendBtn').disabled = true;
+  if (conversationStep === 1) handleUseCase(text);
+  else if (conversationStep === 2) handleHorizon(text);
+  else if (conversationStep === 3) handleGranularity(text);
+  else { addUserBubble(text); setTimeout(() => showTyping(() => showFallback()), 400); }
+}
+document.getElementById('inputField').addEventListener('keydown', e => { if (e.key === 'Enter') handleFreeText(); });
+
+function showConfigCard() {
+  const totalSeries = granularity === 'Per department' ? '3,555' : '45';
+  const card = document.createElement('div'); card.className = 'config-card';
+  card.innerHTML = `
+    <div class="config-header"><div class="config-badge">Configuration</div><div class="config-title">Weekly Sales Forecasting</div><div class="config-sub">I've pre-filled everything I'm confident about. Review before running.</div></div>
+    <div class="config-body">
+      <div class="config-left">
+        <div class="config-section-label"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1" y="1" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/><line x1="4" y1="6" x2="8" y2="6" stroke="currentColor" stroke-width="1.5"/></svg>AI Configured</div>
+        <div class="prefilled-fields">
+          <div class="pf-row"><div class="pf-label">Target column</div><div class="pf-value"><span class="mono">Weekly_Sales</span></div><div class="pf-note">Only numeric outcome column in your data</div></div>
+          <div class="pf-row"><div class="pf-label">Time column</div><div class="pf-value"><span class="mono">Date</span></div><div class="pf-note">Detected as weekly timestamps</div></div>
+          <div class="pf-row"><div class="pf-label">Entity ID</div><div class="pf-value"><span class="mono">Store_ID</span><span style="color:var(--text-3);font-size:12px;">+</span><span class="mono">Dept_ID</span></div><div class="pf-note">Combined key uniquely identifies each time series</div></div>
+          <div class="pf-row"><div class="pf-label">Feature columns</div><div class="pf-value" style="gap:4px;flex-wrap:wrap;"><span class="mono">Temperature</span><span class="mono">Fuel_Price</span><span class="mono">CPI</span><span class="mono">Unemployment</span><span class="mono">IsHoliday</span></div><div class="pf-note">All available external signals included</div></div>
+          <div class="pf-row"><div class="pf-label">Train / test split</div><div class="pf-value"><span class="mono">80% / 20%</span></div><div class="pf-note">Last 20% of weeks used as holdout</div></div>
+        </div>
+        <div class="divider"></div>
+        <div class="config-section-label user-label"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M8 2L10 4L4 10H2V8L8 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Your Input</div>
+        <div class="user-fields">
+          <div class="uf-row"><div class="uf-label">Forecast horizon</div><div class="seg-control" id="horizonSeg"><button class="seg-btn ${horizon==='2 weeks'?'active':''}" onclick="setHorizon('2 weeks', this)">2 weeks</button><button class="seg-btn ${horizon==='4 weeks'?'active':''}" onclick="setHorizon('4 weeks', this)">4 weeks</button><button class="seg-btn" onclick="setHorizon('Custom', this)">Custom</button></div><div class="uf-helper">Longer horizons reduce accuracy. 4 weeks is the practical limit for this dataset.</div></div>
+          <div class="uf-row"><div class="uf-label">Prediction granularity</div><div class="seg-control" id="granSeg"><button class="seg-btn ${granularity==='Per department'?'active':''}" onclick="setGranularity('Per department', this)">Per department</button><button class="seg-btn ${granularity==='Per store'?'active':''}" onclick="setGranularity('Per store', this)">Per store</button></div><div class="uf-helper">Department-level gives 79 targets per store. Store-level gives one number per store.</div></div>
+        </div>
+      </div>
+      <div class="config-right">
+        <div><div class="summary-label">Model Summary</div><div class="summary-items"><div class="summary-row"><span class="summary-key">Predicting</span><span class="summary-val mono">Weekly_Sales</span></div><div class="summary-row"><span class="summary-key">Granularity</span><span class="summary-val" id="sumGran">${granularity}</span></div><div class="summary-row"><span class="summary-key">Forecast horizon</span><span class="summary-val" id="sumHorizon">${horizon}</span></div><div class="summary-row"><span class="summary-key">Training weeks</span><span class="summary-val">~114</span></div><div class="summary-row"><span class="summary-key">Features</span><span class="summary-val">5 external signals</span></div><div class="summary-row"><span class="summary-key">Total series</span><span class="summary-val" id="sumSeries">${totalSeries}</span></div></div></div>
+        <div class="mini-chart"><div class="chart-label">Store 1, Dept 3 — Historical Weekly Sales</div><div class="chart-bars" id="chartBars"></div><div class="chart-axis"><span>Feb 2010</span><span>Oct 2012</span></div><div class="forecast-line-label">▸ Forecast window</div></div>
+      </div>
+    </div>
+    <div class="config-footer"><div style="width:100%;"><div style="font-size:11px;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;color:var(--text-3);margin-bottom:10px;">Run Mode</div><div class="run-mode-selector" id="runModeSelector"><div class="run-mode-option selected" onclick="selectRunMode(this,'quick')"><div class="fix-radio"></div><div><div class="run-mode-title">Quick run <span class="sample-badge fast">~2 MIN</span></div><div class="run-mode-meta">10% of data · Fast results to validate direction before committing full compute</div></div></div><div class="run-mode-option" onclick="selectRunMode(this,'full')"><div class="fix-radio"></div><div><div class="run-mode-title">Full run <span class="sample-badge full">~18 MIN</span></div><div class="run-mode-meta">All 84,422 rows · Production-quality model on complete dataset</div></div></div></div><div style="display:flex;align-items:center;gap:12px;margin-top:12px;"><button class="run-btn" id="runBtn" onclick="runModel()">Run model →</button><span class="run-note" id="runNote">Results from quick run available in ~2 min.</span></div></div></div>
+  `;
+  const closeBtn = document.createElement('button'); closeBtn.className = 'config-close-btn'; closeBtn.innerHTML = '✕'; closeBtn.onclick = closeConfigModal;
+  card.style.position = 'relative'; card.appendChild(closeBtn);
+  const overlay = document.getElementById('configOverlay');
+  overlay.innerHTML = ''; overlay.appendChild(card); overlay.classList.add('open'); overlay.scrollTop = 0;
+  setTimeout(() => { buildChart(); }, 50);
+}
+
+function closeConfigModal() { document.getElementById('configOverlay').classList.remove('open'); }
+function closeConfigOnBackdrop(e) { if (e.target === document.getElementById('configOverlay')) closeConfigModal(); }
+
+function buildChart() {
+  const bars = document.getElementById('chartBars'); if (!bars) return;
+  [38,42,36,48,52,44,39,55,60,47,43,58,62,50,45,53,57,41,46,35].forEach((h, i) => {
+    const bar = document.createElement('div'); bar.className = 'bar' + (i >= 16 ? ' forecast' : ''); bar.style.height = h + 'px'; bars.appendChild(bar);
+  });
+}
+
+function setHorizon(val, btn) { horizon = val; btn.closest('.seg-control').querySelectorAll('.seg-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); const el = document.getElementById('sumHorizon'); if (el) el.textContent = val; }
+function setGranularity(val, btn) { granularity = val; btn.closest('.seg-control').querySelectorAll('.seg-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); const el = document.getElementById('sumGran'); if (el) el.textContent = val; const s = document.getElementById('sumSeries'); if (s) s.textContent = val === 'Per department' ? '3,555' : '45'; }
+
+let modalFix = 'rolling';
+const fixLabels = { rolling: 'rolling average', exclude: 'columns excluded', drop: 'rows dropped' };
+function openDQModal() { document.querySelectorAll('#modalFixOptions .fix-option').forEach(o => o.classList.remove('selected')); const c = document.getElementById('mfix-' + selectedFix); if (c) c.classList.add('selected'); modalFix = selectedFix; document.getElementById('dqOverlay').classList.add('open'); }
+function closeDQModal(e) { if (e.target === document.getElementById('dqOverlay')) closeDQModalDirect(); }
+function closeDQModalDirect() { document.getElementById('dqOverlay').classList.remove('open'); }
+function selectModalFix(el, val) { modalFix = val; document.querySelectorAll('#modalFixOptions .fix-option').forEach(o => o.classList.remove('selected')); el.classList.add('selected'); }
+function applyModalFix() {
+  const changed = modalFix !== selectedFix; selectedFix = modalFix;
+  const statusEl = document.getElementById('dqStatusText'); if (statusEl) statusEl.textContent = `2 issues · ${fixLabels[selectedFix]}`;
+  closeDQModalDirect();
+  if (changed) { const msgs = { rolling: 'Updated. I\'ll fill gaps in <span class="mono">CPI</span> and <span class="mono">Unemployment</span> using a 4-week rolling average per store.', exclude: 'Updated. <span class="mono">CPI</span> and <span class="mono">Unemployment</span> will be excluded from the feature set.', drop: 'Updated. The 585 rows with missing values will be dropped before training.' }; setTimeout(() => showTyping(() => addAIBubble(`<div style="color:var(--text-2);">${msgs[selectedFix]}</div>`), 500), 200); }
+}
+
+function selectRunMode(el, val) { runMode = val; document.querySelectorAll('#runModeSelector .run-mode-option').forEach(o => o.classList.remove('selected')); el.classList.add('selected'); const n = document.getElementById('runNote'); if (n) n.textContent = val === 'quick' ? 'Results from quick run available in ~2 min.' : 'Full run queued — results available in ~18 min.'; }
+function runModel() { const btn = document.getElementById('runBtn'); btn.textContent = runMode === 'quick' ? '✓ Quick run queued' : '✓ Full run queued'; btn.classList.add('done'); }
+</script>
+</body>
+</html>
