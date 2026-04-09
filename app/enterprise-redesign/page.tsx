@@ -62,7 +62,7 @@ export default function EnterpriseRedesignPage() {
       <header className="border-b border-[var(--color-border)] px-6 pb-24 pt-8">
         <div className="mx-auto max-w-content">
           <h1 className="font-display text-4xl leading-tight tracking-tight text-[var(--color-text)] md:text-5xl">
-            Enterprise AutoML Workflow Redesign
+            Enterprise AutoML Workflow Redesign 1
           </h1>
           <p className="mt-6 max-w-[680px] font-sans text-lg leading-[1.75] text-[var(--color-muted)]">
             The configuration workflow for dotData&apos;s AutoML platform was
