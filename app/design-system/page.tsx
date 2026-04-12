@@ -37,8 +37,8 @@ export default function DesignSystemPage() {
             <MetadataRow
               items={[
                 { label: 'Role', value: 'Solo Product Designer' },
-                { label: 'Product', value: 'dotData Enterprise AI Platform' },
-                { label: 'Team', value: '2 designers, 8 engineers' },
+                { label: 'Product', value: 'dotData Enterprise AutoML Platform' },
+                { label: 'Team', value: '2 designers, 2 engineers' },
                 { label: 'Focus', value: 'Design Systems, Token Architecture, Design-Dev Alignment' },
               ]}
             />

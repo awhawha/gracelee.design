@@ -11,6 +11,12 @@ export function Nav() {
           Grace Lee
         </Link>
         <div className="flex flex-wrap items-center gap-x-8 gap-y-2 font-sans text-sm text-[var(--color-text)]">
+          {/* <Link
+            href="/experiments"
+            className="no-underline decoration-1 underline-offset-[3px] hover:underline"
+          >
+            Experiments
+          </Link> */}
           <Link
             href="/about"
             className="no-underline decoration-1 underline-offset-[3px] hover:underline"

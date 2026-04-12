@@ -80,7 +80,7 @@ export default function EnterpriseRedesignPage() {
                 },
                 {
                   label: 'Team',
-                  value: '2 designers, engineering',
+                  value: '2 designers, 8 engineers',
                 },
                 {
                   label: 'Focus',
@@ -134,8 +134,60 @@ export default function EnterpriseRedesignPage() {
               hours.</strong>
             </p>
           </div>
+          
+        </section>
+
+        <section>
+          <SectionHeading>Understanding the System</SectionHeading>
+          <div className="mt-8 max-w-[680px] space-y-6 font-sans leading-[1.75] text-[var(--color-text)]">
+            <p>
+            Going into this project, the team assumed the problem was mostly terminology. 
+            To test this, an engineer asked me to configure a task using a real dataset 
+            without any help.
+            </p>
+            <p>
+              <strong>I couldn&apos;t do it.</strong>
+            </p>
+            <p>
+              This failure changed my entire approach. I began interviewing engineers 
+              and using ChatGPT to translate pipeline logic into plain language. As I 
+              built a mental model of the system, I realized terminology was just a symptom. 
+              The root cause was that we were building training datasets for prediction models, 
+              yet the interface offered <strong>zero visibility into the consequences of a user’s choices</strong>. 
+              If they got it wrong, they wouldn't find out until the model finished running days later. 
+              <strong>The cost of a single mistake was too high.</strong>
+            </p>
+          </div>
+          <div className="mt-8 max-w-[680px] space-y-6 font-sans leading-[1.75] text-[var(--color-text)]">
+            <p className="font-sans text-s text-[var(--color-text)]">
+              <strong>Key Insights</strong>
+            </p>
+            <p className="mt-2 font-sans leading-[1.75] text-[var(--color-text)]">
+              Through this discovery process, I identified three structural flaws that were preventing users from succeeding:
+            </p>
+          </div>
           <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3">
-            <div>
+            <div className="border border-[var(--color-border)] rounded-lg p-5">
+              <p className="font-mono text-xs text-[var(--color-muted)]">
+                Rigid Workflow
+              </p>
+              <p className="mt-2 font-sans leading-[1.75] text-[var(--color-text)]">
+                The step-based wizard forced users into a linear sequence. If
+                something went wrong, there was no way to adjust a single
+                parameter — users had to restart from the beginning.
+              </p>
+            </div>
+            <div className="border border-[var(--color-border)] rounded-lg p-5">
+              <p className="font-mono text-xs text-[var(--color-muted)]">
+                Invisible Ripple Effects
+              </p>
+              <p className="mt-2 font-sans leading-[1.75] text-[var(--color-text)]">
+                Configuration changes silently altered the dataset used for
+                modeling. The only signal was a low accuracy score at the
+                end — with no explanation attached.
+              </p>
+            </div>
+            <div className="border border-[var(--color-border)] rounded-lg p-5">
               <p className="font-mono text-xs text-[var(--color-muted)]">
                 Expert Trap
               </p>
@@ -146,65 +198,6 @@ export default function EnterpriseRedesignPage() {
                 getting it wrong would break everything downstream.
               </p>
             </div>
-            <div>
-              <p className="font-mono text-xs text-[var(--color-muted)]">
-                Invisible Ripple Effects
-              </p>
-              <p className="mt-2 font-sans leading-[1.75] text-[var(--color-text)]">
-                Configuration changes silently altered the dataset used for
-                modeling. The only signal was a low accuracy score at the
-                end — with no explanation attached.
-              </p>
-            </div>
-            <div>
-              <p className="font-mono text-xs text-[var(--color-muted)]">
-                Rigid Workflow
-              </p>
-              <p className="mt-2 font-sans leading-[1.75] text-[var(--color-text)]">
-                The step-based wizard forced users into a linear sequence. If
-                something went wrong, there was no way to adjust a single
-                parameter — users had to restart from the beginning.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <section>
-          <SectionHeading>Understanding the System</SectionHeading>
-          <div className="mt-8 max-w-[680px] space-y-6 font-sans leading-[1.75] text-[var(--color-text)]">
-            <p>
-              Going into this project, I assumed the problem was mostly
-              terminology. The interface used data science language, and business
-              analysts weren&apos;t data scientists — so the fix should be a
-              language problem, right?
-            </p>
-            <p>
-              An engineer pushed back on that early. He told me to take a real
-              dataset and try to configure a task myself. See if I could get it
-              right without help.
-            </p>
-            <p>
-              I couldn&apos;t.
-            </p>
-            <p>
-              That changed how I thought about the problem. I started reading
-              documentation, asking engineers to walk me through the pipeline
-              logic, and using ChatGPT to translate technical concepts into plain
-              language with concrete examples. Slowly I built up a mental model
-              of what the system was actually doing. And that&apos;s when I
-              realized <strong>the terminology wasn&apos;t the real issue. The issue was
-              that the interface gave users no way to understand the consequences
-              of their decisions</strong> before it was too late to fix them.
-            </p>
-            <p className="font-mono text-sm text-[var(--color-text)]">
-              Time column → Prediction Target Time → Lead Time → Feature Window
-            </p>
-            <p>
-              These four parameters are tightly coupled. Each one determines how
-              the system slices data for training. The interface never
-              communicated that — and without understanding it, designing
-              something helpful was impossible.
-            </p>
           </div>
         </section>
 
@@ -212,29 +205,30 @@ export default function EnterpriseRedesignPage() {
           <SectionHeading>From Wizard to Workspace</SectionHeading>
           <div className="mt-8 max-w-[680px] space-y-6 font-sans leading-[1.75] text-[var(--color-text)]">
             <p>
-              Our first instinct wasn&apos;t to scrap the wizard. We spent time
-              exploring how to make it better — clearer section labels, easier
-              navigation between steps, more explicit definitions for each
-              parameter. But the more we dug in, the more something felt off.
+              Initially, we explored optimizing the existing wizard with clearer labels and better 
+              navigation. However, the discovery process revealed a fundamental <strong>misalignment in mental 
+              models</strong>: the step-based wizard was forcing users to make a single, coherent decision through 
+              a sequence of isolated, disconnected steps.
             </p>
             <p>
-              At some point I realized: <strong>what users were actually doing, across
-              all these steps, was defining a single flat table.</strong> That table was
-              the training dataset. Every parameter — time column, prediction
-              target time, lead time, feature windows — was just determining
-              what that table would look like. The wizard was hiding that. It
-              was breaking one coherent decision into a sequence of isolated
-              steps, so users never had a mental model of what they were building
-              toward.
+              I realized that the user’s ultimate goal was defining a <strong>single flat table</strong>(the training dataset). 
+              Every parameter—from time columns to feature windows—was simply a variable determining that table's 
+              structure. By imposing a linear sequence, the interface was <strong>hiding the final output</strong> until it was too 
+              late to adjust.
             </p>
             <p>
-              That&apos;s when the canvas idea came in. <strong>If the real task was
-              constructing a dataset, the interface should make that visible</strong> —
-              not walk users through it one field at a time.
+              <strong>That was the "Aha!" moment</strong>: If the task is constructing a dataset, the interface should make the construction 
+              logic visible in real-time. This insight led us to move away from the linear constraints and toward a <strong>canvas-based 
+              workspace</strong> that prioritizes visibility and relationship mapping.
             </p>
           </div>
           <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2">
             <div className="bg-[var(--color-surface)] p-6">
+              <img
+                  src="/images/er-linear-wizard.png"
+                  alt="linear wizard mockup"
+                  className="mb-6 w-full h-auto block"
+                />
               <h3 className="font-display text-xl text-[var(--color-text)]">
                 Linear Wizard
               </h3>
@@ -252,12 +246,16 @@ export default function EnterpriseRedesignPage() {
               </p>
             </div>
             <div className="border-l-2 border-[var(--color-accent)] bg-[var(--color-surface)] p-6">
+              <img
+                  src="/images/er-open-canvas-v1.png"
+                  alt="Open canvas workspace mockup"
+                  className="mb-6 w-full h-auto block"
+                />
               <h3 className="font-display text-xl text-[var(--color-text)]">
-                Decision Workspace
+                Canvas Workspace
               </h3>
               <p className="mt-4 font-sans leading-[1.75] text-[var(--color-text)]">
-                Higher information density, but users can immediately observe
-                system behavior and iterate without restarting.
+                The blank canvas can feel unfamiliar at first, but returning users move through it quickly.
               </p>
               <p className="mt-4 font-sans text-sm leading-relaxed text-[var(--color-muted)]">
                 <span className="text-[var(--color-text)]">Pros:</span> faster
@@ -269,38 +267,36 @@ export default function EnterpriseRedesignPage() {
               </p>
             </div>
           </div>
-          <p className="mt-8 max-w-[680px] font-sans leading-[1.75] text-[var(--color-text)]">
-            We went with the workspace because early feedback was more valuable
-            than reducing interface complexity.
-          </p>
         </section>
 
         <section>
-          <SectionHeading>Design Details</SectionHeading>
-
+          <SectionHeading>Design Details: Turning Insights into Solutions</SectionHeading>
           <div className="mt-10 max-w-[680px]">
             <h3 className="font-sans text-base font-semibold text-[var(--color-text)]">
-              Prediction Target Time
+              1. Contextual Configuration (The "Define Target" Panel)
             </h3>
             <div className="mt-4 space-y-6 font-sans leading-[1.75] text-[var(--color-text)]">
-              <p>
-                One of the trickiest parameters to design around was <strong>Prediction
-                Target Time</strong> — the reference point the system uses to align
-                historical data with training samples. It appears in multiple
-                steps, and users almost never understood why it kept showing up.
+              <p className="font-sans leading-[1.75] text-[var(--color-text)]">
+                <strong>The Insight: </strong>Solve the <strong>Rigid Workflow.</strong> In a linear wizard, making a change on Step 4 often 
+                meant restarting from Step 1.
               </p>
-              <p>
-                The fix: instead of asking users to navigate back to configure
-                it, <strong>we let them set it inline wherever it appeared.</strong> A small edit
-                icon opens a lightweight panel — the workflow never breaks.
+              <p className="font-sans leading-[1.75] text-[var(--color-text)]">
+                <strong>The Solution: </strong>We moved configuration into a <strong>non-linear workspace.</strong> The "Define 
+                Target" panel now exists as a lightweight overlay on the canvas.
+              </p>
+              <p className="font-sans leading-[1.75] text-[var(--color-text)]">
+                <strong>The Impact: </strong>Users can adjust critical parameters like "Prediction Target Time" 
+                inline without breaking their flow. I also added <strong>inline guidance </strong>
+                (e.g., "What is prediction time?") to bridge the "Expert Trap" 
+                and define technical terms where they are used.
               </p>
             </div>
           </div>
           <div className="mx-auto max-w-hero">
             <img
-              src="/images/Enterprise_Redesign2.avif"
+              src="/images/er-canvas-define-target.png"
               alt="Prediction Target Time inline configuration"
-              className="mb-12"
+              className="mb-12 rounded-xl"
               style={{
                 width: '100%',
                 height: 'auto',
@@ -310,29 +306,86 @@ export default function EnterpriseRedesignPage() {
             />
           </div>
 
-          <div className="mt-12 max-w-[680px]">
+          <div className="mt-10 max-w-[680px]">
             <h3 className="font-sans text-base font-semibold text-[var(--color-text)]">
-              Auto-Connecting Tables
+              2. Immediate Feedback (Real-time Table Exploration)
             </h3>
             <div className="mt-4 space-y-6 font-sans leading-[1.75] text-[var(--color-text)]">
-              <p>
-                Connecting tables was another drop-off point. Business analysts
-                aren&apos;t database engineers — <strong>manually selecting join keys for
-                each table connection caused a lot of errors.</strong>
+              <p className="font-sans leading-[1.75] text-[var(--color-text)]">
+                <strong>The Insight: </strong>Solve Invisible <strong>Ripple Effects.</strong> Since we couldn't technically 
+                preview the final combined dataset in real-time, I focused on 
+                making the "building blocks" transparent.
               </p>
-              <p>
-                We introduced <strong>auto-connect</strong>: when a user adds a table, the
-                system scans the schema and suggests a likely relationship
-                based on column matches. Users can override it, but the default
-                is usually right. That alone <strong>eliminated a whole category of
-                silent failures.</strong>
+              <p className="font-sans leading-[1.75] text-[var(--color-text)]">
+                <strong>The Solution: </strong>I designed a <strong>"Cleansed View" drawer</strong> that allows users to instantly 
+                peek into any single table on the canvas.
+              </p>
+              <p className="font-sans leading-[1.75] text-[var(--color-text)]">
+                <strong>The Impact: </strong>By showing data distributions and formats (Categorical, Datetime) 
+                immediately, users can verify their data quality before running the model. 
+                This creates an immediate feedback loop that catches simple errors in seconds.
               </p>
             </div>
           </div>
           <div className="mx-auto max-w-hero">
-            <CaseStudyVideo
-              src="/images/Enterprise_Redesign3.mp4"
-              label="Auto-connect table relationships in the schema workspace"
+            <img
+              src="/images/er-table-preview.png"
+              alt="Prediction Target Time inline configuration"
+              className="mb-12 rounded-xl"
+              style={{
+                width: '100%',
+                height: 'auto',
+                display: 'block',
+                marginTop: '32px',
+              }}
+            />
+          </div>
+
+          <div className="mt-10 max-w-[680px]">
+            <h3 className="font-sans text-base font-semibold text-[var(--color-text)]">
+              3. Intelligent Guardrails (Auto-Connect & Validation)
+            </h3>
+            <div className="mt-4 space-y-6 font-sans leading-[1.75] text-[var(--color-text)]">
+              <p className="font-sans leading-[1.75] text-[var(--color-text)]">
+                <strong>The Insight: </strong>Address the <strong>Expert Trap</strong> and the high cost of mistakes. Business 
+                analysts shouldn't need to be database engineers to connect tables correctly.
+              </p>
+              <p className="font-sans leading-[1.75] text-[var(--color-text)]">
+                <strong>The Solution: </strong>We introduced <strong>Intelligent Auto-Connect</strong>, which suggests 
+                relationships based on schema matches. To back this up, I designed a <strong>Systemic Validation 
+                Panel</strong> that flags missing configurations or broken logic in real-time.
+              </p>
+              <p className="font-sans leading-[1.75] text-[var(--color-text)]">
+                <strong>The Impact: </strong>Instead of waiting days for a model to fail, users get 
+                "actionable errors" immediately on the canvas. This transforms the debugging process from a 'waiting game' 
+                into a proactive check.
+              </p>
+            </div>
+          </div>
+          <div className="mx-auto max-w-hero">
+            <img
+              src="/images/er-auto-connect.png"
+              alt="auto-connect"
+              className="mb-12 rounded-xl"
+              style={{
+                width: '100%',
+                height: 'auto',
+                display: 'block',
+                marginTop: '32px',
+              }}
+            />
+          </div>
+          <div className="mx-auto max-w-hero">
+            <img
+              src="/images/er-error-validation.png"
+              alt="error-validation"
+              className="mb-12 rounded-xl"
+              style={{
+                width: '100%',
+                height: 'auto',
+                display: 'block',
+                marginTop: '32px',
+              }}
             />
           </div>
         </section>
