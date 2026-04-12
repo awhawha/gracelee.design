@@ -153,8 +153,8 @@ export default function EnterpriseRedesignPage() {
               and using ChatGPT to translate pipeline logic into plain language. As I 
               built a mental model of the system, I realized terminology was just a symptom. 
               The root cause was that we were building training datasets for prediction models, 
-              yet the interface offered <strong>zero visibility into the consequences of a user’s choices</strong>. 
-              If they got it wrong, they wouldn't find out until the model finished running days later. 
+              yet the interface offered <strong>zero visibility into the consequences of a user&apos;s choices</strong>. 
+              If they got it wrong, they wouldn&apos;t find out until the model finished running days later. 
               <strong>The cost of a single mistake was too high.</strong>
             </p>
           </div>
@@ -211,13 +211,13 @@ export default function EnterpriseRedesignPage() {
               a sequence of isolated, disconnected steps.
             </p>
             <p>
-              I realized that the user’s ultimate goal was defining a <strong>single flat table</strong>(the training dataset). 
-              Every parameter—from time columns to feature windows—was simply a variable determining that table's 
+              I realized that the user&apos;s ultimate goal was defining a <strong>single flat table</strong>(the training dataset). 
+              Every parameter—from time columns to feature windows—was simply a variable determining that table&apos;s 
               structure. By imposing a linear sequence, the interface was <strong>hiding the final output</strong> until it was too 
               late to adjust.
             </p>
             <p>
-              <strong>That was the "Aha!" moment</strong>: If the task is constructing a dataset, the interface should make the construction 
+              <strong>That was the &ldquo;Aha!&rdquo; moment</strong>: If the task is constructing a dataset, the interface should make the construction 
               logic visible in real-time. This insight led us to move away from the linear constraints and toward a <strong>canvas-based 
               workspace</strong> that prioritizes visibility and relationship mapping.
             </p>
@@ -281,13 +281,13 @@ export default function EnterpriseRedesignPage() {
                 meant restarting from Step 1.
               </p>
               <p className="font-sans leading-[1.75] text-[var(--color-text)]">
-                <strong>The Solution: </strong>We moved configuration into a <strong>non-linear workspace.</strong> The "Define 
-                Target" panel now exists as a lightweight overlay on the canvas.
+                <strong>The Solution: </strong>We moved configuration into a <strong>non-linear workspace.</strong> The &ldquo;Define 
+                Target&rdquo; panel now exists as a lightweight overlay on the canvas.
               </p>
               <p className="font-sans leading-[1.75] text-[var(--color-text)]">
-                <strong>The Impact: </strong>Users can adjust critical parameters like "Prediction Target Time" 
+                <strong>The Impact: </strong>Users can adjust critical parameters like &ldquo;Prediction Target Time&rdquo; 
                 inline without breaking their flow. I also added <strong>inline guidance </strong>
-                (e.g., "What is prediction time?") to bridge the "Expert Trap" 
+                (e.g., &ldquo;What is prediction time?&rdquo;) to bridge the &ldquo;Expert Trap&rdquo; 
                 and define technical terms where they are used.
               </p>
             </div>
@@ -312,12 +312,12 @@ export default function EnterpriseRedesignPage() {
             </h3>
             <div className="mt-4 space-y-6 font-sans leading-[1.75] text-[var(--color-text)]">
               <p className="font-sans leading-[1.75] text-[var(--color-text)]">
-                <strong>The Insight: </strong>Solve Invisible <strong>Ripple Effects.</strong> Since we couldn't technically 
+                <strong>The Insight: </strong>Solve Invisible <strong>Ripple Effects.</strong> Since we couldn&apos;t technically 
                 preview the final combined dataset in real-time, I focused on 
-                making the "building blocks" transparent.
+                making the &ldquo;building blocks&rdquo; transparent.
               </p>
               <p className="font-sans leading-[1.75] text-[var(--color-text)]">
-                <strong>The Solution: </strong>I designed a <strong>"Cleansed View" drawer</strong> that allows users to instantly 
+                <strong>The Solution: </strong>I designed a <strong>&ldquo;Cleansed View&rdquo; drawer</strong> that allows users to instantly 
                 peek into any single table on the canvas.
               </p>
               <p className="font-sans leading-[1.75] text-[var(--color-text)]">
@@ -348,7 +348,7 @@ export default function EnterpriseRedesignPage() {
             <div className="mt-4 space-y-6 font-sans leading-[1.75] text-[var(--color-text)]">
               <p className="font-sans leading-[1.75] text-[var(--color-text)]">
                 <strong>The Insight: </strong>Address the <strong>Expert Trap</strong> and the high cost of mistakes. Business 
-                analysts shouldn't need to be database engineers to connect tables correctly.
+                analysts shouldn&apos;t need to be database engineers to connect tables correctly.
               </p>
               <p className="font-sans leading-[1.75] text-[var(--color-text)]">
                 <strong>The Solution: </strong>We introduced <strong>Intelligent Auto-Connect</strong>, which suggests 
@@ -357,7 +357,7 @@ export default function EnterpriseRedesignPage() {
               </p>
               <p className="font-sans leading-[1.75] text-[var(--color-text)]">
                 <strong>The Impact: </strong>Instead of waiting days for a model to fail, users get 
-                "actionable errors" immediately on the canvas. This transforms the debugging process from a 'waiting game' 
+                &ldquo;actionable errors&rdquo; immediately on the canvas. This transforms the debugging process from a &apos;waiting game&apos; 
                 into a proactive check.
               </p>
             </div>
