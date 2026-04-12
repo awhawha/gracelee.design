@@ -273,7 +273,7 @@ export default function EnterpriseRedesignPage() {
           <SectionHeading>Design Details: Turning Insights into Solutions</SectionHeading>
           <div className="mt-10 max-w-[680px]">
             <h3 className="font-sans text-base font-semibold text-[var(--color-text)]">
-              1. Contextual Configuration (The "Define Target" Panel)
+              1. Contextual Configuration (The &ldquo;Define Target&rdquo; Panel)
             </h3>
             <div className="mt-4 space-y-6 font-sans leading-[1.75] text-[var(--color-text)]">
               <p className="font-sans leading-[1.75] text-[var(--color-text)]">
