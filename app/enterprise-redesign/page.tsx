@@ -4,6 +4,7 @@ import Link from 'next/link'
 
 import { MetadataRow } from '@/components/MetadataRow'
 import { SectionHeading } from '@/components/SectionHeading'
+import { LightboxImage } from "@/components/LightboxImage"
 
 export const metadata: Metadata = {
   title: 'Enterprise AutoML Workflow Redesign',
@@ -224,7 +225,7 @@ export default function EnterpriseRedesignPage() {
           </div>
           <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2">
             <div className="bg-[var(--color-surface)] p-6">
-              <img
+              <LightboxImage
                   src="/images/er-linear-wizard.png"
                   alt="linear wizard mockup"
                   className="mb-6 w-full h-auto block"
@@ -246,7 +247,7 @@ export default function EnterpriseRedesignPage() {
               </p>
             </div>
             <div className="border-l-2 border-[var(--color-accent)] bg-[var(--color-surface)] p-6">
-              <img
+              <LightboxImage
                   src="/images/er-open-canvas-v1.png"
                   alt="Open canvas workspace mockup"
                   className="mb-6 w-full h-auto block"
@@ -285,24 +286,19 @@ export default function EnterpriseRedesignPage() {
                 Target&rdquo; panel now exists as a lightweight overlay on the canvas.
               </p>
               <p className="font-sans leading-[1.75] text-[var(--color-text)]">
-                <strong>The Impact: </strong>Users can adjust critical parameters like &ldquo;Prediction Target Time&rdquo; 
-                inline without breaking their flow. I also added <strong>inline guidance </strong>
-                (e.g., &ldquo;What is prediction time?&rdquo;) to bridge the &ldquo;Expert Trap&rdquo; 
-                and define technical terms where they are used.
+                <strong>The Impact: </strong>
+                Users can adjust critical parameters like &ldquo;Prediction Target Time&rdquo; inline without breaking their flow. To bridge the 
+                &ldquo;Expert Trap,&rdquo; I replaced static tooltips with interactive inline guidance, including a timeline visualization that 
+                allows users to see exactly how their time parameters affect the data window. This ensures technical terms are defined 
+                through action rather than just text.
               </p>
             </div>
           </div>
           <div className="mx-auto max-w-hero">
-            <img
+            <LightboxImage
               src="/images/er-canvas-define-target.png"
               alt="Prediction Target Time inline configuration"
-              className="mb-12 rounded-xl"
-              style={{
-                width: '100%',
-                height: 'auto',
-                display: 'block',
-                marginTop: '32px',
-              }}
+              className="mb-12 rounded-xl w-full h-auto block mt-8"
             />
           </div>
 
@@ -363,29 +359,17 @@ export default function EnterpriseRedesignPage() {
             </div>
           </div>
           <div className="mx-auto max-w-hero">
-            <img
+            <LightboxImage
               src="/images/er-auto-connect.png"
               alt="auto-connect"
-              className="mb-12 rounded-xl"
-              style={{
-                width: '100%',
-                height: 'auto',
-                display: 'block',
-                marginTop: '32px',
-              }}
+              className="mb-12 rounded-xl w-full h-auto block mt-8"
             />
           </div>
           <div className="mx-auto max-w-hero">
-            <img
+            <LightboxImage
               src="/images/er-error-validation.png"
               alt="error-validation"
-              className="mb-12 rounded-xl"
-              style={{
-                width: '100%',
-                height: 'auto',
-                display: 'block',
-                marginTop: '32px',
-              }}
+              className="mb-12 rounded-xl w-full h-auto block mt-8"
             />
           </div>
         </section>
@@ -394,36 +378,19 @@ export default function EnterpriseRedesignPage() {
           <SectionHeading>Validation</SectionHeading>
           <div className="mt-8 max-w-[680px] space-y-6 font-sans leading-[1.75] text-[var(--color-text)]">
             <p>
-              We tested with three external participants — master&apos;s students
-              in business analytics — given a real dataset and a concrete problem
-              to solve: predict which servers were likely to fail in the next
-              seven days. A PM briefed them on the scenario beforehand. During
-              the sessions, I sat back and observed, tracking behavior rather
-              than what they said.
+              We tested the solution with Business Analytics students using a real-world 
+              server failure dataset. I focused on tracking behavior rather than feedback.
             </p>
             <p>
-              One thing stood out immediately. <strong>All three skipped every tooltip
-              and description text without reading it</strong> — not because they were
-              rushing, but because they were focused on getting through the task.
-              They weren&apos;t learning the system; they were trying to use it.
-              That confirmed that <strong>any solution relying on user education would
-              fail in practice.</strong>
+              <strong>The &ldquo;Non-Reader&rdquo; Insight:</strong> Participants skipped every static description. 
+              This confirmed that <strong>user education is not a substitute for intuitive design</strong>. 
+              We couldn&apos;t explain the system to users; we had to let them experience the 
+              logic through interaction.
             </p>
             <p>
-              One tester flagged something that directly shaped a later design
-              decision: she found herself going back and forth between the
-              description text and the configuration panel trying to understand
-              prediction target time, and suggested <strong>the concept should be
-              interactive rather than explained in static text.</strong> That observation
-              led directly to the timeline visualization.
-            </p>
-          </div>
-          <div className="mt-12 border-l-2 border-[var(--color-accent)] pl-6">
-            <p className="font-sans text-lg leading-[1.75] text-[var(--color-text)]">
-              &ldquo;The canvas flow is so much smoother than before.&rdquo;
-            </p>
-            <p className="mt-2 font-mono text-xs text-[var(--color-muted)]">
-              dotData DS team, post-launch
+              <strong>From Text to Interaction:</strong> One tester&apos;s struggle to connect static definitions to the 
+              configuration panel led directly to our <strong>interactive timeline visualization</strong>, turning 
+              a conceptual definition into a visual tool.
             </p>
           </div>
         </section>
@@ -431,175 +398,194 @@ export default function EnterpriseRedesignPage() {
         <section>
           <SectionHeading>Impact</SectionHeading>
           <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3">
-            <div>
-              <p className="font-display text-[48px] leading-none tracking-tight text-[var(--color-text)]">
-                50%
+            <div className="border border-[var(--color-border)] rounded-lg p-5">
+              <p className="font-display text-[20px] leading-[1.25] tracking-tight text-[var(--color-text)]">
+                50% Reduction in Setup Time:
               </p>
-              <p className="mt-3 font-sans text-sm leading-snug text-[var(--color-muted)]">
-                reduction in configuration time
-              </p>
-              <p className="mt-2 font-sans text-xs text-[var(--color-muted)]">
-                10 min → 5 min, in benchmarks where users knew the task and hit
-                no errors
+              <p className="mt-2 font-sans leading-[1.75] text-[var(--color-muted)]">
+                Average configuration dropped from 10 to 5 minutes by removing linear bottlenecks.
               </p>
             </div>
-            <div>
-              <p className="font-mono text-[32px] text-[var(--color-accent)]">
-                ↓
+            <div className="border border-[var(--color-border)] rounded-lg p-5">
+              <p className="font-display text-[20px] leading-[1.25] tracking-tight text-[var(--color-text)">
+                Empowered Self-Service:
               </p>
-              <p className="mt-3 font-sans text-sm leading-snug text-[var(--color-muted)]">
-                dependency on the data science team for setup
-              </p>
-              <p className="mt-2 font-sans text-xs text-[var(--color-muted)]">
-                business analysts could complete configuration independently
+              <p className="mt-2 font-sans leading-[1.75] text-[var(--color-muted)]">
+                Transitioned from a model where Data Scientists were required for setup to a 
+                system where <strong>Business Analysts can complete tasks independently.</strong>
               </p>
             </div>
-            <div>
-              <p className="font-mono text-[32px] text-[var(--color-accent)]">
-                ↓
+            <div className="border border-[var(--color-border)] rounded-lg p-5">
+              <p className="font-display text-[20px] leading-[1.25] tracking-tight text-[var(--color-text)">
+                Immediate Error Recovery:
               </p>
-              <p className="mt-3 font-sans text-sm leading-snug text-[var(--color-muted)]">
-                configuration errors from silent failures
-              </p>
-              <p className="mt-2 font-sans text-xs text-[var(--color-muted)]">
-                smart defaults and inline validation caught mistakes before
-                training ran
+              <p className="mt-2 font-sans leading-[1.75] text-[var(--color-muted)]">
+                Smart defaults and inline validation eliminated &ldquo;silent failures,&rdquo; catching mistakes 
+                before any training costs were incurred.
               </p>
             </div>
           </div>
-          <p className="mt-12 max-w-[680px] font-sans leading-[1.75] text-[var(--color-muted)]">
-            The bigger change was around iteration. Users could now adjust any
-            part of the configuration without starting over — something that
-            wasn&apos;t possible in the original workflow. The CS team flagged
-            this as one of the most noticeable improvements after launch.
-          </p>
         </section>
 
         <section>
           <SectionHeading>Reflection</SectionHeading>
           <div className="mt-8 max-w-[680px] space-y-6 font-sans leading-[1.75] text-[var(--color-text)]">
             <p>
-              When I first looked at this system, it felt like a black box.
-              Users put data in, waited an hour or two, and got a result they
-              couldn&apos;t interpret. My assumption was that the fix was simple
-              — just show people more.
+              My initial assumption was that users just needed more information. I was wrong. 
+              The real challenge was deciding <strong>what to hide.</strong> Most of the design work was navigating 
+              that tension: providing enough signal to build confidence without creating noise that 
+              leads to second-guessing.
             </p>
             <p>
-              That turned out to be wrong. The question I kept coming back to
-              was: <strong>does the user actually need to know this?</strong> Or is it just going
-              to make them feel like they&apos;re doing something wrong? Some
-              information helped. Some just made people second-guess themselves.
-              Most of the real design work was figuring out which was which —
-              and I&apos;m still not sure we drew the line in exactly the right
-              place.
-            </p>
-            <p>
-              One thing I wanted to push further but didn&apos;t get to: closing
-              the loop between configuration and model performance. Right now
-              users set things up, wait, and get a result — but they can&apos;t
-              connect what they configured to what came out. That gap is still
-              there, and I think it&apos;s the most important thing to go after
-              next.
+              If I were to take this further, I would focus on closing the loop between configuration 
+              and performance. The gap between &ldquo;setting up a table&rdquo; and &ldquo;understanding why a model 
+              succeeded&rdquo; remains. Bridging that causal link is the next frontier for this product.
             </p>
           </div>
         </section>
 
         <section className="border-t border-[var(--color-border)] pt-24">
           <div className="max-w-[680px]">
-            <p className="font-mono text-xs text-[var(--color-muted)]">
-              Concept exploration
-            </p>
-            <h2 className="mt-3 font-display text-3xl leading-tight tracking-tight text-[var(--color-text)] md:text-4xl">
-              If I were designing this today
-            </h2>
+            <SectionHeading>Beyond the canvas: Reimagining the experience with Agentic AI</SectionHeading>
             <div className="mt-8 space-y-6 font-sans leading-[1.75] text-[var(--color-text)]">
               <p>
-                The workspace redesign solved the visibility problem — users
-                could finally see what their decisions were doing. But it still
-                assumed something that wasn&apos;t always true: that users
-                already knew what problem they wanted to solve.
+                If I were designing this system today, I would push past the &ldquo;Workspace&rdquo; model. 
+                While the canvas solved the visibility problem, it still assumed that users 
+                arrived with a clear, pre-defined use case. In reality, many analysts have the 
+                data but struggle to identify the most valuable problem to solve.
               </p>
               <p>
-                In practice, a lot of business analysts came to dotData with
-                data but without a clear use case. They needed the system to
-                help them figure out what was worth building — before they could
-                configure anything.
-              </p>
-              <p>
-                With agentic AI, that&apos;s now a solvable problem. Instead of
-                handing users a blank configuration form, the system can analyze
-                their data first, identify what&apos;s possible, and guide them
-                toward a model that actually fits what they have.
+                With the advent of <strong>Agentic AI</strong>, we can shift the user&apos;s role from &ldquo;configuring 
+                a tool&rdquo; to &ldquo;collaborating with an expert.&rdquo; I used <strong>Cursor</strong> to prototype a vision 
+                of how this system could evolve from a passive interface into a proactive partner.
               </p>
             </div>
           </div>
-
           <div className="mt-16 max-w-[680px]">
-            <h3 className="font-sans text-base font-semibold text-[var(--color-text)]">
-              Three design decisions that changed
-            </h3>
             <div className="mt-8 space-y-12">
               <div>
                 <p className="font-mono text-xs text-[var(--color-muted)]">
                   01
                 </p>
                 <h4 className="mt-2 font-sans text-base font-semibold text-[var(--color-text)]">
-                  From form-first to conversation-first
+                  From Form-First to Intent-Based Design
                 </h4>
                 <p className="mt-3 font-sans leading-[1.75] text-[var(--color-text)]">
-                  The original workspace started with a blank configuration
-                  panel — users had to know what they wanted before they could
-                  do anything. The new flow starts with a question: what problem
-                  are you trying to solve? The system uses the answer to
-                  recommend a use case, explain why the data supports it, and
-                  pre-fill everything it&apos;s confident about. Users only make
-                  decisions where human judgment actually matters.
+                  The original workspace assumed users already knew their target variables and model 
+                  parameters. However, research revealed a major adoption hurdle: <strong>many analysts had 
+                  the data but didn&apos;t know which predictive use cases were actually viable.</strong>
                 </p>
+                <p className="mt-3 font-sans leading-[1.75] text-[var(--color-text)]">
+                  To solve this, I reimagined the start of the journey as a Consultative AI flow:
+                </p>
+                <div className="mt-4 space-y-6 font-sans leading-[1.75] text-[var(--color-text)]">
+                  <p className="font-sans leading-[1.75] text-[var(--color-text)]">
+                    <strong>Data-Led Discovery: </strong>Instead of asking for configuration, the system 
+                    first ingests the tables and performs automated cleansing. It then <strong>proactively suggests 
+                    use cases</strong> (e.g., Holiday Impact Analysis) based on the patterns it detects in the data.
+                  </p>
+                  <p className="font-sans leading-[1.75] text-[var(--color-text)]">
+                    <strong>Explainable Recommendations: </strong>By showing users exactly why their data supports a specific 
+                    goal (e.g., &ldquo;IsHoliday flag present across all 143 weeks&rdquo;), the system builds trust through 
+                    transparency rather than just providing a &ldquo;black box&rdquo; suggestion.
+                  </p>
+                  <p className="font-sans leading-[1.75] text-[var(--color-text)]">
+                    <strong>Strategic Intent: </strong>By shifting from a &ldquo;passive tool&rdquo; to an &ldquo;expert advisor,&rdquo; 
+                    the goal is to lower the barrier to entry and increase the activation rate for users who are new to 
+                    predictive modeling, turning a technical hurdle into a guided strategic session.
+                  </p>
+                </div>
               </div>
+            </div>
+          </div>
+          <div className="mx-auto max-w-hero">
+            <LightboxImage
+              src="/images/er-reimagining-workflow.png"
+              alt="reimagining the work flow"
+              className="mb-12 rounded-xl w-full h-auto block mt-8"
+            />
+          </div>
+          <div className="mt-16 max-w-[680px]">
+            <div className="mt-8 space-y-12">
               <div>
                 <p className="font-mono text-xs text-[var(--color-muted)]">
                   02
                 </p>
                 <h4 className="mt-2 font-sans text-base font-semibold text-[var(--color-text)]">
-                  Data quality as a conversation, not a gate
+                  Data Quality as a Dialogue, Not a Gate
                 </h4>
                 <p className="mt-3 font-sans leading-[1.75] text-[var(--color-text)]">
-                  The original system surfaced data errors late — sometimes
-                  only after training ran. The new flow detects issues
-                  immediately after upload and handles them one at a time,
-                  showing the user exactly what changed and why. Missing values,
-                  inconsistent date formats, ambiguous column types — each gets
-                  surfaced with a concrete before/after and a plain-language
-                  explanation, not a technical error message.
+                  In the original system, data errors often surfaced too late—sometimes only 
+                  after hours of training. The reimagined flow treats data preparation as a 
+                  <strong>continuous, plain-language conversation.</strong>
                 </p>
+                <div className="mt-4 space-y-6 font-sans leading-[1.75] text-[var(--color-text)]">
+                  <p className="font-sans leading-[1.75] text-[var(--color-text)]">
+                    <strong>The Shift: </strong>The system detects issues (such as missing values or 
+                    inconsistent formats) immediately after upload. Instead of a technical error 
+                    message, it explains the problem and offers actionable remedies with a clear 
+                    &ldquo;before and after&rdquo; preview.
+                  </p>
+                  <p className="font-sans leading-[1.75] text-[var(--color-text)]">
+                    <strong>Strategic Intent: </strong>The goal is to transform a technical roadblock 
+                    into an educational moment. By unblocking the user through guided resolution, we 
+                    can reduce the reliance on Data Scientists and prevent &ldquo;failed runs&rdquo; from ever 
+                    reaching the compute stage.
+                  </p>
+                </div>
               </div>
+            </div>
+          </div>
+          <div className="mx-auto max-w-hero">
+            <video
+              src="/videos/er-data-quality-check.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="mb-12 rounded-xl w-full h-auto block mt-8"
+            />
+          </div>
+          <div className="mt-16 max-w-[680px]">
+            <div className="mt-8 space-y-12">
               <div>
                 <p className="font-mono text-xs text-[var(--color-muted)]">
                   03
                 </p>
                 <h4 className="mt-2 font-sans text-base font-semibold text-[var(--color-text)]">
-                  Two-layer sampling for faster iteration
+                  Strategic Sampling for Rapid Iteration
                 </h4>
                 <p className="mt-3 font-sans leading-[1.75] text-[var(--color-text)]">
-                  Enterprise datasets are often large. Waiting 20 minutes to
-                  discover a configuration mistake is expensive. The new flow
-                  separates two distinct decisions: how much data to use for
-                  configuration (where a 10% sample is almost always enough),
-                  and how much to use for the actual model run (where you can
-                  do a quick run first to validate direction before committing
-                  full compute).
+                  Enterprise-scale data makes iteration expensive. Waiting 20 minutes just to discover 
+                  a configuration mistake is a fundamental failure in the feedback loop.
                 </p>
+                <div className="mt-4 space-y-6 font-sans leading-[1.75] text-[var(--color-text)]">
+                  <p className="font-sans leading-[1.75] text-[var(--color-text)]">
+                    <strong>The Shift: </strong>I introduced a <strong>two-layer sampling strategy.</strong> The system 
+                    uses a high-speed <strong>10% sample</strong> for instant schema analysis and configuration validation. 
+                    Once the logic is confirmed, the user can then commit the full compute for the actual 
+                    model run.
+                  </p>
+                  <p className="font-sans leading-[1.75] text-[var(--color-text)]">
+                    <strong>Strategic Intent: </strong>By optimizing for the <strong>&ldquo;Economy of Time,&rdquo;</strong> this design 
+                    intends to allow users to experiment and &ldquo;fail fast&rdquo; in seconds. This ensures that by the 
+                    time the user hits &ldquo;Run&rdquo; on the full dataset, they have maximum confidence in their 
+                    configuration.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
+          <div className="mx-auto max-w-hero">
+            <LightboxImage
+              src="/images/er-run-mode.png"
+              alt="reimagining the work flow"
+              className="mb-12 rounded-xl w-full h-auto block mt-8"
+            />
+          </div>            
+
 
           <div className="mt-16">
-            <p className="font-sans text-sm leading-[1.75] text-[var(--color-muted)]">
-              I built an interactive prototype to explore this direction. It
-              uses real retail data — 45 stores, 79 departments, 143 weeks of
-              sales history — and walks through the full flow from upload to
-              model configuration.
-            </p>
             <a
               href="/prototypes/ai-modeling-advisor.html"
               target="_blank"
@@ -608,8 +594,18 @@ export default function EnterpriseRedesignPage() {
             >
               Try the prototype →
             </a>
-            <p className="mt-4 font-mono text-xs text-[var(--color-muted)]">
-              Click &quot;Load sample data&quot; to start
+          </div>
+        </section>
+        <section>
+          <SectionHeading>Reflection</SectionHeading>
+          <div className="mt-8 max-w-[680px] space-y-6 font-sans leading-[1.75] text-[var(--color-text)]">
+            <p>
+              Looking back, the real design challenge wasn&apos;t just about making a &ldquo;better UI&rdquo;. It was about 
+              <strong> managing the tension between automation and control.</strong> As designers in the AI era, our job is 
+              changing. We are no longer just building boxes for people to fill; we are designing the <strong>guardrails 
+              for a partnership.</strong> While I&apos;m proud of how the Canvas Workspace solved the immediate pain points of 
+              the legacy system, I believe the future lies in <strong>closing the gap between human intent and machine execution.</strong>
+              
             </p>
           </div>
         </section>
