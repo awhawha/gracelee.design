@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { IBM_Plex_Mono, IBM_Plex_Sans, Playfair_Display } from 'next/font/google'
-
+import Script from "next/script"
 import { Nav } from '@/components/Nav'
 
 import '@/styles/globals.css'
@@ -41,6 +41,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+     
       <body
         className={`${playfair.variable} ${plexSans.variable} ${plexMono.variable} min-h-screen font-sans text-[var(--color-text)] antialiased`}
       >
@@ -53,6 +54,19 @@ export default function RootLayout({
             </p>
           </div>
         </footer>
+
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-YDFFENJ86V"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-YDFFENJ86V');
+          `}
+        </Script>
       </body>
     </html>
   )
