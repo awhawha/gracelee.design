@@ -308,7 +308,7 @@ export default function DesignSystemPage() {
           <SectionHeading>Impact</SectionHeading>
           <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3">
             <div>
-              <p className="font-display text-[48px] leading-none tracking-tight text-[var(--color-text)]">
+              <p className="font-mono text-[32px] text-[var(--color-accent)]">
                 5 → 2
               </p>
               <p className="mt-3 font-sans text-sm leading-snug text-[var(--color-muted)]">
@@ -320,8 +320,8 @@ export default function DesignSystemPage() {
               </p>
             </div>
             <div>
-              <p className="font-display text-[48px] leading-none tracking-tight text-[var(--color-text)]">
-                &#x2193;
+              <p className="font-mono text-[32px] text-[var(--color-accent)]">
+              ↓
               </p>
               <p className="mt-3 font-sans text-sm leading-snug text-[var(--color-muted)]">
                 engineering questions per month
