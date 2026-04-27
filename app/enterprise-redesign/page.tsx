@@ -295,9 +295,17 @@ export default function EnterpriseRedesignPage() {
             </div>
           </div>
           <div className="mx-auto max-w-hero">
-            <LightboxImage
+            {/* <LightboxImage
               src="/images/er-canvas-define-target.png"
               alt="Prediction Target Time inline configuration"
+              className="mb-12 rounded-xl w-full h-auto block mt-8"
+            /> */}
+            <video
+              src="/videos/target-configuration.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
               className="mb-12 rounded-xl w-full h-auto block mt-8"
             />
           </div>
@@ -324,7 +332,7 @@ export default function EnterpriseRedesignPage() {
             </div>
           </div>
           <div className="mx-auto max-w-hero">
-            <img
+            {/* <img
               src="/images/er-table-preview.png"
               alt="Prediction Target Time inline configuration"
               className="mb-12 rounded-xl"
@@ -334,6 +342,14 @@ export default function EnterpriseRedesignPage() {
                 display: 'block',
                 marginTop: '32px',
               }}
+            /> */}
+            <video
+              src="/videos/real-time-table-exploration.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="mb-12 rounded-xl w-full h-auto block mt-8"
             />
           </div>
 
@@ -359,19 +375,27 @@ export default function EnterpriseRedesignPage() {
             </div>
           </div>
           <div className="mx-auto max-w-hero">
-            <LightboxImage
+            {/* <LightboxImage
               src="/images/er-auto-connect.png"
               alt="auto-connect"
               className="mb-12 rounded-xl w-full h-auto block mt-8"
+            /> */}
+            <video
+              src="/videos/auto-connect-and-validation.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="mb-12 rounded-xl w-full h-auto block mt-8"
             />
           </div>
-          <div className="mx-auto max-w-hero">
+          {/* <div className="mx-auto max-w-hero">
             <LightboxImage
               src="/images/er-error-validation.png"
               alt="error-validation"
               className="mb-12 rounded-xl w-full h-auto block mt-8"
             />
-          </div>
+          </div> */}
         </section>
 
         <section>
@@ -461,7 +485,7 @@ export default function EnterpriseRedesignPage() {
               </p>
             </div>
           </div>
-          <div className="mt-16 max-w-[680px]">
+          {/* <div className="mt-16 max-w-[680px]">
             <div className="mt-8 space-y-12">
               <div>
                 <p className="font-mono text-xs text-[var(--color-muted)]">
@@ -497,15 +521,15 @@ export default function EnterpriseRedesignPage() {
                 </div>
               </div>
             </div>
-          </div>
-          <div className="mx-auto max-w-hero">
+          </div> */}
+          {/* <div className="mx-auto max-w-hero">
             <LightboxImage
               src="/images/er-reimagining-workflow.png"
               alt="reimagining the work flow"
               className="mb-12 rounded-xl w-full h-auto block mt-8"
             />
-          </div>
-          <div className="mt-16 max-w-[680px]">
+          </div> */}
+          {/* <div className="mt-16 max-w-[680px]">
             <div className="mt-8 space-y-12">
               <div>
                 <p className="font-mono text-xs text-[var(--color-muted)]">
@@ -535,7 +559,7 @@ export default function EnterpriseRedesignPage() {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
           <div className="mx-auto max-w-hero">
             <video
               src="/videos/er-data-quality-check.mp4"
@@ -546,7 +570,7 @@ export default function EnterpriseRedesignPage() {
               className="mb-12 rounded-xl w-full h-auto block mt-8"
             />
           </div>
-          <div className="mt-16 max-w-[680px]">
+          {/* <div className="mt-16 max-w-[680px]">
             <div className="mt-8 space-y-12">
               <div>
                 <p className="font-mono text-xs text-[var(--color-muted)]">
@@ -575,7 +599,7 @@ export default function EnterpriseRedesignPage() {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
           <div className="mx-auto max-w-hero">
             <LightboxImage
               src="/images/er-run-mode.png"
