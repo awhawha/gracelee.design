@@ -14,7 +14,7 @@ const config: Config = {
       },
       maxWidth: {
         content: '720px',
-        wide: '1100px',
+        wide: '960px',
         hero: '900px',
       },
       spacing: {
