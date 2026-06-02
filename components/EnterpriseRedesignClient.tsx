@@ -591,8 +591,8 @@ export default function EnterpriseRedesignClient() {
               </ul>
 
               <p>
-                The first three were treating symptoms. Users weren't lost because of navigation 
-                or missing instructions. They were lost because they couldn't see how their 
+                The first three were treating symptoms. Users weren&apos;t lost because of navigation 
+                or missing instructions. They were lost because they couldn&apos;t see how their 
                 decisions connected to each other.
               </p>
               <p>
