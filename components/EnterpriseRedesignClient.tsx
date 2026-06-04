@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -13,6 +14,74 @@ function Tag({ children }: { children: string }) {
     <span className="inline-block rounded border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-1 font-mono text-xs text-[var(--color-muted)]">
       {children}
     </span>
+  )
+}
+
+type CarouselSlide = { src: string; alt: string; label: string }
+
+function Carousel({ slides }: { slides: CarouselSlide[] }) {
+  const [index, setIndex] = useState(0)
+  const prev = () => setIndex((i) => (i === 0 ? slides.length - 1 : i - 1))
+  const next = () => setIndex((i) => (i === slides.length - 1 ? 0 : i + 1))
+
+  return (
+    <div className="mt-8">
+      <div className="flex items-center gap-4 py-8">
+        <button
+          type="button"
+          aria-label="Previous"
+          onClick={prev}
+          className="shrink-0 text-[var(--color-muted)] hover:text-[var(--color-text)] transition-colors"
+        >
+          &#8592;
+        </button>
+        <div className="flex-1 overflow-hidden">
+          <div
+            className="flex transition-transform duration-300 ease-out"
+            style={{ transform: `translateX(-${index * 100}%)` }}
+          >
+            {slides.map((slide) => (
+              <div
+                key={slide.src}
+                className="flex h-[300px] w-full shrink-0 items-center justify-center md:h-[460px]"
+              >
+                <LightboxImage
+                  src={slide.src}
+                  alt={slide.alt}
+                  className="h-full w-full rounded-lg object-contain transition-opacity duration-200 hover:opacity-80"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+        <button
+          type="button"
+          aria-label="Next"
+          onClick={next}
+          className="shrink-0 text-[var(--color-muted)] hover:text-[var(--color-text)] transition-colors"
+        >
+          &#8594;
+        </button>
+      </div>
+      <p className="font-mono text-xs text-[var(--color-muted)] text-center">
+        {slides[index].label}
+      </p>
+      <div className="mt-2 flex items-center justify-center gap-2 py-4">
+        {slides.map((slide, i) => (
+          <button
+            key={slide.src}
+            type="button"
+            aria-label={`Go to slide ${i + 1}`}
+            onClick={() => setIndex(i)}
+            className={`h-2 w-2 rounded-full transition-colors ${
+              i === index
+                ? 'bg-[var(--color-text)]'
+                : 'bg-[var(--color-border)]'
+            }`}
+          />
+        ))}
+      </div>
+    </div>
   )
 }
 
@@ -114,7 +183,7 @@ export default function EnterpriseRedesignClient() {
                 market had essentially frozen.
               </p>
               <p>
-                My first step wasn&apos;t to start designing. I categorized the support tickets and
+                Instead of starting designing, I categorized the support tickets and
                 found that more than half of them were related to the data import flow. Then I
                 brought a user journey I had mapped to a meeting with the Head of Customer Support,
                 wanting to check whether my understanding of how users actually worked matched
@@ -233,14 +302,20 @@ export default function EnterpriseRedesignClient() {
                 old system.
               </p>
               
-              <img src="/images/OOUX.png" alt="Map out the object and actions for data import and creation flow." />
-              <p className="font-mono text-xs text-[var(--color-muted)] text-center">
-                Before: 「Five isolated entry points. A mistake in step one meant starting over from scratch.」
-              </p>
-              <img src="/images/OOUX_after.png" alt="Map out the object and actions for data import and creation flow." />
-              <p className="font-mono text-xs text-[var(--color-muted)] text-center">
-                After:「A single unified flow. Every object visible, every dependency explicit.」
-              </p>
+              <Carousel
+                slides={[
+                  {
+                    src: '/images/OOUX-before.png',
+                    alt: 'Map out the object and actions for data import and creation flow.',
+                    label: 'Before: 「Five isolated entry points. A mistake in step one meant starting over from scratch.」',
+                  },
+                  {
+                    src: '/images/OOUX-after.png',
+                    alt: 'Map out the object and actions for data import and creation flow.',
+                    label: 'After:「A single unified flow. Clean up unnecessary fields.」',
+                  },
+                ]}
+              />
               <p>
                 While we were still iterating on the wizard structure, something clicked in a
                 meeting with the PM. We had been talking about making the ER view more visual so
@@ -251,6 +326,25 @@ export default function EnterpriseRedesignClient() {
                 me — if the workflow is iterative, the interface shouldn&apos;t force users through a
                 one-way door.
               </p>
+              <Carousel
+                slides={[
+                  {
+                    src: '/images/concept-v1.png',
+                    alt: 'First version of canvas',
+                    label: 'v1: merging isolated entry points into a guided setup wizard',
+                  },
+                  {
+                    src: '/images/concept-v2.png',
+                    alt: 'First version of canvas',
+                    label: 'v2: visualize the entity relationsip view',
+                  },
+                  {
+                    src: '/images/concept-v3.png',
+                    alt: 'First version of canvas',
+                    label: 'v3: a flexible canvas concept that displayed all table relationships dynamically on one screen',
+                  },
+                ]}
+              />
               <p>
                 I prototyped it over the weekend and brought it to the next meeting. The reaction
                 was immediate. People were surprised, and they liked it, but they also saw the
@@ -258,10 +352,8 @@ export default function EnterpriseRedesignClient() {
                 are more than ten tables on the canvas? How do you handle time-related settings in
                 this format?
               </p>
-              <img src="/images/canvas-v0-prototype.png" alt="First version of canvas" />
-              <p className="font-mono text-xs text-[var(--color-muted)] text-center">
-                A weekend prototype that changed the direction of the project.
-              </p>
+              
+              
             </div>
           </div>
         </section>
