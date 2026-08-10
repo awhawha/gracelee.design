@@ -1,9 +1,21 @@
 import type { Metadata } from 'next'
-import { IBM_Plex_Mono, IBM_Plex_Sans, Playfair_Display } from 'next/font/google'
+import {
+  IBM_Plex_Mono,
+  IBM_Plex_Sans,
+  Playfair_Display,
+  Space_Grotesk,
+} from 'next/font/google'
 import Script from "next/script"
-import { Nav } from '@/components/Nav'
+import { SiteNav } from '@/components/portfolio/SiteNav'
 
 import '@/styles/globals.css'
+
+const spaceGrotesk = Space_Grotesk({
+  weight: ['400', '500', '600', '700'],
+  subsets: ['latin'],
+  variable: '--font-space-grotesk',
+  display: 'swap',
+})
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
@@ -43,17 +55,10 @@ export default function RootLayout({
     <html lang="en">
      
       <body
-        className={`${playfair.variable} ${plexSans.variable} ${plexMono.variable} min-h-screen font-sans text-[var(--color-text)] antialiased`}
+        className={`${spaceGrotesk.variable} ${playfair.variable} ${plexSans.variable} ${plexMono.variable} min-h-screen font-grotesk text-pf-ink antialiased`}
       >
-        <Nav />
+        <SiteNav />
         <main>{children}</main>
-        <footer className="border-t border-[var(--color-border)] bg-[var(--color-bg)]">
-          <div className="mx-auto max-w-wide px-6 py-12">
-            <p className="text-[12px] text-[var(--color-muted)]">
-              © 2026 Grace Lee
-            </p>
-          </div>
-        </footer>
 
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-YDFFENJ86V"

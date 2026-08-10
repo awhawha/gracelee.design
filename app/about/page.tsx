@@ -1,129 +1,179 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'About — Grace Lee',
+  title: 'About',
+  description:
+    'Grace Lee — senior product designer with an engineering background, based in the San Francisco Bay Area.',
 }
+
+const experience = [
+  { company: 'dotData', role: 'Senior Product Designer', dates: '2019—2025' },
+  { company: 'Kahuna', role: 'UX Designer', dates: '2016—2018' },
+  {
+    company: 'Wislite Technology',
+    role: 'Interaction Designer & Software Engineer',
+    dates: '2007—2013',
+  },
+]
+
+const education = [
+  {
+    degree: 'MFA, Web Design & New Media',
+    school: 'Academy of Art University',
+    dates: '2013—2016',
+  },
+  {
+    degree: 'BA, Information Management',
+    school: 'Tamkang University',
+    dates: '2003—2007',
+  },
+]
+
+const skills = [
+  'Interaction Design',
+  'Design Systems',
+  'Information Architecture',
+  'Data Visualization',
+  'Usability Testing',
+  'Frontend (HTML, CSS, APIs)',
+]
 
 export default function AboutPage() {
   return (
-    <article className="bg-[var(--color-bg)] px-6 py-24">
-      <div className="mx-auto max-w-content">
+    <div className="font-grotesk text-pf-ink">
+      {/* H1 */}
+      <div className="mx-auto max-w-pf px-10 pb-14 pt-24 max-[640px]:px-6">
+        <h1 className="m-0 max-w-[1040px] text-[62px] font-semibold leading-[1.04] tracking-[-0.03em] max-[900px]:text-[clamp(38px,8vw,62px)]">
+          A senior product designer who&apos;s equal parts{' '}
+          <span className="text-pf-accent">systems thinker</span> and
+          craftsperson.
+        </h1>
+      </div>
 
-        <div className="max-w-[680px]">
-          <p className="font-mono text-xs uppercase tracking-[0.12em] text-[var(--color-muted)]">
-            Senior Product Designer
-          </p>
-          <h1 className="mt-4 font-display text-4xl leading-tight tracking-tight text-[var(--color-text)] md:text-5xl">
-            Grace Lee
-          </h1>
+      {/* Portrait + bio */}
+      <div className="mx-auto grid max-w-pf grid-cols-[440px_1fr] gap-14 px-10 pb-[72px] max-[900px]:grid-cols-1 max-[900px]:gap-10 max-[640px]:px-6">
+        <div className="flex h-[520px] items-center justify-center self-start rounded-[14px] border border-pf-border bg-pf-stripes max-[900px]:h-[360px]">
+          <span className="font-mono-ui text-[13px] text-pf-placeholder">
+            [ portrait ]
+          </span>
         </div>
-
-        <div className="mt-16 max-w-[680px] space-y-6 font-sans leading-[1.75] text-[var(--color-text)]">
-          <p>
-            Hello, I&apos;m Grace.
+        <div className="max-w-[560px]">
+          <p className="mb-[22px] text-[21px] leading-[1.55] text-pf-body-about">
+            I&apos;m a senior product designer based in the San Francisco Bay
+            Area. For ten years I&apos;ve worked at the seam where complex
+            systems meet real people — analytics, AI tooling, marketing
+            platforms — turning the parts that overwhelm users into the parts
+            they trust.
           </p>
-          <p>
-            I&apos;ve been doing product design for several years now, mostly on
-            B2B platforms in AI and predictive analytics. The problems I&apos;m
-            drawn to are the ones where the system underneath is genuinely
-            complex, but the person using it shouldn&apos;t have to understand
-            that complexity to get their work done.
+          <p className="mb-[22px] text-[21px] leading-[1.55] text-pf-body-about">
+            I work end-to-end: framing the problem with research, shaping
+            strategy with PM and eng, and sweating the pixels until the craft is
+            undeniable. I care about teams as much as artifacts — I&apos;ve built
+            design systems, run critique, and mentored designers into senior
+            roles.
           </p>
-          <p>
+          <p className="mb-[22px] text-[21px] leading-[1.55] text-pf-body-about">
             Before moving fully into design, I spent a few years in engineering.
-            That background still shapes how I work. It makes conversations with
-            engineers feel less like translation and more like collaboration, and
-            when I&apos;m building design systems, I tend to think about token
+            That background still shapes how I work — conversations with
+            engineers feel less like translation and more like collaboration,
+            and when I&apos;m building design systems I think about token
             structure from the implementation side, not just the design side.
-            It&apos;s not that it makes me better at the job, just that it
-            changes how I approach certain problems.
           </p>
-          <p>
+          <p className="mb-[22px] text-[21px] leading-[1.55] text-pf-body-about">
             Outside of work, I spend a lot of time with my daughter, drawing,
-            gardening, and doing hands-on projects. Those slower moments matter.
-            Some of my clearest thinking on a stuck design problem has happened
-            while doing something completely unrelated.
+            gardening, and doing hands-on projects. Some of my clearest thinking
+            on a stuck design problem has happened while doing something
+            completely unrelated.
           </p>
-        </div>
-
-        <div className="mt-16 border-t border-[var(--color-border)] pt-12">
-          <div className="grid grid-cols-1 gap-12 sm:grid-cols-3">
-            <div>
-              <p className="font-mono text-xs uppercase tracking-[0.12em] text-[var(--color-muted)]">
-                Experience
-              </p>
-              <div className="mt-4 space-y-4 font-sans text-sm leading-[1.75] text-[var(--color-text)]">
-                <div>
-                  <p className="font-medium">dotData</p>
-                  <p className="text-[var(--color-muted)]">Senior Product Designer, 2019&ndash;2025</p>
-                </div>
-                <div>
-                  <p className="font-medium">Kahuna</p>
-                  <p className="text-[var(--color-muted)]">UX Designer, 2016&ndash;2018</p>
-                </div>
-                <div>
-                  <p className="font-medium">Wislite Technology</p>
-                  <p className="text-[var(--color-muted)]">Interaction Designer &amp; Software Engineer, 2007&ndash;2013</p>
-                </div>
-              </div>
-            </div>
-            <div>
-              <p className="font-mono text-xs uppercase tracking-[0.12em] text-[var(--color-muted)]">
-                Skills
-              </p>
-              <div className="mt-4 space-y-1 font-sans text-sm leading-[1.75] text-[var(--color-text)]">
-                <p>Interaction Design</p>
-                <p>Design Systems</p>
-                <p>Information Architecture</p>
-                <p>Data Visualization</p>
-                <p>Usability Testing</p>
-                <p>Frontend (HTML, CSS, APIs)</p>
-              </div>
-            </div>
-            <div>
-              <p className="font-mono text-xs uppercase tracking-[0.12em] text-[var(--color-muted)]">
-                Education
-              </p>
-              <div className="mt-4 space-y-4 font-sans text-sm leading-[1.75] text-[var(--color-text)]">
-                <div>
-                  <p className="font-medium">MFA, Web Design &amp; New Media</p>
-                  <p className="text-[var(--color-muted)]">Academy of Art University, 2013&ndash;2016</p>
-                </div>
-                <div>
-                  <p className="font-medium">BA, Information Management</p>
-                  <p className="text-[var(--color-muted)]">Tamkang University, 2003&ndash;2007</p>
-                </div>
-              </div>
-            </div>
+          <div className="mt-2 flex flex-wrap gap-[10px]">
+            {skills.map((s) => (
+              <span
+                key={s}
+                className="rounded-full border border-pf-border bg-pf-chip px-[13px] py-[7px] text-[13px]"
+              >
+                {s}
+              </span>
+            ))}
           </div>
         </div>
-
-        <div className="mt-16 flex flex-col gap-4 sm:flex-row sm:gap-8">
-          <a
-            href="/images/gracelee-resume-2026.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-mono text-xs uppercase tracking-[0.12em] text-[var(--color-accent)] underline underline-offset-4 hover:opacity-70"
-          >
-            Download Resume
-          </a>
-          <a
-            href="https://www.linkedin.com/in/yahuilee/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-mono text-xs uppercase tracking-[0.12em] text-[var(--color-accent)] underline underline-offset-4 hover:opacity-70"
-          >
-            LinkedIn
-          </a>
-          <a
-            href="mailto:yahuilee0618@gmail.com"
-            className="font-mono text-xs uppercase tracking-[0.12em] text-[var(--color-accent)] underline underline-offset-4 hover:opacity-70"
-          >
-            Email
-          </a>
-        </div>
-
       </div>
-    </article>
+
+      {/* Experience */}
+      <div className="mx-auto max-w-pf border-t border-pf-hairline px-10 py-14 max-[640px]:px-6">
+        <div className="mb-7 font-mono-ui text-[13px] uppercase tracking-[0.12em] text-pf-muted-light">
+          Experience
+        </div>
+        {experience.map((e) => (
+          <div
+            key={e.company}
+            className="grid grid-cols-[1fr_1fr_120px] items-baseline border-t border-pf-hairline py-[22px] last:border-b max-[640px]:grid-cols-[1fr_auto] max-[640px]:gap-x-4"
+          >
+            <span className="text-[24px] font-semibold">{e.company}</span>
+            <span className="text-[16px] text-pf-secondary max-[640px]:col-span-2 max-[640px]:text-[15px]">
+              {e.role}
+            </span>
+            <span className="text-right font-mono-ui text-[13px] text-pf-muted max-[640px]:col-start-2 max-[640px]:row-start-1">
+              {e.dates}
+            </span>
+          </div>
+        ))}
+      </div>
+
+      {/* Education */}
+      <div className="mx-auto max-w-pf px-10 pb-14 max-[640px]:px-6">
+        <div className="mb-7 font-mono-ui text-[13px] uppercase tracking-[0.12em] text-pf-muted-light">
+          Education
+        </div>
+        {education.map((e) => (
+          <div
+            key={e.degree}
+            className="grid grid-cols-[1fr_1fr_120px] items-baseline border-t border-pf-hairline py-[22px] last:border-b max-[640px]:grid-cols-[1fr_auto] max-[640px]:gap-x-4"
+          >
+            <span className="text-[24px] font-semibold max-[640px]:text-[20px]">
+              {e.degree}
+            </span>
+            <span className="text-[16px] text-pf-secondary max-[640px]:col-span-2 max-[640px]:text-[15px]">
+              {e.school}
+            </span>
+            <span className="text-right font-mono-ui text-[13px] text-pf-muted max-[640px]:col-start-2 max-[640px]:row-start-1">
+              {e.dates}
+            </span>
+          </div>
+        ))}
+      </div>
+
+      {/* Dark CTA band */}
+      <div className="bg-pf-ink text-white">
+        <div className="mx-auto max-w-pf px-10 py-20 max-[640px]:px-6">
+          <h2 className="mb-6 text-[48px] font-semibold leading-[1] tracking-[-0.025em] max-[900px]:text-[clamp(32px,7vw,48px)]">
+            Open to Senior &amp; Staff roles.
+          </h2>
+          <div className="flex flex-wrap items-center gap-6 text-[17px]">
+            <a
+              href="mailto:yahuilee0618@gmail.com"
+              className="font-semibold text-pf-accent-dark"
+            >
+              yahuilee0618@gmail.com
+            </a>
+            <a
+              href="https://www.linkedin.com/in/yahuilee/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-pf-muted transition-colors hover:text-white"
+            >
+              LinkedIn ↗
+            </a>
+            <a
+              href="/images/gracelee-resume-2026.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-pf-muted transition-colors hover:text-white"
+            >
+              Resume ↗
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }
