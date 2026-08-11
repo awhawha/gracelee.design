@@ -1,25 +1,23 @@
 import Link from 'next/link'
-import { groups } from '@/lib/projects'
+import { homeProjects } from '@/lib/projects'
 
 export default function HomePage() {
   return (
     <div className="font-grotesk text-pf-ink">
       {/* Hero */}
       <section className="mx-auto max-w-pf px-10 pb-[72px] pt-24 max-[640px]:px-6">
-        <div className="mb-8 font-mono-ui text-[13px] uppercase tracking-[0.16em] text-pf-accent">
-          Portfolio — 2026
-        </div>
         <h1 className="mb-8 max-w-[1000px] text-[88px] font-semibold leading-[0.96] tracking-[-0.035em] max-[900px]:text-[clamp(40px,10vw,88px)]">
-          I design clarity into complex products.
+          I turn complex systems into clear, usable products.
         </h1>
         <p className="mb-9 max-w-[600px] text-[21px] leading-[1.5] text-pf-secondary">
-          Senior product designer with 10 years shaping systems-heavy software
-          across analytics, AI, and marketing platforms. I turn ambiguity into
-          shipped, measurable outcomes.
+          Senior product designer with an engineering foundation and 10 years
+          of experience across AI, analytics, and data products. I work
+          across product, design, and engineering to turn technical
+          complexity into scalable systems and intuitive experiences.
         </p>
         <div className="flex items-center gap-[11px] text-[15px] text-pf-secondary">
           <span className="h-[9px] w-[9px] rounded-full bg-pf-accent" />
-          Open to Senior &amp; Staff product design roles
+          Open to Senior &amp; Staff Product Designer roles
         </div>
       </section>
 
@@ -28,38 +26,25 @@ export default function HomePage() {
         <div className="mb-2 font-mono-ui text-[13px] uppercase tracking-[0.16em] text-pf-muted">
           Selected work
         </div>
-        {groups.map((g) => (
-          <div
-            key={g.company}
-            className="grid grid-cols-[280px_1fr] gap-12 border-t-2 border-pf-ink pb-3 pt-10 max-[900px]:grid-cols-1 max-[900px]:gap-4"
-          >
-            <div>
-              <div className="text-[30px] font-semibold tracking-[-0.02em]">
-                {g.company}
+        <div className="border-t-2 border-pf-ink pb-3 pt-10">
+          {homeProjects.map((p) => (
+            <Link
+              key={p.id}
+              href={`/work/${p.id}`}
+              className="grid grid-cols-[1fr_28px] items-center gap-4 border-b border-pf-hairline px-2 py-[22px] transition-[background,padding] duration-150 hover:bg-[rgba(96,104,52,0.09)] hover:pl-5"
+            >
+              <div>
+                <div className="text-[26px] font-semibold tracking-[-0.02em]">
+                  {p.homeTitle ?? p.title}
+                </div>
+                <div className="mt-1 text-[15px] text-pf-muted">
+                  {p.homeSubtitle ?? p.desc}
+                </div>
               </div>
-              <div className="mt-[10px] font-mono-ui text-[12px] uppercase tracking-[0.1em] text-pf-muted-light">
-                {g.meta}
-              </div>
-            </div>
-            <div>
-              {g.projects.map((p) => (
-                <Link
-                  key={p.id}
-                  href={`/work/${p.id}`}
-                  className="grid grid-cols-[1fr_28px] items-center gap-4 border-b border-pf-hairline px-2 py-[22px] transition-[background,padding] duration-150 hover:bg-[rgba(96,104,52,0.09)] hover:pl-5"
-                >
-                  <div>
-                    <div className="text-[26px] font-semibold tracking-[-0.02em]">
-                      {p.title}
-                    </div>
-                    <div className="mt-1 text-[15px] text-pf-muted">{p.desc}</div>
-                  </div>
-                  <span className="text-right text-[19px] text-pf-accent">↗</span>
-                </Link>
-              ))}
-            </div>
-          </div>
-        ))}
+              <span className="text-right text-[19px] text-pf-accent">↗</span>
+            </Link>
+          ))}
+        </div>
       </section>
 
       {/* Footer band */}

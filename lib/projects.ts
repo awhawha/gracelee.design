@@ -55,6 +55,13 @@ export type Project = {
   /** Optional longer headline used as the case-study H1; falls back to `title`. */
   headline?: string
   desc: string
+  /**
+   * Optional overrides for the Home "Selected work" list only — lets the
+   * index row read differently from the case-study title/dek without
+   * touching case-study content (H1, metadata, next-project link).
+   */
+  homeTitle?: string
+  homeSubtitle?: string
   tags: string[]
   paras: Para[]
   /** Optional scrollytelling map; enables the synced sticky-media layout. */
@@ -75,6 +82,8 @@ export const projects: Project[] = [
     headline:
       'Redesigning enterprise AutoML: reducing time-to-value for business analysts by 50%',
     desc: 'Reimagining the automated ML workflow',
+    homeTitle: 'Reimagining AutoML',
+    homeSubtitle: 'Making automated ML workflows easier to understand and control',
     tags: ['Workflow redesign', 'Complex systems UX', 'Prototyping', 'Enterprise AI'],
     paras: [
       'At dotData, I led the end-to-end redesign of the multi-table data onboarding and configuration experience to transform the platform from a service-heavy tool into a true self-service SaaS product. The urgency was clear: out of 80 business analysts trained on our legacy platform, fewer than five remained active, effectively freezing market growth. Qualitative discovery revealed that while machine learning workflows are inherently non-linear and iterative, our rigid, 3-step legacy wizard hid critical schema dependencies, trapping users in frustrating “debugging loops” and causing catastrophic compute-time waste.',
@@ -237,6 +246,8 @@ export const projects: Project[] = [
     title: 'Design System',
     headline: 'A design system with logic-driven, three-layer tokens',
     desc: 'Logic-driven tokens that align design and engineering',
+    homeTitle: 'Design as Infrastructure',
+    homeSubtitle: 'A logic-driven system connecting design and engineering',
     tags: ['Design systems', 'Token architecture', 'Design–dev alignment', 'Governance'],
     paras: [
       'We were redesigning multiple workflows at once, but the design infrastructure couldn’t keep up. Designers picked inconsistent tokens, engineers guessed at implementation intent, and the codebase kept accumulating hard-coded styles. I built a three-layer token architecture from scratch that gave both sides a shared language.',
@@ -380,8 +391,11 @@ export const projects: Project[] = [
     id: 'museum',
     company: 'Side project',
     client: 'Side project · Museum of Children’s Books',
-    title: 'Museum of Children’s Books',
-    desc: 'A human-AI content pipeline, disguised as a museum',
+    title: 'Designing with AI Agents',
+    desc: 'A human–AI production system for a children’s book museum',
+    homeTitle: 'Designing with AI Agents',
+    homeSubtitle:
+      'A human–AI production system disguised as a children’s book museum',
     tags: [
       'AI-Driven Design',
       'Prototyping in the Browser',
@@ -444,6 +458,12 @@ export const groups: CompanyGroup[] = groupDefs.map((g) => ({
   meta: g.meta,
   projects: g.ids.map((id) => byId[id]),
 }))
+
+/**
+ * Home "Selected work" list — a single flat list (no per-company grouping),
+ * in the same order the grouped index previously rendered.
+ */
+export const homeProjects: Project[] = groups.flatMap((g) => g.projects)
 
 export function getProject(slug: string): Project | undefined {
   return byId[slug]

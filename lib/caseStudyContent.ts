@@ -77,7 +77,7 @@ const automl: CaseStudyContent = {
   },
   involvement:
     "As the Lead Product Designer, I drove the full lifecycle — from reframing the systemic problem and segmenting the workflow to defining the cross-product interaction patterns. By using Object-Oriented Design as a cross-functional alignment artifact, I simplified the platform's underlying architecture alongside engineering and PM, establishing a scalable, vision-led foundation for every predictive-intelligence feature that followed.",
-  next: { label: 'Museum of Children’s Books', href: '/work/museum' },
+  next: { label: 'Designing with AI Agents', href: '/work/museum' },
   chapters: [
     {
       kicker: '01 — The problem',
@@ -309,32 +309,32 @@ const designSystem: CaseStudyContent = {
 }
 
 const museum: CaseStudyContent = {
-  eyebrow: 'Side project · Museum of Children’s Books',
-  title: 'Trading Figma for Claude Code: a human-AI content pipeline',
+  eyebrow: 'Self-initiated · Museum of Children’s Books',
+  title: 'Designing with AI Agents',
   tags: [
-    'AI-Driven Design',
-    'Prototyping in the Browser',
-    'Human-AI Interaction',
-    'CMS UX Redesign',
+    'Agentic Workflows',
+    'Human-in-the-Loop AI',
+    'Systems Design',
+    'Production Tooling',
   ],
   subhead:
-    'A self-initiated museum of children’s-book illustration, designed and built entirely in code with AI as a design partner instead of Figma.',
-  tldr: 'The harder problem came after launch: producing content at the boundary of structured data and open-ended generation. I tested a CMS auto-fill button, then a closed AI knowledge base, before landing on a human-in-the-loop pipeline built in the Claude Code app — and learned the real answer isn’t GUI vs. LUI, but which interface should own which job.',
+    'A human–AI production system for a children’s book museum — combining agentic research and generation with human review and visual validation.',
+  tldr: 'I started with a simple question: how far could I take a digital product with AI as a direct design and engineering partner? The harder problem emerged after launch — building a reliable content workflow for research-heavy, open-ended material. After testing AI inside a traditional CMS and a closed knowledge base, I landed on a human-in-the-loop agentic workflow: AI handles research and production, while a visual interface gives me precise control over validation and approval.',
   metrics: [
     {
       value: '0',
       label: 'Hours in Figma',
-      desc: 'Every screen designed and iterated directly in code, with AI as the collaborator instead of a canvas.',
+      desc: 'Every screen designed and iterated directly in code, with AI as a direct collaborator throughout.',
     },
     {
       value: '3',
-      label: 'Production models tested',
-      desc: 'A CMS auto-fill button, a closed AI knowledge base, then a human-in-the-loop pipeline built in the Claude Code app.',
+      label: 'Workflow models tested',
+      desc: 'A CMS auto-fill button, a closed knowledge base, then a human-in-the-loop agentic workflow.',
     },
     {
-      value: '2',
-      label: 'Interfaces, one pipeline',
-      desc: 'A conversational LUI for research and generation, a visual GUI for validation — each doing what it’s built for.',
+      value: '3',
+      label: 'Roles, one pipeline',
+      desc: 'Agent, interface, and human — each owns a distinct part of research, generation, and approval.',
     },
   ],
   heroImage: {
@@ -343,15 +343,15 @@ const museum: CaseStudyContent = {
       'Museum of Children’s Books: a gallery-first home for illustration craft, designed and built entirely in code.',
   },
   involvement:
-    'Solo, end to end: concept, brand, the full web build, and — the real subject of this case study — the production tooling behind it. I designed every screen directly in code with AI as a collaborator, ran the CMS experiments, and built the Claude Code Skills that now generate and validate every book entry.',
+    'Solo, end to end. I defined the concept, designed and built the product directly in code, ran the AI/CMS workflow experiments, and developed the Claude Code Skills behind the production pipeline. My focus was not just generating content with AI, but designing where automation should act, where human judgment should intervene, and how the two interfaces connect.',
   next: { label: 'Design System', href: '/work/dotds' },
   chapters: [
     {
       kicker: '01 — Origins',
-      heading: 'A bold experiment: designing without Figma',
+      heading: 'A visual reference for craft, and a constraint experiment',
       body: [
-        'Most children’s-book sites are built for parents choosing bedtime reading. I wanted something different: a home for the craft itself — illustration style, medium, technique — for illustrators and designers who need to reference a book’s visual language, not its plot. That material exists, but it’s scattered across blogs, out-of-print essays, and gallery notes, with nowhere to collect it.',
-        'It doubled as a deliberate constraint test. With limited engineering depth and no Figma file, I wanted to see how far one person could take a full digital product with AI as a direct collaborator — from first sketch to shipped interaction — not as an assistant that speeds up a human-led process, but as the primary partner in it.',
+        'Most children’s-book sites are organized around stories and recommendations. I wanted to build something different: a visual reference for illustrators and designers, centered on craft — medium, technique, style, and influence.',
+        'The museum also became a constraint experiment: could I design and ship a full product directly in code, with AI not just assisting the process, but participating in it?',
       ],
       figures: [
         {
@@ -363,11 +363,10 @@ const museum: CaseStudyContent = {
     },
     {
       kicker: '02 — Process',
-      heading: 'Do we still need Figma?',
+      heading: 'Designing directly in code',
       body: [
-        'I started conventionally enough — concepts in a chat with Gemini and Claude, layout exploration in Claude’s design surface — before every idea moved into Claude Code for implementation. What I noticed was how much friction lived in the handoff: exporting a layout, describing it again, waiting for code to catch up.',
-        'Claude Code turned out to hold enough context to do both jobs at once — reasoning through the design logic with me in conversation, and generating a working, high-fidelity prototype in the browser I could click through and A/B test immediately. The middle step, the back-and-forth packaging of ideas between tools, just stopped being necessary.',
-        'That’s the shift I’d point to: as AI moves from producing static mockups to producing running, interactive code, designing in the browser surfaces technical limits earlier and shrinks the gap between design and engineering — there’s no longer a translation step between the two.',
+        'I started conventionally — concepts in a chat with Gemini and Claude, layout exploration in Claude’s design surface — before every idea moved into Claude Code for implementation. What stood out was how much friction lived in the handoff: exporting a layout, describing it again, waiting for code to catch up.',
+        'Designing in the browser collapsed much of the usual translation between design and implementation. With the product context, codebase, and working UI in the same environment, design reasoning and implementation became part of one continuous loop, instead of packaging an idea for one tool and unpacking it in another.',
       ],
       overview: {
         label: '[ tool-convergence.png — chat → design surface → code ]',
@@ -377,19 +376,19 @@ const museum: CaseStudyContent = {
     },
     {
       kicker: '03 — The core conflict',
-      heading: 'Do we still need a traditional CMS backend?',
+      heading: 'Where AI could be trusted, and where it couldn’t',
       conflict: {
-        label: 'The question',
-        text: '“Structured fields are safe. Open-ended analysis is where AI gets useful — and where it starts to hallucinate.” Two production experiments, each solving half the problem.',
+        label: 'The tension',
+        text: 'Structured fields were easy for AI to fill in reliably. Open-ended research and interpretation were much harder — and grounding the model in a closed knowledge base improved reliability, but added friction to the workflow.',
       },
       body: [
-        'Populating the museum meant writing about craft: medium, technique, visual influence — content that’s genuinely hard to source and easy for AI to get vague or wrong about. I ran two very different experiments to find out where it could actually be trusted.',
+        'The challenge wasn’t getting AI to generate content. It was deciding when I could trust it, what context it needed, and where human judgment still had to intervene. I ran two experiments to find out.',
       ],
       decisions: [
         {
           num: 'A',
           name: 'Admin AI Refill button',
-          text: 'I added an “AI Refill” button to the ordinary admin form. Type a title, and AI fetches the structured basics — author, year, ISBN. It worked well: the data was factual and low-risk, and because it stayed inside the familiar CMS screen, I could validate and correct it on sight. The moment I pushed it toward deep analysis — medium, technique, artistic lineage — it broke down: hallucinated detail, hollow prose, a different answer every run. The prompt was buried in code, too, so tuning it meant a redeploy every time.',
+          text: 'An “AI Refill” button in the ordinary admin form worked well for structured facts — author, year, ISBN — because I could validate them on sight. Pushed toward open-ended analysis of medium and technique, it broke down: hallucinated detail, vague prose, a different answer every run. The prompt was buried in code, too, so tuning it meant a redeploy each time.',
           media: {
             label: '[ admin-ai-refill.png — CMS auto-fill ]',
             caption:
@@ -398,8 +397,8 @@ const museum: CaseStudyContent = {
         },
         {
           num: 'B',
-          name: 'A closed AI knowledge base',
-          text: 'I tried the opposite approach: scoping AI research to a fixed set of sources — specific sites, videos, official documents — using NotebookLM. Hallucination dropped sharply, and the analysis read like it came from someone who’d actually done the reading. But it broke the workflow instead: good answers had to be copied out by hand, one at a time, across a tab switch, into the CMS — and every new book meant re-uploading the same reference sources from scratch.',
+          name: 'A closed knowledge base',
+          text: 'Scoping AI research to a fixed set of sources with NotebookLM cut hallucination sharply, and the analysis read like it came from someone who’d actually done the reading. But it broke the workflow instead: every answer had to be copied out by hand into the CMS, and every new book meant re-uploading the same reference sources from scratch.',
           media: {
             label: '[ notebooklm-workflow.png — the copy-paste break ]',
             caption:
@@ -410,33 +409,36 @@ const museum: CaseStudyContent = {
     },
     {
       kicker: '04 — The solution',
-      heading: 'A human-AI production line, built on Claude Code + Skill',
+      heading: 'From AI feature to agentic workflow',
       conflict: {
         label: 'The bind',
-        text: 'One tool couldn’t be trusted with open-ended writing. The other couldn’t be trusted with my time. Neither the admin button nor the closed knowledge base was going to scale.',
+        text: 'One tool couldn’t be trusted with open-ended writing. The other couldn’t be trusted with my time. Neither was going to scale.',
       },
       body: [
-        'The fix wasn’t a better GUI — it was leaving the GUI for the Claude Code app itself. I turned the closed-retrieval idea into a custom Skill inside Claude Code: point it at a book, and it researches the book’s medium and technique on the web, returns the findings to the same conversation for me to review, and only writes to Supabase once I approve it. Human-in-the-loop stayed intact; the copy-paste bridge disappeared.',
-        'Because the same session holds the full codebase, database access, and every article I’ve already written, tone fixes don’t require touching source code — I just say what’s wrong in plain language and the next output reflects it. And because I’m building on Claude Code’s own session and error-handling model rather than a hand-rolled agent, real production features come for free: multiple sessions running in parallel across different books, and a growing skill tree — an illustrator deep-dive skill, and a cover color-palette extractor that names each swatch to match the book’s mood.',
+        'The breakthrough was treating AI less like a feature inside the CMS and more like an agent operating across the workflow. Instead of filling one field at a time, it could research a book, synthesize findings, generate structured content, pause for human review, and write approved output directly to the database:',
+        'Research → Synthesize → Generate structured content → Return for review → Human approval → Write to database.',
+        'I implemented this as a custom Claude Code Skill: point it at a book, and it researches medium and technique on the web, returns its findings to the same conversation for me to review, and only writes to Supabase once I approve it. The human-in-the-loop checkpoint stayed intact — it’s just no longer a copy-paste bridge between two disconnected tools.',
+        'Because the workflow runs inside the same environment as the codebase and database, it scales across multiple books and specialized tasks without a separate orchestration layer — an illustrator deep-dive skill, and a cover color-palette extractor that names each swatch to match the book’s mood, run alongside the original research skill.',
       ],
       quote: {
         text: '“#D4A373 → the dusk-colored earth of Where the Wild Things Are”',
         who: 'Auto-generated palette caption · cover color-extraction skill',
       },
       resolution:
-        'The trade-off is real, and worth stating plainly: this only works if you’re comfortable working conversationally in an app like Claude Code instead of a visual interface, and letting AI operate directly against a live codebase and database means access control has to be designed deliberately from the start — not bolted on once a team is involved.',
+        'The trade-off is real: this only works if you’re comfortable working conversationally instead of through a visual interface, and letting AI act directly on a live codebase and database means access control has to be designed in from the start — not added later.',
     },
     {
       kicker: '05 — The hybrid interface',
       heading: 'LUI to produce, GUI to validate',
       body: [
-        'Working this closely with Claude Code + Skill taught me something about what the admin backend is actually for. It doesn’t disappear — its job changes. A conversational interface is where I want ambiguous, wide-reaching work to happen: research, synthesis, naming a whole palette in one pass. But catching a typo, or judging whether a color pairing actually reads right, is a visual, immediate kind of decision — going back and forth in a chat about “the second word in paragraph two” is friction a click-and-edit GUI simply doesn’t have.',
+        'Working this closely with the agent taught me something about what the admin backend is actually for. It doesn’t disappear — its job changes. A conversational interface is where I want ambiguous, wide-reaching work to happen: research, synthesis, naming a whole palette in one pass. Catching a typo, or judging whether a color pairing actually reads right, is a different kind of decision — visual and immediate, in a way a chat window isn’t built for.',
+        'The relationship that emerged wasn’t AI versus GUI. It was human ↔ agent ↔ interface, with each one responsible for a different part of the job.',
       ],
       decisions: [
         {
           num: 'i',
-          name: 'LUI — the production engine',
-          text: 'Claude Code + Skill acts as researcher and writer: bulk retrieval, structured analysis, automatic palette naming, pushed straight to the database across as many books, and as many parallel sessions, as I need.',
+          name: 'Agent — exploration & production',
+          text: 'Claude Code + Skill acts as researcher and writer: bulk retrieval, structured analysis, and automatic palette naming, pushed straight to the database across as many books, and as many parallel sessions, as I need.',
           media: {
             label: '[ lui-claude-code.png — the skill in action ]',
             caption:
@@ -445,20 +447,29 @@ const museum: CaseStudyContent = {
         },
         {
           num: 'ii',
-          name: 'GUI — the validation layer',
+          name: 'GUI — judgment & control',
           text: 'The admin screen becomes a real-preview dashboard: open the page, see it rendered as a reader would, click to adjust a word or a color, and give final approval — the last line of defense a chat window can’t replace.',
           media: {
             label: '[ admin-validation-dashboard.png — the final review ]',
             caption: 'The admin screen, now a validation dashboard rather than a writing tool.',
           },
         },
+        {
+          num: 'iii',
+          name: 'Human — intent & accountability',
+          text: 'I set the direction, resolve the ambiguity the agent surfaces, and approve anything consequential before it reaches the live database — the agent and the interface do the work, but I stay responsible for it.',
+          media: {
+            label: '[ approval-checkpoint.png — the human review step ]',
+            caption: 'Nothing writes to the database until a person signs off.',
+          },
+        },
       ],
       quote: {
-        text: '“The future of product design isn’t GUI versus LUI. It’s letting the LUI do wide, ambiguous exploration, and the GUI do precise, visual judgment — and designing the seam where a human moves between the two.”',
-        who: 'Key takeaway',
+        text: '“The design problem wasn’t GUI versus LUI. It was deciding which interface should own which job — and designing the handoff between them.”',
+        who: 'Central insight',
       },
       resolution:
-        'That seam is the design problem now: not choosing an interface, but deciding, feature by feature, which one earns the job.',
+        'AI agents are strongest at exploration, synthesis, generation, and repetitive production work. Visual interfaces are strongest when someone needs to compare, inspect, correct, and approve. Human judgment stays responsible for intent, ambiguity, and consequential decisions. The most useful version of this product came from designing the handoff between all three — not forcing every task into one interface.',
     },
   ],
 }
