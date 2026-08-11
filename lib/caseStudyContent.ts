@@ -28,7 +28,14 @@ export type CaseChapter = {
   quote?: { text: string; who: string }
   conflict?: { label: string; text: string }
   overview?: CaseMedia
-  decisions?: { num: string; name: string; text: string; media: CaseMedia }[]
+  decisions?: {
+    num: string
+    name: string
+    text: string
+    media: CaseMedia
+    /** Optional second media, stacked below the first. */
+    media2?: CaseMedia
+  }[]
   figures?: CaseMedia[]
   resolution?: string
 }
@@ -358,13 +365,6 @@ const museum: CaseStudyContent = {
         'Most children’s-book sites are organized around stories and recommendations. I wanted to build something different: a visual reference for illustrators and designers, centered on craft — medium, technique, style, and influence.',
         'The museum also became a constraint experiment: could I design and ship a full product directly in code, with AI not just assisting the process, but participating in it?',
       ],
-      figures: [
-        {
-          label: '[ museum-home.png — the exhibition home ]',
-          caption:
-            'The entrance: artwork-forward, warm, and built for people who care about how the pictures are made.',
-        },
-      ],
     },
     {
       kicker: '02 — Process',
@@ -376,7 +376,11 @@ const museum: CaseStudyContent = {
       overview: {
         label: '[ tool-convergence.png — chat → design surface → code ]',
         caption:
-          'The workflow that converged: concept chat and layout exploration folded into one continuous conversation with Claude Code.',
+          'For this solo project, AI compressed much of the usual design-to-implementation handoff into a tighter iterative loop.',
+        img: '/images/museum/process.png',
+        ratio: '1214 / 434',
+        fit: 'cover',
+        bg: 'white',
       },
     },
     {
@@ -397,10 +401,19 @@ const museum: CaseStudyContent = {
           media: {
             label: '[ admin-ai-refill.png — CMS auto-fill ]',
             caption:
-              'The AI Refill button inside the ordinary admin form — reliable for structured fields, unreliable once analysis got open-ended.',
+              'Experiment A — AI inside the CMS. Structured metadata was easy to generate and easy to validate in place.',
             img: '/images/museum/experimentA-AI-refill.mp4',
             isVideo: true,
             ratio: '16 / 10',
+          },
+          media2: {
+            label: '[ experimentA-AI-refill-failed.png — open-ended analysis breaks down ]',
+            caption:
+              'The same pattern broke down with open-ended analysis: the output became harder to verify, less consistent, and more sensitive to prompting.',
+            img: '/images/museum/experimentA-AI-refill-failed.png',
+            ratio: '1748 / 703',
+            fit: 'cover',
+            bg: 'white',
           },
         },
         {
@@ -410,7 +423,11 @@ const museum: CaseStudyContent = {
           media: {
             label: '[ notebooklm-workflow.png — the copy-paste break ]',
             caption:
-              'High-quality output, stuck behind a manual copy-paste bridge between two disconnected tools.',
+              'Experiment B — Grounding the model in a closed source set improved the research, but created a manual bridge back to the CMS.',
+            img: '/images/museum/experimentB-NotebookLM.png',
+            ratio: '2736 / 1836',
+            fit: 'cover',
+            bg: 'white',
           },
         },
       ],

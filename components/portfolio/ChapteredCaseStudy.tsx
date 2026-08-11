@@ -292,6 +292,11 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
                           {d.text}
                         </p>
                         <Figure media={d.media} />
+                        {d.media2 && (
+                          <div className="mt-[18px]">
+                            <Figure media={d.media2} />
+                          </div>
+                        )}
                       </Reveal>
                     ))}
                   </div>
