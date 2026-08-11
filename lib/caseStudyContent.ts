@@ -340,7 +340,12 @@ const museum: CaseStudyContent = {
   heroImage: {
     label: '[ museum-hero.png — the reading experience ]',
     caption:
-      'Museum of Children’s Books: a gallery-first home for illustration craft, designed and built entirely in code.',
+      'The museum itself: a visual-first archive of children’s-book illustration and craft.',
+    img: '/images/museum/hero.png',
+    alt: 'Museum of Children’s Books — the Book of the Day feature, showing Where the Wild Things Are',
+    ratio: '3704 / 1854',
+    fit: 'cover',
+    bg: 'white',
   },
   involvement:
     'Solo, end to end. I defined the concept, designed and built the product directly in code, ran the AI/CMS workflow experiments, and developed the Claude Code Skills behind the production pipeline. My focus was not just generating content with AI, but designing where automation should act, where human judgment should intervene, and how the two interfaces connect.',
@@ -393,6 +398,9 @@ const museum: CaseStudyContent = {
             label: '[ admin-ai-refill.png — CMS auto-fill ]',
             caption:
               'The AI Refill button inside the ordinary admin form — reliable for structured fields, unreliable once analysis got open-ended.',
+            img: '/images/museum/experimentA-AI-refill.mp4',
+            isVideo: true,
+            ratio: '16 / 10',
           },
         },
         {

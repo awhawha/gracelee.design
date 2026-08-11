@@ -90,7 +90,22 @@ function Figure({
         className={`relative flex w-full items-center justify-center overflow-hidden border border-pf-border ${radius} ${bgClass}`}
         style={{ aspectRatio: frameRatio, padding: media.pad }}
       >
-        {media.img ? (
+        {media.img && media.isVideo ? (
+          <video
+            className={`${
+              media.fit === 'cover'
+                ? 'h-full w-full object-cover'
+                : 'max-h-full max-w-full object-contain'
+            }`}
+            controls
+            muted
+            loop
+            playsInline
+            preload="metadata"
+          >
+            <source src={media.img} type="video/mp4" />
+          </video>
+        ) : media.img ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={media.img}
