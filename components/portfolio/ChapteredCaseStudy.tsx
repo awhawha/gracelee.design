@@ -156,7 +156,7 @@ function BeforeAfterSide({
   const onZoom = useContext(ZoomContext)
   return (
     <div>
-      <div className="mb-2 font-mono-ui text-[11px] uppercase tracking-[0.12em] text-pf-muted">
+      <div className="mb-2 font-mono-ui text-[12px] tracking-[0.04em] text-pf-muted">
         {media.label}
       </div>
       <div
@@ -196,7 +196,7 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
       <div className="mx-auto max-w-[1120px] px-10 pt-7 max-[640px]:px-6">
         {/* Hero */}
         {content.eyebrow && (
-          <div className="mb-[26px] font-mono-ui text-[12px] uppercase tracking-[0.16em] text-pf-muted">
+          <div className="mb-[26px] font-mono-ui text-[12px] tracking-[0.04em] text-pf-muted">
             {content.eyebrow}
           </div>
         )}
@@ -241,7 +241,7 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
 
             {/* In short / TL;DR */}
             <div className="mt-9 max-w-[900px]">
-              <div className="mb-3 font-mono-ui text-[12px] uppercase tracking-[0.14em] text-pf-muted-light">
+              <div className="mb-3 font-mono-ui text-[12px] tracking-[0.04em] text-pf-muted">
                 In short
               </div>
               <p className="m-0 text-[23px] font-medium leading-[1.5] text-pf-ink">
@@ -252,7 +252,7 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
         )}
 
         {/* Metrics */}
-        <div className="mt-10 grid grid-cols-3 gap-10 border-t border-pf-ink pt-9 max-[640px]:grid-cols-1 max-[640px]:gap-6">
+        <div className="mt-10 grid grid-cols-3 gap-10 border-t border-pf-hairline pt-9 max-[640px]:grid-cols-1 max-[640px]:gap-6">
           {content.metrics.map((m) => (
             <div key={m.label}>
               <div className="text-[40px] font-semibold leading-none tracking-[-0.02em] text-pf-accent">
@@ -284,8 +284,8 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
 
         {/* Chapters — single column: label → title → body → callout → visuals */}
         {content.chapters.map((ch, i) => (
-          <section key={i} className="mt-14 border-t border-pf-ink pb-2 pt-12">
-            <div className="font-mono-ui text-[12px] uppercase tracking-[0.14em] text-pf-muted">
+          <section key={i} className="mt-14 border-t border-pf-hairline pb-2 pt-12">
+            <div className="font-mono-ui text-[12px] tracking-[0.04em] text-pf-muted">
               {ch.kicker}
             </div>
             <h2 className="mt-3 max-w-[820px] text-[28px] font-semibold leading-[1.14] tracking-[-0.02em]">
@@ -303,7 +303,7 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
 
                 {ch.conflict && (
                   <div className="mt-[26px] max-w-[820px] rounded-[14px] bg-[rgba(96,104,52,0.10)] px-[26px] py-6">
-                    <div className="mb-[10px] font-mono-ui text-[11px] uppercase tracking-[0.14em] text-pf-muted">
+                    <div className="mb-[10px] font-mono-ui text-[12px] tracking-[0.04em] text-pf-muted">
                       {ch.conflict.label}
                     </div>
                     <p className="m-0 text-[20px] font-medium leading-[1.45] text-pf-ink">
@@ -313,11 +313,11 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
                 )}
 
                 {ch.quote && (
-                  <Reveal className="my-[30px] max-w-[820px] border-l-[3px] border-pf-accent pl-[22px]">
-                    <p className="m-0 text-[30px] font-medium leading-[1.24] tracking-[-0.02em] text-pf-ink">
+                  <Reveal className="my-[30px] max-w-[720px] border-l-[3px] border-pf-accent pl-[22px]">
+                    <p className="m-0 text-[23px] font-normal leading-[1.4] text-pf-secondary">
                       {ch.quote.text}
                     </p>
-                    <div className="mt-[14px] font-mono-ui text-[12px] uppercase tracking-[0.08em] text-pf-muted-light">
+                    <div className="mt-3 font-mono-ui text-[12px] tracking-[0.04em] text-pf-muted">
                       {ch.quote.who}
                     </div>
                   </Reveal>
@@ -424,7 +424,7 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
 
                 {ch.callout && (
                   <Reveal className="mt-[26px] max-w-[820px] rounded-[14px] bg-[rgba(96,104,52,0.10)] px-[26px] py-6">
-                    <div className="mb-[10px] font-mono-ui text-[11px] uppercase tracking-[0.14em] text-pf-muted">
+                    <div className="mb-[10px] font-mono-ui text-[12px] tracking-[0.04em] text-pf-muted">
                       {ch.callout.label}
                     </div>
                     <p className="m-0 text-[22px] font-medium leading-[1.4] text-pf-ink">
@@ -435,7 +435,7 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
 
                 {ch.list && (
                   <Reveal className="mt-[26px] max-w-[820px] border-t border-pf-hairline pt-[24px]">
-                    <div className="mb-4 font-mono-ui text-[11px] uppercase tracking-[0.14em] text-pf-muted-light">
+                    <div className="mb-4 font-mono-ui text-[12px] tracking-[0.04em] text-pf-muted">
                       {ch.list.title}
                     </div>
                     <ul className="m-0 grid list-none grid-cols-2 gap-x-10 gap-y-3 p-0 max-[640px]:grid-cols-1">
@@ -453,7 +453,7 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
 
                 {ch.resolution && (
                   <Reveal className="mt-[30px] max-w-[820px] border-t border-pf-hairline pt-[26px]">
-                    <div className="mb-3 font-mono-ui text-[11px] uppercase tracking-[0.14em] text-pf-muted">
+                    <div className="mb-3 font-mono-ui text-[12px] tracking-[0.04em] text-pf-muted">
                       The resolution
                     </div>
                     <p className="m-0 text-[19px] font-medium leading-[1.6] text-pf-ink">
@@ -482,7 +482,7 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
         className="block bg-[#2c3326] text-white transition-colors hover:bg-[#20271c]"
       >
         <div className="mx-auto flex max-w-[1120px] flex-col items-end gap-2 px-10 py-12 max-[640px]:px-6">
-          <span className="font-mono-ui text-[11px] uppercase tracking-[0.12em] text-pf-muted">
+          <span className="font-mono-ui text-[12px] tracking-[0.04em] text-pf-muted">
             Next project
           </span>
           <span className="whitespace-nowrap text-[30px] font-medium tracking-[-0.02em]">

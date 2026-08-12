@@ -94,18 +94,6 @@ const automl: CaseStudyContent = {
         text: '“I don’t know what these settings will affect next.”',
         who: 'Business analysts · user interviews',
       },
-      figures: [
-        {
-          label: '[ Milestone 1.png — legacy configuration screens ]',
-          caption:
-            'The legacy setup: schema, target, connections, and advanced settings split across separate screens.',
-          img: '/images/automl/ch01-wizard.png',
-          alt: 'dotData Configure Data Slots — the legacy task creation screen',
-          ratio: '2880 / 1690',
-          fit: 'cover',
-          bg: 'olive',
-        },
-      ],
     },
     {
       kicker: '02 — The insight',
@@ -120,8 +108,8 @@ const automl: CaseStudyContent = {
           label: 'Old flow — multiple screens, disconnected steps',
         },
         after: {
-          img: '/images/automl/ch02-canvas.png',
-          alt: 'New flow — one visible, iterative canvas',
+          img: '/images/automl/after-redesign.png',
+          alt: 'New flow — the model-design canvas with target and table relationships visible together',
           label: 'New flow — one visible, iterative canvas',
         },
         caption:
@@ -135,14 +123,14 @@ const automl: CaseStudyContent = {
         'I replaced the accordion-style flow with a single canvas. Configuration panels keep the work organized, while the canvas makes target tables, source tables, and their relationships visible together.',
       ],
       overview: {
-        label: '[ Connect tables (auto).png — the canvas ]',
+        label: '[ final-canvas.png — the canvas ]',
         caption:
           'Target tables, source tables, and their relationships, visible together on one canvas.',
-        img: '/images/automl/ch02-canvas.png',
-        alt: 'The model-design canvas: target, source tables, and relationships on one plane',
-        ratio: '1441 / 846',
-        fit: 'cover',
-        bg: 'olive',
+        img: '/images/automl/final-canvas.png',
+        alt: 'The model-design canvas: configuration panel, target table, and relationship lines annotated on one plane',
+        ratio: '5760 / 3380',
+        fit: 'contain',
+        bg: 'white',
       },
       features: [
         {

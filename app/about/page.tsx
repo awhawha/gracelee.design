@@ -100,7 +100,7 @@ export default function AboutPage() {
 
       {/* Experience */}
       <div className="mx-auto max-w-pf border-t border-pf-hairline px-10 py-14 max-[640px]:px-6">
-        <div className="mb-7 font-mono-ui text-[13px] uppercase tracking-[0.12em] text-pf-muted-light">
+        <div className="mb-7 font-mono-ui text-[12px] tracking-[0.04em] text-pf-muted">
           Experience
         </div>
         {experience.map((e) => (
@@ -121,7 +121,7 @@ export default function AboutPage() {
 
       {/* Education */}
       <div className="mx-auto max-w-pf px-10 pb-14 max-[640px]:px-6">
-        <div className="mb-7 font-mono-ui text-[13px] uppercase tracking-[0.12em] text-pf-muted-light">
+        <div className="mb-7 font-mono-ui text-[12px] tracking-[0.04em] text-pf-muted">
           Education
         </div>
         {education.map((e) => (
@@ -164,7 +164,7 @@ export default function AboutPage() {
               LinkedIn ↗
             </a>
             <a
-              href="/images/gracelee-resume-2026.pdf"
+              href="/images/gracelee-resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="text-pf-muted transition-colors hover:text-white"

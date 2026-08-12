@@ -12,7 +12,7 @@ export function SiteNav() {
         >
           Grace Lee
         </Link>
-        <div className="flex items-center gap-[30px] font-grotesk text-[13px] font-medium uppercase tracking-[0.08em] text-pf-muted max-[640px]:gap-4">
+        <div className="flex items-center gap-[30px] font-grotesk text-[14px] font-medium tracking-[0.01em] text-pf-muted max-[640px]:gap-4">
           <Link href="/" className="transition-colors hover:text-pf-ink max-[480px]:hidden">
             All projects
           </Link>

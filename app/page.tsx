@@ -23,10 +23,10 @@ export default function HomePage() {
 
       {/* Work index — grouped by company */}
       <section className="mx-auto max-w-pf px-10 pb-10 max-[640px]:px-6">
-        <div className="mb-2 font-mono-ui text-[13px] uppercase tracking-[0.16em] text-pf-muted">
+        <div className="mb-2 font-mono-ui text-[12px] tracking-[0.04em] text-pf-muted">
           Selected work
         </div>
-        <div className="border-t-2 border-pf-ink pb-3 pt-10">
+        <div className="border-t border-pf-hairline pb-3 pt-10">
           {homeProjects.map((p) => (
             <Link
               key={p.id}
@@ -71,7 +71,7 @@ export default function HomePage() {
               LinkedIn ↗
             </a>
             <a
-              href="/images/gracelee-resume-2026.pdf"
+              href="/images/gracelee-resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="text-pf-muted transition-colors hover:text-white"

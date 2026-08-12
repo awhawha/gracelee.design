@@ -194,7 +194,7 @@ export function ScrollytellingCaseStudy({ project }: { project: Project }) {
 
       {/* RIGHT — scrolling narrative */}
       <div className="pb-20">
-        <div className="mb-4 font-mono-ui text-[12px] uppercase tracking-[0.16em] text-pf-muted-light">
+        <div className="mb-4 font-mono-ui text-[12px] tracking-[0.04em] text-pf-muted">
           {project.client}
         </div>
         <h1 className="mb-6 text-[46px] font-semibold leading-[1.02] tracking-[-0.03em] max-[900px]:text-[clamp(32px,7vw,46px)]">
@@ -257,7 +257,7 @@ export function ScrollytellingCaseStudy({ project }: { project: Project }) {
         <p className="mb-10 text-[17px] leading-[1.72] text-pf-body">
           {project.involvement}
         </p>
-        <div className="mb-4 font-mono-ui text-[12px] uppercase tracking-[0.12em] text-pf-muted-light">
+        <div className="mb-4 font-mono-ui text-[12px] tracking-[0.04em] text-pf-muted">
           Live version
         </div>
         <a
