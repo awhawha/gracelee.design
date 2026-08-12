@@ -195,35 +195,61 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
 
       <div className="mx-auto max-w-[1120px] px-10 pt-7 max-[640px]:px-6">
         {/* Hero */}
-        <div className="mb-[26px] font-mono-ui text-[12px] uppercase tracking-[0.16em] text-pf-accent">
-          {content.eyebrow}
-        </div>
+        {content.eyebrow && (
+          <div className="mb-[26px] font-mono-ui text-[12px] uppercase tracking-[0.16em] text-pf-accent">
+            {content.eyebrow}
+          </div>
+        )}
         <h1 className="m-0 max-w-[980px] text-[58px] font-semibold leading-[1.02] tracking-[-0.035em] max-[900px]:text-[clamp(36px,8vw,58px)]">
           {content.title}
         </h1>
-        <p className="mt-[22px] max-w-[780px] text-[20px] leading-[1.5] text-pf-secondary">
-          {content.subhead}
-        </p>
-        <div className="mt-[26px] flex flex-wrap gap-2">
-          {content.tags.map((t) => (
-            <span
-              key={t}
-              className="rounded-full bg-pf-tag px-[13px] py-[6px] text-[13px] text-pf-secondary"
-            >
-              {t}
-            </span>
-          ))}
-        </div>
-
-        {/* In short / TL;DR */}
-        <div className="mt-9 max-w-[900px]">
-          <div className="mb-3 font-mono-ui text-[12px] uppercase tracking-[0.14em] text-pf-muted-light">
-            In short
-          </div>
-          <p className="m-0 text-[23px] font-medium leading-[1.5] text-pf-ink">
-            {content.tldr}
+        {content.subhead && (
+          <p className="mt-[22px] max-w-[780px] text-[20px] leading-[1.5] text-pf-secondary">
+            {content.subhead}
           </p>
-        </div>
+        )}
+
+        {content.heroCompact ? (
+          /* Compact hero: summary directly under the title, tags below it */
+          <>
+            <p className="m-0 mt-6 max-w-[900px] text-[23px] font-medium leading-[1.5] text-pf-ink">
+              {content.tldr}
+            </p>
+            <div className="mt-5 flex flex-wrap gap-2">
+              {content.tags.map((t) => (
+                <span
+                  key={t}
+                  className="rounded-full bg-pf-tag px-[13px] py-[6px] text-[13px] text-pf-secondary"
+                >
+                  {t}
+                </span>
+              ))}
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="mt-[26px] flex flex-wrap gap-2">
+              {content.tags.map((t) => (
+                <span
+                  key={t}
+                  className="rounded-full bg-pf-tag px-[13px] py-[6px] text-[13px] text-pf-secondary"
+                >
+                  {t}
+                </span>
+              ))}
+            </div>
+
+            {/* In short / TL;DR */}
+            <div className="mt-9 max-w-[900px]">
+              <div className="mb-3 font-mono-ui text-[12px] uppercase tracking-[0.14em] text-pf-muted-light">
+                In short
+              </div>
+              <p className="m-0 text-[23px] font-medium leading-[1.5] text-pf-ink">
+                {content.tldr}
+              </p>
+            </div>
+          </>
+        )}
 
         {/* Metrics */}
         <div className="mt-10 grid grid-cols-3 gap-10 border-t border-pf-ink pt-9 max-[640px]:grid-cols-1 max-[640px]:gap-6">

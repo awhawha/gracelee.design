@@ -55,10 +55,12 @@ export type CaseChapter = {
 }
 
 export type CaseStudyContent = {
-  eyebrow: string
+  eyebrow?: string
   title: string
   tags: string[]
-  subhead: string
+  subhead?: string
+  /** Compact hero: title → summary → tags, no eyebrow/subhead/"In short" label. */
+  heroCompact?: boolean
   tldr: string
   metrics: { value: string; label: string; desc?: string }[]
   heroImage?: CaseMedia
@@ -68,12 +70,10 @@ export type CaseStudyContent = {
 }
 
 const automl: CaseStudyContent = {
-  eyebrow: 'dotData · AutoML platform',
   title: 'From configuration maze to a guided model-design canvas',
-  tags: ['Product design', 'Complex systems UX', 'Prototyping', 'Enterprise AI'],
-  subhead:
-    'Redesigning model-task setup so analysts can see how data, targets, and table relationships affect the model before they run it.',
-  tldr: 'I consolidated a multi-screen model-configuration workflow into one guided canvas, helping users start with a runnable setup, understand dependencies, and iterate independently.',
+  tags: ['Enterprise UX', 'Complex workflows'],
+  heroCompact: true,
+  tldr: 'I consolidated a multi-screen model-configuration workflow into one guided canvas, helping analysts understand dependencies, start with a runnable setup, and iterate independently.',
   metrics: [
     { value: '20 → 5', label: 'Configuration steps' },
     { value: '3 → 1', label: 'Screens consolidated into one canvas' },
