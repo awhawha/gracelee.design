@@ -115,8 +115,8 @@ const automl: CaseStudyContent = {
       ],
       beforeAfter: {
         before: {
-          img: '/images/automl/ch01-wizard.png',
-          alt: 'Old flow — configuration split across multiple screens',
+          img: '/images/automl/before-redesign.png',
+          alt: 'Old flow — data sources, use case, and task configuration stacked across three separate screens',
           label: 'Old flow — multiple screens, disconnected steps',
         },
         after: {
