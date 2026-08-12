@@ -146,6 +146,35 @@ function Figure({
   )
 }
 
+// ── Before/after comparison side (labeled image, zoomable) ──────────────────
+
+function BeforeAfterSide({
+  media,
+}: {
+  media: { img: string; alt: string; label: string }
+}) {
+  const onZoom = useContext(ZoomContext)
+  return (
+    <div>
+      <div className="mb-2 font-mono-ui text-[11px] uppercase tracking-[0.12em] text-pf-muted">
+        {media.label}
+      </div>
+      <div
+        className="relative flex w-full items-center justify-center overflow-hidden rounded-[12px] border border-pf-border bg-[#d8dac9]"
+        style={{ aspectRatio: '16 / 10' }}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={media.img}
+          alt={media.alt}
+          onClick={onZoom ? () => onZoom(media.img, media.alt) : undefined}
+          className={`h-full w-full object-cover${onZoom ? ' cursor-zoom-in' : ''}`}
+        />
+      </div>
+    </div>
+  )
+}
+
 // ── Page ─────────────────────────────────────────────────────────────────────
 
 export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
@@ -206,22 +235,26 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
               <div className="mt-[14px] text-[15px] font-semibold text-pf-ink">
                 {m.label}
               </div>
-              <div className="mt-[6px] text-[13px] leading-[1.55] text-pf-muted">
-                {m.desc}
-              </div>
+              {m.desc && (
+                <div className="mt-[6px] text-[13px] leading-[1.55] text-pf-muted">
+                  {m.desc}
+                </div>
+              )}
             </div>
           ))}
         </div>
 
         {/* Hero image */}
-        <div className="mt-11">
-          <Figure
-            media={content.heroImage}
-            ratio="16 / 9"
-            radius="rounded-[16px]"
-            captionSize="text-[14px]"
-          />
-        </div>
+        {content.heroImage && (
+          <div className="mt-11">
+            <Figure
+              media={content.heroImage}
+              ratio="16 / 9"
+              radius="rounded-[16px]"
+              captionSize="text-[14px]"
+            />
+          </div>
+        )}
 
         {/* Chapters */}
         {content.chapters.map((ch, i) => (
@@ -267,9 +300,63 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
                   </Reveal>
                 )}
 
+                {ch.beforeAfter && (
+                  <Reveal className="mt-[14px]">
+                    <div className="grid grid-cols-[1fr_32px_1fr] items-end gap-3 max-[700px]:grid-cols-1">
+                      <BeforeAfterSide media={ch.beforeAfter.before} />
+                      <div className="self-center text-center text-[20px] text-pf-accent max-[700px]:justify-self-center max-[700px]:rotate-90">
+                        →
+                      </div>
+                      <BeforeAfterSide media={ch.beforeAfter.after} />
+                    </div>
+                    {ch.beforeAfter.caption && (
+                      <p className="mt-3 text-[13px] leading-[1.55] text-pf-muted">
+                        {ch.beforeAfter.caption}
+                      </p>
+                    )}
+                  </Reveal>
+                )}
+
                 {ch.overview && (
                   <Reveal className="mt-[14px]">
                     <Figure media={ch.overview} />
+                  </Reveal>
+                )}
+
+                {ch.features && (
+                  <div className="mt-6 grid grid-cols-2 gap-4 max-[640px]:grid-cols-1">
+                    {ch.features.map((f) => (
+                      <Reveal
+                        key={f.name}
+                        className="rounded-[14px] border border-pf-border bg-pf-chip p-5"
+                      >
+                        <div className="text-[16px] font-semibold text-pf-ink">
+                          {f.name}
+                        </div>
+                        <p className="m-0 mt-[6px] text-[14px] leading-[1.6] text-pf-secondary">
+                          {f.text}
+                        </p>
+                      </Reveal>
+                    ))}
+                  </div>
+                )}
+
+                {ch.flow && (
+                  <Reveal className="mt-6">
+                    <div className="flex flex-wrap items-center gap-y-3 rounded-[14px] border border-pf-border bg-pf-chip px-5 py-4">
+                      {ch.flow.map((step, k) => (
+                        <span key={step} className="flex items-center">
+                          <span className="rounded-full border border-pf-border bg-white px-[14px] py-[7px] text-[13px] font-medium text-pf-ink">
+                            {step}
+                          </span>
+                          {k < ch.flow!.length - 1 && (
+                            <span className="mx-[10px] text-[15px] text-pf-accent">
+                              →
+                            </span>
+                          )}
+                        </span>
+                      ))}
+                    </div>
                   </Reveal>
                 )}
 
@@ -310,6 +397,35 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
                       </Reveal>
                     ))}
                   </div>
+                )}
+
+                {ch.callout && (
+                  <Reveal className="mt-[26px] rounded-[14px] bg-[rgba(96,104,52,0.10)] px-[26px] py-6">
+                    <div className="mb-[10px] font-mono-ui text-[11px] uppercase tracking-[0.14em] text-pf-accent">
+                      {ch.callout.label}
+                    </div>
+                    <p className="m-0 text-[22px] font-semibold leading-[1.4] text-pf-ink">
+                      {ch.callout.text}
+                    </p>
+                  </Reveal>
+                )}
+
+                {ch.list && (
+                  <Reveal className="mt-[26px] border-t border-pf-hairline pt-[24px]">
+                    <div className="mb-4 font-mono-ui text-[11px] uppercase tracking-[0.14em] text-pf-muted-light">
+                      {ch.list.title}
+                    </div>
+                    <ul className="m-0 grid list-none grid-cols-2 gap-x-10 gap-y-3 p-0 max-[640px]:grid-cols-1">
+                      {ch.list.items.map((item) => (
+                        <li
+                          key={item}
+                          className="border-b border-pf-hairline pb-3 text-[15px] text-pf-body"
+                        >
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </Reveal>
                 )}
 
                 {ch.resolution && (

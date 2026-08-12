@@ -28,6 +28,16 @@ export type CaseChapter = {
   quote?: { text: string; who: string }
   conflict?: { label: string; text: string }
   overview?: CaseMedia
+  /** Side-by-side before/after comparison with labels and a shared caption. */
+  beforeAfter?: {
+    before: { img: string; alt: string; label: string }
+    after: { img: string; alt: string; label: string }
+    caption?: string
+  }
+  /** Short feature cards rendered in a two-column grid. */
+  features?: { name: string; text: string }[]
+  /** Step chips rendered as a `a → b → c` flow strip. */
+  flow?: string[]
   decisions?: {
     num: string
     name: string
@@ -37,6 +47,10 @@ export type CaseChapter = {
     media2?: CaseMedia
   }[]
   figures?: CaseMedia[]
+  /** Highlighted result box (like `conflict`, but rendered after the body). */
+  callout?: { label: string; text: string }
+  /** Compact titled list, e.g. "What we continue to measure". */
+  list?: { title: string; items: string[] }
   resolution?: string
 }
 
@@ -46,8 +60,8 @@ export type CaseStudyContent = {
   tags: string[]
   subhead: string
   tldr: string
-  metrics: { value: string; label: string; desc: string }[]
-  heroImage: CaseMedia
+  metrics: { value: string; label: string; desc?: string }[]
+  heroImage?: CaseMedia
   chapters: CaseChapter[]
   involvement: string
   next: { label: string; href: string }
@@ -55,55 +69,38 @@ export type CaseStudyContent = {
 
 const automl: CaseStudyContent = {
   eyebrow: 'dotData · AutoML platform',
-  title: 'From isolated silos to a unified canvas',
-  tags: ['Workflow redesign', 'Complex systems UX', 'Prototyping', 'Enterprise'],
+  title: 'From configuration maze to a guided model-design canvas',
+  tags: ['Product design', 'Complex systems UX', 'Prototyping', 'Enterprise AI'],
   subhead:
-    'Redesigning the enterprise data-import architecture: a fragmented 9-step wizard, rebuilt as a visual canvas.',
-  tldr: 'I rebuilt a fragmented, 9-step import wizard into a single visual canvas — collapsing five isolated entry points into one unified flow. The payoff: fewer support tickets, half the time-to-value for enterprise analysts, and far lower long-term engineering maintenance cost.',
+    'Redesigning model-task setup so analysts can see how data, targets, and table relationships affect the model before they run it.',
+  tldr: 'I consolidated a multi-screen model-configuration workflow into one guided canvas, helping users start with a runnable setup, understand dependencies, and iterate independently.',
   metrics: [
-    {
-      value: '9 → 1',
-      label: 'Consolidated workflow',
-      desc: 'A 9-step wizard and five isolated entry points, replaced by one unified canvas.',
-    },
-    {
-      value: '100%',
-      label: 'First-attempt success',
-      desc: 'Every user imported data unassisted during rigorous prototype validation.',
-    },
-    {
-      value: '#1',
-      label: 'Blocker resolved',
-      desc: 'Cleared the top source of support tickets and the hidden dependencies slowing engineering.',
-    },
+    { value: '20 → 5', label: 'Configuration steps' },
+    { value: '3 → 1', label: 'Screens consolidated into one canvas' },
+    { value: '50% faster', label: 'Configuration time in usability testing' },
   ],
-  heroImage: {
-    label: '[ case-dataimport_019.png — before / after architecture ]',
-    caption:
-      'The architecture shift: five isolated entry points (left) collapsed into a single unified canvas flow (right).',
-  },
   involvement:
-    "As the Lead Product Designer, I drove the full lifecycle — from reframing the systemic problem and segmenting the workflow to defining the cross-product interaction patterns. By using Object-Oriented Design as a cross-functional alignment artifact, I simplified the platform's underlying architecture alongside engineering and PM, establishing a scalable, vision-led foundation for every predictive-intelligence feature that followed.",
+    'As Lead Product Designer, I drove the redesign end to end — problem framing, interaction design, prototyping, and usability testing — in close partnership with engineering and PM.',
   next: { label: 'Designing with AI Agents', href: '/work/museum' },
   chapters: [
     {
       kicker: '01 — The problem',
-      heading: 'The cost of a fragmented mental model',
+      heading: 'Users could complete steps—but not predict their impact',
       body: [
-        'dotData lets users build predictive models — but the legacy import flow was the bottleneck. A surge in support tickets and frustrated internal engineers signaled a deep architectural flaw, not a cosmetic one.',
-        'The root cause: a rigid 8–9 step wizard split across five isolated entry points. Dependencies were hidden across screens, so one wrong move in step one meant starting over — users were trapped in a linear maze with no view of their data relationships.',
+        'Creating a model task required users to import data, define schemas, select a target, connect tables, and configure advanced settings across separate screens.',
+        'Users could learn the workflow. What they could not see was how one setting affected the next—for example, how target selection changed required relationships or how table connections affected the model.',
       ],
       quote: {
-        text: '“The flow is too complex for me. I have no idea what I am doing — I don’t know where to start.”',
+        text: '“I don’t know what these settings will affect next.”',
         who: 'Business analysts · user interviews',
       },
       figures: [
         {
-          label: '[ Milestone 1.png — legacy 9-step wizard ]',
+          label: '[ Milestone 1.png — legacy configuration screens ]',
           caption:
-            'The legacy flow: 8–9 fragmented steps across five entry points, with dependencies hidden from view.',
+            'The legacy setup: schema, target, connections, and advanced settings split across separate screens.',
           img: '/images/automl/ch01-wizard.png',
-          alt: 'dotData Configure Data Slots — the task creation screen',
+          alt: 'dotData Configure Data Slots — the legacy task creation screen',
           ratio: '2880 / 1690',
           fit: 'cover',
           bg: 'olive',
@@ -111,63 +108,87 @@ const automl: CaseStudyContent = {
       ],
     },
     {
-      kicker: '02 — The solution',
-      heading: 'A paradigm shift to a unified canvas',
+      kicker: '02 — The insight',
+      heading: 'Model design is an iteration loop, not a linear checklist',
       body: [
-        'Band-aid UI fixes wouldn’t solve a structural problem. I dismantled the wizard and architected a new experience around one principle: a single unified flow — every object visible, every dependency explicit.',
+        'The issue was not simply where to begin. Users needed to understand the relationships between their decisions, run a first version with confidence, then return to adjust it without relying on a data scientist.',
+      ],
+      beforeAfter: {
+        before: {
+          img: '/images/automl/ch01-wizard.png',
+          alt: 'Old flow — configuration split across multiple screens',
+          label: 'Old flow — multiple screens, disconnected steps',
+        },
+        after: {
+          img: '/images/automl/ch02-canvas.png',
+          alt: 'New flow — one visible, iterative canvas',
+          label: 'New flow — one visible, iterative canvas',
+        },
+        caption:
+          'Disconnected configuration steps became one canvas users can return to and adjust.',
+      },
+    },
+    {
+      kicker: '03 — The design',
+      heading: 'One canvas for decisions and dependencies',
+      body: [
+        'I replaced the accordion-style flow with a single canvas. Configuration panels keep the work organized, while the canvas makes target tables, source tables, and their relationships visible together.',
       ],
       overview: {
         label: '[ Connect tables (auto).png — the canvas ]',
         caption:
-          'One visual plane: add tables, define targets, and map relationships from a global vantage point.',
+          'Target tables, source tables, and their relationships, visible together on one canvas.',
         img: '/images/automl/ch02-canvas.png',
-        alt: 'The canvas: define target and map table relationships on one plane',
+        alt: 'The model-design canvas: target, source tables, and relationships on one plane',
         ratio: '1441 / 846',
         fit: 'cover',
         bg: 'olive',
       },
-      decisions: [
+      features: [
         {
-          num: 'i',
-          name: 'Every object visible',
-          text: 'Users operate from a global view instead of disjointed screens — adding tables, defining targets, and mapping entity relationships on a single plane.',
-          media: {
-            label: '[ entity-relationship map ]',
-            caption:
-              'The full data model on one canvas, so users grasp the big picture at a glance.',
-          },
+          name: 'Auto-schema',
+          text: 'Suggests a starting schema from sample data.',
         },
         {
-          num: 'ii',
-          name: 'Connect to surface dependencies',
-          text: 'Connecting source and target tables — manually or via intelligent Auto-Connect — brings hidden dependencies to the surface and returns control to the user.',
-          media: {
-            label: '[ Connect table (Manual).png — linking tables ]',
-            caption:
-              'Manual or automatic connections make every dependency explicit, cutting cognitive load.',
-          },
+          name: 'Auto-connect',
+          text: 'Recommends best-practice table relationships so users begin with a workable baseline.',
         },
+        {
+          name: 'Smart defaults',
+          text: 'Prefills advanced settings and suggests time-related columns and prediction targets.',
+        },
+        {
+          name: 'One place to iterate',
+          text: 'Users can review, adjust, run, and return to the same canvas.',
+        },
+      ],
+      flow: [
+        'Upload tables',
+        'Review schema',
+        'Select target',
+        'Auto-connect',
+        'Run',
       ],
     },
     {
-      kicker: '03 — Validation',
-      heading: 'Navigating “Blank Canvas Syndrome”',
-      conflict: {
-        label: 'The pushback',
-        text: '“Won’t an open canvas leave users with no idea where to even begin?” My team was right to challenge it — and early testing proved the risk was real.',
-      },
+      kicker: '04 — Validation',
+      heading: 'A confident starting point made the canvas usable',
       body: [
-        'Usability testing confirmed the tension: users loved the global visibility, but some didn’t realize tables needed connecting, or struggled to map target labels without prompts.',
+        'Early testing showed that visibility alone was not enough: a blank canvas could still leave users unsure how to proceed. I added guided prompts, recommended connections, and sensible defaults without bringing back the linear wizard.',
       ],
-      figures: [
-        {
-          label: '[ Canvas — User testing.png ]',
-          caption:
-            'Testing notes: on a free-form canvas, users stalled on choosing a Target and on whether tables needed linking.',
-        },
-      ],
-      resolution:
-        'Rather than retreat to the wizard, I scaffolded the canvas — progressive disclosure, stronger guidance for manual connections, and Auto-ER. Users grasped the logic fast, imported on the first attempt, and moved straight into evaluating models: the clarity of a guided experience with the power of a global architecture.',
+      callout: {
+        label: 'The result',
+        text: 'Configuration time was reduced by 50% in usability testing.',
+      },
+      list: {
+        title: 'What we continue to measure',
+        items: [
+          'Time to configure',
+          'Unassisted task completion after training',
+          'Iteration after a first run',
+          'Support tickets and new task creation',
+        ],
+      },
     },
   ],
 }
@@ -208,7 +229,7 @@ const designSystem: CaseStudyContent = {
   },
   involvement:
     'As the design system owner, I led both the original V1.0 (zero-to-one) and the V2.0 re-architecture — from diagnosing the cross-functional pain points and defining the token logic to structuring the two-tiered library and authoring the contribution rules. I drove this in close partnership with front-end engineering, treating the system as shared infrastructure rather than a design deliverable.',
-  next: { label: 'AutoML data import', href: '/work/automl' },
+  next: { label: 'AutoML model design', href: '/work/automl' },
   chapters: [
     {
       kicker: '01 — The evolution & the problem',
