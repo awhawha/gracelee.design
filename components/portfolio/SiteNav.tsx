@@ -8,11 +8,11 @@ export function SiteNav() {
       <div className="mx-auto flex max-w-pf items-center justify-between px-10 py-[22px] max-[640px]:px-6">
         <Link
           href="/"
-          className="font-grotesk text-[19px] font-bold tracking-[-0.01em] text-pf-ink"
+          className="font-grotesk text-[19px] font-semibold tracking-[-0.01em] text-pf-ink"
         >
           Grace Lee
         </Link>
-        <div className="flex items-center gap-[30px] font-grotesk text-[13px] font-semibold uppercase tracking-[0.08em] text-pf-muted max-[640px]:gap-4">
+        <div className="flex items-center gap-[30px] font-grotesk text-[13px] font-medium uppercase tracking-[0.08em] text-pf-muted max-[640px]:gap-4">
           <Link href="/" className="transition-colors hover:text-pf-ink max-[480px]:hidden">
             All projects
           </Link>
@@ -21,7 +21,7 @@ export function SiteNav() {
           </Link>
           <a
             href="mailto:yahuilee0618@gmail.com"
-            className="rounded-full bg-pf-accent px-[18px] py-[9px] font-semibold tracking-[0.04em] text-white"
+            className="rounded-full bg-pf-accent px-[18px] py-[9px] font-medium tracking-[0.04em] text-white"
           >
             Get in touch
           </a>

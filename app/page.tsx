@@ -58,7 +58,7 @@ export default function HomePage() {
           <div className="flex flex-wrap items-center gap-6 text-[17px]">
             <a
               href="mailto:yahuilee0618@gmail.com"
-              className="font-semibold text-pf-accent-dark"
+              className="font-medium text-pf-accent-dark"
             >
               yahuilee0618@gmail.com
             </a>

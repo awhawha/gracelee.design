@@ -144,8 +144,7 @@ function Body({ paras }: { paras: Para[] }) {
             p
           ) : (
             <>
-              <strong className="font-semibold text-pf-ink">{p.lead}:</strong>{' '}
-              {p.text}
+              <span className="text-pf-ink">{p.lead}:</span> {p.text}
             </>
           )}
         </p>
@@ -265,7 +264,7 @@ export function ScrollytellingCaseStudy({ project }: { project: Project }) {
           href={project.liveUrl ?? 'https://gracelee.design'}
           target="_blank"
           rel="noopener noreferrer"
-          className="block rounded-[10px] border-[1.5px] border-pf-ink p-4 text-center text-[15px] font-semibold text-pf-ink transition-colors hover:bg-pf-ink hover:text-white"
+          className="block rounded-[10px] border-[1.5px] border-pf-ink p-4 text-center text-[15px] font-medium text-pf-ink transition-colors hover:bg-pf-ink hover:text-white"
         >
           Visit live case study ↗
         </a>

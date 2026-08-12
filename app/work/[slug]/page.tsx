@@ -86,10 +86,7 @@ export default function CaseStudyPage({
                 p
               ) : (
                 <>
-                  <strong className="font-semibold text-pf-ink">
-                    {p.lead}:
-                  </strong>{' '}
-                  {p.text}
+                  <span className="text-pf-ink">{p.lead}:</span> {p.text}
                 </>
               )}
             </p>
@@ -117,7 +114,7 @@ export default function CaseStudyPage({
             href={project.liveUrl ?? 'https://gracelee.design'}
             target="_blank"
             rel="noopener noreferrer"
-            className="block rounded-[10px] border-[1.5px] border-pf-ink p-4 text-center text-[15px] font-semibold text-pf-ink transition-colors hover:bg-pf-ink hover:text-white"
+            className="block rounded-[10px] border-[1.5px] border-pf-ink p-4 text-center text-[15px] font-medium text-pf-ink transition-colors hover:bg-pf-ink hover:text-white"
           >
             Visit live case study ↗
           </a>
@@ -132,7 +129,7 @@ export default function CaseStudyPage({
       >
         <div className="mx-auto flex max-w-pf items-center justify-between gap-6 px-10 py-12 max-[640px]:px-6">
           <span className="text-[14px] text-pf-muted">Next — {next.client}</span>
-          <span className="text-right text-[32px] font-semibold tracking-[-0.02em] max-[640px]:text-[24px]">
+          <span className="text-right text-[32px] font-medium tracking-[-0.02em] max-[640px]:text-[24px]">
             {next.title} ↗
           </span>
         </div>

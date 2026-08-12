@@ -108,7 +108,7 @@ export default function AboutPage() {
             key={e.company}
             className="grid grid-cols-[1fr_1fr_120px] items-baseline border-t border-pf-hairline py-[22px] last:border-b max-[640px]:grid-cols-[1fr_auto] max-[640px]:gap-x-4"
           >
-            <span className="text-[24px] font-semibold">{e.company}</span>
+            <span className="text-[24px] font-medium">{e.company}</span>
             <span className="text-[16px] text-pf-secondary max-[640px]:col-span-2 max-[640px]:text-[15px]">
               {e.role}
             </span>
@@ -129,7 +129,7 @@ export default function AboutPage() {
             key={e.degree}
             className="grid grid-cols-[1fr_1fr_120px] items-baseline border-t border-pf-hairline py-[22px] last:border-b max-[640px]:grid-cols-[1fr_auto] max-[640px]:gap-x-4"
           >
-            <span className="text-[24px] font-semibold max-[640px]:text-[20px]">
+            <span className="text-[24px] font-medium max-[640px]:text-[20px]">
               {e.degree}
             </span>
             <span className="text-[16px] text-pf-secondary max-[640px]:col-span-2 max-[640px]:text-[15px]">
@@ -151,7 +151,7 @@ export default function AboutPage() {
           <div className="flex flex-wrap items-center gap-6 text-[17px]">
             <a
               href="mailto:yahuilee0618@gmail.com"
-              className="font-semibold text-pf-accent-dark"
+              className="font-medium text-pf-accent-dark"
             >
               yahuilee0618@gmail.com
             </a>
