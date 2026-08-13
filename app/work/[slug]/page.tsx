@@ -130,7 +130,7 @@ export default function CaseStudyPage({
         <div className="mx-auto flex max-w-pf items-center justify-between gap-6 px-10 py-12 max-[640px]:px-6">
           <span className="text-[14px] text-pf-muted">Next — {next.client}</span>
           <span className="text-right text-[32px] font-medium tracking-[-0.02em] max-[640px]:text-[24px]">
-            {next.title} ↗
+            {next.homeTitle ?? next.title} →
           </span>
         </div>
       </Link>

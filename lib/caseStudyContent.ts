@@ -6,7 +6,14 @@
 export type CaseMedia = {
   /** Mono label shown in the striped placeholder (when no real `img`). */
   label: string
+  /** Mono label rendered above the frame, e.g. for a supporting detail shot. */
+  title?: string
   caption: string
+  /**
+   * Caps the figure width, e.g. '720px', for detail shots that should read as
+   * an inset rather than another full-width system view.
+   */
+  maxW?: string
   isVideo?: boolean
   /** Real exported asset under /public. When set, renders a framed image. */
   img?: string
@@ -50,6 +57,8 @@ export type CaseChapter = {
     /** Optional second media, stacked below the first. */
     media2?: CaseMedia
   }[]
+  /** Body paragraphs that read after the `decisions` list rather than before it. */
+  bodyAfter?: string[]
   figures?: CaseMedia[]
   /** Highlighted result box (like `conflict`, but rendered after the body). */
   callout?: { label: string; text: string }
@@ -106,7 +115,7 @@ const automl: CaseStudyContent = {
   },
   involvement:
     'As Lead Product Designer, I drove the redesign end to end — problem framing, interaction design, prototyping, and usability testing — in close partnership with engineering and PM.',
-  next: { label: 'Designing with AI Agents', href: '/work/museum' },
+  next: { label: 'Building a Design System for Scale', href: '/work/dotds' },
   chapters: [
     {
       kicker: '01 — The problem',
@@ -238,16 +247,18 @@ const designSystem: CaseStudyContent = {
     bg: 'gradient',
   },
   involvement:
-    'As design system owner, I led the V1.0 and V2.0 re-architecture: mapping the handoff workflow, defining token and library architecture, aligning with front-end engineering, and evolving governance as adoption exposed gaps. I treated the system as shared product infrastructure — not a design-only deliverable.',
-  next: { label: 'AutoML model design', href: '/work/automl' },
+    'As design system owner, I led the V1.0 and V2.0 re-architecture: defining token and library architecture, aligning with front-end engineering, and evolving governance as adoption exposed gaps.',
+  next: {
+    label: 'Designing a Human–AI Production Workflow',
+    href: '/work/museum',
+  },
   chapters: [
     {
       kicker: '01 — The problem',
       heading: 'A design system spread across too many tools',
       body: [
         'I had previously led dotData’s first design system in Sketch. As the product suite grew, maintaining it became difficult.',
-        'Shipping a new feature meant checking or creating components in Sketch, rebuilding specs in Zeplin, and clarifying reuse through tickets and meetings. Handoff was spread across Sketch, Zeplin, and InVision, so version drift was common. Engineers often could not tell which file reflected the planned work, and visual QA became a long cycle of clarification and rework.',
-        'The problem was not just missing components. We lacked a dependable way to communicate design decisions.',
+        'Handoff was spread across Sketch, Zeplin, and InVision, creating version drift and repeated clarification with engineering. The problem was not just missing components; we lacked a dependable way to communicate design decisions.',
       ],
       quote: {
         text: '“Which spec is the real source of truth for this sprint?”',
@@ -270,9 +281,8 @@ const designSystem: CaseStudyContent = {
       kicker: '02 — The foundation',
       heading: 'One shared language for design and code',
       body: [
-        'I rebuilt the system in Figma and replaced hard-coded values with a token architecture.',
-        'Core tokens defined raw values such as color, spacing, and typography. Semantic tokens expressed intended roles, such as text-primary or surface-secondary. This gave design and engineering a shared vocabulary for UI decisions and their product-wide impact.',
-        'I aligned with front-end engineering early on the implementation direction. Figma variable names mapped to CSS variables, and Auto Layout mirrored Flexbox behavior. By the time I left, the core and semantic token layers were implemented in code.',
+        'I rebuilt the system in Figma and replaced hard-coded values with a token architecture. Core tokens defined raw values such as color, spacing, and typography; semantic tokens expressed intended roles, such as text-primary or surface-secondary.',
+        'I aligned with front-end engineering on the implementation direction. Figma variable names mapped to CSS variables, and the core and semantic token layers were implemented in code.',
       ],
       overview: {
         label: '[ token reference chain ]',
@@ -288,93 +298,55 @@ const designSystem: CaseStudyContent = {
     {
       kicker: '03 — The architecture',
       heading: 'Separate foundations from product-specific patterns',
-      body: [
-        'I split the library into two tiers.',
-        'This separation protected the shared foundation while allowing product teams to evolve complex patterns. I also created contribution guidance to clarify where new patterns belonged.',
-      ],
+      body: ['I split the library into two tiers.'],
       decisions: [
         {
           num: 'i',
           name: 'Studio Foundation',
-          text: 'Shared, product-agnostic tokens, controls, and layout patterns.',
-          media: {
-            label: '[ Foundation — tokens, primitives, layout shells ]',
-            caption:
-              'Studio Foundation: buttons, controls, color and spacing primitives — the product-agnostic blocks shared across every product.',
-            img: '/images/ds/ch03-foundation.png',
-            alt: 'Studio Foundation — buttons, controls, color and spacing primitives',
-            ratio: '1908 / 1074',
-            fit: 'contain',
-            bg: 'gradient',
-          },
+          text: 'Shared tokens, controls, and layout patterns.',
         },
         {
           num: 'ii',
           name: 'Studio Components',
-          text: 'Data-aware patterns such as model-analysis panels, entity-relationship tables, and evaluation charts.',
-          media: {
-            label: '[ Components — data-aware product patterns ]',
-            caption:
-              'Studio Components: entity-relationship cards, table previews and evaluation charts — data-aware patterns built on the foundation.',
-            img: '/images/ds/ch03-components.png',
-            alt: 'Studio Components — entity-relationship tables, confusion matrix, ROC/Lift, data preview',
-            ratio: '1908 / 1074',
-            fit: 'contain',
-            bg: 'gradient',
-          },
+          text: 'Data-aware product patterns such as entity cards, tables, and evaluation charts.',
         },
       ],
-    },
-    {
-      kicker: '04 — What adoption revealed',
-      heading: 'A shared library did not guarantee consistent use',
-      body: [
-        'Figma resolved the fragmented handoff: engineers could inspect current specs and tokens in one place, specification-related questions dropped by roughly half, and handoff tickets became less frequent.',
-        'But designers could still use the same component differently. For example, two people might apply different text styles to the same page-header pattern. The system offered the right options, but did not make the intended choice clear enough.',
-        'The next challenge was reducing inconsistency without relying on everyone to remember the rules.',
-      ],
-    },
-    {
-      kicker: '05 — The governance experiment',
-      heading: 'Moving guidance from documentation into defaults',
-      body: ['I tested three approaches.'],
-      decisions: [
-        {
-          num: '1',
-          name: 'Documentation',
-          text: 'Created a reference, but was time-consuming to maintain and rarely consulted while designing.',
-        },
-        {
-          num: '2',
-          name: 'Peer review',
-          text: 'Surfaced inconsistencies, but lacked dedicated capacity; comments were sometimes missed or not acted on.',
-        },
-        {
-          num: '3',
-          name: 'Component-level tokens',
-          text: 'The more durable solution. Reusable components carried their intended styles by default, making the correct choice easier than an accidental override. This did not eliminate flexibility, but it reduced unnecessary variation and made updates easier through the Variables panel instead of editing individual components.',
-        },
-      ],
-    },
-    {
-      kicker: '06 — The outcome',
-      heading: 'From fragmented handoff to better defaults',
-      body: [
-        'The redesign replaced a multi-tool handoff with one shared Figma system. Engineers could find current specifications and tokens without navigating disconnected files or manually maintained artifacts.',
-        'Core and semantic tokens were implemented with engineering. The component-token layer was ready on the design side but had not yet been implemented in code when I left. Even so, the architecture gave the team a clearer, more maintainable default.',
-        'The key lesson: a design system is not complete when components exist. It must work under real team conditions. When documentation and review did not scale, I moved guidance into the system itself.',
+      bodyAfter: [
+        'This protected the shared foundation while giving product teams room to evolve complex workflows. Contribution guidance clarified where new patterns belonged.',
+        'Within these components, I also defined behavior for real data. For example, ER cards kept long field names to one line with ellipsis truncation, preserving a consistent card height and scanning rhythm across different schemas and states.',
       ],
       figures: [
         {
-          label: '[ clean screens.png — the unified UI ]',
+          label: '[ Foundation and Components — the two tiers ]',
           caption:
-            'The result: clean, unified product screens delivered from one token-driven system.',
-          img: '/images/ds/ch04-clean.png',
-          alt: 'A unified UI of clean product screens delivered from one token-driven system',
-          ratio: '1302 / 1812',
+            'Studio Foundation holds buttons, controls and color primitives shared across every product; Studio Components builds data-aware patterns — entity-relationship cards, table previews and evaluation charts — on top of it.',
+          img: '/images/ds/ch03-foundation.png',
+          alt: 'Studio Foundation — buttons, controls and color primitives — beside Studio Components — entity-relationship cards, table preview and evaluation charts',
+          ratio: '4000 / 2250',
           fit: 'contain',
           bg: 'gradient',
         },
+        {
+          label: '[ ER card — one-line truncation behavior ]',
+          title: 'Component behavior: handling real data',
+          caption:
+            'ER cards preserve a consistent scanning rhythm across schemas and states. Long field names are constrained to one line and truncate with an ellipsis, while the text region flexes within the available card width.',
+          img: '/images/ds/component-behavior.jpg',
+          alt: 'ER card variants beside the inspected text style, showing one-line clamp with ellipsis truncation',
+          ratio: '1826 / 1226',
+          fit: 'contain',
+          bg: 'white',
+          maxW: '720px',
+        },
+      ],
+    },
+    {
+      kicker: '04 — Adoption and outcome',
+      heading: 'Make the intended choice the default',
+      body: [
+        'A shared library improved handoff and reduced specification questions, but it did not guarantee consistent use. Documentation and peer review helped, but neither scaled reliably.',
+        'I introduced component-level tokens so reusable components carried their intended styles by default. This reduced unnecessary overrides and made system guidance part of the design workflow rather than something teams had to remember.',
+        'The system replaced fragmented handoff with a shared, token-driven workflow. Core and semantic tokens were implemented with engineering; component-level tokens were ready on the design side when I left.',
       ],
     },
   ],
@@ -420,7 +392,7 @@ const museum: CaseStudyContent = {
   },
   involvement:
     'Solo, end to end. I defined the concept, designed and built the product directly in code, ran the AI/CMS workflow experiments, and developed the Claude Code Skills behind the production pipeline. My focus was not just generating content with AI, but designing where automation should act, where human judgment should intervene, and how the two interfaces connect.',
-  next: { label: 'Design System', href: '/work/dotds' },
+  next: { label: 'Reimagining AutoML', href: '/work/automl' },
   chapters: [
     {
       kicker: '01 — Origins',

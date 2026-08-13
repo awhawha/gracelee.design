@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
 // Shared sticky top nav for the portfolio redesign.
-// White-blur background, neutral hairline, plum "Get in touch" CTA.
+// White-blur background, neutral hairline, text links only.
 export function SiteNav() {
   return (
     <div className="sticky top-0 z-50 border-b border-pf-hairline bg-[rgba(255,255,255,0.88)] backdrop-blur-[10px]">
@@ -20,10 +20,20 @@ export function SiteNav() {
             About
           </Link>
           <a
-            href="mailto:yahuilee0618@gmail.com"
-            className="rounded-full bg-pf-accent px-[18px] py-[9px] font-medium tracking-[0.04em] text-white"
+            href="/images/gracelee-resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="transition-colors hover:text-pf-ink"
           >
-            Get in touch
+            Resume ↗
+          </a>
+          <a
+            href="https://www.linkedin.com/in/yahuilee/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="transition-colors hover:text-pf-ink"
+          >
+            LinkedIn ↗
           </a>
         </div>
       </div>
