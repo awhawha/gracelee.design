@@ -1,23 +1,30 @@
 import Link from 'next/link'
+import { HeroShader } from '@/components/portfolio/HeroShader'
 import { homeProjects } from '@/lib/projects'
 
 export default function HomePage() {
   return (
     <div className="font-grotesk text-pf-ink">
-      {/* Hero */}
-      <section className="mx-auto max-w-pf px-10 pb-[72px] pt-24 max-[640px]:px-6">
-        <h1 className="mb-8 max-w-[1000px] text-[88px] font-semibold leading-[0.96] tracking-[-0.035em] max-[900px]:text-[clamp(40px,10vw,88px)]">
-          I turn complex systems into clear, usable products.
-        </h1>
-        <p className="mb-9 max-w-[600px] text-[21px] leading-[1.5] text-pf-secondary">
-          Senior product designer with an engineering foundation and 10 years
-          of experience across AI, analytics, and data products. I work
-          across product, design, and engineering to turn technical
-          complexity into scalable systems and intuitive experiences.
-        </p>
-        <div className="flex items-center gap-[11px] text-[15px] text-pf-secondary">
-          <span className="h-[9px] w-[9px] rounded-full bg-pf-accent" />
-          Open to Senior &amp; Staff Product Designer roles
+      {/* Hero — white copy over the mesh-gradient panel */}
+      <section className="mx-auto max-w-pf px-10 pb-[72px] pt-10 max-[640px]:px-6">
+        <div className="relative overflow-hidden rounded-[36px] max-[640px]:rounded-[20px]">
+          <HeroShader />
+          <div className="relative flex flex-col items-start gap-[62px] px-[80px] pb-[72px] pt-[88px] text-white max-[900px]:gap-10 max-[900px]:p-10 max-[640px]:gap-8 max-[640px]:p-7">
+            <h1 className="m-0 max-w-[1000px] text-[72px] font-semibold leading-[0.96] tracking-[-0.03em] max-[900px]:text-[clamp(36px,9vw,72px)]">
+              Hi, I am Grace.
+            </h1>
+            <p className="m-0 max-w-[900px] text-[22px] leading-[1.5] max-[640px]:text-[17px]">
+              Senior product designer and design systems practitioner with an
+              engineering foundation and 9 years of experience across
+              analytics, data, and AI products. I build scalable, token-driven
+              systems and work across product, design, and engineering to turn
+              technical complexity into clear, consistent experiences.
+            </p>
+            <div className="h-px w-[28px] bg-white" />
+            <div className="text-[16px] leading-[1.5]">
+              Open to Senior Product Designer roles
+            </div>
+          </div>
         </div>
       </section>
 
