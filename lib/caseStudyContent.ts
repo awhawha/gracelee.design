@@ -17,8 +17,11 @@ export type CaseMedia = {
   fit?: 'contain' | 'cover'
   /** Frame padding (olive shows through), e.g. '2%'. */
   pad?: string
-  /** Backdrop behind the image. Olive `#d8dac9` by default; white for ch04. */
-  bg?: 'olive' | 'white'
+  /**
+   * Backdrop behind the image. Olive `#d8dac9` by default; white for ch04;
+   * `gradient` for the Paper wash, which cut-out (transparent) exports sit on.
+   */
+  bg?: 'olive' | 'white' | 'gradient'
 }
 
 export type CaseChapter = {
@@ -82,6 +85,16 @@ const automl: CaseStudyContent = {
     { value: '3 → 1', label: 'Screens consolidated into one canvas' },
     { value: '50% faster', label: 'Configuration time in usability testing' },
   ],
+  heroImage: {
+    label: '[ automl/hero.png — guided model-design canvas ]',
+    caption:
+      'The guided canvas: target definition, table relationships, and validation in one workspace.',
+    img: '/images/automl/hero.png',
+    alt: 'Model-design canvas with the define-target panel, connected tables, and a validation message',
+    ratio: '4000 / 2250',
+    fit: 'contain',
+    bg: 'gradient',
+  },
   involvement:
     'As Lead Product Designer, I drove the redesign end to end — problem framing, interaction design, prototyping, and usability testing — in close partnership with engineering and PM.',
   next: { label: 'Designing with AI Agents', href: '/work/museum' },
@@ -133,7 +146,7 @@ const automl: CaseStudyContent = {
         alt: 'The model-design canvas: configuration panel, target table, and relationship lines annotated on one plane',
         ratio: '5760 / 3380',
         fit: 'contain',
-        bg: 'white',
+        bg: 'gradient',
       },
       features: [
         {
@@ -218,9 +231,9 @@ const designSystem: CaseStudyContent = {
       'The system surface: design tokens and components on one side, the front-end variables they map to on the other.',
     img: '/images/ds/ds-hero-flat.png',
     alt: 'Design tokens mapping to components and front-end variables',
-    ratio: '2000 / 1125',
-    fit: 'cover',
-    bg: 'olive',
+    ratio: '1912 / 1113',
+    fit: 'contain',
+    bg: 'gradient',
   },
   involvement:
     'As design system owner, I led the V1.0 and V2.0 re-architecture: mapping the handoff workflow, defining token and library architecture, aligning with front-end engineering, and evolving governance as adoption exposed gaps. I treated the system as shared product infrastructure — not a design-only deliverable.',
@@ -246,8 +259,8 @@ const designSystem: CaseStudyContent = {
           img: '/images/ds/ch01-legacy-flow-flat.png',
           alt: 'The legacy update flow across Sketch, Zeplin and InVision',
           ratio: '2000 / 785',
-          fit: 'cover',
-          bg: 'olive',
+          fit: 'contain',
+          bg: 'gradient',
         },
       ],
     },
@@ -265,9 +278,9 @@ const designSystem: CaseStudyContent = {
           'Component decisions resolve through semantic roles to core values, making both intent and global impact clear.',
         img: '/images/ds/ch02-token-chain-flat.png',
         alt: 'Token reference chain: component resolves to semantic resolves to core',
-        ratio: '2000 / 878',
-        fit: 'cover',
-        bg: 'olive',
+        ratio: '1844 / 810',
+        fit: 'contain',
+        bg: 'gradient',
       },
     },
     {
@@ -288,9 +301,9 @@ const designSystem: CaseStudyContent = {
               'Studio Foundation: buttons, controls, color and spacing primitives — the product-agnostic blocks shared across every product.',
             img: '/images/ds/ch03-foundation.png',
             alt: 'Studio Foundation — buttons, controls, color and spacing primitives',
-            ratio: '2000 / 1200',
-            fit: 'cover',
-            bg: 'olive',
+            ratio: '1908 / 1074',
+            fit: 'contain',
+            bg: 'gradient',
           },
         },
         {
@@ -303,9 +316,9 @@ const designSystem: CaseStudyContent = {
               'Studio Components: entity-relationship cards, table previews and evaluation charts — data-aware patterns built on the foundation.',
             img: '/images/ds/ch03-components.png',
             alt: 'Studio Components — entity-relationship tables, confusion matrix, ROC/Lift, data preview',
-            ratio: '2000 / 1200',
-            fit: 'cover',
-            bg: 'olive',
+            ratio: '1908 / 1074',
+            fit: 'contain',
+            bg: 'gradient',
           },
         },
       ],
@@ -358,7 +371,7 @@ const designSystem: CaseStudyContent = {
           alt: 'A unified UI of clean product screens delivered from one token-driven system',
           ratio: '1302 / 1812',
           fit: 'contain',
-          bg: 'white',
+          bg: 'gradient',
         },
       ],
     },

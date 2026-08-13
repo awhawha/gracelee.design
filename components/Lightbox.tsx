@@ -57,16 +57,22 @@ export function Lightbox({ src, alt, onClose }: LightboxProps) {
         opacity: shown ? 1 : 0,
       }}
     >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={src}
-        alt={alt}
-        className="max-h-[90vh] max-w-[92vw] rounded-[12px] object-contain transition-transform duration-[220ms] ease-[cubic-bezier(.2,.7,.2,1)]"
+      {/* Same gradient wash the figures sit on, so cut-out (transparent)
+          screenshots read the same zoomed as they do in the page. */}
+      <div
+        className="rounded-[12px] bg-[#dddfae] bg-pf-paper transition-transform duration-[220ms] ease-[cubic-bezier(.2,.7,.2,1)]"
         style={{
           boxShadow: "0 30px 80px rgba(0,0,0,0.45)",
           transform: shown ? "scale(1)" : "scale(0.97)",
         }}
-      />
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={src}
+          alt={alt}
+          className="block max-h-[90vh] max-w-[92vw] rounded-[12px] object-contain"
+        />
+      </div>
       <div className="pointer-events-none absolute bottom-[22px] left-0 right-0 text-center font-mono-ui text-[11px] uppercase tracking-[0.14em] text-white/60">
         Click anywhere or press Esc to close
       </div>

@@ -48,6 +48,11 @@ const config: Config = {
       backgroundImage: {
         'pf-stripes':
           'repeating-linear-gradient(135deg,#edece8,#edece8 11px,#f4f3f0 11px,#f4f3f0 22px)',
+        // Soft cream-to-sage wash exported from Paper (app.paper.design), used
+        // as the backdrop behind cut-out case-study screenshots. Pair with the
+        // `bg-[#dddfae]` fallback for browsers without oklab conic-gradients.
+        'pf-paper':
+          'conic-gradient(in oklab from 120.84deg at 43.51% 42.74%, oklab(89.9% -0.017 0.053) 0%, oklab(89% -0.022 0.061) 50%, 88.42%, oklab(87.8% -0.024 0.043) 100%)',
       },
     },
   },

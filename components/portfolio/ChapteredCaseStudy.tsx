@@ -81,7 +81,9 @@ function Figure({
   const bgClass = media.img
     ? media.bg === 'white'
       ? 'bg-white'
-      : 'bg-[#d8dac9]'
+      : media.bg === 'gradient'
+        ? 'bg-[#dddfae] bg-pf-paper'
+        : 'bg-[#d8dac9]'
     : 'bg-pf-stripes'
 
   return (
@@ -160,15 +162,15 @@ function BeforeAfterSide({
         {media.label}
       </div>
       <div
-        className="relative flex w-full items-center justify-center overflow-hidden rounded-[12px] border border-pf-border bg-[#d8dac9]"
-        style={{ aspectRatio: '16 / 10' }}
+        className="relative flex w-full items-center justify-center overflow-hidden rounded-[12px] border border-pf-border bg-[#dddfae] bg-pf-paper"
+        style={{ aspectRatio: '5760 / 3380' }}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={media.img}
           alt={media.alt}
           onClick={onZoom ? () => onZoom(media.img, media.alt) : undefined}
-          className={`h-full w-full object-cover${onZoom ? ' cursor-zoom-in' : ''}`}
+          className={`h-full w-full object-contain${onZoom ? ' cursor-zoom-in' : ''}`}
         />
       </div>
     </div>
