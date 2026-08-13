@@ -179,6 +179,7 @@ function BeforeAfterSide({
 
 export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
   const [zoom, setZoom] = useState<{ src: string; alt: string } | null>(null)
+  const tldrParas = Array.isArray(content.tldr) ? content.tldr : [content.tldr]
 
   return (
     <ZoomContext.Provider value={(src, alt) => setZoom({ src, alt })}>
@@ -212,9 +213,20 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
         {content.heroCompact ? (
           /* Compact hero: summary directly under the title, tags below it */
           <>
-            <p className="m-0 mt-6 max-w-[900px] text-[23px] font-medium leading-[1.5] text-pf-ink">
-              {content.tldr}
-            </p>
+            <div className="mt-6 max-w-[900px]">
+              {tldrParas.map((p, i) => (
+                <p
+                  key={i}
+                  className={
+                    i === 0
+                      ? 'm-0 text-[23px] font-medium leading-[1.5] text-pf-ink'
+                      : 'm-0 mt-4 text-[18px] leading-[1.6] text-pf-secondary'
+                  }
+                >
+                  {p}
+                </p>
+              ))}
+            </div>
             <div className="mt-5 flex flex-wrap gap-2">
               {content.tags.map((t) => (
                 <span
@@ -244,9 +256,18 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
               <div className="mb-3 font-mono-ui text-[12px] tracking-[0.04em] text-pf-muted">
                 In short
               </div>
-              <p className="m-0 text-[23px] font-medium leading-[1.5] text-pf-ink">
-                {content.tldr}
-              </p>
+              {tldrParas.map((p, i) => (
+                <p
+                  key={i}
+                  className={
+                    i === 0
+                      ? 'm-0 text-[23px] font-medium leading-[1.5] text-pf-ink'
+                      : 'm-0 mt-4 text-[18px] leading-[1.6] text-pf-secondary'
+                  }
+                >
+                  {p}
+                </p>
+              ))}
             </div>
           </>
         )}
@@ -255,14 +276,23 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
         <div className="mt-10 grid grid-cols-3 gap-10 border-t border-pf-hairline pt-9 max-[640px]:grid-cols-1 max-[640px]:gap-6">
           {content.metrics.map((m) => (
             <div key={m.label}>
-              <div className="text-[40px] font-semibold leading-none tracking-[-0.02em] text-pf-accent">
-                {m.value}
-              </div>
-              <div className="mt-[14px] text-[15px] text-pf-ink">
-                {m.label}
-              </div>
+              {m.value ? (
+                <>
+                  <div className="text-[40px] font-semibold leading-none tracking-[-0.02em] text-pf-accent">
+                    {m.value}
+                  </div>
+                  <div className="mt-[14px] text-[15px] text-pf-ink">
+                    {m.label}
+                  </div>
+                </>
+              ) : (
+                /* Text-only outcome card: the label is the card title */
+                <div className="text-[19px] font-medium leading-[1.3] text-pf-ink">
+                  {m.label}
+                </div>
+              )}
               {m.desc && (
-                <div className="mt-[6px] text-[13px] leading-[1.55] text-pf-muted">
+                <div className="mt-[8px] text-[13px] leading-[1.55] text-pf-muted">
                   {m.desc}
                 </div>
               )}
@@ -401,7 +431,7 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
                         <p className="mb-[18px] max-w-[720px] text-[16px] leading-[1.7] text-pf-secondary">
                           {d.text}
                         </p>
-                        <Figure media={d.media} />
+                        {d.media && <Figure media={d.media} />}
                         {d.media2 && (
                           <div className="mt-[18px]">
                             <Figure media={d.media2} />

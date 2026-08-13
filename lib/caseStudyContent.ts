@@ -42,7 +42,8 @@ export type CaseChapter = {
     num: string
     name: string
     text: string
-    media: CaseMedia
+    /** Optional — decisions can be text-only. */
+    media?: CaseMedia
     /** Optional second media, stacked below the first. */
     media2?: CaseMedia
   }[]
@@ -59,10 +60,12 @@ export type CaseStudyContent = {
   title: string
   tags: string[]
   subhead?: string
-  /** Compact hero: title → summary → tags, no eyebrow/subhead/"In short" label. */
+  /** Compact hero: title → summary → tags, no subhead/"In short" label. */
   heroCompact?: boolean
-  tldr: string
-  metrics: { value: string; label: string; desc?: string }[]
+  /** One paragraph, or several (first is the lead, the rest render smaller). */
+  tldr: string | string[]
+  /** Cards: with `value` a big metric number renders; without, `label` is the card title. */
+  metrics: { value?: string; label: string; desc?: string }[]
   heroImage?: CaseMedia
   chapters: CaseChapter[]
   involvement: string
@@ -183,26 +186,30 @@ const automl: CaseStudyContent = {
 
 const designSystem: CaseStudyContent = {
   eyebrow: 'dotData · Enterprise design system',
-  title: 'From design debt to design velocity',
-  tags: ['Design systems', 'Design ops', 'Design tokens', 'Design–eng workflow'],
-  subhead:
-    'Rebuilding a fragmented infrastructure into a centralized, token-driven design system that bridges design and engineering — ending years of technical debt.',
-  tldr: 'I re-architected a chaotic Sketch + Zeplin + InVision toolchain into a single token-driven Figma ecosystem. A two-tiered library separates product-agnostic primitives from domain-specific logic, and Figma variables map directly to CSS — closing the implementation gap and turning the design system from a source of technical debt into a catalyst for engineering velocity.',
+  title: 'Building a design system people could use consistently',
+  tags: [
+    'Design systems',
+    'Design operations',
+    'Design tokens',
+    'Design–engineering workflow',
+  ],
+  heroCompact: true,
+  tldr: [
+    'I consolidated a fragmented design-to-engineering workflow into a token-driven Figma system, giving teams one shared source of truth and cutting specification-related questions by roughly half.',
+    'As the system was adopted, I found that shared components alone did not prevent inconsistent use. After testing documentation and peer review, I introduced component-level tokens to make the intended design choice the default.',
+  ],
   metrics: [
     {
-      value: '1',
-      label: 'Single source of truth',
-      desc: 'A fragmented Sketch + Zeplin + InVision toolchain consolidated into one Figma ecosystem.',
+      label: 'One source of truth',
+      desc: 'Sketch, Zeplin, and InVision consolidated into Figma.',
     },
     {
-      value: '2-tier',
-      label: 'Scalable architecture',
-      desc: 'Studio Foundation (product-agnostic primitives) separated from Studio Components (domain logic).',
+      label: '~50% fewer spec questions',
+      desc: 'Engineers could inspect tokens directly in Dev Mode.',
     },
     {
-      value: 'Zero',
-      label: 'Implementation gap',
-      desc: 'Hard-coded dimensions replaced with native Auto Layout and semantic tokens mapped 1:1 to CSS variables.',
+      label: 'Better defaults, fewer overrides',
+      desc: 'Component-level tokens encoded intended styles into reusable patterns.',
     },
   ],
   heroImage: {
@@ -216,25 +223,26 @@ const designSystem: CaseStudyContent = {
     bg: 'olive',
   },
   involvement:
-    'As the design system owner, I led both the original V1.0 (zero-to-one) and the V2.0 re-architecture — from diagnosing the cross-functional pain points and defining the token logic to structuring the two-tiered library and authoring the contribution rules. I drove this in close partnership with front-end engineering, treating the system as shared infrastructure rather than a design deliverable.',
+    'As design system owner, I led the V1.0 and V2.0 re-architecture: mapping the handoff workflow, defining token and library architecture, aligning with front-end engineering, and evolving governance as adoption exposed gaps. I treated the system as shared product infrastructure — not a design-only deliverable.',
   next: { label: 'AutoML model design', href: '/work/automl' },
   chapters: [
     {
-      kicker: '01 — The evolution & the problem',
-      heading: 'A zero-to-one win that became a maintenance trap',
+      kicker: '01 — The problem',
+      heading: 'A design system spread across too many tools',
       body: [
-        'Two years earlier I led our first design system (V1.0), built in Sketch on Atomic Design principles. It was a genuine zero-to-one success — 50–60% of the team saved development time and worked more effectively.',
-        'But as the enterprise suite scaled horizontally, V1.0 revealed a more insidious problem: a toolchain maintenance trap. Work was fragmented across Sketch for design, Zeplin for handoff, and InVision for prototyping, so updating a single component meant a grueling multi-step sync.',
+        'I had previously led dotData’s first design system in Sketch. As the product suite grew, maintaining it became difficult.',
+        'Shipping a new feature meant checking or creating components in Sketch, rebuilding specs in Zeplin, and clarifying reuse through tickets and meetings. Handoff was spread across Sketch, Zeplin, and InVision, so version drift was common. Engineers often could not tell which file reflected the planned work, and visual QA became a long cycle of clarification and rework.',
+        'The problem was not just missing components. We lacked a dependable way to communicate design decisions.',
       ],
       quote: {
-        text: '“Which spec is the real source of truth for this sprint? Zeplin keeps showing me future iterations.”',
+        text: '“Which spec is the real source of truth for this sprint?”',
         who: 'Front-end engineers · sprint feedback',
       },
       figures: [
         {
           label: '[ How to update Zeplin spec.pdf — the legacy update flow ]',
           caption:
-            'The legacy update flow: a multi-step Sketch → Zeplin → InVision synchronization for every single component change.',
+            'A component change had to be synchronized across Sketch, Zeplin, and InVision before engineering could implement it confidently.',
           img: '/images/ds/ch01-legacy-flow-flat.png',
           alt: 'The legacy update flow across Sketch, Zeplin and InVision',
           ratio: '2000 / 785',
@@ -244,16 +252,17 @@ const designSystem: CaseStudyContent = {
       ],
     },
     {
-      kicker: '02 — The strategy',
-      heading: 'Tokenization & technical empathy',
+      kicker: '02 — The foundation',
+      heading: 'One shared language for design and code',
       body: [
-        'To win back engineering trust, the new system couldn’t just look good — it had to build well. I scrapped the fragmented workflow and rebuilt the system from scratch around a rigorous design-token logic.',
-        'I translated arbitrary hex codes and hard-coded paddings into structured Primitive and Semantic tokens, mapping Figma variable names directly to their CSS counterparts (e.g. --button-primary-bg). When a designer changed a semantic token, engineers immediately understood its global impact on the codebase. I also enforced Figma Auto Layout to mirror Flexbox — an exercise in technical empathy that eliminated the responsive “guessing game” for developers.',
+        'I rebuilt the system in Figma and replaced hard-coded values with a token architecture.',
+        'Core tokens defined raw values such as color, spacing, and typography. Semantic tokens expressed intended roles, such as text-primary or surface-secondary. This gave design and engineering a shared vocabulary for UI decisions and their product-wide impact.',
+        'I aligned with front-end engineering early on the implementation direction. Figma variable names mapped to CSS variables, and Auto Layout mirrored Flexbox behavior. By the time I left, the core and semantic token layers were implemented in code.',
       ],
       overview: {
         label: '[ token reference chain ]',
         caption:
-          'The three-tier token chain: a _component token resolves to a semantic token, which resolves to a raw _core value — so changing one semantic token cascades everywhere.',
+          'Component decisions resolve through semantic roles to core values, making both intent and global impact clear.',
         img: '/images/ds/ch02-token-chain-flat.png',
         alt: 'Token reference chain: component resolves to semantic resolves to core',
         ratio: '2000 / 878',
@@ -263,15 +272,16 @@ const designSystem: CaseStudyContent = {
     },
     {
       kicker: '03 — The architecture',
-      heading: 'A two-tiered system built to scale',
+      heading: 'Separate foundations from product-specific patterns',
       body: [
-        'A common enterprise trap is mixing generic UI with complex, product-specific logic. To keep the system scalable, I split the library into two distinct tiers — and authored a Quick Start guide for designers and engineers so it would stay clean as the team grew.',
+        'I split the library into two tiers.',
+        'This separation protected the shared foundation while allowing product teams to evolve complex patterns. I also created contribution guidance to clarify where new patterns belonged.',
       ],
       decisions: [
         {
           num: 'i',
           name: 'Studio Foundation',
-          text: 'The bedrock: system-level, product-agnostic building blocks — design tokens, primitive buttons, inputs, and layout shells. Stable, reusable across products, and independent of any dataset.',
+          text: 'Shared, product-agnostic tokens, controls, and layout patterns.',
           media: {
             label: '[ Foundation — tokens, primitives, layout shells ]',
             caption:
@@ -286,11 +296,11 @@ const designSystem: CaseStudyContent = {
         {
           num: 'ii',
           name: 'Studio Components',
-          text: 'Domain-specific, data-aware patterns — model-analysis panels, entity-relationship tables, and the like. Separating these lets product features iterate fast without risking the core.',
+          text: 'Data-aware patterns such as model-analysis panels, entity-relationship tables, and evaluation charts.',
           media: {
             label: '[ Components — data-aware product patterns ]',
             caption:
-              'Studio Components: entity-relationship cards, table previews and evaluation charts (confusion matrix, ROC, Lift, prediction distribution) — data-aware patterns built on the foundation.',
+              'Studio Components: entity-relationship cards, table previews and evaluation charts — data-aware patterns built on the foundation.',
             img: '/images/ds/ch03-components.png',
             alt: 'Studio Components — entity-relationship tables, confusion matrix, ROC/Lift, data preview',
             ratio: '2000 / 1200',
@@ -301,16 +311,49 @@ const designSystem: CaseStudyContent = {
       ],
     },
     {
-      kicker: '04 — The value & outcome',
-      heading: 'From bottleneck to catalyst',
+      kicker: '04 — What adoption revealed',
+      heading: 'A shared library did not guarantee consistent use',
       body: [
-        'This wasn’t a visual refresh — it was an operational transformation. Migrating to a single, token-driven ecosystem permanently resolved the version-control churn of the Zeplin and InVision days, and the token mapping plus Auto Layout constraints closed the implementation gap. Because every component now carried its own responsive rules, engineers stopped guessing spacing and reflow behavior or pinging design to confirm it — design-to-code drift largely disappeared and handoff stopped being a bottleneck.',
+        'Figma resolved the fragmented handoff: engineers could inspect current specs and tokens in one place, specification-related questions dropped by roughly half, and handoff tickets became less frequent.',
+        'But designers could still use the same component differently. For example, two people might apply different text styles to the same page-header pattern. The system offered the right options, but did not make the intended choice clear enough.',
+        'The next challenge was reducing inconsistency without relying on everyone to remember the rules.',
+      ],
+    },
+    {
+      kicker: '05 — The governance experiment',
+      heading: 'Moving guidance from documentation into defaults',
+      body: ['I tested three approaches.'],
+      decisions: [
+        {
+          num: '1',
+          name: 'Documentation',
+          text: 'Created a reference, but was time-consuming to maintain and rarely consulted while designing.',
+        },
+        {
+          num: '2',
+          name: 'Peer review',
+          text: 'Surfaced inconsistencies, but lacked dedicated capacity; comments were sometimes missed or not acted on.',
+        },
+        {
+          num: '3',
+          name: 'Component-level tokens',
+          text: 'The more durable solution. Reusable components carried their intended styles by default, making the correct choice easier than an accidental override. This did not eliminate flexibility, but it reduced unnecessary variation and made updates easier through the Variables panel instead of editing individual components.',
+        },
+      ],
+    },
+    {
+      kicker: '06 — The outcome',
+      heading: 'From fragmented handoff to better defaults',
+      body: [
+        'The redesign replaced a multi-tool handoff with one shared Figma system. Engineers could find current specifications and tokens without navigating disconnected files or manually maintained artifacts.',
+        'Core and semantic tokens were implemented with engineering. The component-token layer was ready on the design side but had not yet been implemented in code when I left. Even so, the architecture gave the team a clearer, more maintainable default.',
+        'The key lesson: a design system is not complete when components exist. It must work under real team conditions. When documentation and review did not scale, I moved guidance into the system itself.',
       ],
       figures: [
         {
           label: '[ clean screens.png — the unified UI ]',
           caption:
-            'The result: dozens of clean, unified product screens — every experiment flow delivered from one token-driven system.',
+            'The result: clean, unified product screens delivered from one token-driven system.',
           img: '/images/ds/ch04-clean.png',
           alt: 'A unified UI of clean product screens delivered from one token-driven system',
           ratio: '1302 / 1812',
@@ -318,8 +361,6 @@ const designSystem: CaseStudyContent = {
           bg: 'white',
         },
       ],
-      resolution:
-        'Today the infrastructure powers the rapid delivery of complex AI-driven features, freeing the team to solve deep user problems instead of arguing over pixel measurements — the design system turned from technical debt into a catalyst for engineering velocity.',
     },
   ],
 }
