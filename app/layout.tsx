@@ -44,6 +44,14 @@ export const metadata: Metadata = {
   },
   description:
     'Senior product designer specializing in enterprise AI, data platforms, and design systems. Bay Area.',
+  icons: {
+    icon: [
+      { url: '/favicon/32x32.svg', type: 'image/svg+xml', sizes: 'any' },
+      { url: '/favicon/16x16.svg', type: 'image/svg+xml', sizes: '16x16' },
+      { url: '/favicon/48x48.svg', type: 'image/svg+xml', sizes: '48x48' },
+    ],
+    apple: [{ url: '/favicon/apple-touch-icon.png', sizes: '180x180' }],
+  },
 }
 
 export default function RootLayout({
