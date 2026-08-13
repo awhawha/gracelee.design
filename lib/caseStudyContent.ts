@@ -81,9 +81,18 @@ const automl: CaseStudyContent = {
   heroCompact: true,
   tldr: 'I consolidated a multi-screen model-configuration workflow into one guided canvas, helping analysts understand dependencies, start with a runnable setup, and iterate independently.',
   metrics: [
-    { value: '20 → 5', label: 'Configuration steps' },
-    { value: '3 → 1', label: 'Screens consolidated into one canvas' },
-    { value: '50% faster', label: 'Configuration time in usability testing' },
+    {
+      label: 'A shorter path to first run',
+      desc: 'A multi-screen configuration flow was consolidated into five actions.',
+    },
+    {
+      label: '3 screens, one canvas',
+      desc: 'Users can configure the model while keeping tables and dependencies visible together.',
+    },
+    {
+      label: '50% faster configuration',
+      desc: 'In usability testing, participants completed model-task setup in half the time.',
+    },
   ],
   heroImage: {
     label: '[ automl/hero.png — guided model-design canvas ]',
@@ -198,18 +207,11 @@ const automl: CaseStudyContent = {
 }
 
 const designSystem: CaseStudyContent = {
-  eyebrow: 'dotData · Enterprise design system',
   title: 'Building a design system people could use consistently',
-  tags: [
-    'Design systems',
-    'Design operations',
-    'Design tokens',
-    'Design–engineering workflow',
-  ],
+  tags: ['Design systems', 'Design–engineering workflow'],
   heroCompact: true,
   tldr: [
-    'I consolidated a fragmented design-to-engineering workflow into a token-driven Figma system, giving teams one shared source of truth and cutting specification-related questions by roughly half.',
-    'As the system was adopted, I found that shared components alone did not prevent inconsistent use. After testing documentation and peer review, I introduced component-level tokens to make the intended design choice the default.',
+    'I consolidated a fragmented design-to-engineering workflow into a token-driven Figma system, giving teams one shared source of truth and cutting specification-related questions by roughly half. As adoption grew, I introduced component-level tokens to make intended design choices the default.',
   ],
   metrics: [
     {
@@ -379,7 +381,6 @@ const designSystem: CaseStudyContent = {
 }
 
 const museum: CaseStudyContent = {
-  eyebrow: 'Self-initiated · Museum of Children’s Books',
   title: 'Designing with AI Agents',
   tags: [
     'Agentic Workflows',
