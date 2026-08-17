@@ -24,6 +24,3 @@ yarn-error.log*
 
 # local env files
 .env*.local
-
-# leftover Sentry auth token — safe to drop this line once the file is deleted
-.env.sentry-build-plugin
