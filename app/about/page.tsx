@@ -42,8 +42,7 @@ const skills = [
 export default function AboutPage() {
   return (
     // `relative z-0` scopes the fixed orb layer to this page: the sections
-    // below sit at z-10, so the orbs stay behind the copy and disappear under
-    // the opaque dark CTA band.
+    // below sit at z-10, so the orbs stay behind the copy.
     <div className="relative z-0 font-grotesk text-pf-ink">
       <FloatingOrbs />
 
@@ -98,6 +97,13 @@ export default function AboutPage() {
               </span>
             ))}
           </div>
+          {/* Contact — the site's only email, since the footer carries none */}
+          <a
+            href="mailto:yahuilee0618@gmail.com"
+            className="mt-9 inline-block text-[18px] font-medium text-pf-accent underline-offset-[5px] hover:underline"
+          >
+            yahuilee0618@gmail.com
+          </a>
         </div>
       </div>
 
@@ -145,38 +151,6 @@ export default function AboutPage() {
         ))}
       </div>
 
-      {/* Dark CTA band */}
-      <div className="relative z-10 bg-pf-ink text-white">
-        <div className="mx-auto max-w-pf px-10 py-20 max-[640px]:px-6">
-          <h2 className="mb-6 text-[48px] font-semibold leading-[1] tracking-[-0.025em] max-[900px]:text-[clamp(32px,7vw,48px)]">
-            Open to Senior &amp; Staff roles.
-          </h2>
-          <div className="flex flex-wrap items-center gap-6 text-[17px]">
-            <a
-              href="mailto:yahuilee0618@gmail.com"
-              className="font-medium text-pf-accent-dark"
-            >
-              yahuilee0618@gmail.com
-            </a>
-            <a
-              href="https://www.linkedin.com/in/yahuilee/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-pf-muted transition-colors hover:text-white"
-            >
-              LinkedIn ↗
-            </a>
-            <a
-              href="/images/gracelee-resume.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-pf-muted transition-colors hover:text-white"
-            >
-              Resume ↗
-            </a>
-          </div>
-        </div>
-      </div>
     </div>
   )
 }

@@ -54,40 +54,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Footer band */}
-      <div className="mt-20 bg-pf-ink text-white">
-        <div className="mx-auto max-w-pf px-10 py-24 max-[640px]:px-6">
-          <h2 className="mb-7 text-[64px] font-semibold leading-[0.98] tracking-[-0.03em] max-[900px]:text-[clamp(36px,9vw,64px)]">
-            Let&apos;s build
-            <br />
-            something clear.
-          </h2>
-          <div className="flex flex-wrap items-center gap-6 text-[17px]">
-            <a
-              href="mailto:yahuilee0618@gmail.com"
-              className="font-medium text-pf-accent-dark"
-            >
-              yahuilee0618@gmail.com
-            </a>
-            <a
-              href="https://www.linkedin.com/in/yahuilee/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-pf-muted transition-colors hover:text-white"
-            >
-              LinkedIn ↗
-            </a>
-            <a
-              href="/images/gracelee-resume.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-pf-muted transition-colors hover:text-white"
-            >
-              Resume ↗
-            </a>
-          </div>
-        </div>
-      </div>
     </div>
   )
 }

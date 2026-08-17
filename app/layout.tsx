@@ -6,6 +6,7 @@ import {
   Space_Grotesk,
 } from 'next/font/google'
 import Script from "next/script"
+import { SiteFooter } from '@/components/portfolio/SiteFooter'
 import { SiteNav } from '@/components/portfolio/SiteNav'
 
 import '@/styles/globals.css'
@@ -67,6 +68,7 @@ export default function RootLayout({
       >
         <SiteNav />
         <main>{children}</main>
+        <SiteFooter />
 
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-YDFFENJ86V"

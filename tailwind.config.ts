@@ -32,6 +32,9 @@ const config: Config = {
         'pf-tag': '#efeeea',
         'pf-chip': '#fafaf8',
         'pf-dark': '#23201a',
+        // Global footer band (Paper export, Aug 2026)
+        'pf-footer': '#37532a',
+        'pf-footer-muted': '#edfae7',
       },
       maxWidth: {
         content: '720px',

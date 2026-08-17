@@ -122,14 +122,14 @@ export default function CaseStudyPage({
         </div>
       )}
 
-      {/* Next-project footer */}
+      {/* Next project — light band, so the dark footer stays the only CTA */}
       <Link
         href={`/work/${next.id}`}
-        className="mt-10 block bg-pf-ink text-white transition-colors hover:bg-[#15120e]"
+        className="group mt-10 block border-t border-pf-hairline transition-colors hover:bg-pf-chip"
       >
         <div className="mx-auto flex max-w-pf items-center justify-between gap-6 px-10 py-12 max-[640px]:px-6">
           <span className="text-[14px] text-pf-muted">Next — {next.client}</span>
-          <span className="text-right text-[32px] font-medium tracking-[-0.02em] max-[640px]:text-[24px]">
+          <span className="text-right text-[32px] font-medium tracking-[-0.02em] text-pf-ink transition-colors group-hover:text-pf-accent max-[640px]:text-[24px]">
             {next.homeTitle ?? next.title} →
           </span>
         </div>

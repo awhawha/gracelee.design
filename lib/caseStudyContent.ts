@@ -31,8 +31,26 @@ export type CaseMedia = {
   bg?: 'olive' | 'white' | 'gradient'
 }
 
+/**
+ * A swimlane flow: the sequence reads left to right, while the lanes show who
+ * acts at each step — so the human-in-the-loop gates are visible at a glance.
+ */
+export type CasePipeline = {
+  /** Lane rows, top to bottom. `tone` drives the fill treatment. */
+  lanes: { key: string; name: string; tone: 'agent' | 'surface' | 'human' }[]
+  steps: {
+    name: string
+    /** What each lane does at this step; lanes left out render as a gap. */
+    acts: { lane: string; text: string }[]
+    /** Marks a human-in-the-loop gate above the step. */
+    checkpoint?: string
+  }[]
+  caption?: string
+}
+
 export type CaseChapter = {
-  kicker: string
+  /** Optional eyebrow above the heading; omit for label-free chapters. */
+  kicker?: string
   heading: string
   body: string[]
   quote?: { text: string; who: string }
@@ -44,10 +62,14 @@ export type CaseChapter = {
     after: { img: string; alt: string; label: string }
     caption?: string
   }
-  /** Short feature cards rendered in a two-column grid. */
-  features?: { name: string; text: string }[]
-  /** Step chips rendered as a `a → b → c` flow strip. */
-  flow?: string[]
+  /**
+   * Borderless equal columns under a figure — no heading of their own, styled
+   * like the key outcomes so they read as supporting detail rather than
+   * competing with the visual above them.
+   */
+  summary?: { name: string; text: string }[]
+  /** Swimlane flow: the same sequence, plus who acts and what guards each step. */
+  pipeline?: CasePipeline
   decisions?: {
     num: string
     name: string
@@ -60,8 +82,13 @@ export type CaseChapter = {
   /** Body paragraphs that read after the `decisions` list rather than before it. */
   bodyAfter?: string[]
   figures?: CaseMedia[]
-  /** Highlighted result box (like `conflict`, but rendered after the body). */
-  callout?: { label: string; text: string }
+  /** Lay `figures` out side by side instead of stacked. Collapses on mobile. */
+  figuresRow?: boolean
+  /**
+   * Highlighted result box (like `conflict`, but rendered after the body).
+   * Without a `label` it reads as a bare outcome statement.
+   */
+  callout?: { label?: string; text: string }
   /** Compact titled list, e.g. "What we continue to measure". */
   list?: { title: string; items: string[] }
   resolution?: string
@@ -74,8 +101,11 @@ export type CaseStudyContent = {
   subhead?: string
   /** Compact hero: title → summary → tags, no subhead/"In short" label. */
   heroCompact?: boolean
-  /** One paragraph, or several (first is the lead, the rest render smaller). */
-  tldr: string | string[]
+  /**
+   * One paragraph, or several (first is the lead, the rest render smaller).
+   * Omit for a hero that carries only title, subhead, tags and metrics.
+   */
+  tldr?: string | string[]
   /** Cards: with `value` a big metric number renders; without, `label` is the card title. */
   metrics: { value?: string; label: string; desc?: string }[]
   heroImage?: CaseMedia
@@ -134,6 +164,7 @@ const automl: CaseStudyContent = {
       heading: 'Model design is an iteration loop, not a linear checklist',
       body: [
         'The issue was not simply where to begin. Users needed to understand the relationships between their decisions, run a first version with confidence, then return to adjust it without relying on a data scientist.',
+        'So I replaced the accordion-style flow with a single canvas. Configuration panels keep the work organized, while the canvas makes target tables, source tables, and their relationships visible together.',
       ],
       beforeAfter: {
         before: {
@@ -151,10 +182,18 @@ const automl: CaseStudyContent = {
       },
     },
     {
-      kicker: '03 — The design',
-      heading: 'One canvas for decisions and dependencies',
+      kicker: '03 — What testing changed',
+      heading: 'Visibility alone was not enough',
       body: [
-        'I replaced the accordion-style flow with a single canvas. Configuration panels keep the work organized, while the canvas makes target tables, source tables, and their relationships visible together.',
+        'The first canvas made data relationships visible, but testing showed that some users still did not know how to begin. They hesitated over whether tables needed connecting and how to choose a target.',
+        'That changed the direction: the canvas needed to preserve its global view while also giving users a credible starting point.',
+      ],
+    },
+    {
+      kicker: '04 — The final design',
+      heading: 'A canvas with a confident starting point',
+      body: [
+        'The final canvas keeps the whole data model in view and opens with a recommended setup rather than an empty plane. Users can run a first model from it, then return to the same canvas to refine it.',
       ],
       overview: {
         label: '[ final-canvas.png — the canvas ]',
@@ -166,50 +205,22 @@ const automl: CaseStudyContent = {
         fit: 'contain',
         bg: 'gradient',
       },
-      features: [
+      summary: [
         {
-          name: 'Auto-schema',
-          text: 'Suggests a starting schema from sample data.',
+          name: 'A ready starting point',
+          text: 'Auto-schema suggests an initial structure from sample data.',
         },
         {
-          name: 'Auto-connect',
-          text: 'Recommends best-practice table relationships so users begin with a workable baseline.',
+          name: 'Recommended connections',
+          text: 'Auto-connect proposes table relationships so users do not start from a blank model.',
         },
         {
-          name: 'Smart defaults',
-          text: 'Prefills advanced settings and suggests time-related columns and prediction targets.',
+          name: 'Sensible defaults',
+          text: 'Suggested target, time-related fields, and advanced settings reduce setup effort.',
         },
-        {
-          name: 'One place to iterate',
-          text: 'Users can review, adjust, run, and return to the same canvas.',
-        },
-      ],
-      flow: [
-        'Upload tables',
-        'Review schema',
-        'Select target',
-        'Auto-connect',
-        'Run',
-      ],
-    },
-    {
-      kicker: '04 — Validation',
-      heading: 'A confident starting point made the canvas usable',
-      body: [
-        'Early testing showed that visibility alone was not enough: a blank canvas could still leave users unsure how to proceed. I added guided prompts, recommended connections, and sensible defaults without bringing back the linear wizard.',
       ],
       callout: {
-        label: 'The result',
         text: 'Configuration time was reduced by 50% in usability testing.',
-      },
-      list: {
-        title: 'What we continue to measure',
-        items: [
-          'Time to configure',
-          'Unassisted task completion after training',
-          'Iteration after a first run',
-          'Support tickets and new task creation',
-        ],
       },
     },
   ],
@@ -353,31 +364,22 @@ const designSystem: CaseStudyContent = {
 }
 
 const museum: CaseStudyContent = {
-  title: 'Designing with AI Agents',
-  tags: [
-    'Agentic Workflows',
-    'Human-in-the-Loop AI',
-    'Systems Design',
-    'Production Tooling',
-  ],
+  title: 'Designing a human–AI content production system',
+  tags: ['Agentic workflows', 'Human-in-the-loop AI', 'AI product design'],
   subhead:
-    'A human–AI production system for a children’s book museum — combining agentic research and generation with human review and visual validation.',
-  tldr: 'I started with a simple question: how far could I take a digital product with AI as a direct design and engineering partner? The harder problem emerged after launch — building a reliable content workflow for research-heavy, open-ended material. After testing AI inside a traditional CMS and a closed knowledge base, I landed on a human-in-the-loop agentic workflow: AI handles research and production, while a visual interface gives me precise control over validation and approval.',
+    'A draft-first workflow for a children’s-book museum: agents research and generate structured drafts, while editors review, revise, and manually publish content.',
   metrics: [
     {
-      value: '0',
-      label: 'Hours in Figma',
-      desc: 'Every screen designed and iterated directly in code, with AI as a direct collaborator throughout.',
+      label: 'Code-first design',
+      desc: 'Designed and built the product directly in code, with AI as a design and engineering collaborator.',
     },
     {
-      value: '3',
-      label: 'Workflow models tested',
-      desc: 'A CMS auto-fill button, a closed knowledge base, then a human-in-the-loop agentic workflow.',
+      label: '3 workflow models tested',
+      desc: 'Tested CMS generation, a closed knowledge base, and an agentic draft-production workflow.',
     },
     {
-      value: '3',
-      label: 'Roles, one pipeline',
-      desc: 'Agent, interface, and human — each owns a distinct part of research, generation, and approval.',
+      label: '2 human checkpoints',
+      desc: 'Drafts are reviewed in conversation and again in the admin interface before anyone publishes.',
     },
   ],
   heroImage: {
@@ -391,146 +393,114 @@ const museum: CaseStudyContent = {
     bg: 'white',
   },
   involvement:
-    'Solo, end to end. I defined the concept, designed and built the product directly in code, ran the AI/CMS workflow experiments, and developed the Claude Code Skills behind the production pipeline. My focus was not just generating content with AI, but designing where automation should act, where human judgment should intervene, and how the two interfaces connect.',
+    'Solo, end to end. I defined the product concept, designed and built the experience directly in code, tested AI/CMS workflow models, and developed the Claude Code Skills behind the draft-production pipeline. My focus was designing where automation should act, where human judgment should intervene, and how the handoff between them should work.',
   next: { label: 'Reimagining AutoML', href: '/work/automl' },
   chapters: [
     {
-      kicker: '01 — Origins',
-      heading: 'A visual reference for craft, and a constraint experiment',
+      kicker: '01 — The opportunity',
+      heading: 'Building a visual archive with AI as a production partner',
       body: [
-        'Most children’s-book sites are organized around stories and recommendations. I wanted to build something different: a visual reference for illustrators and designers, centered on craft — medium, technique, style, and influence.',
-        'The museum also became a constraint experiment: could I design and ship a full product directly in code, with AI not just assisting the process, but participating in it?',
-      ],
-    },
-    {
-      kicker: '02 — Process',
-      heading: 'Designing directly in code',
-      body: [
-        'I started conventionally — concepts in a chat with Gemini and Claude, layout exploration in Claude’s design surface — before every idea moved into Claude Code for implementation. What stood out was how much friction lived in the handoff: exporting a layout, describing it again, waiting for code to catch up.',
-        'Designing in the browser collapsed much of the usual translation between design and implementation. With the product context, codebase, and working UI in the same environment, design reasoning and implementation became part of one continuous loop, instead of packaging an idea for one tool and unpacking it in another.',
+        'The museum is a visual reference for illustrators and designers, organized around craft: medium, technique, style, and influence.',
+        'I used the project to explore a second question: how far could AI participate directly in product design and implementation? Designing in code with the product context, working UI, and codebase in one environment created a tighter loop between design reasoning and implementation.',
       ],
       overview: {
         label: '[ tool-convergence.png — chat → design surface → code ]',
         caption:
-          'For this solo project, AI compressed much of the usual design-to-implementation handoff into a tighter iterative loop.',
+          'Concepting, design, and implementation collapsed into one continuous loop.',
         img: '/images/museum/process.png',
         ratio: '1214 / 434',
         fit: 'cover',
         bg: 'white',
+        maxW: '760px',
       },
     },
     {
-      kicker: '03 — The core conflict',
-      heading: 'Where AI could be trusted, and where it couldn’t',
-      conflict: {
-        label: 'The tension',
-        text: 'Structured fields were easy for AI to fill in reliably. Open-ended research and interpretation were much harder — and grounding the model in a closed knowledge base improved reliability, but added friction to the workflow.',
-      },
+      kicker: '02 — The problem',
+      heading: 'AI could generate content, but not earn trust',
       body: [
-        'The challenge wasn’t getting AI to generate content. It was deciding when I could trust it, what context it needed, and where human judgment still had to intervene. I ran two experiments to find out.',
+        'Structured metadata, such as author, year, and ISBN, was easy for AI to generate and validate. Open-ended research on medium and technique was less reliable: outputs could be vague, inconsistent, or difficult to verify.',
+        'A closed knowledge base improved grounding, but introduced a manual copy-paste bridge back to the CMS. The design problem was not simply how to generate content, but where AI could be trusted and where human judgment needed to intervene.',
       ],
-      decisions: [
+      figuresRow: true,
+      figures: [
         {
-          num: 'A',
-          name: 'Admin AI Refill button',
-          text: 'An “AI Refill” button in the ordinary admin form worked well for structured facts — author, year, ISBN — because I could validate them on sight. Pushed toward open-ended analysis of medium and technique, it broke down: hallucinated detail, vague prose, a different answer every run. The prompt was buried in code, too, so tuning it meant a redeploy each time.',
-          media: {
-            label: '[ admin-ai-refill.png — CMS auto-fill ]',
-            caption:
-              'Experiment A — AI inside the CMS. Structured metadata was easy to generate and easy to validate in place.',
-            img: '/images/museum/experimentA-AI-refill.mp4',
-            isVideo: true,
-            ratio: '16 / 10',
-          },
-          media2: {
-            label: '[ experimentA-AI-refill-failed.png — open-ended analysis breaks down ]',
-            caption:
-              'The same pattern broke down with open-ended analysis: the output became harder to verify, less consistent, and more sensitive to prompting.',
-            img: '/images/museum/experimentA-AI-refill-failed.png',
-            ratio: '1748 / 703',
-            fit: 'cover',
-            bg: 'white',
-          },
+          label: '[ admin-ai-refill.mp4 — CMS auto-fill ]',
+          caption: 'Experiment A — an AI refill button inside the CMS form.',
+          img: '/images/museum/experimentA-AI-refill.mp4',
+          isVideo: true,
+          ratio: '16 / 10',
         },
         {
-          num: 'B',
-          name: 'A closed knowledge base',
-          text: 'Scoping AI research to a fixed set of sources with NotebookLM cut hallucination sharply, and the analysis read like it came from someone who’d actually done the reading. But it broke the workflow instead: every answer had to be copied out by hand into the CMS, and every new book meant re-uploading the same reference sources from scratch.',
-          media: {
-            label: '[ notebooklm-workflow.png — the copy-paste break ]',
-            caption:
-              'Experiment B — Grounding the model in a closed source set improved the research, but created a manual bridge back to the CMS.',
-            img: '/images/museum/experimentB-NotebookLM.png',
-            ratio: '2736 / 1836',
-            fit: 'cover',
-            bg: 'white',
-          },
+          label: '[ notebooklm-workflow.png — the copy-paste break ]',
+          caption:
+            'Experiment B — a closed knowledge base, grounded but disconnected from the CMS.',
+          img: '/images/museum/experimentB-NotebookLM.png',
+          ratio: '16 / 10',
+          fit: 'contain',
+          bg: 'white',
         },
       ],
     },
     {
-      kicker: '04 — The solution',
-      heading: 'From AI feature to agentic workflow',
-      conflict: {
-        label: 'The bind',
-        text: 'One tool couldn’t be trusted with open-ended writing. The other couldn’t be trusted with my time. Neither was going to scale.',
-      },
+      kicker: '03 — The system',
+      heading: 'Agent produces, interface validates, human decides',
       body: [
-        'The breakthrough was treating AI less like a feature inside the CMS and more like an agent operating across the workflow. Instead of filling one field at a time, it could research a book, synthesize findings, generate structured content, pause for human review, and write approved output directly to the database:',
-        'Research → Synthesize → Generate structured content → Return for review → Human approval → Write to database.',
-        'I implemented this as a custom Claude Code Skill: point it at a book, and it researches medium and technique on the web, returns its findings to the same conversation for me to review, and only writes to Supabase once I approve it. The human-in-the-loop checkpoint stayed intact — it’s just no longer a copy-paste bridge between two disconnected tools.',
-        'Because the workflow runs inside the same environment as the codebase and database, it scales across multiple books and specialized tasks without a separate orchestration layer — an illustrator deep-dive skill, and a cover color-palette extractor that names each swatch to match the book’s mood, run alongside the original research skill.',
+        'Rather than treating AI as a feature inside a CMS, I designed it as an agent operating across the production workflow. A custom Claude Code Skill researches a book, synthesizes findings, and generates structured content as a draft.',
+        'The workflow moves from research to draft generation, human review, admin editing, and manual publishing. This preserves speed without allowing unreviewed content to become public.',
       ],
-      quote: {
-        text: '“#D4A373 → the dusk-colored earth of Where the Wild Things Are”',
-        who: 'Auto-generated palette caption · cover color-extraction skill',
+      pipeline: {
+        lanes: [
+          { key: 'agent', name: 'AI agent', tone: 'agent' },
+          { key: 'interface', name: 'Admin interface', tone: 'surface' },
+          { key: 'human', name: 'Human', tone: 'human' },
+        ],
+        steps: [
+          {
+            name: 'Research',
+            acts: [{ lane: 'agent', text: 'Researches with sources' }],
+          },
+          {
+            name: 'Generate draft',
+            acts: [{ lane: 'agent', text: 'Creates structured fields' }],
+          },
+          {
+            name: 'Human review',
+            checkpoint: 'Human gate',
+            acts: [
+              { lane: 'human', text: 'Verifies claims and refines the draft' },
+            ],
+          },
+          {
+            name: 'Save to admin',
+            acts: [
+              { lane: 'agent', text: 'Saves a draft' },
+              { lane: 'interface', text: 'Draft appears in workspace' },
+            ],
+          },
+          {
+            name: 'Editor review/edit',
+            checkpoint: 'Human gate',
+            acts: [
+              { lane: 'interface', text: 'Shows draft in context' },
+              { lane: 'human', text: 'Corrects facts and wording' },
+            ],
+          },
+          {
+            name: 'Manual publish',
+            acts: [{ lane: 'human', text: 'Publishes deliberately' }],
+          },
+        ],
+        caption:
+          'The workflow makes source grounding, draft status, and human publishing control explicit at each handoff.',
       },
-      resolution:
-        'The trade-off is real: this only works if you’re comfortable working conversationally instead of through a visual interface, and letting AI act directly on a live codebase and database means access control has to be designed in from the start — not added later.',
-    },
-    {
-      kicker: '05 — The hybrid interface',
-      heading: 'LUI to produce, GUI to validate',
-      body: [
-        'Working this closely with the agent taught me something about what the admin backend is actually for. It doesn’t disappear — its job changes. A conversational interface is where I want ambiguous, wide-reaching work to happen: research, synthesis, naming a whole palette in one pass. Catching a typo, or judging whether a color pairing actually reads right, is a different kind of decision — visual and immediate, in a way a chat window isn’t built for.',
-        'The relationship that emerged wasn’t AI versus GUI. It was human ↔ agent ↔ interface, with each one responsible for a different part of the job.',
+      bodyAfter: [
+        'The agent handles research, synthesis, and draft production. The admin interface makes drafts visible in context for review and correction. Human judgment remains responsible for resolving ambiguity and publishing approved content.',
+        'The same pipeline supports specialized skills—such as illustrator research and cover color-palette extraction—without a separate orchestration layer.',
       ],
-      decisions: [
-        {
-          num: 'i',
-          name: 'Agent — exploration & production',
-          text: 'Claude Code + Skill acts as researcher and writer: bulk retrieval, structured analysis, and automatic palette naming, pushed straight to the database across as many books, and as many parallel sessions, as I need.',
-          media: {
-            label: '[ lui-claude-code.png — the skill in action ]',
-            caption:
-              'Requesting research and analysis for a new book, reviewed inline before anything writes to Supabase.',
-          },
-        },
-        {
-          num: 'ii',
-          name: 'GUI — judgment & control',
-          text: 'The admin screen becomes a real-preview dashboard: open the page, see it rendered as a reader would, click to adjust a word or a color, and give final approval — the last line of defense a chat window can’t replace.',
-          media: {
-            label: '[ admin-validation-dashboard.png — the final review ]',
-            caption: 'The admin screen, now a validation dashboard rather than a writing tool.',
-          },
-        },
-        {
-          num: 'iii',
-          name: 'Human — intent & accountability',
-          text: 'I set the direction, resolve the ambiguity the agent surfaces, and approve anything consequential before it reaches the live database — the agent and the interface do the work, but I stay responsible for it.',
-          media: {
-            label: '[ approval-checkpoint.png — the human review step ]',
-            caption: 'Nothing writes to the database until a person signs off.',
-          },
-        },
-      ],
-      quote: {
-        text: '“The design problem wasn’t GUI versus LUI. It was deciding which interface should own which job — and designing the handoff between them.”',
-        who: 'Central insight',
+      callout: {
+        label: 'Where it stands',
+        text: 'The review experience is still evolving. The project revealed that agent output needs a purpose-built validation flow—not just a standard CMS form—to make editorial review fast and reliable.',
       },
-      resolution:
-        'AI agents are strongest at exploration, synthesis, generation, and repetitive production work. Visual interfaces are strongest when someone needs to compare, inspect, correct, and approve. Human judgment stays responsible for intent, ambiguity, and consequential decisions. The most useful version of this product came from designing the handoff between all three — not forcing every task into one interface.',
     },
   ],
 }

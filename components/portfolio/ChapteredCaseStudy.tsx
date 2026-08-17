@@ -10,7 +10,11 @@ import {
 } from 'react'
 import Link from 'next/link'
 import { Lightbox } from '@/components/Lightbox'
-import type { CaseMedia, CaseStudyContent } from '@/lib/caseStudyContent'
+import type {
+  CaseMedia,
+  CasePipeline,
+  CaseStudyContent,
+} from '@/lib/caseStudyContent'
 
 // Lets any nested Figure open the lightbox without prop-drilling.
 const ZoomContext = createContext<((src: string, alt: string) => void) | null>(
@@ -182,11 +186,106 @@ function BeforeAfterSide({
   )
 }
 
+// ── Pipeline swimlane ────────────────────────────────────────────────────────
+// Reads left to right as a sequence; top to bottom it shows which actor owns
+// each step, so the human-in-the-loop gates are visible rather than described.
+
+const LANE_FILL: Record<CasePipeline['lanes'][number]['tone'], string> = {
+  agent: 'bg-[rgba(96,104,52,0.10)] text-pf-body',
+  surface: 'border border-pf-border bg-white text-pf-body',
+  human: 'bg-pf-accent text-white',
+}
+
+function PipelineDiagram({ pipeline }: { pipeline: CasePipeline }) {
+  const { lanes, steps } = pipeline
+  const cols = `132px repeat(${steps.length}, minmax(0, 1fr))`
+
+  return (
+    <>
+    <div className="rounded-[14px] border border-pf-border bg-pf-chip px-6 py-7 max-[640px]:px-4 max-[640px]:py-5">
+      <div className="overflow-x-auto">
+        <div className="min-w-[900px]">
+          {/* Steps — the sequence, with human gates called out above the chip */}
+          <div className="grid items-end gap-x-3" style={{ gridTemplateColumns: cols }}>
+            <div />
+            {steps.map((s, i) => (
+              <div key={s.name} className="flex items-end">
+                <div className="flex-1">
+                  {s.checkpoint && (
+                    <div className="mb-[8px] text-center font-mono-ui text-[10.5px] font-semibold uppercase tracking-[0.07em] text-pf-accent">
+                      {s.checkpoint}
+                    </div>
+                  )}
+                  <div
+                    className={`rounded-full bg-white px-3 py-[9px] text-center text-[13.5px] font-medium leading-[1.3] text-pf-ink ${
+                      s.checkpoint
+                        ? 'border-[1.5px] border-pf-accent'
+                        : 'border border-pf-border'
+                    }`}
+                  >
+                    {s.name}
+                  </div>
+                </div>
+                {i < steps.length - 1 && (
+                  <span className="pb-[9px] pl-2 text-[13px] text-pf-accent">
+                    →
+                  </span>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* Lanes — who acts at each step */}
+          {lanes.map((lane) => (
+            <div
+              key={lane.key}
+              className="mt-3 grid items-stretch gap-x-3"
+              style={{ gridTemplateColumns: cols }}
+            >
+              <div className="flex items-center justify-end pr-2 text-right font-mono-ui text-[12px] leading-[1.4] text-pf-secondary">
+                {lane.name}
+              </div>
+              {steps.map((s) => {
+                const act = s.acts.find((a) => a.lane === lane.key)
+                return (
+                  <div key={s.name} className="flex items-center">
+                    {act ? (
+                      <div
+                        className={`w-full rounded-[10px] px-3 py-[11px] text-[13px] leading-[1.35] ${LANE_FILL[lane.tone]}`}
+                      >
+                        {act.text}
+                      </div>
+                    ) : (
+                      /* Idle lane — a hairline keeps the track continuous */
+                      <div className="h-px w-full bg-pf-hairline" />
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+          ))}
+
+        </div>
+      </div>
+    </div>
+    {pipeline.caption && (
+      <p className="mt-3 max-w-[900px] text-[13px] leading-[1.55] text-pf-muted">
+        {pipeline.caption}
+      </p>
+    )}
+    </>
+  )
+}
+
 // ── Page ─────────────────────────────────────────────────────────────────────
 
 export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
   const [zoom, setZoom] = useState<{ src: string; alt: string } | null>(null)
-  const tldrParas = Array.isArray(content.tldr) ? content.tldr : [content.tldr]
+  const tldrParas = !content.tldr
+    ? []
+    : Array.isArray(content.tldr)
+      ? content.tldr
+      : [content.tldr]
 
   return (
     <ZoomContext.Provider value={(src, alt) => setZoom({ src, alt })}>
@@ -220,6 +319,7 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
         {content.heroCompact ? (
           /* Compact hero: summary directly under the title, tags below it */
           <>
+            {tldrParas.length > 0 && (
             <div className="mt-6 max-w-[900px]">
               {tldrParas.map((p, i) => (
                 <p
@@ -234,6 +334,7 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
                 </p>
               ))}
             </div>
+            )}
             <div className="mt-5 flex flex-wrap gap-2">
               {content.tags.map((t) => (
                 <span
@@ -259,6 +360,7 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
             </div>
 
             {/* In short / TL;DR */}
+            {tldrParas.length > 0 && (
             <div className="mt-9 max-w-[900px]">
               <div className="mb-3 font-mono-ui text-[12px] font-medium tracking-[0.01em] text-pf-secondary">
                 In short
@@ -276,6 +378,7 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
                 </p>
               ))}
             </div>
+            )}
           </>
         )}
 
@@ -322,10 +425,16 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
         {/* Chapters — single column: label → title → body → callout → visuals */}
         {content.chapters.map((ch, i) => (
           <section key={i} className="mt-14 border-t border-pf-hairline pb-2 pt-12">
-            <div className="font-mono-ui text-[12px] font-medium tracking-[0.01em] text-pf-secondary">
-              {ch.kicker}
-            </div>
-            <h2 className="mt-3 max-w-[900px] text-[28px] font-semibold leading-[1.14] tracking-[-0.02em]">
+            {ch.kicker && (
+              <div className="font-mono-ui text-[12px] font-medium tracking-[0.01em] text-pf-secondary">
+                {ch.kicker}
+              </div>
+            )}
+            <h2
+              className={`max-w-[900px] text-[28px] font-semibold leading-[1.14] tracking-[-0.02em] ${
+                ch.kicker ? 'mt-3' : ''
+              }`}
+            >
               {ch.heading}
             </h2>
             <div className="mt-7">
@@ -383,40 +492,24 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
                   </Reveal>
                 )}
 
-                {ch.features && (
-                  <div className="mt-6 grid grid-cols-2 gap-4 max-[640px]:grid-cols-1">
-                    {ch.features.map((f) => (
-                      <Reveal
-                        key={f.name}
-                        className="rounded-[14px] border border-pf-border bg-pf-chip p-5"
-                      >
-                        <div className="text-[16px] font-medium text-pf-ink">
-                          {f.name}
+                {ch.summary && (
+                  <Reveal className="mt-9 grid max-w-[900px] grid-cols-3 gap-8 max-[640px]:grid-cols-1 max-[640px]:gap-6">
+                    {ch.summary.map((c) => (
+                      <div key={c.name}>
+                        <div className="text-[16px] font-semibold leading-[1.35] text-pf-ink">
+                          {c.name}
                         </div>
-                        <p className="m-0 mt-[6px] text-[14px] leading-[1.6] text-pf-secondary">
-                          {f.text}
+                        <p className="m-0 mt-[8px] text-[13px] leading-[1.55] text-pf-muted">
+                          {c.text}
                         </p>
-                      </Reveal>
+                      </div>
                     ))}
-                  </div>
+                  </Reveal>
                 )}
 
-                {ch.flow && (
+                {ch.pipeline && (
                   <Reveal className="mt-6">
-                    <div className="flex flex-wrap items-center gap-y-3 rounded-[14px] border border-pf-border bg-pf-chip px-5 py-4">
-                      {ch.flow.map((step, k) => (
-                        <span key={step} className="flex items-center">
-                          <span className="rounded-full border border-pf-border bg-white px-[14px] py-[7px] text-[13px] font-medium text-pf-ink">
-                            {step}
-                          </span>
-                          {k < ch.flow!.length - 1 && (
-                            <span className="mx-[10px] text-[15px] text-pf-accent">
-                              →
-                            </span>
-                          )}
-                        </span>
-                      ))}
-                    </div>
+                    <PipelineDiagram pipeline={ch.pipeline} />
                   </Reveal>
                 )}
 
@@ -463,7 +556,11 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
 
                 {ch.figures && (
                   <div
-                    className={`flex flex-col gap-[22px] ${
+                    className={`${
+                      ch.figuresRow
+                        ? 'grid grid-cols-2 items-start gap-[22px] max-[700px]:grid-cols-1'
+                        : 'flex flex-col gap-[22px]'
+                    } ${
                       ch.decisions && !ch.bodyAfter ? 'mt-[26px]' : 'mt-[14px]'
                     }`}
                   >
@@ -476,10 +573,12 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
                 )}
 
                 {ch.callout && (
-                  <Reveal className="mt-[26px] max-w-[900px] rounded-[14px] bg-[rgba(96,104,52,0.10)] px-[26px] py-6">
-                    <div className="mb-[10px] font-mono-ui text-[12px] font-medium tracking-[0.01em] text-pf-secondary">
-                      {ch.callout.label}
-                    </div>
+                  <Reveal className="mt-9 max-w-[900px] rounded-[14px] bg-[rgba(96,104,52,0.10)] px-[26px] py-6">
+                    {ch.callout.label && (
+                      <div className="mb-[10px] font-mono-ui text-[12px] font-medium tracking-[0.01em] text-pf-secondary">
+                        {ch.callout.label}
+                      </div>
+                    )}
                     <p className="m-0 text-[22px] font-medium leading-[1.4] text-pf-ink">
                       {ch.callout.text}
                     </p>
@@ -529,16 +628,16 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
         </section>
       </div>
 
-      {/* Footer — next project */}
+      {/* Next project — light band, so the dark footer stays the only CTA */}
       <Link
         href={content.next.href}
-        className="block bg-[#2c3326] text-white transition-colors hover:bg-[#20271c]"
+        className="group block border-t border-pf-hairline transition-colors hover:bg-pf-chip"
       >
         <div className="mx-auto flex max-w-[1120px] flex-col items-end gap-2 px-10 py-12 max-[640px]:px-6">
           <span className="font-mono-ui text-[12px] tracking-[0.01em] text-pf-muted">
             Next project
           </span>
-          <span className="text-right text-[30px] font-medium tracking-[-0.02em] max-[640px]:text-[22px]">
+          <span className="text-right text-[30px] font-medium tracking-[-0.02em] text-pf-ink transition-colors group-hover:text-pf-accent max-[640px]:text-[22px]">
             {content.next.label} →
           </span>
         </div>
