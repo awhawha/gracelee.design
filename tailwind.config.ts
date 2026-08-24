@@ -14,6 +14,8 @@ const config: Config = {
         mono: ['var(--font-plex-mono)', 'ui-monospace', 'monospace'],
         // Portfolio redesign families
         grotesk: ['var(--font-space-grotesk)', 'system-ui', 'sans-serif'],
+        // Reading face for case-study body copy
+        inter: ['var(--font-inter)', 'system-ui', 'sans-serif'],
         'mono-ui': ['ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
       },
       colors: {

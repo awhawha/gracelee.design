@@ -63,6 +63,11 @@ export type Project = {
   homeTitle?: string
   homeSubtitle?: string
   tags: string[]
+  /**
+   * Label/value pairs for the case study's sticky sidebar rail. Kept short —
+   * the rail is ~260px wide, so two lines per value at most.
+   */
+  meta?: { label: string; value: string }[]
   paras: Para[]
   /** Optional scrollytelling map; enables the synced sticky-media layout. */
   sections?: ScrollSection[]
@@ -204,6 +209,12 @@ export const projects: Project[] = [
     title: 'Pivot Table Analysis',
     desc: 'Exploratory analysis without the spreadsheet',
     tags: ['Data viz', 'IA', 'Interaction'],
+    meta: [
+      { label: 'Company', value: 'dotData' },
+      { label: 'Product', value: 'AutoML and analytics platform' },
+      { label: 'Role', value: 'Product Designer' },
+      { label: 'Focus', value: 'Data viz, IA, interaction model' },
+    ],
     paras: [
       'Analysts were exporting to spreadsheets to slice data the product already held. I designed an in-product pivot experience — fast, direct, and visual — so exploration stayed where the data lived.',
       'I focused on the manipulation model: drag-to-group, inline aggregation, and instant charting, with sensible defaults that made the first useful view appear in seconds.',
@@ -312,6 +323,13 @@ export const projects: Project[] = [
     title: 'Campaign Performance',
     desc: 'Performance analytics for modern marketers',
     tags: ['B2B SaaS', 'Data viz', 'Dashboards'],
+    meta: [
+      { label: 'Company', value: 'Kahuna' },
+      { label: 'Industry', value: 'Marketing analytics, B2B SaaS' },
+      { label: 'Role', value: 'Lead Designer, campaign analytics' },
+      { label: 'Focus', value: 'Information architecture, data viz, interaction' },
+      { label: 'Team', value: 'Product Management, Data Science' },
+    ],
     paras: [
       'Marketers at Kahuna drowned in metrics but struggled to answer the only question that mattered: is this campaign working? I redesigned the performance surface around decisions, not data dumps.',
       'I structured the view to lead with outcome and trend, then let marketers drill into channel and segment — so the dashboard told a story instead of listing numbers.',
@@ -353,6 +371,12 @@ export const projects: Project[] = [
     title: 'Filter Editors',
     desc: 'Composing complex audience filters',
     tags: ['Interaction', 'Complex forms', 'UX'],
+    meta: [
+      { label: 'Company', value: 'Kahuna' },
+      { label: 'Industry', value: 'Marketing analytics, B2B SaaS' },
+      { label: 'Role', value: 'Product Designer' },
+      { label: 'Focus', value: 'Interaction model, logic visualization, complex forms' },
+    ],
     paras: [
       'Building an audience meant nesting conditions — and/or logic, time windows, behavioral rules — in an editor that intimidated everyone but specialists. I redesigned it so anyone could compose a filter with confidence.',
       'I designed a visual logic builder with readable grouping, live audience counts, and reversible edits, turning a fragile power-user tool into an everyday one.',

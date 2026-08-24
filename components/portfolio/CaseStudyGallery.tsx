@@ -137,15 +137,15 @@ function groupMedia(media: MediaItem[]): MediaItem[][] {
   return groups
 }
 
-// Left-column media gallery. Real images open in a lightbox on click; grouped
-// media become slide carousels; everything else is a single stacked block.
+// Stacked media gallery. Real images open in a lightbox on click; grouped media
+// become slide carousels; everything else is a single stacked block.
 export function CaseStudyGallery({ media }: { media: MediaItem[] }) {
   const [zoom, setZoom] = useState<{ src: string; alt: string } | null>(null)
   const onZoom: ZoomFn = (src, alt) => setZoom({ src, alt })
   const groups = groupMedia(media)
 
   return (
-    <div className="flex flex-col gap-10 max-[900px]:order-2">
+    <div className="flex flex-col gap-10">
       {groups.map((g, i) =>
         g.length > 1 ? (
           <MediaCarousel key={i} items={g} onZoom={onZoom} />

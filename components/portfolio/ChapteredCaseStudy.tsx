@@ -10,6 +10,7 @@ import {
 } from 'react'
 import Link from 'next/link'
 import { Lightbox } from '@/components/Lightbox'
+import { CaseStudyShell } from '@/components/portfolio/CaseStudyShell'
 import type {
   CaseMedia,
   CasePipeline,
@@ -150,7 +151,7 @@ function Figure({
           </>
         )}
       </div>
-      <p className={`mt-3 leading-[1.55] text-pf-muted ${captionSize}`}>
+      <p className={`mt-3 font-inter leading-[1.55] text-pf-muted ${captionSize}`}>
         {media.caption}
       </p>
     </div>
@@ -269,7 +270,7 @@ function PipelineDiagram({ pipeline }: { pipeline: CasePipeline }) {
       </div>
     </div>
     {pipeline.caption && (
-      <p className="mt-3 max-w-[900px] text-[13px] leading-[1.55] text-pf-muted">
+      <p className="mt-3 max-w-[900px] font-inter text-[13px] leading-[1.55] text-pf-muted">
         {pipeline.caption}
       </p>
     )}
@@ -290,26 +291,36 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
   return (
     <ZoomContext.Provider value={(src, alt) => setZoom({ src, alt })}>
     <div className="font-grotesk text-pf-ink">
-      {/* Back link */}
-      <div className="mx-auto max-w-[1120px] px-10 pt-10 max-[640px]:px-6">
-        <Link
-          href="/"
-          className="text-[14px] font-medium text-pf-muted transition-colors hover:text-pf-ink"
-        >
-          ← All projects
-        </Link>
-      </div>
-
-      <div className="mx-auto max-w-[1120px] px-10 pt-7 max-[640px]:px-6">
+      <CaseStudyShell meta={content.meta} link={content.link}>
         {/* Hero */}
         {content.eyebrow && (
           <div className="mb-[26px] font-mono-ui text-[12px] font-medium tracking-[0.01em] text-pf-secondary">
             {content.eyebrow}
           </div>
         )}
-        <h1 className="m-0 max-w-[980px] text-[58px] font-semibold leading-[1.02] tracking-[-0.035em] max-[900px]:text-[clamp(36px,8vw,58px)]">
+        <h1 className="m-0 text-[50px] font-semibold leading-[1.05] tracking-[-0.03em] max-[900px]:text-[clamp(34px,7vw,50px)]">
           {content.title}
         </h1>
+
+        {/* Photographic hero: sits directly under the title, unframed — the
+            shot carries its own edges, so a border would read as a second one */}
+        {content.heroImage && content.heroImageFirst && (
+          <div className="mt-9 overflow-hidden rounded-[16px]">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={content.heroImage.img}
+              alt={content.heroImage.alt ?? content.heroImage.caption}
+              onClick={() =>
+                setZoom({
+                  src: content.heroImage!.img as string,
+                  alt: content.heroImage!.alt ?? content.heroImage!.caption,
+                })
+              }
+              className="block w-full cursor-zoom-in"
+            />
+          </div>
+        )}
+
         {content.subhead && (
           <p className="mt-[22px] max-w-[780px] text-[20px] leading-[1.5] text-pf-secondary">
             {content.subhead}
@@ -317,47 +328,54 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
         )}
 
         {content.heroCompact ? (
-          /* Compact hero: summary directly under the title, tags below it */
+          /* Compact hero: a labeled Summary under the title, tags below it.
+             Heading and body match the chapters, so the page reads as one
+             sequence of sections rather than a dek followed by chapters. */
           <>
             {tldrParas.length > 0 && (
-            <div className="mt-6 max-w-[900px]">
-              {tldrParas.map((p, i) => (
-                <p
-                  key={i}
-                  className={
-                    i === 0
-                      ? 'm-0 text-[23px] font-medium leading-[1.5] text-pf-ink'
-                      : 'm-0 mt-4 text-[18px] leading-[1.6] text-pf-secondary'
-                  }
-                >
-                  {p}
-                </p>
-              ))}
+            <div className="mt-12 max-w-[900px]">
+              <h2 className="m-0 text-[28px] font-semibold leading-[1.14] tracking-[-0.02em]">
+                Summary
+              </h2>
+              <div className="mt-6">
+                {tldrParas.map((p, i) => (
+                  <p
+                    key={i}
+                    className="mb-5 font-inter text-[16px] leading-[1.7] text-pf-body"
+                  >
+                    {p}
+                  </p>
+                ))}
+              </div>
             </div>
             )}
-            <div className="mt-5 flex flex-wrap gap-2">
-              {content.tags.map((t) => (
-                <span
-                  key={t}
-                  className="rounded-full bg-pf-tag px-[13px] py-[6px] text-[13px] text-pf-secondary"
-                >
-                  {t}
-                </span>
-              ))}
-            </div>
+            {content.tags.length > 0 && (
+              <div className="mt-5 flex flex-wrap gap-2">
+                {content.tags.map((t) => (
+                  <span
+                    key={t}
+                    className="rounded-full bg-pf-tag px-[13px] py-[6px] text-[13px] text-pf-secondary"
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
+            )}
           </>
         ) : (
           <>
-            <div className="mt-[26px] flex flex-wrap gap-2">
-              {content.tags.map((t) => (
-                <span
-                  key={t}
-                  className="rounded-full bg-pf-tag px-[13px] py-[6px] text-[13px] text-pf-secondary"
-                >
-                  {t}
-                </span>
-              ))}
-            </div>
+            {content.tags.length > 0 && (
+              <div className="mt-[26px] flex flex-wrap gap-2">
+                {content.tags.map((t) => (
+                  <span
+                    key={t}
+                    className="rounded-full bg-pf-tag px-[13px] py-[6px] text-[13px] text-pf-secondary"
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
+            )}
 
             {/* In short / TL;DR */}
             {tldrParas.length > 0 && (
@@ -382,36 +400,38 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
           </>
         )}
 
-        {/* Metrics */}
-        <div className="mt-10 grid grid-cols-3 gap-10 border-t border-pf-hairline pt-9 max-[640px]:grid-cols-1 max-[640px]:gap-6">
-          {content.metrics.map((m) => (
-            <div key={m.label}>
-              {m.value ? (
-                <>
-                  <div className="text-[40px] font-semibold leading-none tracking-[-0.02em] text-pf-accent">
-                    {m.value}
-                  </div>
-                  <div className="mt-[14px] text-[15px] text-pf-ink">
+        {/* Metrics — omitted when a case study carries its outcomes in a chapter */}
+        {content.metrics.length > 0 && (
+          <div className="mt-10 grid grid-cols-3 gap-10 border-t border-pf-hairline pt-9 max-[640px]:grid-cols-1 max-[640px]:gap-6">
+            {content.metrics.map((m) => (
+              <div key={m.label}>
+                {m.value ? (
+                  <>
+                    <div className="text-[40px] font-semibold leading-none tracking-[-0.02em] text-pf-accent">
+                      {m.value}
+                    </div>
+                    <div className="mt-[14px] text-[15px] text-pf-ink">
+                      {m.label}
+                    </div>
+                  </>
+                ) : (
+                  /* Text-only outcome card: the label is the card title */
+                  <div className="text-[19px] font-medium leading-[1.3] text-pf-ink">
                     {m.label}
                   </div>
-                </>
-              ) : (
-                /* Text-only outcome card: the label is the card title */
-                <div className="text-[19px] font-medium leading-[1.3] text-pf-ink">
-                  {m.label}
-                </div>
-              )}
-              {m.desc && (
-                <div className="mt-[8px] text-[13px] leading-[1.55] text-pf-muted">
-                  {m.desc}
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
+                )}
+                {m.desc && (
+                  <div className="mt-[8px] text-[13px] leading-[1.55] text-pf-muted">
+                    {m.desc}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
 
-        {/* Hero image */}
-        {content.heroImage && (
+        {/* Hero image — framed, below the metrics (unless it opened the page) */}
+        {content.heroImage && !content.heroImageFirst && (
           <div className="mt-11">
             <Figure
               media={content.heroImage}
@@ -441,18 +461,20 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
                 {ch.body.map((p, j) => (
                   <p
                     key={j}
-                    className="mb-5 max-w-[900px] text-[17px] leading-[1.72] text-pf-body"
+                    className="mb-5 max-w-[900px] font-inter text-[16px] leading-[1.7] text-pf-body"
                   >
                     {p}
                   </p>
                 ))}
 
                 {ch.conflict && (
+                  /* Tinted box, body-sized copy: the label carries the emphasis
+                     (same h3 as "My involvement"), not the paragraph. */
                   <div className="mt-[26px] max-w-[900px] rounded-[14px] bg-[rgba(96,104,52,0.10)] px-[26px] py-6">
-                    <div className="mb-[10px] font-mono-ui text-[12px] font-medium tracking-[0.01em] text-pf-secondary">
+                    <h3 className="m-0 mb-[10px] text-[20px] font-semibold tracking-[-0.01em] text-pf-ink">
                       {ch.conflict.label}
-                    </div>
-                    <p className="m-0 text-[20px] font-medium leading-[1.45] text-pf-ink">
+                    </h3>
+                    <p className="m-0 font-inter text-[16px] leading-[1.7] text-pf-body">
                       {ch.conflict.text}
                     </p>
                   </div>
@@ -479,7 +501,7 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
                       <BeforeAfterSide media={ch.beforeAfter.after} />
                     </div>
                     {ch.beforeAfter.caption && (
-                      <p className="mt-3 text-[13px] leading-[1.55] text-pf-muted">
+                      <p className="mt-3 font-inter text-[13px] leading-[1.55] text-pf-muted">
                         {ch.beforeAfter.caption}
                       </p>
                     )}
@@ -499,7 +521,7 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
                         <div className="text-[16px] font-semibold leading-[1.35] text-pf-ink">
                           {c.name}
                         </div>
-                        <p className="m-0 mt-[8px] text-[13px] leading-[1.55] text-pf-muted">
+                        <p className="m-0 mt-[8px] font-inter text-[13px] leading-[1.55] text-pf-muted">
                           {c.text}
                         </p>
                       </div>
@@ -515,16 +537,27 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
 
                 {ch.decisions && (
                   <div className="mt-[14px]">
-                    {ch.decisions.map((d) => (
+                    {/* Group label sits a level above the item names: 20 → 18 */}
+                    {ch.decisionsTitle && (
+                      <h3 className="m-0 mt-9 text-[20px] font-semibold tracking-[-0.01em]">
+                        {ch.decisionsTitle}
+                      </h3>
+                    )}
+                    {ch.decisions.map((d, k) => (
                       <Reveal
                         key={d.num}
-                        className="mt-[30px] border-t border-pf-hairline pt-[30px]"
+                        /* The rule separates items, so the first one goes without */
+                        className={
+                          k === 0
+                            ? 'mt-5'
+                            : 'mt-6 border-t border-pf-hairline pt-6'
+                        }
                       >
-                        <div className="mb-2 text-[18px] font-medium">
+                        <h4 className="m-0 mb-[6px] text-[18px] font-semibold">
                           {d.name}
-                        </div>
+                        </h4>
                         <p
-                          className={`m-0 max-w-[900px] text-[16px] leading-[1.7] text-pf-secondary${
+                          className={`m-0 max-w-[900px] font-inter text-[16px] leading-[1.7] text-pf-secondary${
                             d.media ? ' mb-[18px]' : ''
                           }`}
                         >
@@ -546,7 +579,7 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
                     {ch.bodyAfter.map((p, j) => (
                       <p
                         key={j}
-                        className="mb-5 max-w-[900px] text-[17px] leading-[1.72] text-pf-body"
+                        className="mb-5 max-w-[900px] font-inter text-[16px] leading-[1.7] text-pf-body"
                       >
                         {p}
                       </p>
@@ -586,19 +619,31 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
                 )}
 
                 {ch.list && (
+                  /* Bulleted list: anything before the first colon reads as the
+                     item's name, so it is set in ink to carry the scan. */
                   <Reveal className="mt-[26px] max-w-[900px] border-t border-pf-hairline pt-[24px]">
-                    <div className="mb-4 font-mono-ui text-[12px] font-medium tracking-[0.01em] text-pf-secondary">
+                    <h3 className="m-0 mb-4 text-[20px] font-semibold tracking-[-0.01em]">
                       {ch.list.title}
-                    </div>
-                    <ul className="m-0 grid list-none grid-cols-2 gap-x-10 gap-y-3 p-0 max-[640px]:grid-cols-1">
-                      {ch.list.items.map((item) => (
-                        <li
-                          key={item}
-                          className="border-b border-pf-hairline pb-3 text-[15px] text-pf-body"
-                        >
-                          {item}
-                        </li>
-                      ))}
+                    </h3>
+                    <ul className="m-0 list-disc space-y-3 pl-5 marker:text-pf-accent">
+                      {ch.list.items.map((item) => {
+                        const at = item.indexOf(':')
+                        const lead = at > 0 ? item.slice(0, at) : null
+                        const rest = at > 0 ? item.slice(at + 1).trim() : item
+                        return (
+                          <li
+                            key={item}
+                            className="pl-1 font-inter text-[16px] leading-[1.7] text-pf-body"
+                          >
+                            {lead && (
+                              <span className="font-semibold text-pf-ink">
+                                {lead}:{' '}
+                              </span>
+                            )}
+                            {rest}
+                          </li>
+                        )
+                      })}
                     </ul>
                   </Reveal>
                 )}
@@ -622,18 +667,18 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
           <h3 className="m-0 text-[20px] font-semibold tracking-[-0.01em]">
             My involvement
           </h3>
-          <p className="m-0 mt-4 max-w-[900px] text-[17px] leading-[1.72] text-pf-body">
+          <p className="m-0 mt-4 max-w-[900px] font-inter text-[16px] leading-[1.7] text-pf-body">
             {content.involvement}
           </p>
         </section>
-      </div>
+      </CaseStudyShell>
 
       {/* Next project — light band, so the dark footer stays the only CTA */}
       <Link
         href={content.next.href}
         className="group block border-t border-pf-hairline transition-colors hover:bg-pf-chip"
       >
-        <div className="mx-auto flex max-w-[1120px] flex-col items-end gap-2 px-10 py-12 max-[640px]:px-6">
+        <div className="mx-auto flex max-w-[1280px] flex-col items-end gap-2 px-10 py-12 max-[640px]:px-6">
           <span className="font-mono-ui text-[12px] tracking-[0.01em] text-pf-muted">
             Next project
           </span>

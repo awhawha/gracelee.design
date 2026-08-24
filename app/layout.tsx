@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import {
   IBM_Plex_Mono,
   IBM_Plex_Sans,
+  Inter,
   Playfair_Display,
   Space_Grotesk,
 } from 'next/font/google'
@@ -15,6 +16,13 @@ const spaceGrotesk = Space_Grotesk({
   weight: ['400', '500', '600', '700'],
   subsets: ['latin'],
   variable: '--font-space-grotesk',
+  display: 'swap',
+})
+
+// Reading face for case-study body copy; Space Grotesk stays on headings.
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
   display: 'swap',
 })
 
@@ -64,7 +72,7 @@ export default function RootLayout({
     <html lang="en">
      
       <body
-        className={`${spaceGrotesk.variable} ${playfair.variable} ${plexSans.variable} ${plexMono.variable} min-h-screen font-grotesk text-pf-ink antialiased`}
+        className={`${spaceGrotesk.variable} ${inter.variable} ${playfair.variable} ${plexSans.variable} ${plexMono.variable} min-h-screen font-grotesk text-pf-ink antialiased`}
       >
         <SiteNav />
         <main>{children}</main>

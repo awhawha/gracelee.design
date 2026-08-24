@@ -70,6 +70,8 @@ export type CaseChapter = {
   summary?: { name: string; text: string }[]
   /** Swimlane flow: the same sequence, plus who acts and what guards each step. */
   pipeline?: CasePipeline
+  /** Group label above `decisions`, e.g. "What I learned". */
+  decisionsTitle?: string
   decisions?: {
     num: string
     name: string
@@ -98,6 +100,13 @@ export type CaseStudyContent = {
   eyebrow?: string
   title: string
   tags: string[]
+  /**
+   * Label/value pairs for the sticky sidebar rail (company, role, scope…).
+   * Kept short — the rail is ~260px wide, so two lines per value at most.
+   */
+  meta?: { label: string; value: string }[]
+  /** Optional rail CTA, e.g. a live site. Omitted when there is nothing to link. */
+  link?: { label: string; href: string }
   subhead?: string
   /** Compact hero: title → summary → tags, no subhead/"In short" label. */
   heroCompact?: boolean
@@ -109,119 +118,266 @@ export type CaseStudyContent = {
   /** Cards: with `value` a big metric number renders; without, `label` is the card title. */
   metrics: { value?: string; label: string; desc?: string }[]
   heroImage?: CaseMedia
+  /**
+   * Render `heroImage` directly under the title, unframed and full width —
+   * for photographic openers. Otherwise it sits framed below the metrics.
+   */
+  heroImageFirst?: boolean
   chapters: CaseChapter[]
   involvement: string
   next: { label: string; href: string }
 }
 
 const automl: CaseStudyContent = {
-  title: 'From configuration maze to a guided model-design canvas',
-  tags: ['Enterprise UX', 'Complex workflows'],
-  heroCompact: true,
-  tldr: 'I consolidated a multi-screen model-configuration workflow into one guided canvas, helping analysts understand dependencies, start with a runnable setup, and iterate independently.',
-  metrics: [
+  title:
+    'Making AutoML Self-Serve: From Fragmented Data Setup to Confident Model Runs',
+  // Tags and metric cards are intentionally empty: the rail carries the framing
+  // and the Outcomes chapter carries the numbers.
+  tags: [],
+  meta: [
+    { label: 'Company', value: 'dotData' },
+    { label: 'Industry', value: 'Enterprise AI, AutoML platform' },
+    { label: 'Role', value: 'Sr Product Designer' },
     {
-      label: 'A shorter path to first run',
-      desc: 'A multi-screen configuration flow was consolidated into five actions.',
+      label: 'Scope',
+      value: 'Research, prototyping, visualization, interaction design',
     },
-    {
-      label: '3 screens, one canvas',
-      desc: 'Users can configure the model while keeping tables and dependencies visible together.',
-    },
-    {
-      label: '50% faster configuration',
-      desc: 'In usability testing, participants completed model-task setup in half the time.',
-    },
+    { label: 'Team', value: 'Product, Data Science' },
+    { label: 'Focus', value: 'Clarity, control, and confidence' },
   ],
+  heroCompact: true,
+  tldr: [
+    'I led the end-to-end design of an AutoML setup experience that enabled Business Analysts to configure and run their first experiment with less reliance on Customer Support.',
+    'The work consolidated a fragmented, three-page workflow into a guided, single-surface flow that inferred data schemas, suggested table relationships, and made time-aware data configuration approachable through sensible defaults and just-in-time explanations. By balancing automation with user validation and editability, the experience reduced initial model setup from roughly 30 minutes to 10 minutes while giving non-technical users more confidence to build and rerun models independently.',
+  ],
+  metrics: [],
   heroImage: {
-    label: '[ automl/hero.png — guided model-design canvas ]',
+    label: '[ automl/hero-desk.png — the guided setup in place ]',
     caption:
-      'The guided canvas: target definition, table relationships, and validation in one workspace.',
-    img: '/images/automl/hero.png',
-    alt: 'Model-design canvas with the define-target panel, connected tables, and a validation message',
-    ratio: '4000 / 2250',
-    fit: 'contain',
-    bg: 'gradient',
+      'Defining a prediction target in the redesigned AutoML setup: target table, target column, and value mapping in one panel.',
+    img: '/images/automl/hero-desk.png',
+    alt: 'A laptop on a desk showing the redesigned AutoML define-target panel',
+    ratio: '1448 / 1086',
+    fit: 'cover',
   },
+  heroImageFirst: true,
   involvement:
-    'As Lead Product Designer, I drove the redesign end to end — problem framing, interaction design, prototyping, and usability testing — in close partnership with engineering and PM.',
+    'I led design across research, prototyping, visualization, and interaction design, partnering with product and data science teams to define a trustworthy, intuitive configuration feature.',
   next: { label: 'Building a Design System for Scale', href: '/work/dotds' },
   chapters: [
     {
-      kicker: '01 — The problem',
-      heading: 'Users could complete steps—but not predict their impact',
+      heading: 'The context',
       body: [
-        'Creating a model task required users to import data, define schemas, select a target, connect tables, and configure advanced settings across separate screens.',
-        'Users could learn the workflow. What they could not see was how one setting affected the next—for example, how target selection changed required relationships or how table connections affected the model.',
+        'Business Analysts were expected to use AutoML with limited machine-learning expertise, yet configuring a first model required navigating three disconnected workflows and often relying on Customer Support for guidance. The hardest parts were understanding how tables related to one another and defining time-aware data settings correctly.',
+        'To make AutoML truly self-serve, we needed to turn this expert-led setup process into a guided workflow that users could validate, adjust, and rerun with confidence.',
       ],
-      quote: {
-        text: '“I don’t know what these settings will affect next.”',
-        who: 'Business analysts · user interviews',
+      conflict: {
+        label: 'Design challenge',
+        text: 'Design a scalable AutoML configuration experience that enables non-technical Business Analysts to prepare data, validate table relationships, and configure time-aware prediction settings with clarity and control — turning an expert-led workflow into a confident path to a first model run.',
       },
     },
     {
-      kicker: '02 — The insight',
-      heading: 'Model design is an iteration loop, not a linear checklist',
+      heading: 'The problem',
       body: [
-        'The issue was not simply where to begin. Users needed to understand the relationships between their decisions, run a first version with confidence, then return to adjust it without relying on a data scientist.',
-        'So I replaced the accordion-style flow with a single canvas. Configuration panels keep the work organized, while the canvas makes target tables, source tables, and their relationships visible together.',
+        'Setting up a model was fragmented across three separate workflows: defining data sources and schemas, creating a use case, and configuring the model design task. Users had to manually connect tables, map fields, and configure time-based data logic — tasks that required machine-learning knowledge most Business Analysts did not have.',
+        'As a result, users often relied on Customer Support to configure or iterate on a model. Even when they could proceed independently, they lacked confidence that their table relationships and time settings were correct.',
       ],
-      beforeAfter: {
-        before: {
+      figures: [
+        {
+          label: '[ automl/before-redesign.png — the legacy setup ]',
+          caption:
+            'Before: importing data sources, selecting a target schema, and configuring data slots each lived in a separate place, so no screen showed how the setup fit together.',
           img: '/images/automl/before-redesign.png',
-          alt: 'Old flow — data sources, use case, and task configuration stacked across three separate screens',
-          label: 'Old flow — multiple screens, disconnected steps',
+          alt: 'The legacy flow — data source import, target schema selection, and data slot configuration on three separate screens',
+          ratio: '5760 / 3380',
+          fit: 'contain',
+          bg: 'gradient',
         },
-        after: {
-          img: '/images/automl/after-redesign.png',
-          alt: 'New flow — the model-design canvas with target and table relationships visible together',
-          label: 'New flow — one visible, iterative canvas',
-        },
-        caption:
-          'Disconnected configuration steps became one canvas users can return to and adjust.',
+      ],
+      list: {
+        title: 'Key pain points',
+        items: [
+          'Fragmented setup: critical configuration was spread across three pages, making the workflow difficult to follow.',
+          'Hidden ML complexity: table relationships, data availability, and prediction timing were unfamiliar concepts for non-technical users.',
+          'Limited confidence to iterate: users could run a model, but did not know what to adjust when they needed to rerun it.',
+        ],
       },
     },
     {
-      kicker: '03 — What testing changed',
-      heading: 'Visibility alone was not enough',
+      heading: 'Research and discovery',
       body: [
-        'The first canvas made data relationships visible, but testing showed that some users still did not know how to begin. They hesitated over whether tables needed connecting and how to choose a target.',
-        'That changed the direction: the canvas needed to preserve its global view while also giving users a credible starting point.',
+        'To understand where users got stuck, I interviewed Customer Support to learn about common customer use cases and recurring setup questions. I also partnered with the Head of Data Science to map the underlying ML workflow, and observed users configuring models to identify repetitive tasks, points of confusion, and moments that required expert intervention.',
+      ],
+      decisionsTitle: 'What I learned',
+      decisions: [
+        {
+          num: '01',
+          name: 'Configuration knowledge lived with experts',
+          text: 'Business Analysts could define a business goal, but often needed Customer Support or Data Science to translate it into valid data relationships and model settings.',
+        },
+        {
+          num: '02',
+          name: 'Time-aware data setup lacked a clear mental model',
+          text: 'Users did not know how prediction timing, relationship timing, and data availability affected a model, making them unsure whether their configuration was valid.',
+        },
+        {
+          num: '03',
+          name: 'Automation needed to remain inspectable',
+          text: 'Users wanted help connecting tables and applying defaults, but needed to validate and adjust recommendations rather than accept a black-box configuration.',
+        },
+        {
+          num: '04',
+          name: 'Iteration should not require a restart',
+          text: 'When a model needed to be rerun, users needed to adjust a specific setting and continue — not repeat the entire setup process.',
+        },
       ],
     },
     {
-      kicker: '04 — The final design',
-      heading: 'A canvas with a confident starting point',
+      heading: 'Design strategy',
       body: [
-        'The final canvas keeps the whole data model in view and opens with a recommended setup rather than an empty plane. Users can run a first model from it, then return to the same canvas to refine it.',
+        'I structured the redesigned experience around four principles: reduce unnecessary setup, preserve user control, explain complexity in context, and support iteration.',
+      ],
+      decisionsTitle: 'Four principles',
+      decisions: [
+        {
+          num: '01',
+          name: 'Start with smart defaults',
+          text: 'Infer data types and apply sensible defaults so users can begin configuring a model without needing to understand every technical parameter upfront.',
+        },
+        {
+          num: '02',
+          name: 'Automate, then let users validate',
+          text: 'Suggest table relationships automatically to reduce manual mapping, while allowing users to inspect, edit, and confirm every connection.',
+        },
+        {
+          num: '03',
+          name: 'Explain complexity in context',
+          text: 'Use inline explanations for advanced concepts — such as prediction timing, relationship timing, and data availability — only when users need to make a decision.',
+        },
+        {
+          num: '04',
+          name: 'Design for iteration, not one-time setup',
+          text: 'Keep configuration editable after a model run, so users can adjust inputs and rerun a model without rebuilding the workflow from scratch.',
+        },
+      ],
+    },
+    {
+      heading: 'The solution: a guided AutoML workflow',
+      body: [
+        'The redesign consolidated three disconnected setup experiences into one guided workflow. Rather than asking users to understand the entire ML configuration model upfront, the interface moved from data preparation to model run through a sequence of focused decisions.',
       ],
       overview: {
-        label: '[ final-canvas.png — the canvas ]',
+        label: '[ automl/after-redesign.png — the guided flow ]',
         caption:
-          'Target tables, source tables, and their relationships, visible together on one canvas.',
-        img: '/images/automl/final-canvas.png',
-        alt: 'The model-design canvas: configuration panel, target table, and relationship lines annotated on one plane',
+          'After: the same decisions on one surface — three separate setup workflows became a single flow users can move through, validate, and return to.',
+        img: '/images/automl/after-redesign.png',
+        alt: 'The redesigned flow — one guided setup with target definition and table relationships visible together',
         ratio: '5760 / 3380',
         fit: 'contain',
         bg: 'gradient',
       },
-      summary: [
+      decisions: [
         {
-          name: 'A ready starting point',
-          text: 'Auto-schema suggests an initial structure from sample data.',
+          num: '01',
+          name: 'Upload and validate data',
+          text: 'The system inferred data types on upload, allowing users to validate the schema instead of defining it manually. This reduced the initial setup burden while keeping users informed about how their data would be used.',
+          media: {
+            label: '[ automl/add-tables.png — table import and validation ]',
+            caption:
+              'Selecting already-uploaded tables or importing a new CSV. Each column’s type is inferred from the sample data and shown with its distribution, so users confirm the schema here — or open the table later to edit it.',
+            img: '/images/automl/add-tables.png',
+            alt: 'Add tables dialog: a list of uploaded tables with import status beside a preview of inferred column types and value distributions',
+            ratio: '2880 / 1936',
+            fit: 'contain',
+            bg: 'gradient',
+          },
         },
         {
-          name: 'Recommended connections',
-          text: 'Auto-connect proposes table relationships so users do not start from a blank model.',
+          num: '02',
+          name: 'Define the prediction goal',
+          text: 'Users selected a target table, target column, and prediction time in one place. When table mapping was required, it appeared within the same step rather than as a separate workflow.',
+          media: {
+            label: '[ automl/define-prediction-goal.png — define target ]',
+            caption:
+              'Target table, target column, prediction type, value mapping, entity ID, and prediction time in one panel — with “What is prediction time?” available inline, and the tables it refers to still visible on the canvas.',
+            img: '/images/automl/define-prediction-goal.png',
+            alt: 'Define target panel — target table, target column, target value mapping, entity ID, and prediction time — beside the connected tables on the canvas',
+            ratio: '2880 / 2116',
+            fit: 'contain',
+            bg: 'gradient',
+          },
         },
         {
-          name: 'Sensible defaults',
-          text: 'Suggested target, time-related fields, and advanced settings reduce setup effort.',
+          num: '03',
+          name: 'Connect tables with guided validation',
+          text: 'An auto-connect action suggested table relationships based on the uploaded data. Users could inspect, edit, or remove each suggested connection, balancing automation with the control needed to trust the configuration.',
+          media: {
+            label: '[ automl/connect-tables.png — auto-connect ]',
+            caption:
+              'Auto-connect proposes relationships from the uploaded data and reports what it added; hovering a connection shows the columns it joined on, with edit and remove beside them.',
+            img: '/images/automl/connect-tables.png',
+            alt: 'Canvas showing connected tables, a confirmation that three connections have been added, and a hovered connection revealing its joined columns with edit and delete controls',
+            ratio: '2560 / 1664',
+            fit: 'contain',
+            bg: 'gradient',
+          },
+          media2: {
+            label: '[ er-error-validation.png — validation ]',
+            caption:
+              'Validation names what is missing and offers the action that fixes it, instead of failing at run time.',
+            img: '/images/er-error-validation.png',
+            alt: 'Validation panel listing an undefined target and unconnected tables, each with a corrective action',
+            ratio: '1280 / 832',
+            fit: 'contain',
+            bg: 'gradient',
+          },
+        },
+        {
+          num: '04',
+          name: 'Configure, run, and iterate',
+          text: 'Time-aware settings appeared in context through defaults and inline explanations. After running a model, users could return to any configuration step, make a targeted adjustment, and rerun — without rebuilding the setup from scratch.',
+          media: {
+            label: '[ solution-3-contextual-config.png — time-aware settings ]',
+            caption:
+              'Time match, time range, and search range explained where the decision happens — with a default range inferred from the detected time column and an interactive timeline for manual setup.',
+            img: '/images/solution-3-contextual-config.png',
+            alt: 'Time-aware configuration with inline explanations, real-data examples, and an interactive prediction timeline',
+            ratio: '2824 / 1061',
+            fit: 'contain',
+            bg: 'gradient',
+          },
         },
       ],
+      figures: [
+        {
+          label: '[ final-canvas.png — the configured workflow ]',
+          caption:
+            'The result: target, source tables, and their relationships stay visible while the model is configured, run, and adjusted.',
+          img: '/images/automl/final-canvas.png',
+          alt: 'The model-design canvas: configuration panel, target table, and relationship lines annotated on one plane',
+          ratio: '5760 / 3380',
+          fit: 'contain',
+          bg: 'gradient',
+        },
+      ],
+    },
+    {
+      heading: 'Outcomes',
+      body: [],
       callout: {
-        text: 'Configuration time was reduced by 50% in usability testing.',
+        label: 'Outcome',
+        text: 'Initial model setup dropped from roughly 30 minutes to 10 minutes for common configurations.',
       },
+      list: {
+        title: 'What changed',
+        items: [
+          'Consolidated a fragmented three-page setup process into one guided AutoML workflow.',
+          'Enabled Business Analysts to validate data, configure table relationships, and run a first model with less reliance on Customer Support.',
+          'Made iteration more efficient by allowing users to edit and rerun a configuration without starting over.',
+        ],
+      },
+      resolution:
+        'This work established a more scalable foundation for self-serve AutoML — translating expert configuration knowledge into an experience that non-technical users could understand, validate, and act on.',
     },
   ],
 }
@@ -229,6 +385,16 @@ const automl: CaseStudyContent = {
 const designSystem: CaseStudyContent = {
   title: 'Building a design system people could use consistently',
   tags: ['Design systems', 'Design–engineering workflow'],
+  meta: [
+    { label: 'Company', value: 'dotData' },
+    { label: 'Industry', value: 'Enterprise AI, B2B SaaS' },
+    { label: 'Role', value: 'Design system owner (solo designer)' },
+    {
+      label: 'Scope',
+      value: 'Token and library architecture, component design, governance',
+    },
+    { label: 'Team', value: 'Front-end engineering, Product teams' },
+  ],
   heroCompact: true,
   tldr: [
     'I consolidated a fragmented design-to-engineering workflow into a token-driven Figma system, giving teams one shared source of truth and cutting specification-related questions by roughly half. As adoption grew, I introduced component-level tokens to make intended design choices the default.',
@@ -366,6 +532,16 @@ const designSystem: CaseStudyContent = {
 const museum: CaseStudyContent = {
   title: 'Designing a human–AI content production system',
   tags: ['Agentic workflows', 'Human-in-the-loop AI', 'AI product design'],
+  meta: [
+    { label: 'Project', value: 'Museum of Children’s Books (self-initiated)' },
+    { label: 'Focus', value: 'Agentic workflows, human-in-the-loop AI' },
+    { label: 'Role', value: 'Solo — design and build' },
+    {
+      label: 'Scope',
+      value: 'Product concept, AI workflow design, front-end build',
+    },
+    { label: 'Built with', value: 'Claude Code Skills, agentic drafting pipeline' },
+  ],
   subhead:
     'A draft-first workflow for a children’s-book museum: agents research and generate structured drafts, while editors review, revise, and manually publish content.',
   metrics: [
