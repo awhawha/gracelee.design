@@ -24,7 +24,7 @@ export function Nav() {
             About
           </Link>
           <a
-            href="/images/gracelee-resume.pdf"
+            href="/images/yahui-grace-lee-resume.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className="no-underline decoration-1 underline-offset-[3px] hover:underline"

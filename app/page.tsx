@@ -54,6 +54,18 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Archive — one line, not a second index. The old site is hosted from
+          the portfolio-archive repo so this one stays light. */}
+      <section className="mx-auto max-w-pf px-10 pb-24 max-[640px]:px-6">
+        <a
+          href="https://awhawha.github.io/portfolio-archive/2018/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-block px-2 text-[15px] text-pf-muted transition-colors hover:text-pf-ink"
+        >
+          Archive: 2018 portfolio ↗
+        </a>
+      </section>
     </div>
   )
 }

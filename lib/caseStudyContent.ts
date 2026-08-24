@@ -129,6 +129,9 @@ export type CaseStudyContent = {
 }
 
 const automl: CaseStudyContent = {
+  // Eyebrow repeats the name the Home index uses, so a project reads the same
+  // in both places; the title below carries the descriptive line.
+  eyebrow: 'Reimagining AutoML',
   title:
     'Making AutoML Self-Serve: From Fragmented Data Setup to Confident Model Runs',
   // Tags and metric cards are intentionally empty: the rail carries the framing
@@ -163,7 +166,7 @@ const automl: CaseStudyContent = {
   heroImageFirst: true,
   involvement:
     'I led design across research, prototyping, visualization, and interaction design, partnering with product and data science teams to define a trustworthy, intuitive configuration feature.',
-  next: { label: 'Building a Design System for Scale', href: '/work/dotds' },
+  next: { label: 'Design System', href: '/work/dotds' },
   chapters: [
     {
       heading: 'The context',
@@ -383,6 +386,7 @@ const automl: CaseStudyContent = {
 }
 
 const designSystem: CaseStudyContent = {
+  eyebrow: 'Design System',
   title: 'Building a design system people could use consistently',
   tags: ['Design systems', 'Design–engineering workflow'],
   meta: [
@@ -426,7 +430,7 @@ const designSystem: CaseStudyContent = {
   involvement:
     'As design system owner, I led the V1.0 and V2.0 re-architecture: defining token and library architecture, aligning with front-end engineering, and evolving governance as adoption exposed gaps.',
   next: {
-    label: 'Designing a Human–AI Production Workflow',
+    label: 'Designing with AI Agents',
     href: '/work/museum',
   },
   chapters: [
@@ -530,6 +534,7 @@ const designSystem: CaseStudyContent = {
 }
 
 const museum: CaseStudyContent = {
+  eyebrow: 'Designing with AI Agents',
   title: 'Designing a human–AI content production system',
   tags: ['Agentic workflows', 'Human-in-the-loop AI', 'AI product design'],
   meta: [

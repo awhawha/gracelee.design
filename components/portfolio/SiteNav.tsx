@@ -20,7 +20,7 @@ export function SiteNav() {
             About
           </Link>
           <a
-            href="/images/gracelee-resume.pdf"
+            href="/images/yahui-grace-lee-resume.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className="transition-colors hover:text-pf-ink"

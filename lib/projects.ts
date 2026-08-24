@@ -88,8 +88,9 @@ export const projects: Project[] = [
       'Redesigning enterprise AutoML: reducing time-to-value for business analysts by 50%',
     desc: 'Reimagining the automated ML workflow',
     homeTitle: 'Reimagining AutoML',
+    // Mirrors the case study's H1, so the index row and the page agree.
     homeSubtitle:
-      'Making automated ML workflows easier to understand and control.',
+      'Making AutoML self-serve: from fragmented data setup to confident model runs',
     tags: ['Workflow redesign', 'Complex systems UX', 'Prototyping', 'Enterprise AI'],
     paras: [
       'At dotData, I led the end-to-end redesign of the multi-table data onboarding and configuration experience to transform the platform from a service-heavy tool into a true self-service SaaS product. The urgency was clear: out of 80 business analysts trained on our legacy platform, fewer than five remained active, effectively freezing market growth. Qualitative discovery revealed that while machine learning workflows are inherently non-linear and iterative, our rigid, 3-step legacy wizard hid critical schema dependencies, trapping users in frustrating “debugging loops” and causing catastrophic compute-time waste.',
@@ -258,8 +259,8 @@ export const projects: Project[] = [
     title: 'Design System',
     headline: 'A design system with logic-driven, three-layer tokens',
     desc: 'Logic-driven tokens that align design and engineering',
-    homeTitle: 'Building a Design System for Scale',
-    homeSubtitle: 'A token-driven system connecting design and engineering.',
+    homeTitle: 'Design System',
+    homeSubtitle: 'Building a design system people could use consistently',
     tags: ['Design systems', 'Token architecture', 'Design–dev alignment', 'Governance'],
     paras: [
       'We were redesigning multiple workflows at once, but the design infrastructure couldn’t keep up. Designers picked inconsistent tokens, engineers guessed at implementation intent, and the codebase kept accumulating hard-coded styles. I built a three-layer token architecture from scratch that gave both sides a shared language.',
@@ -418,9 +419,8 @@ export const projects: Project[] = [
     client: 'Side project · Museum of Children’s Books',
     title: 'Designing with AI Agents',
     desc: 'A human–AI production system for a children’s book museum',
-    homeTitle: 'Designing a Human–AI Production Workflow',
-    homeSubtitle:
-      'Using AI agents to turn a children’s book museum into a production-ready digital experience.',
+    homeTitle: 'Designing with AI Agents',
+    homeSubtitle: 'Designing a human–AI content production system',
     tags: [
       'AI-Driven Design',
       'Prototyping in the Browser',
