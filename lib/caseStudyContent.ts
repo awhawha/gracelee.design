@@ -401,7 +401,7 @@ const designSystem: CaseStudyContent = {
   ],
   heroCompact: true,
   tldr: [
-    'I consolidated a fragmented design-to-engineering workflow into a token-driven Figma system, giving teams one shared source of truth and cutting specification-related questions by roughly half. As adoption grew, I introduced component-level tokens to make intended design choices the default.',
+    'I consolidated a fragmented design-to-engineering workflow into a token-driven Figma system, giving teams one shared source of truth and cutting engineering spec questions from about once a week to once a month after they could self-serve in Figma Dev Mode. As adoption grew, I introduced component-level tokens to make intended design choices the default.',
   ],
   metrics: [
     {
@@ -409,8 +409,8 @@ const designSystem: CaseStudyContent = {
       desc: 'Sketch, Zeplin, and InVision consolidated into Figma.',
     },
     {
-      label: '~50% fewer spec questions',
-      desc: 'Engineers could inspect tokens directly in Dev Mode.',
+      label: 'Weekly → monthly spec questions',
+      desc: 'Engineers could inspect tokens directly in Figma Dev Mode.',
     },
     {
       label: 'Better defaults, fewer overrides',
