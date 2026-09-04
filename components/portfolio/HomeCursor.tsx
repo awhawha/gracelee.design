@@ -56,7 +56,7 @@ export function HomeCursor() {
     const el = nodeRef.current
     if (!el) return
 
-    const onMove = (e: PointerEvent) => {
+    const onMove = (e: MouseEvent) => {
       setVisible(true)
       el.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-6px, -50%)`
       const next = cursorMode(e.target)
