@@ -2,6 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Tailwind's font utilities can stay cached against old --font-* names.
+   Pin them to the current faces so nav/footer/body actually get Open Sans. */
+.font-sans,
+.font-mono {
+  font-family: var(--font-open-sans), system-ui, sans-serif;
+}
+
+.font-display {
+  font-family: var(--font-domine), Georgia, serif;
+}
+
+/* Tokens: styles/tokens.css (imported from app/layout.tsx). */
+
 :root {
   --color-bg: #ffffff;
   --color-text: #1a1a1a;
@@ -16,8 +29,8 @@ html {
 }
 
 body {
-  background-color: var(--color-bg);
-  color: var(--color-text);
+  background-color: var(--surface-primary);
+  color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -35,6 +48,25 @@ body {
   to {
     opacity: 1;
   }
+}
+
+@keyframes grace-llm-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.grace-llm-panel {
+  transition:
+    transform 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.32s ease,
+    width 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.3s ease;
 }
 
 /* Drift loops for the About page's decorative shader orbs. One shape per orb,
@@ -95,12 +127,29 @@ body {
   [style*='pf-drift'] {
     animation: none !important;
   }
+
+  .grace-llm-in,
+  .grace-llm-in-item {
+    animation: none !important;
+  }
+
+  .grace-llm-panel {
+    transition: none;
+  }
 }
 
 @layer utilities {
   /* Fade-in used when the pinned media swaps (section change / slide change) */
   .pf-fade {
     animation: pf-fade 0.35s ease both;
+  }
+
+  .grace-llm-in {
+    animation: grace-llm-in 0.75s ease both;
+  }
+
+  .grace-llm-in-item {
+    animation: grace-llm-in 0.65s ease both;
   }
 
   .text-balance {
@@ -111,4 +160,125 @@ body {
     font-variant: small-caps;
     letter-spacing: 0.06em;
   }
+
+  .pf-nav-item {
+    color: rgba(255, 255, 255, 0.55);
+    background-color: transparent;
+    background-image: none;
+    border: 1px solid transparent;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    transition:
+      color 0.28s ease,
+      background-color 0.28s ease,
+      border-color 0.28s ease;
+  }
+
+  .pf-nav-item:hover,
+  .pf-nav-item.is-active {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.14);
+    border-color: rgba(255, 255, 255, 0.2);
+    -webkit-backdrop-filter: blur(12px) saturate(160%);
+    backdrop-filter: blur(12px) saturate(160%);
+  }
+
+  /* Dark liquid glass — still translucent so page color tints through,
+     but reads as a dock on the light portfolio. */
+  .pf-liquid-glass {
+    overflow: hidden;
+    color: rgba(255, 255, 255, 0.72);
+    background: rgba(24, 22, 18, 0.62);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    box-shadow:
+      0 12px 40px rgba(0, 0, 0, 0.28),
+      inset 0 1px 0 rgba(255, 255, 255, 0.22);
+    -webkit-backdrop-filter: blur(22px) saturate(160%);
+    backdrop-filter: blur(22px) saturate(160%);
+  }
+
+  @supports not (
+    (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))
+  ) {
+    .pf-liquid-glass {
+      background: rgba(28, 26, 22, 0.92);
+    }
+  }
+}
+
+/* Homepage custom cursor — fine pointers only. Touch keeps the system cursor. */
+@media (hover: hover) and (pointer: fine) {
+  body.home-cursor-on,
+  body.home-cursor-on * {
+    cursor: none !important;
+  }
+}
+
+.home-cursor[hidden] {
+  display: none !important;
+}
+
+.home-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10050;
+  display: flex;
+  height: 12px;
+  width: 12px;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  interpolate-size: allow-keywords;
+  border-radius: 999px;
+  background: #41874e;
+  pointer-events: none;
+  opacity: 0;
+  transition:
+    width 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+    height 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+    padding 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.15s ease;
+  will-change: transform;
+}
+
+.home-cursor.is-visible {
+  opacity: 1;
+}
+
+.home-cursor.is-visible.is-hover {
+  width: 20px;
+  height: 20px;
+  opacity: 0.6;
+}
+
+.home-cursor.is-case-study {
+  width: max-content;
+  height: max-content;
+  justify-content: flex-start;
+  padding: 1rem;
+  opacity: 1;
+}
+
+.home-cursor.is-reduced {
+  transition: none;
+}
+
+.home-cursor-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #fff;
+  line-height: 1;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.18s ease 0.06s;
+}
+
+.home-cursor.is-case-study .home-cursor-label {
+  opacity: 1;
+}
+
+.home-cursor.is-reduced .home-cursor-label {
+  transition: none;
 }

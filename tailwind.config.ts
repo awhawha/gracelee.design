@@ -8,35 +8,27 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        // Existing families (kept for the older, orphaned pages)
-        display: ['var(--font-playfair)', 'Georgia', 'serif'],
-        sans: ['var(--font-plex-sans)', 'system-ui', 'sans-serif'],
-        mono: ['var(--font-plex-mono)', 'ui-monospace', 'monospace'],
-        // Portfolio redesign families
-        grotesk: ['var(--font-space-grotesk)', 'system-ui', 'sans-serif'],
-        // Reading face for case-study body copy
-        inter: ['var(--font-inter)', 'system-ui', 'sans-serif'],
-        'mono-ui': ['ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
+        display: ['var(--font-domine)', 'Georgia', 'serif'],
+        sans: ['var(--font-open-sans)', 'system-ui', 'sans-serif'],
+        // Legacy `font-mono` (dates, tokens) maps to Open Sans.
+        mono: ['var(--font-open-sans)', 'system-ui', 'sans-serif'],
       },
       colors: {
-        // Portfolio redesign tokens (see design_handoff README)
-        'pf-ink': '#23201a',
-        'pf-body': '#46413a',
-        'pf-body-about': '#3c372f',
-        'pf-secondary': '#5f594f',
-        'pf-muted': '#8c8579',
-        'pf-muted-light': '#a39c8f',
-        'pf-placeholder': '#adaca6',
-        'pf-hairline': '#ebeae6',
-        'pf-border': '#e4e2dc',
-        'pf-accent': 'oklch(0.47 0.10 131)',
-        'pf-accent-dark': 'oklch(0.78 0.12 128)',
-        'pf-tag': '#efeeea',
-        'pf-chip': '#fafaf8',
-        'pf-dark': '#23201a',
-        // Global footer band (Paper export, Aug 2026)
-        'pf-footer': '#37532a',
-        'pf-footer-muted': '#edfae7',
+        // Values live in styles/tokens.css — change them there.
+        // CSS variables so a single :root edit restyles the site.
+        primary: 'var(--text-primary)',
+        secondary: 'var(--text-secondary)',
+        tertiary: 'var(--text-tertiary)',
+        surface: {
+          primary: 'var(--surface-primary)',
+          secondary: 'var(--surface-secondary)',
+          tertiary: 'var(--surface-tertiary)',
+        },
+        accent: {
+          primary: 'var(--accent-primary)',
+          secondary: 'var(--accent-secondary)',
+          tertiary: 'var(--accent-tertiary)',
+        },
       },
       maxWidth: {
         content: '720px',

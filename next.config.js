@@ -1,6 +1,10 @@
 /** @type {import('next').NextConfig} */
+const disableStaticExport = process.env.DISABLE_STATIC_EXPORT === 'true'
+
 const nextConfig = {
-  output: 'export',
+  // GitHub Pages needs a static export. Set DISABLE_STATIC_EXPORT=true to keep
+  // the GraceLLM Route Handler (e.g. local `next start` or a Vercel deploy).
+  ...(disableStaticExport ? {} : { output: 'export' }),
   images: {
     unoptimized: true,
   },

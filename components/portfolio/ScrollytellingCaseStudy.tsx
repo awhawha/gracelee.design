@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { Icon } from '@/components/Icon'
 import { Lightbox } from '@/components/Lightbox'
 import type { MediaItem, Para, Project } from '@/lib/projects'
 
@@ -31,11 +32,11 @@ function MediaEl({
   if (!item.src) {
     return (
       <div
-        className="relative flex w-full items-center justify-center overflow-hidden rounded-[12px] border border-pf-border"
+        className="relative flex w-full items-center justify-center overflow-hidden rounded-[12px] border border-surface-tertiary"
         style={{ height: `${item.height}px` }}
       >
         <div className="absolute inset-0 bg-pf-stripes" aria-hidden />
-        <span className="relative font-mono-ui text-[13px] text-pf-placeholder">
+        <span className="type-cap relative text-tertiary">
           {item.label}
         </span>
       </div>
@@ -45,7 +46,7 @@ function MediaEl({
   if (isVideo) {
     return (
       <video
-        className={`rounded-[12px] border border-pf-border bg-black ${fitClass}`}
+        className={`rounded-[12px] border border-surface-tertiary bg-black ${fitClass}`}
         controls
         muted
         loop
@@ -63,7 +64,7 @@ function MediaEl({
       src={item.src}
       alt={alt}
       onClick={onZoom ? () => onZoom(item.src as string, alt) : undefined}
-      className={`rounded-[12px] border border-pf-border ${onZoom ? 'cursor-zoom-in' : ''} ${fitClass}`}
+      className={`rounded-[12px] border border-surface-tertiary ${onZoom ? 'cursor-zoom-in' : ''} ${fitClass}`}
     />
   )
 }
@@ -91,7 +92,7 @@ function PinnedPanel({
         className="pf-fade flex w-full flex-col items-center gap-3"
       >
         <MediaEl item={item} onZoom={onZoom} fit="contain" preload="metadata" />
-        <p className="w-full text-[14px] leading-[1.6] text-pf-muted">
+        <p className="type-cap w-full text-tertiary">
           {item.caption}
         </p>
       </div>
@@ -101,9 +102,9 @@ function PinnedPanel({
               type="button"
               aria-label="Previous slide"
               onClick={() => setI((p) => (p === 0 ? media.length - 1 : p - 1))}
-              className="text-[18px] text-pf-muted transition-colors hover:text-pf-ink"
+              className="text-[16px] text-tertiary transition-colors hover:text-primary"
             >
-              ←
+              <Icon name="fa-arrow-left" />
             </button>
             <div className="flex items-center gap-2">
               {media.map((_, idx) => (
@@ -113,7 +114,7 @@ function PinnedPanel({
                   aria-label={`Slide ${idx + 1}`}
                   onClick={() => setI(idx)}
                   className={`h-2 w-2 rounded-full transition-colors ${
-                    idx === i ? 'bg-pf-accent' : 'bg-pf-border'
+                    idx === i ? 'bg-accent-primary' : 'bg-surface-tertiary'
                   }`}
                 />
               ))}
@@ -122,11 +123,11 @@ function PinnedPanel({
               type="button"
               aria-label="Next slide"
               onClick={() => setI((p) => (p + 1) % media.length)}
-              className="text-[18px] text-pf-muted transition-colors hover:text-pf-ink"
+              className="text-[16px] text-tertiary transition-colors hover:text-primary"
             >
-              →
+              <Icon name="fa-arrow-right" />
             </button>
-            <span className="ml-auto font-mono-ui text-[12px] text-pf-muted">
+            <span className="type-cap ml-auto text-tertiary">
               {i + 1} / {media.length}
             </span>
           </div>
@@ -139,12 +140,12 @@ function Body({ paras }: { paras: Para[] }) {
   return (
     <>
       {paras.map((p, i) => (
-        <p key={i} className="mb-[22px] text-[17px] leading-[1.72] text-pf-body">
+        <p key={i} className="type-body mb-[22px] text-secondary">
           {typeof p === 'string' ? (
             p
           ) : (
             <>
-              <span className="text-pf-ink">{p.lead}:</span> {p.text}
+              <span className="text-primary">{p.lead}:</span> {p.text}
             </>
           )}
         </p>
@@ -194,17 +195,17 @@ export function ScrollytellingCaseStudy({ project }: { project: Project }) {
 
       {/* RIGHT — scrolling narrative */}
       <div className="pb-20">
-        <div className="mb-4 font-mono-ui text-[12px] tracking-[0.04em] text-pf-muted">
+        <div className="type-cap mb-4 text-tertiary">
           {project.client}
         </div>
-        <h1 className="mb-6 text-[46px] font-semibold leading-[1.02] tracking-[-0.03em] max-[900px]:text-[clamp(32px,7vw,46px)]">
+        <h1 className="type-header mb-6">
           {project.headline ?? project.title}
         </h1>
         <div className="mb-9 flex flex-wrap gap-2">
           {project.tags.map((t) => (
             <span
               key={t}
-              className="rounded-full bg-pf-tag px-[13px] py-[6px] text-[13px] text-pf-secondary"
+              className="type-cap rounded-full bg-surface-secondary px-[13px] py-[6px] text-secondary"
             >
               {t}
             </span>
@@ -230,7 +231,7 @@ export function ScrollytellingCaseStudy({ project }: { project: Project }) {
                     fit="natural"
                     preload="none"
                   />
-                  <p className="mt-[14px] text-[14px] leading-[1.6] text-pf-muted">
+                  <p className="type-cap mt-[14px] text-tertiary">
                     {project.media[mi].caption}
                   </p>
                 </div>
@@ -241,32 +242,33 @@ export function ScrollytellingCaseStudy({ project }: { project: Project }) {
         ))}
 
         {/* metrics */}
-        <div className="my-[18px] mb-10 grid grid-cols-3 gap-6 border-y border-pf-hairline py-7">
+        <div className="my-[18px] mb-10 grid grid-cols-3 gap-6 border-y border-surface-tertiary py-7">
           {project.metrics.map((mt) => (
             <div key={mt.label}>
-              <div className="text-[34px] font-semibold tracking-[-0.02em] text-pf-accent">
+              <div className="type-header-md text-accent-primary">
                 {mt.value}
               </div>
-              <div className="mt-1 text-[13px] text-pf-muted">{mt.label}</div>
+              <div className="type-cap mt-1 text-tertiary">{mt.label}</div>
             </div>
           ))}
         </div>
-        <h3 className="mb-[14px] text-[20px] font-semibold tracking-[-0.01em]">
+        <h3 className="type-header-sm mb-[14px]">
           My involvement
         </h3>
-        <p className="mb-10 text-[17px] leading-[1.72] text-pf-body">
+        <p className="type-body mb-10 text-secondary">
           {project.involvement}
         </p>
-        <div className="mb-4 font-mono-ui text-[12px] tracking-[0.04em] text-pf-muted">
+        <div className="type-cap mb-4 text-tertiary">
           Live version
         </div>
         <a
           href={project.liveUrl ?? 'https://gracelee.design'}
           target="_blank"
           rel="noopener noreferrer"
-          className="block rounded-[10px] border-[1.5px] border-pf-ink p-4 text-center text-[15px] font-medium text-pf-ink transition-colors hover:bg-pf-ink hover:text-white"
+          className="type-body-sm flex items-center justify-center gap-2 rounded-[10px] border-[1.5px] border-primary p-4 text-center font-medium text-primary transition-colors hover:bg-primary hover:text-white"
         >
-          Visit live case study ↗
+          Visit live case study
+          <Icon name="fa-arrow-right" className="-rotate-45" />
         </a>
       </div>
 

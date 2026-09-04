@@ -1,70 +1,32 @@
-import Link from 'next/link'
-import { HeroShader } from '@/components/portfolio/HeroShader'
+import { HomeProjectCard } from '@/components/portfolio/HomeProjectCard'
+import { experience } from '@/lib/experience'
 import { homeProjects } from '@/lib/projects'
 
 export default function HomePage() {
   return (
-    <div className="font-grotesk text-pf-ink">
-      {/* Hero — white copy over the mesh-gradient panel */}
-      <section className="mx-auto max-w-pf px-10 pb-[72px] pt-10 max-[640px]:px-6">
-        <div className="relative overflow-hidden rounded-[36px] max-[640px]:rounded-[20px]">
-          <HeroShader />
-          <div className="relative flex flex-col items-start gap-[62px] px-[80px] pb-[72px] pt-[88px] text-white max-[900px]:gap-10 max-[900px]:p-10 max-[640px]:gap-8 max-[640px]:p-7">
-            <h1 className="m-0 max-w-[1000px] text-[72px] font-semibold leading-[0.96] tracking-[-0.03em] max-[900px]:text-[clamp(36px,9vw,72px)]">
-              Hi, I am Grace.
-            </h1>
-            <p className="m-0 max-w-[900px] text-[22px] leading-[1.5] max-[640px]:text-[17px]">
-              Senior product designer and design systems practitioner with an
-              engineering foundation and 9 years of experience across
-              analytics, data, and AI products. I build scalable, token-driven
-              systems and work across product, design, and engineering to turn
-              technical complexity into clear, consistent experiences.
-            </p>
-            <div className="h-px w-[28px] bg-white" />
-            <div className="text-[16px] leading-[1.5]">
-              Open to Senior Product Designer roles
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Work index — grouped by company */}
-      <section className="mx-auto max-w-pf px-10 pb-10 max-[640px]:px-6">
-        <div className="mb-2 font-mono-ui text-[12px] tracking-[0.04em] text-pf-muted">
-          Selected work
-        </div>
-        <div className="border-t border-pf-hairline pb-3 pt-10">
-          {homeProjects.map((p) => (
-            <Link
-              key={p.id}
-              href={`/work/${p.id}`}
-              className="grid grid-cols-[1fr_28px] items-center gap-4 border-b border-pf-hairline px-2 py-[22px] transition-[background,padding] duration-150 hover:bg-[rgba(96,104,52,0.09)] hover:pl-5"
-            >
-              <div>
-                <div className="text-[26px] font-semibold tracking-[-0.02em]">
-                  {p.homeTitle ?? p.title}
-                </div>
-                <div className="mt-1 text-[15px] text-pf-muted">
-                  {p.homeSubtitle ?? p.desc}
-                </div>
-              </div>
-              <span className="text-right text-[19px] text-pf-accent">↗</span>
-            </Link>
+    <div className="font-sans text-primary">
+      <section className="grid grid-cols-2 items-start gap-16 px-10 pb-20 pt-10 max-[900px]:grid-cols-1 max-[900px]:gap-10 max-[640px]:px-6 max-[640px]:pb-12 max-[640px]:pt-6">
+        <h1 className="type-header m-0 max-w-[11em]">
+          I&apos;m Grace, a product designer who{' '}
+          <em className="font-normal italic">builds systems</em>.
+        </h1>
+        <ul className="m-0 grid list-none grid-cols-[6.75rem_minmax(0,1fr)_minmax(0,1.4fr)] gap-x-5 gap-y-3 p-0 text-[13px] leading-snug text-secondary max-[640px]:grid-cols-[5.75rem_1fr] max-[640px]:gap-x-3">
+          {experience.map((e) => (
+            <li key={e.company} className="contents">
+              <span className="text-tertiary">{e.dates}</span>
+              <span className="text-primary">{e.company}</span>
+              <span className="max-[640px]:col-span-2 max-[640px]:col-start-2 max-[640px]:-mt-1">
+                {e.role}
+              </span>
+            </li>
           ))}
-        </div>
+        </ul>
       </section>
 
-      {/* Archive — one line, not a second index. The old site is hosted from
-          the portfolio-archive repo so this one stays light. */}
-      <section className="mx-auto max-w-pf px-10 pb-24 max-[640px]:px-6">
-        <a
-          href="https://awhawha.github.io/portfolio-archive/2018/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-block px-2 text-[15px] text-pf-muted transition-colors hover:text-pf-ink"
-        >
-          Archive: 2018 portfolio ↗
-        </a>
+      <section id="work" className="grid grid-cols-2 gap-2 p-2 max-[900px]:grid-cols-1 max-[640px]:gap-1.5 max-[640px]:p-1.5">
+        {homeProjects.map((p) => (
+          <HomeProjectCard key={p.id} project={p} />
+        ))}
       </section>
     </div>
   )

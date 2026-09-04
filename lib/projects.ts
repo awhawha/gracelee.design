@@ -62,6 +62,8 @@ export type Project = {
    */
   homeTitle?: string
   homeSubtitle?: string
+  /** Mesh-gradient palette for the homepage project tile. */
+  homeShader?: { colors: string[]; fallback: string }
   tags: string[]
   /**
    * Label/value pairs for the case study's sticky sidebar rail. Kept short —
@@ -83,14 +85,18 @@ export const projects: Project[] = [
     id: 'automl',
     company: 'dotData',
     client: 'Enterprise AI · dotData · Senior Product Designer',
-    title: 'AutoML Redesign',
+    title: 'AutoML workflow redesign',
     headline:
       'Redesigning enterprise AutoML: reducing time-to-value for business analysts by 50%',
     desc: 'Reimagining the automated ML workflow',
-    homeTitle: 'Reimagining AutoML',
+    homeTitle: 'AutoML workflow redesign',
     // Mirrors the case study's H1, so the index row and the page agree.
     homeSubtitle:
       'Making AutoML self-serve: from fragmented data setup to confident model runs',
+    homeShader: {
+      colors: ['#E6E4CD', '#41874E', '#D5C32C', '#39CFD3'],
+      fallback: '#41874E',
+    },
     tags: ['Workflow redesign', 'Complex systems UX', 'Prototyping', 'Enterprise AI'],
     paras: [
       'At dotData, I led the end-to-end redesign of the multi-table data onboarding and configuration experience to transform the platform from a service-heavy tool into a true self-service SaaS product. The urgency was clear: out of 80 business analysts trained on our legacy platform, fewer than five remained active, effectively freezing market growth. Qualitative discovery revealed that while machine learning workflows are inherently non-linear and iterative, our rigid, 3-step legacy wizard hid critical schema dependencies, trapping users in frustrating “debugging loops” and causing catastrophic compute-time waste.',
@@ -207,14 +213,13 @@ export const projects: Project[] = [
     id: 'pivot',
     company: 'dotData',
     client: 'dotData · AutoML platform',
-    title: 'Pivot Table Analysis',
+    title: 'In-product pivot analysis',
     desc: 'Exploratory analysis without the spreadsheet',
     tags: ['Data viz', 'IA', 'Interaction'],
     meta: [
       { label: 'Company', value: 'dotData' },
       { label: 'Product', value: 'AutoML and analytics platform' },
       { label: 'Role', value: 'Product Designer' },
-      { label: 'Focus', value: 'Data viz, IA, interaction model' },
     ],
     paras: [
       'Analysts were exporting to spreadsheets to slice data the product already held. I designed an in-product pivot experience — fast, direct, and visual — so exploration stayed where the data lived.',
@@ -256,11 +261,15 @@ export const projects: Project[] = [
     id: 'dotds',
     company: 'dotData',
     client: 'Design Systems · dotData · Solo Product Designer',
-    title: 'Design System',
+    title: 'Analytics design system',
     headline: 'A design system with logic-driven, three-layer tokens',
     desc: 'Logic-driven tokens that align design and engineering',
-    homeTitle: 'Design System',
+    homeTitle: 'Analytics design system',
     homeSubtitle: 'Building a design system people could use consistently',
+    homeShader: {
+      colors: ['#F4F1E4', '#5C6B4A', '#C5C9A6', '#8B9E6A'],
+      fallback: '#5C6B4A',
+    },
     tags: ['Design systems', 'Token architecture', 'Design–dev alignment', 'Governance'],
     paras: [
       'We were redesigning multiple workflows at once, but the design infrastructure couldn’t keep up. Designers picked inconsistent tokens, engineers guessed at implementation intent, and the codebase kept accumulating hard-coded styles. I built a three-layer token architecture from scratch that gave both sides a shared language.',
@@ -321,14 +330,22 @@ export const projects: Project[] = [
     id: 'campaign',
     company: 'Kahuna',
     client: 'Kahuna · Marketing analytics',
-    title: 'Campaign Performance',
-    desc: 'Performance analytics for modern marketers',
+    title: 'Campaign performance dashboard',
+    headline:
+      'Redesigning Kahuna’s campaign dashboard so marketers could find the insight, not just the numbers',
+    desc: 'A campaign performance dashboard for modern marketers',
+    homeTitle: 'Campaign performance dashboard',
+    homeSubtitle:
+      'Redesigning a dashboard so marketers could see if a campaign was working',
+    homeShader: {
+      colors: ['#E8E6F4', '#7E74E5', '#6ED0F5', '#2DD5B4'],
+      fallback: '#7E74E5',
+    },
     tags: ['B2B SaaS', 'Data viz', 'Dashboards'],
     meta: [
       { label: 'Company', value: 'Kahuna' },
       { label: 'Industry', value: 'Marketing analytics, B2B SaaS' },
       { label: 'Role', value: 'Lead Designer, campaign analytics' },
-      { label: 'Focus', value: 'Information architecture, data viz, interaction' },
       { label: 'Team', value: 'Product Management, Data Science' },
     ],
     paras: [
@@ -369,14 +386,22 @@ export const projects: Project[] = [
     id: 'filters',
     company: 'Kahuna',
     client: 'Kahuna · Marketing analytics',
-    title: 'Filter Editors',
-    desc: 'Composing complex audience filters',
+    title: 'Audience filter editor',
+    headline:
+      'Turning AND/OR audience logic into blocks marketers could build without SQL',
+    desc: 'A segment filter editor for complex audience targeting',
+    homeTitle: 'Audience filter editor',
+    homeSubtitle:
+      'Turning nested AND/OR targeting into blocks marketers could build without SQL',
+    homeShader: {
+      colors: ['#E8F1F8', '#2D7AF6', '#7E74E5', '#6ED0F5'],
+      fallback: '#2D7AF6',
+    },
     tags: ['Interaction', 'Complex forms', 'UX'],
     meta: [
       { label: 'Company', value: 'Kahuna' },
       { label: 'Industry', value: 'Marketing analytics, B2B SaaS' },
       { label: 'Role', value: 'Product Designer' },
-      { label: 'Focus', value: 'Interaction model, logic visualization, complex forms' },
     ],
     paras: [
       'Building an audience meant nesting conditions — and/or logic, time windows, behavioral rules — in an editor that intimidated everyone but specialists. I redesigned it so anyone could compose a filter with confidence.',
@@ -421,6 +446,10 @@ export const projects: Project[] = [
     desc: 'A human–AI production system for a children’s book museum',
     homeTitle: 'Designing with AI Agents',
     homeSubtitle: 'Designing a human–AI content production system',
+    homeShader: {
+      colors: ['#F3E4D4', '#C4785A', '#E8C9A0', '#7A8B6A'],
+      fallback: '#C4785A',
+    },
     tags: [
       'AI-Driven Design',
       'Prototyping in the Browser',
@@ -470,6 +499,7 @@ export type CompanyGroup = {
 
 const groupDefs: { company: string; meta: string; ids: string[] }[] = [
   { company: 'dotData', meta: 'AutoML & analytics platform', ids: ['automl', 'dotds'] },
+  { company: 'Kahuna', meta: 'Marketing analytics', ids: ['campaign', 'filters'] },
   { company: 'Side project', meta: 'Self-initiated', ids: ['museum'] },
 ]
 
@@ -502,4 +532,10 @@ export function getAllSlugs(): string[] {
 export function getNextProject(slug: string): Project {
   const idx = Math.max(0, projects.findIndex((p) => p.id === slug))
   return projects[(idx + 1) % projects.length]
+}
+
+/** The previous project in order, wrapping around (for the case-study footer). */
+export function getPreviousProject(slug: string): Project {
+  const idx = Math.max(0, projects.findIndex((p) => p.id === slug))
+  return projects[(idx - 1 + projects.length) % projects.length]
 }

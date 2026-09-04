@@ -4,9 +4,9 @@
  */
 export function SiteFooter() {
   return (
-    <footer className="bg-pf-footer">
-      <div className="mx-auto max-w-pf px-10 py-8 max-[640px]:px-6">
-        <div className="text-[13px] text-pf-footer-muted">© 2026 Grace Lee</div>
+    <footer className="bg-accent-secondary">
+      <div className="mx-auto max-w-pf px-10 py-4 max-[640px]:px-6">
+        <div className="font-sans text-[13px] text-accent-tertiary">© 2026 Grace Lee</div>
       </div>
     </footer>
   )

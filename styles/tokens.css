@@ -1,0 +1,137 @@
+/*
+  Portfolio design tokens — edit values here to restyle the live site
+  and /styleguide together. Typefaces: Domine (display + headers),
+  Open Sans (body, cap, meta).
+*/
+
+:root {
+  /* --- Color --- */
+
+  /* Text — 3 roles. Also used for dark fills/borders (`bg-primary`). */
+  --text-primary: #23201a; /* headings, chrome, primary text, dark fills */
+  --text-secondary: #46413a; /* body copy, supporting text, tags, subheads */
+  --text-tertiary: #8c8579; /* eyebrows, captions, inactive, placeholders */
+
+  /* Surface — 3 roles (was 5 off-whites). */
+  --surface-primary: #ffffff; /* page background */
+  --surface-secondary: #efeeea; /* chips, tags, hover bands. Was pf-chip + pf-tag */
+  --surface-tertiary: #e4e2dc; /* rules and frames. Was pf-hairline + pf-border */
+
+  /* Accent — 3 roles (was 4 greens). */
+  --accent-primary: oklch(0.47 0.10 131); /* links, metrics, active marks */
+  --accent-secondary: #37532a; /* footer band, strong sage fills */
+  --accent-tertiary: #edfae7; /* tinted washes, footer copyright */
+
+  /* --- Type --- */
+
+  /* Display — 1. Home + About heroes. Was display + page-title. */
+  --type-display-size: 72px;
+  --type-display-leading: 0.96;
+  --type-display-tracking: -0.03em;
+
+  /* Header — 3. */
+  --type-header-size: 50px; /* case H1s. Was case-title + case-title-sm */
+  --type-header-leading: 1.05;
+  --type-header-tracking: -0.03em;
+
+  --type-header-md-size: 28px; /* chapters, index, next. Was h2 + index-title + next-title */
+  --type-header-md-leading: 1.14;
+  --type-header-md-tracking: -0.02em;
+
+  --type-header-sm-size: 20px; /* subheads. Was h3 + h4 */
+  --type-header-sm-tracking: -0.01em;
+
+  /* Body — 3. */
+  --type-body-lg-size: 22px; /* hero dek. Was lede */
+  --type-body-lg-leading: 1.5;
+
+  --type-body-size: 18px; /* default reading. Was body + body-study */
+  --type-body-leading: 1.65;
+
+  --type-body-sm-size: 16px; /* case-study longform. Same face as body */
+  --type-body-sm-leading: 1.7;
+
+  /* Cap — 1. Section labels. Was eyebrow */
+  --type-cap-size: 12px;
+  --type-cap-tracking: 0.04em;
+}
+
+.type-display,
+.type-header,
+.type-header-md,
+.type-header-sm {
+  font-family: var(--font-domine), Georgia, serif;
+}
+
+.type-display {
+  font-size: var(--type-display-size);
+  font-weight: 600;
+  line-height: var(--type-display-leading);
+  letter-spacing: var(--type-display-tracking);
+}
+
+.type-header {
+  font-size: var(--type-header-size);
+  font-weight: 600;
+  line-height: var(--type-header-leading);
+  letter-spacing: var(--type-header-tracking);
+}
+
+.type-header-md {
+  font-size: var(--type-header-md-size);
+  font-weight: 600;
+  line-height: var(--type-header-md-leading);
+  letter-spacing: var(--type-header-md-tracking);
+}
+
+.type-header-sm {
+  font-size: var(--type-header-sm-size);
+  font-weight: 600;
+  letter-spacing: var(--type-header-sm-tracking);
+}
+
+.type-body-lg,
+.type-body,
+.type-body-sm,
+.type-cap {
+  font-family: var(--font-open-sans), system-ui, sans-serif;
+}
+
+.type-body-lg {
+  font-size: var(--type-body-lg-size);
+  font-weight: 400;
+  line-height: var(--type-body-lg-leading);
+}
+
+.type-body {
+  font-size: var(--type-body-size);
+  font-weight: 400;
+  line-height: var(--type-body-leading);
+}
+
+.type-body-sm {
+  font-size: var(--type-body-sm-size);
+  font-weight: 400;
+  line-height: var(--type-body-sm-leading);
+}
+
+.type-cap {
+  font-size: var(--type-cap-size);
+  letter-spacing: var(--type-cap-tracking);
+}
+
+@media (max-width: 900px) {
+  .type-display {
+    font-size: clamp(36px, 9vw, 72px);
+  }
+
+  .type-header {
+    font-size: clamp(34px, 7vw, 50px);
+  }
+}
+
+@media (max-width: 640px) {
+  .type-body-lg {
+    font-size: 17px;
+  }
+}

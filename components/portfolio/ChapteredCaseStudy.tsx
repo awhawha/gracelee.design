@@ -9,6 +9,7 @@ import {
   type ReactNode,
 } from 'react'
 import Link from 'next/link'
+import { Icon } from '@/components/Icon'
 import { Lightbox } from '@/components/Lightbox'
 import { CaseStudyShell } from '@/components/portfolio/CaseStudyShell'
 import type {
@@ -74,18 +75,16 @@ function Figure({
   media,
   ratio = '16 / 10',
   radius = 'rounded-[12px]',
-  captionSize = 'text-[13px]',
 }: {
   media: CaseMedia
   ratio?: string
   radius?: string
-  captionSize?: string
 }) {
   const onZoom = useContext(ZoomContext)
   const frameRatio = media.ratio ?? ratio
   const bgClass = media.img
     ? media.bg === 'white'
-      ? 'bg-white'
+      ? 'bg-surface-primary'
       : media.bg === 'gradient'
         ? 'bg-[#dddfae] bg-pf-paper'
         : 'bg-[#d8dac9]'
@@ -94,12 +93,12 @@ function Figure({
   return (
     <div style={{ maxWidth: media.maxW }}>
       {media.title && (
-        <div className="mb-2 font-grotesk text-[14px] font-medium text-pf-secondary">
+        <div className="type-body-sm mb-2 font-medium text-secondary">
           {media.title}
         </div>
       )}
       <div
-        className={`relative flex w-full items-center justify-center overflow-hidden border border-pf-border ${radius} ${bgClass}`}
+        className={`relative flex w-full items-center justify-center overflow-hidden border border-surface-tertiary ${radius} ${bgClass}`}
         style={{ aspectRatio: frameRatio, padding: media.pad }}
       >
         {media.img && media.isVideo ? (
@@ -135,23 +134,23 @@ function Figure({
           />
         ) : (
           <>
-            <span className="font-mono-ui text-[13px] text-pf-placeholder">
+            <span className="type-cap text-tertiary">
               {media.label}
             </span>
             {media.isVideo && (
               <>
-                <span className="absolute left-3 top-3 rounded-[5px] bg-pf-ink px-2 py-1 font-mono-ui text-[10px] font-semibold tracking-[0.06em] text-white">
+                <span className="type-cap absolute left-3 top-3 rounded-[5px] bg-primary px-2 py-1 font-semibold text-white">
                   VIDEO
                 </span>
-                <div className="absolute flex h-14 w-14 items-center justify-center rounded-full bg-[rgba(35,32,26,0.5)] pl-1 text-[20px] text-white">
-                  ▶
+                <div className="absolute flex h-14 w-14 items-center justify-center rounded-full bg-[rgba(35,32,26,0.5)] pl-0.5 text-[20px] text-white">
+                  <Icon name="fa-play" />
                 </div>
               </>
             )}
           </>
         )}
       </div>
-      <p className={`mt-3 font-inter leading-[1.55] text-pf-muted ${captionSize}`}>
+      <p className="type-cap mt-3 text-tertiary">
         {media.caption}
       </p>
     </div>
@@ -168,11 +167,11 @@ function BeforeAfterSide({
   const onZoom = useContext(ZoomContext)
   return (
     <div>
-      <div className="mb-2 font-grotesk text-[14px] font-medium text-pf-secondary">
+      <div className="type-body-sm mb-2 font-medium text-secondary">
         {media.label}
       </div>
       <div
-        className="relative flex w-full items-center justify-center overflow-hidden rounded-[12px] border border-pf-border bg-[#dddfae] bg-pf-paper"
+        className="relative flex w-full items-center justify-center overflow-hidden rounded-[12px] border border-surface-tertiary bg-[#dddfae] bg-pf-paper"
         style={{ aspectRatio: '5760 / 3380' }}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -192,9 +191,9 @@ function BeforeAfterSide({
 // each step, so the human-in-the-loop gates are visible rather than described.
 
 const LANE_FILL: Record<CasePipeline['lanes'][number]['tone'], string> = {
-  agent: 'bg-[rgba(96,104,52,0.10)] text-pf-body',
-  surface: 'border border-pf-border bg-white text-pf-body',
-  human: 'bg-pf-accent text-white',
+  agent: 'bg-accent-tertiary text-secondary',
+  surface: 'border border-surface-tertiary bg-surface-primary text-secondary',
+  human: 'bg-accent-primary text-white',
 }
 
 function PipelineDiagram({ pipeline }: { pipeline: CasePipeline }) {
@@ -203,7 +202,7 @@ function PipelineDiagram({ pipeline }: { pipeline: CasePipeline }) {
 
   return (
     <>
-    <div className="rounded-[14px] border border-pf-border bg-pf-chip px-6 py-7 max-[640px]:px-4 max-[640px]:py-5">
+    <div className="rounded-[14px] border border-surface-tertiary bg-surface-secondary px-6 py-7 max-[640px]:px-4 max-[640px]:py-5">
       <div className="overflow-x-auto">
         <div className="min-w-[900px]">
           {/* Steps — the sequence, with human gates called out above the chip */}
@@ -213,23 +212,23 @@ function PipelineDiagram({ pipeline }: { pipeline: CasePipeline }) {
               <div key={s.name} className="flex items-end">
                 <div className="flex-1">
                   {s.checkpoint && (
-                    <div className="mb-[8px] text-center font-mono-ui text-[10.5px] font-semibold uppercase tracking-[0.07em] text-pf-accent">
+                    <div className="type-cap mb-[8px] text-center font-semibold uppercase text-accent-primary">
                       {s.checkpoint}
                     </div>
                   )}
                   <div
-                    className={`rounded-full bg-white px-3 py-[9px] text-center text-[13.5px] font-medium leading-[1.3] text-pf-ink ${
+                    className={`type-cap rounded-full bg-surface-primary px-3 py-[9px] text-center font-medium text-primary ${
                       s.checkpoint
-                        ? 'border-[1.5px] border-pf-accent'
-                        : 'border border-pf-border'
+                        ? 'border-[1.5px] border-accent-primary'
+                        : 'border border-surface-tertiary'
                     }`}
                   >
                     {s.name}
                   </div>
                 </div>
                 {i < steps.length - 1 && (
-                  <span className="pb-[9px] pl-2 text-[13px] text-pf-accent">
-                    →
+                  <span className="pb-[9px] pl-2 text-[13px] text-accent-primary">
+                    <Icon name="fa-arrow-right" />
                   </span>
                 )}
               </div>
@@ -243,7 +242,7 @@ function PipelineDiagram({ pipeline }: { pipeline: CasePipeline }) {
               className="mt-3 grid items-stretch gap-x-3"
               style={{ gridTemplateColumns: cols }}
             >
-              <div className="flex items-center justify-end pr-2 text-right font-mono-ui text-[12px] leading-[1.4] text-pf-secondary">
+              <div className="type-cap flex items-center justify-end pr-2 text-right text-secondary">
                 {lane.name}
               </div>
               {steps.map((s) => {
@@ -252,13 +251,13 @@ function PipelineDiagram({ pipeline }: { pipeline: CasePipeline }) {
                   <div key={s.name} className="flex items-center">
                     {act ? (
                       <div
-                        className={`w-full rounded-[10px] px-3 py-[11px] text-[13px] leading-[1.35] ${LANE_FILL[lane.tone]}`}
+                        className={`type-cap w-full rounded-[10px] px-3 py-[11px] ${LANE_FILL[lane.tone]}`}
                       >
                         {act.text}
                       </div>
                     ) : (
                       /* Idle lane — a hairline keeps the track continuous */
-                      <div className="h-px w-full bg-pf-hairline" />
+                      <div className="h-px w-full bg-surface-tertiary" />
                     )}
                   </div>
                 )
@@ -270,7 +269,7 @@ function PipelineDiagram({ pipeline }: { pipeline: CasePipeline }) {
       </div>
     </div>
     {pipeline.caption && (
-      <p className="mt-3 max-w-[900px] font-inter text-[13px] leading-[1.55] text-pf-muted">
+      <p className="type-cap mt-3 max-w-[900px] text-tertiary">
         {pipeline.caption}
       </p>
     )}
@@ -290,15 +289,15 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
 
   return (
     <ZoomContext.Provider value={(src, alt) => setZoom({ src, alt })}>
-    <div className="font-grotesk text-pf-ink">
+    <div className="font-sans text-primary">
       <CaseStudyShell meta={content.meta} link={content.link}>
         {/* Hero */}
         {content.eyebrow && (
-          <div className="mb-[26px] font-mono-ui text-[12px] font-medium tracking-[0.01em] text-pf-secondary">
+          <div className="type-cap mb-[26px] font-medium text-secondary">
             {content.eyebrow}
           </div>
         )}
-        <h1 className="m-0 text-[50px] font-semibold leading-[1.05] tracking-[-0.03em] max-[900px]:text-[clamp(34px,7vw,50px)]">
+        <h1 className="type-header m-0">
           {content.title}
         </h1>
 
@@ -322,7 +321,7 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
         )}
 
         {content.subhead && (
-          <p className="mt-[22px] max-w-[780px] text-[20px] leading-[1.5] text-pf-secondary">
+          <p className="type-body-lg mt-[22px] max-w-[780px] text-secondary">
             {content.subhead}
           </p>
         )}
@@ -334,14 +333,14 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
           <>
             {tldrParas.length > 0 && (
             <div className="mt-12 max-w-[900px]">
-              <h2 className="m-0 text-[28px] font-semibold leading-[1.14] tracking-[-0.02em]">
+              <h2 className="type-header-md m-0">
                 Summary
               </h2>
               <div className="mt-6">
                 {tldrParas.map((p, i) => (
                   <p
                     key={i}
-                    className="mb-5 font-inter text-[16px] leading-[1.7] text-pf-body"
+                    className="type-body-sm mb-5 text-secondary"
                   >
                     {p}
                   </p>
@@ -354,7 +353,7 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
                 {content.tags.map((t) => (
                   <span
                     key={t}
-                    className="rounded-full bg-pf-tag px-[13px] py-[6px] text-[13px] text-pf-secondary"
+                    className="type-cap rounded-full bg-surface-secondary px-[13px] py-[6px] text-secondary"
                   >
                     {t}
                   </span>
@@ -369,7 +368,7 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
                 {content.tags.map((t) => (
                   <span
                     key={t}
-                    className="rounded-full bg-pf-tag px-[13px] py-[6px] text-[13px] text-pf-secondary"
+                    className="type-cap rounded-full bg-surface-secondary px-[13px] py-[6px] text-secondary"
                   >
                     {t}
                   </span>
@@ -380,7 +379,7 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
             {/* In short / TL;DR */}
             {tldrParas.length > 0 && (
             <div className="mt-9 max-w-[900px]">
-              <div className="mb-3 font-mono-ui text-[12px] font-medium tracking-[0.01em] text-pf-secondary">
+              <div className="type-cap mb-3 font-medium text-secondary">
                 In short
               </div>
               {tldrParas.map((p, i) => (
@@ -388,8 +387,8 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
                   key={i}
                   className={
                     i === 0
-                      ? 'm-0 text-[23px] font-medium leading-[1.5] text-pf-ink'
-                      : 'm-0 mt-4 text-[18px] leading-[1.6] text-pf-secondary'
+                      ? 'type-body-lg m-0 font-medium text-primary'
+                      : 'type-body m-0 mt-4 text-secondary'
                   }
                 >
                   {p}
@@ -402,26 +401,26 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
 
         {/* Metrics — omitted when a case study carries its outcomes in a chapter */}
         {content.metrics.length > 0 && (
-          <div className="mt-10 grid grid-cols-3 gap-10 border-t border-pf-hairline pt-9 max-[640px]:grid-cols-1 max-[640px]:gap-6">
+          <div className="mt-10 grid grid-cols-3 gap-10 border-t border-surface-tertiary pt-9 max-[640px]:grid-cols-1 max-[640px]:gap-6">
             {content.metrics.map((m) => (
               <div key={m.label}>
                 {m.value ? (
                   <>
-                    <div className="text-[40px] font-semibold leading-none tracking-[-0.02em] text-pf-accent">
+                    <div className="type-header-md text-accent-primary">
                       {m.value}
                     </div>
-                    <div className="mt-[14px] text-[15px] text-pf-ink">
+                    <div className="type-cap mt-[14px] text-primary">
                       {m.label}
                     </div>
                   </>
                 ) : (
                   /* Text-only outcome card: the label is the card title */
-                  <div className="text-[19px] font-medium leading-[1.3] text-pf-ink">
+                  <div className="type-header-sm text-primary">
                     {m.label}
                   </div>
                 )}
                 {m.desc && (
-                  <div className="mt-[8px] text-[13px] leading-[1.55] text-pf-muted">
+                  <div className="type-cap mt-[8px] text-tertiary">
                     {m.desc}
                   </div>
                 )}
@@ -437,21 +436,20 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
               media={content.heroImage}
               ratio="16 / 9"
               radius="rounded-[16px]"
-              captionSize="text-[14px]"
             />
           </div>
         )}
 
         {/* Chapters — single column: label → title → body → callout → visuals */}
         {content.chapters.map((ch, i) => (
-          <section key={i} className="mt-14 border-t border-pf-hairline pb-2 pt-12">
+          <section key={i} className="mt-14 border-t border-surface-tertiary pb-2 pt-12">
             {ch.kicker && (
-              <div className="font-mono-ui text-[12px] font-medium tracking-[0.01em] text-pf-secondary">
+              <div className="type-cap font-medium text-secondary">
                 {ch.kicker}
               </div>
             )}
             <h2
-              className={`max-w-[900px] text-[28px] font-semibold leading-[1.14] tracking-[-0.02em] ${
+              className={`type-header-md max-w-[900px] ${
                 ch.kicker ? 'mt-3' : ''
               }`}
             >
@@ -461,7 +459,7 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
                 {ch.body.map((p, j) => (
                   <p
                     key={j}
-                    className="mb-5 max-w-[900px] font-inter text-[16px] leading-[1.7] text-pf-body"
+                    className="type-body-sm mb-5 max-w-[900px] text-secondary"
                   >
                     {p}
                   </p>
@@ -470,22 +468,22 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
                 {ch.conflict && (
                   /* Tinted box, body-sized copy: the label carries the emphasis
                      (same h3 as "My involvement"), not the paragraph. */
-                  <div className="mt-[26px] max-w-[900px] rounded-[14px] bg-[rgba(96,104,52,0.10)] px-[26px] py-6">
-                    <h3 className="m-0 mb-[10px] text-[20px] font-semibold tracking-[-0.01em] text-pf-ink">
+                  <div className="mt-[26px] max-w-[900px] rounded-[14px] bg-accent-tertiary px-[26px] py-6">
+                    <h3 className="type-header-sm m-0 mb-[10px] text-primary">
                       {ch.conflict.label}
                     </h3>
-                    <p className="m-0 font-inter text-[16px] leading-[1.7] text-pf-body">
+                    <p className="type-body-sm m-0 text-secondary">
                       {ch.conflict.text}
                     </p>
                   </div>
                 )}
 
                 {ch.quote && (
-                  <Reveal className="my-[30px] max-w-[900px] border-l-[3px] border-pf-accent pl-[22px]">
-                    <p className="m-0 text-[23px] font-normal leading-[1.4] text-pf-secondary">
+                  <Reveal className="my-[30px] max-w-[900px] border-l-[3px] border-accent-primary pl-[22px]">
+                    <p className="type-body-lg m-0 text-secondary">
                       {ch.quote.text}
                     </p>
-                    <div className="mt-3 font-mono-ui text-[12px] tracking-[0.01em] text-pf-muted">
+                    <div className="type-cap mt-3 text-tertiary">
                       {ch.quote.who}
                     </div>
                   </Reveal>
@@ -495,13 +493,13 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
                   <Reveal className="mt-[14px]">
                     <div className="grid grid-cols-[1fr_32px_1fr] items-end gap-3 max-[700px]:grid-cols-1">
                       <BeforeAfterSide media={ch.beforeAfter.before} />
-                      <div className="self-center text-center text-[20px] text-pf-accent max-[700px]:justify-self-center max-[700px]:rotate-90">
-                        →
+                      <div className="self-center text-center text-[20px] text-accent-primary max-[700px]:justify-self-center max-[700px]:rotate-90">
+                        <Icon name="fa-arrow-right" />
                       </div>
                       <BeforeAfterSide media={ch.beforeAfter.after} />
                     </div>
                     {ch.beforeAfter.caption && (
-                      <p className="mt-3 font-inter text-[13px] leading-[1.55] text-pf-muted">
+                      <p className="type-cap mt-3 text-tertiary">
                         {ch.beforeAfter.caption}
                       </p>
                     )}
@@ -518,10 +516,10 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
                   <Reveal className="mt-9 grid max-w-[900px] grid-cols-3 gap-8 max-[640px]:grid-cols-1 max-[640px]:gap-6">
                     {ch.summary.map((c) => (
                       <div key={c.name}>
-                        <div className="text-[16px] font-semibold leading-[1.35] text-pf-ink">
+                        <div className="type-header-sm text-primary">
                           {c.name}
                         </div>
-                        <p className="m-0 mt-[8px] font-inter text-[13px] leading-[1.55] text-pf-muted">
+                        <p className="type-cap m-0 mt-[8px] text-tertiary">
                           {c.text}
                         </p>
                       </div>
@@ -539,7 +537,7 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
                   <div className="mt-[14px]">
                     {/* Group label sits a level above the item names: 20 → 18 */}
                     {ch.decisionsTitle && (
-                      <h3 className="m-0 mt-9 text-[20px] font-semibold tracking-[-0.01em]">
+                      <h3 className="type-header-sm m-0 mt-9">
                         {ch.decisionsTitle}
                       </h3>
                     )}
@@ -550,14 +548,14 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
                         className={
                           k === 0
                             ? 'mt-5'
-                            : 'mt-6 border-t border-pf-hairline pt-6'
+                            : 'mt-6 border-t border-surface-tertiary pt-6'
                         }
                       >
-                        <h4 className="m-0 mb-[6px] text-[18px] font-semibold">
+                        <h4 className="type-header-sm m-0 mb-[6px]">
                           {d.name}
                         </h4>
                         <p
-                          className={`m-0 max-w-[900px] font-inter text-[16px] leading-[1.7] text-pf-secondary${
+                          className={`type-body-sm m-0 max-w-[900px] text-secondary${
                             d.media ? ' mb-[18px]' : ''
                           }`}
                         >
@@ -579,7 +577,7 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
                     {ch.bodyAfter.map((p, j) => (
                       <p
                         key={j}
-                        className="mb-5 max-w-[900px] font-inter text-[16px] leading-[1.7] text-pf-body"
+                        className="type-body-sm mb-5 max-w-[900px] text-secondary"
                       >
                         {p}
                       </p>
@@ -606,13 +604,13 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
                 )}
 
                 {ch.callout && (
-                  <Reveal className="mt-9 max-w-[900px] rounded-[14px] bg-[rgba(96,104,52,0.10)] px-[26px] py-6">
+                  <Reveal className="mt-9 max-w-[900px] rounded-[14px] bg-accent-tertiary px-[26px] py-6">
                     {ch.callout.label && (
-                      <div className="mb-[10px] font-mono-ui text-[12px] font-medium tracking-[0.01em] text-pf-secondary">
+                      <div className="type-cap mb-[10px] font-medium text-secondary">
                         {ch.callout.label}
                       </div>
                     )}
-                    <p className="m-0 text-[22px] font-medium leading-[1.4] text-pf-ink">
+                    <p className="type-body-lg m-0 font-medium text-primary">
                       {ch.callout.text}
                     </p>
                   </Reveal>
@@ -621,11 +619,11 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
                 {ch.list && (
                   /* Bulleted list: anything before the first colon reads as the
                      item's name, so it is set in ink to carry the scan. */
-                  <Reveal className="mt-[26px] max-w-[900px] border-t border-pf-hairline pt-[24px]">
-                    <h3 className="m-0 mb-4 text-[20px] font-semibold tracking-[-0.01em]">
+                  <Reveal className="mt-[26px] max-w-[900px] border-t border-surface-tertiary pt-[24px]">
+                    <h3 className="type-header-sm m-0 mb-4">
                       {ch.list.title}
                     </h3>
-                    <ul className="m-0 list-disc space-y-3 pl-5 marker:text-pf-accent">
+                    <ul className="m-0 list-disc space-y-3 pl-5 marker:text-accent-primary">
                       {ch.list.items.map((item) => {
                         const at = item.indexOf(':')
                         const lead = at > 0 ? item.slice(0, at) : null
@@ -633,10 +631,10 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
                         return (
                           <li
                             key={item}
-                            className="pl-1 font-inter text-[16px] leading-[1.7] text-pf-body"
+                            className="type-body-sm pl-1 text-secondary"
                           >
                             {lead && (
-                              <span className="font-semibold text-pf-ink">
+                              <span className="font-semibold text-primary">
                                 {lead}:{' '}
                               </span>
                             )}
@@ -649,11 +647,11 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
                 )}
 
                 {ch.resolution && (
-                  <Reveal className="mt-[30px] max-w-[900px] border-t border-pf-hairline pt-[26px]">
-                    <div className="mb-3 font-mono-ui text-[12px] font-medium tracking-[0.01em] text-pf-secondary">
+                  <Reveal className="mt-[30px] max-w-[900px] border-t border-surface-tertiary pt-[26px]">
+                    <div className="type-cap mb-3 font-medium text-secondary">
                       The resolution
                     </div>
-                    <p className="m-0 text-[19px] font-medium leading-[1.6] text-pf-ink">
+                    <p className="type-body m-0 font-medium text-primary">
                       {ch.resolution}
                     </p>
                   </Reveal>
@@ -663,30 +661,45 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
         ))}
 
         {/* My involvement */}
-        <section className="mt-12 border-t border-pf-hairline pb-20 pt-14">
-          <h3 className="m-0 text-[20px] font-semibold tracking-[-0.01em]">
+        <section className="mt-12 border-t border-surface-tertiary pb-20 pt-14">
+          <h3 className="type-header-sm m-0">
             My involvement
           </h3>
-          <p className="m-0 mt-4 max-w-[900px] font-inter text-[16px] leading-[1.7] text-pf-body">
+          <p className="type-body-sm m-0 mt-4 max-w-[900px] text-secondary">
             {content.involvement}
           </p>
         </section>
       </CaseStudyShell>
 
-      {/* Next project — light band, so the dark footer stays the only CTA */}
-      <Link
-        href={content.next.href}
-        className="group block border-t border-pf-hairline transition-colors hover:bg-pf-chip"
-      >
-        <div className="mx-auto flex max-w-[1280px] flex-col items-end gap-2 px-10 py-12 max-[640px]:px-6">
-          <span className="font-mono-ui text-[12px] tracking-[0.01em] text-pf-muted">
-            Next project
-          </span>
-          <span className="text-right text-[30px] font-medium tracking-[-0.02em] text-pf-ink transition-colors group-hover:text-pf-accent max-[640px]:text-[22px]">
-            {content.next.label} →
-          </span>
+      {/* Prev / next — light band, so the dark footer stays the only CTA */}
+      <nav className="border-t border-surface-tertiary">
+        <div className="mx-auto flex max-w-[1280px] items-start justify-between gap-8 px-10 py-12 max-[640px]:flex-col max-[640px]:gap-8 max-[640px]:px-6">
+          <Link
+            href={content.prev.href}
+            className="group min-w-0 max-w-[22rem] max-[640px]:max-w-none"
+          >
+            <span className="type-cap block text-tertiary">
+              Previous project
+            </span>
+            <span className="type-header-md mt-2 inline-flex items-center gap-2 text-primary transition-colors group-hover:text-accent-primary">
+              <Icon name="fa-arrow-left" />
+              {content.prev.label}
+            </span>
+          </Link>
+          <Link
+            href={content.next.href}
+            className="group min-w-0 max-w-[22rem] text-right max-[640px]:max-w-none max-[640px]:self-end"
+          >
+            <span className="type-cap block text-tertiary">
+              Next project
+            </span>
+            <span className="type-header-md mt-2 inline-flex items-center justify-end gap-2 text-primary transition-colors group-hover:text-accent-primary">
+              {content.next.label}
+              <Icon name="fa-arrow-right" />
+            </span>
+          </Link>
         </div>
-      </Link>
+      </nav>
 
       {zoom && (
         <Lightbox src={zoom.src} alt={zoom.alt} onClose={() => setZoom(null)} />

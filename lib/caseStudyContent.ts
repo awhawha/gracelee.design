@@ -1,5 +1,5 @@
-// Content for the bespoke "chaptered" case studies (AutoML + Design System).
-// These two pages share one layout (ChapteredCaseStudy); only the copy differs.
+// Content for the bespoke "chaptered" case studies.
+// These pages share one layout (ChapteredCaseStudy); only the copy differs.
 // Copy is lifted verbatim from the design handoffs. Striped placeholders carry
 // the intended asset filename in their label until real exports are dropped in.
 
@@ -125,13 +125,14 @@ export type CaseStudyContent = {
   heroImageFirst?: boolean
   chapters: CaseChapter[]
   involvement: string
+  prev: { label: string; href: string }
   next: { label: string; href: string }
 }
 
 const automl: CaseStudyContent = {
   // Eyebrow repeats the name the Home index uses, so a project reads the same
   // in both places; the title below carries the descriptive line.
-  eyebrow: 'Reimagining AutoML',
+  eyebrow: 'AutoML workflow redesign',
   title:
     'Making AutoML Self-Serve: From Fragmented Data Setup to Confident Model Runs',
   // Tags and metric cards are intentionally empty: the rail carries the framing
@@ -146,7 +147,6 @@ const automl: CaseStudyContent = {
       value: 'Research, prototyping, visualization, interaction design',
     },
     { label: 'Team', value: 'Product, Data Science' },
-    { label: 'Focus', value: 'Clarity, control, and confidence' },
   ],
   heroCompact: true,
   tldr: [
@@ -166,7 +166,8 @@ const automl: CaseStudyContent = {
   heroImageFirst: true,
   involvement:
     'I led design across research, prototyping, visualization, and interaction design, partnering with product and data science teams to define a trustworthy, intuitive configuration feature.',
-  next: { label: 'Design System', href: '/work/dotds' },
+  prev: { label: 'Designing with AI Agents', href: '/work/museum' },
+  next: { label: 'Analytics design system', href: '/work/dotds' },
   chapters: [
     {
       heading: 'The context',
@@ -367,10 +368,6 @@ const automl: CaseStudyContent = {
     {
       heading: 'Outcomes',
       body: [],
-      callout: {
-        label: 'Outcome',
-        text: 'Initial model setup dropped from roughly 30 minutes to 10 minutes for common configurations.',
-      },
       list: {
         title: 'What changed',
         items: [
@@ -386,7 +383,7 @@ const automl: CaseStudyContent = {
 }
 
 const designSystem: CaseStudyContent = {
-  eyebrow: 'Design System',
+  eyebrow: 'Analytics design system',
   title: 'Building a design system people could use consistently',
   tags: ['Design systems', 'Design–engineering workflow'],
   meta: [
@@ -429,9 +426,10 @@ const designSystem: CaseStudyContent = {
   },
   involvement:
     'As design system owner, I led the V1.0 and V2.0 re-architecture: defining token and library architecture, aligning with front-end engineering, and evolving governance as adoption exposed gaps.',
+  prev: { label: 'AutoML workflow redesign', href: '/work/automl' },
   next: {
-    label: 'Designing with AI Agents',
-    href: '/work/museum',
+    label: 'Campaign performance dashboard',
+    href: '/work/campaign',
   },
   chapters: [
     {
@@ -539,7 +537,6 @@ const museum: CaseStudyContent = {
   tags: ['Agentic workflows', 'Human-in-the-loop AI', 'AI product design'],
   meta: [
     { label: 'Project', value: 'Museum of Children’s Books (self-initiated)' },
-    { label: 'Focus', value: 'Agentic workflows, human-in-the-loop AI' },
     { label: 'Role', value: 'Solo — design and build' },
     {
       label: 'Scope',
@@ -575,7 +572,8 @@ const museum: CaseStudyContent = {
   },
   involvement:
     'Solo, end to end. I defined the product concept, designed and built the experience directly in code, tested AI/CMS workflow models, and developed the Claude Code Skills behind the draft-production pipeline. My focus was designing where automation should act, where human judgment should intervene, and how the handoff between them should work.',
-  next: { label: 'Reimagining AutoML', href: '/work/automl' },
+  prev: { label: 'Audience filter editor', href: '/work/filters' },
+  next: { label: 'AutoML workflow redesign', href: '/work/automl' },
   chapters: [
     {
       kicker: '01 — The opportunity',
@@ -686,8 +684,733 @@ const museum: CaseStudyContent = {
   ],
 }
 
+const campaign: CaseStudyContent = {
+  eyebrow: 'Campaign performance dashboard',
+  title:
+    'Redesigning Kahuna’s campaign dashboard so marketers could find the insight, not just the numbers',
+  tags: [],
+  meta: [
+    { label: 'Company', value: 'Kahuna' },
+    { label: 'Industry', value: 'Marketing analytics, B2B SaaS' },
+    { label: 'Role', value: 'UX Designer' },
+    {
+      label: 'Scope',
+      value: 'Research, IA, data viz, interaction, visual design',
+    },
+    { label: 'Team', value: 'Product, Design, Engineering' },
+  ],
+  heroCompact: true,
+  tldr: [
+    'I redesigned Kahuna’s campaign performance dashboard so marketers could answer “is this campaign working?” without drowning in metrics, inconsistent toggles, or a filter bar that ate the first two rows of the screen.',
+    'Research with 13 campaign managers and marketing heads shaped a left-rail filter, a smaller set of high-level KPIs, and a visualization model that could add channels without splitting the story across charts.',
+  ],
+  metrics: [],
+  heroImage: {
+    label: '[ kahuna/final-trend.png — redesigned trend view ]',
+    caption:
+      'The redesigned performance overview: outcome tiles first, a comparable trend chart, and filters that stay visible on the left.',
+    img: '/images/kahuna/final-trend.png',
+    alt: 'Kahuna Analyze Messages dashboard in trend view, with a left filter rail, KPI tiles, and a multi-metric line chart',
+    ratio: '2550 / 1524',
+    fit: 'cover',
+  },
+  heroImageFirst: true,
+  involvement:
+    'I led UX for the campaign performance dashboard — research synthesis, information architecture, data visualization, and visual design — partnering with product and front-end engineering. Tara led development; David was the senior designer on the team; Justin oversaw the project.',
+  prev: { label: 'Analytics design system', href: '/work/dotds' },
+  next: { label: 'Audience filter editor', href: '/work/filters' },
+  chapters: [
+    {
+      heading: 'The context',
+      body: [
+        'Campaign managers send campaigns to onboard new users, drive engagement, or retain people who are slipping away. After launch, they need to know whether delivery is on track and whether the campaign is actually working.',
+        'My goal was a campaign performance dashboard that made those insights easy to find — not a wall of numbers that required a specialist to interpret.',
+      ],
+      conflict: {
+        label: 'Design challenge',
+        text: 'Design a performance surface that leads with decisions, stays scannable as Kahuna adds channels, and keeps the selected filters in view — so marketers can move from “is this working?” to “what should we change?” without fighting the UI.',
+      },
+    },
+    {
+      kicker: '01 — The problem',
+      heading: 'The dashboard was hard to read and harder to trust',
+      body: [
+        'Customer feedback clustered around two issues: confusing interaction, and missing or poorly presented KPIs. Some tiles were static and some were toggles, with no visual distinction. Channels were icons. Split charts made it difficult to compare an overall trend. Finding a specific campaign meant scrolling an infinite list. Date range ate the first two rows.',
+      ],
+      figures: [
+        {
+          label: '[ kahuna/problem-current.png — annotated legacy dashboard ]',
+          caption:
+            'The existing Campaign Performance dashboard, annotated with the five issues that kept coming up in customer feedback.',
+          img: '/images/kahuna/problem-current.png',
+          alt: 'Legacy Kahuna Campaign Performance dashboard with numbered callouts on KPI tiles, split charts, campaign list, and date range',
+          ratio: '2880 / 2112',
+          fit: 'contain',
+          bg: 'gradient',
+        },
+      ],
+      list: {
+        title: 'What was breaking down',
+        items: [
+          'KPI tiles mixed static cards with hidden toggles — new users did not know what they could click.',
+          'Channel icons were hard to recognize, especially once more than a couple of channels were in play.',
+          'Splitting channels into separate charts made it difficult to compare and read the overall trend.',
+          'An infinite-scroll campaign list made a specific campaign hard to find.',
+          'Date range and filter controls took too much vertical space before any insight appeared.',
+        ],
+      },
+    },
+    {
+      kicker: '02 — Research',
+      heading: 'What campaign managers and marketing heads actually needed to see',
+      body: [
+        'To understand how marketers monitored a campaign, and where the current workflow failed them, we interviewed six campaign managers and seven heads of marketing.',
+      ],
+      quote: {
+        text: 'We have different goals for different campaigns, but I mostly care about the conversion rate.',
+        who: 'Head of Marketing',
+      },
+      figuresRow: true,
+      figures: [
+        {
+          label: '[ kahuna/persona-campaign-manager.jpg ]',
+          caption:
+            'Catherine, Campaign Manager — she analyzes campaigns in aggregate, then dives into the data to test hypotheses for the next one.',
+          img: '/images/kahuna/persona-campaign-manager.jpg',
+          alt: 'Persona sheet for Catherine Morgan, Campaign Manager',
+          ratio: '3492 / 2628',
+          fit: 'contain',
+          bg: 'white',
+        },
+        {
+          label: '[ kahuna/persona-head-of-marketing.jpg ]',
+          caption:
+            'Daniel, Head of Marketing — he watches high-level engagement, goals, and conversion, then maps the trend back to business strategy.',
+          img: '/images/kahuna/persona-head-of-marketing.jpg',
+          alt: 'Persona sheet for Daniel, Head of Marketing',
+          ratio: '3492 / 2628',
+          fit: 'contain',
+          bg: 'white',
+        },
+      ],
+      summary: [
+        {
+          name: 'Campaign Manager',
+          text: 'Needs aggregate and detailed metrics, then uses past-campaign data to form hypotheses for the next send.',
+        },
+        {
+          name: 'Head of Marketing',
+          text: 'Needs high-level engagement, goals, and conversion — and a trend that can be presented to the executive team.',
+        },
+      ],
+      list: {
+        title: 'Key findings',
+        items: [
+          'Both audiences care about the numbers — the disagreement is which numbers, and at what altitude.',
+          'Heads of marketing read high-level metrics and trend to set strategy.',
+          'Campaign managers watch delivery, test hypotheses, and judge whether the campaign is effective.',
+        ],
+      },
+    },
+    {
+      kicker: '03 — Design goals',
+      heading: 'Simplify the interaction, then make it scale',
+      body: [
+        'Kahuna planned to offer more channels. The current interface could not absorb that growth. We used the research, the existing pain points, and that business constraint to prioritize what to fix first.',
+      ],
+      decisionsTitle: 'What we set out to improve',
+      decisions: [
+        {
+          num: '01',
+          name: 'Remove hidden interaction',
+          text: 'Eliminate togglable KPI tiles and other controls that looked static until someone happened to click them.',
+        },
+        {
+          num: '02',
+          name: 'Give filters a real home',
+          text: 'Clean up and relocate date range and filter selection so they no longer consumed the first two rows of the dashboard.',
+        },
+        {
+          num: '03',
+          name: 'Make the campaign list searchable',
+          text: 'Replace infinite scroll with a list people could scan, search, and keep in context.',
+        },
+        {
+          num: '04',
+          name: 'Design for more channels',
+          text: 'Build a layout and KPI model that could add SMS — and whatever came next — without splitting the story across charts.',
+        },
+      ],
+    },
+    {
+      kicker: '04 — Filter placement',
+      heading: 'Where does the filter live?',
+      body: [
+        'Campaign managers review performance and use it to plan the next send — so they need to know what is currently filtered. On the existing dashboard, those controls took the first two rows.',
+        'I sketched three placements, then reviewed them with product managers and the design team.',
+      ],
+      figures: [
+        {
+          label: '[ kahuna/problem-filters.png — filters eating the top of the page ]',
+          caption:
+            'The current screen: date range, type, and channel occupied the first two rows before any KPI or chart appeared.',
+          img: '/images/kahuna/problem-filters.png',
+          alt: 'Legacy dashboard with date range presets and type and channel checkboxes spanning the top of the page',
+          ratio: '1470 / 536',
+          fit: 'contain',
+          bg: 'gradient',
+        },
+        {
+          label: '[ kahuna/filter-sketch.png — three filter placements ]',
+          caption:
+            'Early sketches: expand-in-place, a popup panel, and a fixed left rail. The question was not only space — it was whether the selected filters stayed visible.',
+          img: '/images/kahuna/filter-sketch.png',
+          alt: 'Hand-drawn sketches of three dashboard filter placements: accordion, popup, and fixed left panel',
+          ratio: '2000 / 1250',
+          fit: 'contain',
+          bg: 'white',
+        },
+      ],
+      decisionsTitle: 'Three options',
+      decisions: [
+        {
+          num: '01',
+          name: 'Expand in place',
+          text: 'A filter toggle reveals the panel and pushes content down. It saves space, but the main view jumps, and collapsed filters disappear — people can no longer see what they selected.',
+          media: {
+            label: '[ kahuna/filter-01.png ]',
+            caption: 'Filter options expand as a full-width bar above the KPI row.',
+            img: '/images/kahuna/filter-01.png',
+            alt: 'Wireframe of a dashboard with a full-width filter bar that pushes KPIs and the chart down',
+            ratio: '914 / 848',
+            fit: 'contain',
+            bg: 'white',
+          },
+        },
+        {
+          num: '02',
+          name: 'Popup panel',
+          text: 'A toggle opens filters as an overlay. It also saves space, but it covers the data, hides the current selection when closed, and sits in a weak spot in the hierarchy — changing a filter affects both KPIs and the chart.',
+          media: {
+            label: '[ kahuna/filter-02.png ]',
+            caption: 'Filter options as a popup over the main content.',
+            img: '/images/kahuna/filter-02.png',
+            alt: 'Wireframe of a dashboard with a filter popup covering the lower-right of the chart',
+            ratio: '457 / 344',
+            fit: 'contain',
+            bg: 'white',
+          },
+        },
+        {
+          num: '03',
+          name: 'Fixed left rail',
+          text: 'Filters stay on the left. It uses more width, but the selection is always visible, and changing a filter and reading the result happen in the same glance. We shipped this one: hiding filters saved space, but most people preferred to see what they had selected.',
+          media: {
+            label: '[ kahuna/filter-03.png ]',
+            caption: 'A persistent left panel keeps type and channel in view beside the dashboard.',
+            img: '/images/kahuna/filter-03.png',
+            alt: 'Wireframe of a dashboard with a fixed left filter rail beside KPI tiles and a chart',
+            ratio: '457 / 344',
+            fit: 'contain',
+            bg: 'white',
+          },
+        },
+      ],
+    },
+    {
+      kicker: '05 — KPI tiles',
+      heading: 'High-level metrics, not a tile for every channel',
+      body: [
+        'Across Kahuna’s analytics dashboards, some KPI tiles toggled series on the chart and some did not. Customer Success told us most people never realized the difference.',
+        'Scalability made it worse. More channels meant more breakdowns, and some metrics only existed for one channel — unsubscribe for email, for example. Showing every metric as a tile would not hold.',
+      ],
+      figures: [
+        {
+          label: '[ kahuna/kpi-inconsistent.png — tiles that look clickable, and aren’t ]',
+          caption:
+            'On the engagement dashboard, some tiles were static and some were toggles. The interaction was not labeled, so the pattern could not be learned.',
+          img: '/images/kahuna/kpi-inconsistent.png',
+          alt: 'Audience Engagement dashboard with annotations marking which KPI tiles can toggle the chart and which cannot',
+          ratio: '2768 / 840',
+          fit: 'contain',
+          bg: 'white',
+        },
+        {
+          label: '[ kahuna/kpi-versions.png — tile density explorations ]',
+          caption:
+            'Iterations: two rows of mixed positive and negative metrics, a horizontal scroller, and the direction we shipped — five high-level tiles with negative metrics grouped as Attritions.',
+          img: '/images/kahuna/kpi-versions.png',
+          alt: 'Four KPI tile layout explorations, ending with Delivered, Engagement, Responses, Primary Goals, and Attritions',
+          ratio: '2562 / 2692',
+          fit: 'contain',
+          bg: 'white',
+        },
+        {
+          label: '[ kahuna/kpi-toggle.gif — show channel breakdown ]',
+          caption:
+            'A Show Channels toggle reveals per-channel counts on the tiles without adding a tile per channel. Detail lives on the individual campaign.',
+          img: '/images/kahuna/kpi-toggle.gif',
+          alt: 'KPI row with a Show Channels toggle revealing Push, In-App, Email, and SMS breakdowns',
+          ratio: '2444 / 540',
+          fit: 'contain',
+          bg: 'white',
+        },
+      ],
+      callout: {
+        label: 'What we shipped',
+        text: 'Show only high-level KPIs. Bucket negative metrics as Attritions. Use a channel toggle for breakdowns. If someone needs the long tail of metrics, they open the specific campaign.',
+      },
+    },
+    {
+      kicker: '06 — Visual design',
+      heading: 'One component set, so every analytics view could scale',
+      body: [
+        'To make the redesign scale beyond this dashboard, I inventoried reusable pieces, standardized color and layout, and cleaned up the rest of the analytics surfaces so they shared one visual language.',
+      ],
+      figures: [
+        {
+          label: '[ kahuna/visual-components.png — KPI, legend, and chart pieces ]',
+          caption:
+            'The component kit: KPI tiles with and without channel breakdown, clickable legends, chart popovers, and a split palette for positive versus negative metrics.',
+          img: '/images/kahuna/visual-components.png',
+          alt: 'Visual specification for Kahuna KPI tiles, legends, chart popovers, and metric color palette',
+          ratio: '3866 / 1972',
+          fit: 'contain',
+          bg: 'gradient',
+        },
+        {
+          label: '[ kahuna/visual-all-dashboards.png — analytics, aligned ]',
+          caption:
+            'Applying the same layout, color, and tile language across Kahuna’s analytics dashboards so none of them felt like a one-off.',
+          img: '/images/kahuna/visual-all-dashboards.png',
+          alt: 'A composite of Kahuna analytics dashboards after visual cleanup',
+          ratio: '9414 / 4386',
+          fit: 'contain',
+          bg: 'gradient',
+        },
+        {
+          label: '[ kahuna/prototype-hifi.png — high-fidelity prototype ]',
+          caption:
+            'The high-fidelity prototype of Analyze Messages: left-rail filters, five outcome tiles, and a single comparable trend.',
+          img: '/images/kahuna/prototype-hifi.png',
+          alt: 'High-fidelity Kahuna Analyze Messages prototype in trend view',
+          ratio: '2850 / 1412',
+          fit: 'contain',
+          bg: 'gradient',
+        },
+        {
+          label: '[ kahuna/prototype.mp4 — interactive flow ]',
+          title: 'High-fidelity prototype',
+          caption:
+            'Walking the redesigned dashboard: changing filters, reading the tiles, and moving between trend and list.',
+          img: '/images/kahuna/prototype.mp4',
+          alt: 'Video walkthrough of the Kahuna campaign performance prototype',
+          isVideo: true,
+          ratio: '16 / 9',
+          fit: 'contain',
+          bg: 'gradient',
+        },
+      ],
+    },
+    {
+      kicker: '07 — Final',
+      heading: 'Trend for the story, list for the campaign',
+      body: [
+        'The shipped dashboard has two complementary views. Trend answers whether performance is moving. List finds a specific campaign and keeps name and status in view while scrolling.',
+      ],
+      decisionsTitle: 'Key interactions',
+      decisions: [
+        {
+          num: '01',
+          name: 'Filters update immediately',
+          text: 'Changing type, channel, or date range updates the tiles and chart in place, so the left rail is a control surface rather than a form to submit.',
+          media: {
+            label: '[ kahuna/interaction-filter.gif ]',
+            caption: 'Adjusting filters and watching the dashboard respond without a page reload.',
+            img: '/images/kahuna/interaction-filter.gif',
+            alt: 'Screen recording of Kahuna dashboard filters updating KPI tiles and the chart immediately',
+            ratio: '600 / 307',
+            fit: 'contain',
+            bg: 'white',
+          },
+        },
+        {
+          num: '02',
+          name: 'Legend, chart, and KPI stay linked',
+          text: 'Clicking a legend shows or hides the series. Hovering the chart lights the matching KPI top bar, so the relationship between tile and line is visible rather than implied.',
+          media: {
+            label: '[ kahuna/interaction-chart.gif ]',
+            caption: 'Legend clicks and chart hover highlighting the related KPI tile.',
+            img: '/images/kahuna/interaction-chart.gif',
+            alt: 'Screen recording of chart hover and legend interaction lighting the matching KPI top bar',
+            ratio: '600 / 399',
+            fit: 'contain',
+            bg: 'white',
+          },
+        },
+        {
+          num: '03',
+          name: 'A list that stays oriented',
+          text: 'The campaign table pins header, name, and status, so scrolling through hundreds of campaigns does not lose the row you were trying to compare.',
+          media: {
+            label: '[ kahuna/interaction-list.gif ]',
+            caption: 'Campaign list view with a fixed header, name, and status column.',
+            img: '/images/kahuna/interaction-list.gif',
+            alt: 'Screen recording of the Kahuna campaign list with sticky header and status while scrolling',
+            ratio: '600 / 472',
+            fit: 'contain',
+            bg: 'white',
+          },
+        },
+      ],
+      figuresRow: true,
+      figures: [
+        {
+          label: '[ kahuna/final-trend.png — trend view ]',
+          caption: 'Trend view — outcome first, then a comparable chart across channels.',
+          img: '/images/kahuna/final-trend.png',
+          alt: 'Final Kahuna campaign dashboard in trend view',
+          ratio: '2550 / 1524',
+          fit: 'contain',
+          bg: 'gradient',
+        },
+        {
+          label: '[ kahuna/final-list.png — list view ]',
+          caption: 'List view — find a campaign, keep status in view, expand a cross-channel row for detail.',
+          img: '/images/kahuna/final-list.png',
+          alt: 'Final Kahuna campaign dashboard in list view with a sortable campaign table',
+          ratio: '2880 / 1720',
+          fit: 'contain',
+          bg: 'gradient',
+        },
+      ],
+      resolution:
+        'The redesign gave marketers a performance surface they could scan: filters they could see, KPIs they could trust, and a path from business outcome down to a single campaign — without waiting for Kahuna to stop adding channels.',
+    },
+  ],
+}
+
+const filters: CaseStudyContent = {
+  eyebrow: 'Audience filter editor',
+  title:
+    'Turning AND/OR audience logic into blocks marketers could build without SQL',
+  tags: [],
+  meta: [
+    { label: 'Company', value: 'Kahuna' },
+    { label: 'Industry', value: 'Marketing analytics, B2B SaaS' },
+    { label: 'Role', value: 'UX Designer' },
+    {
+      label: 'Scope',
+      value: 'Research, interaction, prototyping, engineering pairing',
+    },
+    { label: 'Team', value: 'Product, Design, Engineering' },
+  ],
+  heroCompact: true,
+  tldr: [
+    'I redesigned Kahuna’s segment filter editor so marketers could compose nested AND/OR audiences in the campaign flow — without dropping into SQL, and without a wizard whose colors, icons, and edit rules they could not trust.',
+    'Competitive analysis and internal tests pushed us toward a block model: a group is a group, AND/OR can sit inside or between blocks, and a Done action collapses the set into plain English with the relationship drawn as a tree.',
+  ],
+  metrics: [],
+  heroImage: {
+    label: '[ filter/hero.jpg — nested AND/OR blocks ]',
+    caption:
+      'The redesigned editor: searchable event and attribute rows, AND/OR between and inside groups, and a Done action that collapses a block into a sentence.',
+    img: '/images/filter/hero.jpg',
+    alt: 'Kahuna segment filter editor showing nested Brand and Price conditions with AND and OR connectors',
+    ratio: '2348 / 1163',
+    fit: 'cover',
+  },
+  heroImageFirst: true,
+  involvement:
+    'I led the interaction redesign — competitive analysis, prototyping, and iteration with product and internal marketers — then paired with a front-end engineer to specify the micro-interactions for implementation.',
+  prev: { label: 'Campaign performance dashboard', href: '/work/campaign' },
+  next: { label: 'Designing with AI Agents', href: '/work/museum' },
+  chapters: [
+    {
+      heading: 'The context',
+      body: [
+        'When a marketer creates a campaign, they have to name the people it is for — by demographics, product behavior, user attributes, or a mix. That definition lived in the segment filter editor, inside the campaign-creation flow.',
+        'My goal was to rethink the workflow and the interaction so targeting the right group did not require a specialist.',
+      ],
+      conflict: {
+        label: 'Design challenge',
+        text: 'Give marketers a way to build nested AND/OR segments in place — including groupings most tools could not express — without sending them to a SQL editor they did not know how to use.',
+      },
+    },
+    {
+      kicker: '01 — The problem',
+      heading: 'Anything beyond AND meant writing SQL',
+      body: [
+        'The in-flow editor only supported AND once a marketer added more than two criteria: people who match A and B. OR, or anything nested, meant leaving the campaign and writing the logic directly in the filter editor. Most marketers did not know how to write that script.',
+        'Without a flexible segment, campaigns spoke to the wrong people — and engagement dropped.',
+      ],
+      figures: [
+        {
+          label: '[ filter/problem-workflow.png — the current filter wizard ]',
+          caption:
+            'The existing editor was a colored wizard: Event → Function → Operator → Value. Each step was a new screen, and the Libra icon for dynamic parameters was easy to miss.',
+          img: '/images/filter/problem-workflow.png',
+          alt: 'Seven-step Kahuna filter wizard showing event, function, operator, and value selection with colored breadcrumbs',
+          ratio: '6098 / 3468',
+          fit: 'contain',
+          bg: 'gradient',
+        },
+      ],
+      list: {
+        title: 'What Customer Success kept hearing',
+        items: [
+          'Confusing navigation — it was unclear what event, function, operator, and value each meant.',
+          'Inconsistent interaction — some steps let you change a value after choosing it; others did not.',
+          'Wrong use of color — red and yellow were meant as highlights, but people read them as errors.',
+          'An invisible power feature — the Libra icon created a dynamic segment without multiple campaigns, and most people never noticed it.',
+        ],
+      },
+    },
+    {
+      kicker: '02 — Research',
+      heading: 'What other editors allowed — and where they stopped',
+      body: [
+        'I looked at how competing platforms structured filter logic, to see which interactions felt clear and which common cases they still could not express.',
+      ],
+      decisionsTitle: 'Competitive notes',
+      decisions: [
+        {
+          num: '01',
+          name: 'Appboy — clear blocks, limited grouping',
+          text: 'Intuitive structure, drag-and-drop reorder, and an estimated audience size. AND/OR existed, but OR only inside a block and AND only between blocks — so (A and B) or (C and D) was impossible.',
+          media: {
+            label: '[ filter/competitive-appboy.png ]',
+            caption: 'Appboy’s segment filters: an OR group with a reachable-user estimate underneath.',
+            img: '/images/filter/competitive-appboy.png',
+            alt: 'Appboy Segment Details with an OR filter group and total reachable users estimate',
+            ratio: '2030 / 1056',
+            fit: 'contain',
+            bg: 'white',
+          },
+        },
+        {
+          num: '02',
+          name: 'Leanplum — reads as a sentence, AND only',
+          text: 'Multiple values in one criterion, and the criteria formed a sentence as you built them. More than two different criteria still collapsed to AND.',
+          media: {
+            label: '[ filter/competitive-leanplum.png ]',
+            caption: 'Leanplum’s filter reads as a sentence, with extra values added inside a single criterion.',
+            img: '/images/filter/competitive-leanplum.png',
+            alt: 'Leanplum Users filter reading All Users WHERE First-time users AND City is San Francisco',
+            ratio: '2376 / 748',
+            fit: 'contain',
+            bg: 'white',
+          },
+        },
+      ],
+    },
+    {
+      kicker: '03 — Observation',
+      heading: 'Grouping is the product, not a detail',
+      body: [
+        'Once AND and OR sit in the same filter, grouping changes the result. (A and B) or (C and D) is not the same as A and (B or C) and D — and most platforms could not express the first.',
+        'A typical case: (Favorite Brand is Nike and Price is under 50) or (Favorite Brand is Adidas and Price is under 60). After talking it through with product, we decided to let people place AND/OR anywhere, not only in a prescribed nest.',
+      ],
+      figures: [
+        {
+          label: '[ filter/logic.png — two ways to group the same letters ]',
+          caption:
+            'The same four criteria, two groupings, two audiences. The editor had to make that difference visible, not just possible.',
+          img: '/images/filter/logic.png',
+          alt: 'Hand-lettered comparison of (A and B) or (C and D) versus A and (B or C) and D',
+          ratio: '1549 / 154',
+          fit: 'contain',
+          bg: 'gradient',
+        },
+      ],
+      callout: {
+        label: 'Design decision',
+        text: 'Open the flexibility: AND and OR can be added inside a block or between blocks, so marketers can describe the grouping they actually mean.',
+      },
+    },
+    {
+      kicker: '04 — Ideation',
+      heading: 'A block should feel like a group',
+      body: [
+        'I prototyped two directions and tested them with product managers and internal marketers. Solution 1 won: a block meant a group, and AND/OR could be added inside or outside it. Solution 2 put too many options on the first screen — people stalled.',
+      ],
+      decisionsTitle: 'Two prototypes',
+      decisions: [
+        {
+          num: '01',
+          name: 'Blocks as groups',
+          text: 'A card is a group. + AND / + OR inside the card nest; the same actions below the card add a sibling. Testers read the structure without a tutorial.',
+          media: {
+            label: '[ filter/idea-01.gif ]',
+            caption: 'Solution 1 — a group card with nested AND/OR and sibling AND/OR underneath.',
+            img: '/images/filter/idea-01.gif',
+            alt: 'Prototype of a filter group card with AND and OR actions inside and below the block',
+            ratio: '470 / 520',
+            fit: 'contain',
+            bg: 'white',
+          },
+        },
+        {
+          num: '02',
+          name: 'A canvas with Add Filter / Add Group',
+          text: 'A global AND/OR toggle plus separate buttons to add a filter or a nested group. More complete on paper, too many starting moves in the test.',
+          media: {
+            label: '[ filter/idea-02.gif ]',
+            caption: 'Solution 2 — an empty canvas with AND/OR in the header and Add Filter / Add Group.',
+            img: '/images/filter/idea-02.gif',
+            alt: 'Prototype of an empty filter canvas with AND OR toggle and add filter or add group buttons',
+            ratio: '470 / 522',
+            fit: 'contain',
+            bg: 'white',
+          },
+        },
+      ],
+    },
+    {
+      kicker: '05 — Iteration',
+      heading: 'Collapse the block so the tree can be read',
+      body: [
+        'Once a segment got deep, the nested fields were hard to scan. Connecting lines between the first two criteria and the third were easy to miss. I ran several rounds with product on how a finished group should look.',
+      ],
+      figures: [
+        {
+          label: '[ filter/iteration-open.png — everything open at once ]',
+          caption:
+            'A fully expanded nest. The logic is there, but the grouping is easy to lose — especially the line that separates the first pair from the third criterion.',
+          img: '/images/filter/iteration-open.png',
+          alt: 'Fully expanded nested filter with AND and OR connectors and multiple property rows open',
+          ratio: '891 / 703',
+          fit: 'contain',
+          bg: 'white',
+        },
+        {
+          label: '[ filter/collapse-01.png — iteration v1, brackets ]',
+          caption:
+            'v1 previewed the filter as nested parentheses. Feedback: hard to jump from preview back to the right row, and brackets did not show structure.',
+          img: '/images/filter/collapse-01.png',
+          alt: 'Iteration v1 with edit mode on the left and a parenthesis-heavy preview on the right',
+          ratio: '1981 / 1330',
+          fit: 'contain',
+          bg: 'white',
+        },
+        {
+          label: '[ filter/collapse-02.png — iteration v2, sentences ]',
+          caption:
+            'v2 converted each row to plain English. Helpful, but still unclear that the logic was A or (B and C).',
+          img: '/images/filter/collapse-02.png',
+          alt: 'Iteration v2 collapsing filter rows into underlined plain-English sentences',
+          ratio: '1980 / 1330',
+          fit: 'contain',
+          bg: 'white',
+        },
+        {
+          label: '[ filter/collapse-03.png — iteration v3, Done plus a tree ]',
+          caption:
+            'v3: a Done button inside the block. Completing a set collapses it to plain English, with lines that draw the relationship. Testers could finally see the structure.',
+          img: '/images/filter/collapse-03.png',
+          alt: 'Iteration v3 showing a Done click collapsing an edit block into a tree of plain-English criteria',
+          ratio: '1981 / 1330',
+          fit: 'contain',
+          bg: 'white',
+        },
+      ],
+      callout: {
+        label: 'What we shipped',
+        text: 'Edit one block at a time. Hit Done, and the set collapses to a sentence with a visible tree. A pencil opens that block again without unfolding everything else.',
+      },
+    },
+    {
+      kicker: '06 — Interaction',
+      heading: 'The small behaviors that made the model usable',
+      body: [
+        'The structure only held if the micro-interactions were tight. These three were the ones testers felt most.',
+      ],
+      decisionsTitle: 'Key interactions',
+      decisions: [
+        {
+          num: '01',
+          name: 'Edit one block at a time',
+          text: 'Done or the pencil collapses the current block into plain English so the rest of the tree stays readable while you work.',
+          media: {
+            label: '[ filter/interaction-edit.gif ]',
+            caption: 'Opening a block to edit, then collapsing it back to a sentence.',
+            img: '/images/filter/interaction-edit.gif',
+            alt: 'Filter editor collapsing an edited block into a plain-English summary',
+            ratio: '600 / 415',
+            fit: 'contain',
+            bg: 'white',
+          },
+        },
+        {
+          num: '02',
+          name: 'Validate on blur',
+          text: 'Clicking outside the block runs validation, so incomplete rows surface before the marketer thinks the segment is done.',
+          media: {
+            label: '[ filter/interaction-validation.gif ]',
+            caption: 'Leaving a block triggers validation on unfinished fields.',
+            img: '/images/filter/interaction-validation.gif',
+            alt: 'Filter editor validating an incomplete nested property when the cursor leaves the block',
+            ratio: '600 / 415',
+            fit: 'contain',
+            bg: 'white',
+          },
+        },
+        {
+          num: '03',
+          name: 'Autofocus and autocomplete',
+          text: 'Opening Event or attribute puts focus in search immediately, with autocomplete as you type — the old wizard’s four labeled steps, in one field.',
+          media: {
+            label: '[ filter/interaction-search.gif ]',
+            caption: 'Search opens focused, with autocomplete for events and attributes.',
+            img: '/images/filter/interaction-search.gif',
+            alt: 'Event or attribute dropdown with autofocus search and autocomplete',
+            ratio: '600 / 400',
+            fit: 'contain',
+            bg: 'white',
+          },
+        },
+      ],
+    },
+    {
+      kicker: '07 — Final',
+      heading: 'A filter marketers could read back to themselves',
+      body: [
+        'After the tests, I paired with a front-end engineer on the interaction spec so the nested lines, Done collapse, and validation behaved the same in product as they had in the prototype.',
+      ],
+      figures: [
+        {
+          label: '[ filter/collapse-done.png — edit and summary, side by side ]',
+          caption:
+            'The shipped pattern: build in fields, Done, read the tree. The grouping is visible without parentheses.',
+          img: '/images/filter/collapse-done.png',
+          alt: 'Side-by-side edit and collapsed summary states of a nested Kahuna segment filter',
+          ratio: '1831 / 703',
+          fit: 'contain',
+          bg: 'white',
+        },
+        {
+          label: '[ filter/final.mp4 — high-fidelity prototype ]',
+          title: 'High-fidelity prototype',
+          caption:
+            'Building a nested audience: search an attribute, add AND/OR, Done to collapse, keep going.',
+          img: '/images/filter/final.mp4',
+          alt: 'Video of the Kahuna segment filter editor prototype',
+          isVideo: true,
+          ratio: '16 / 9',
+          fit: 'contain',
+          bg: 'gradient',
+        },
+      ],
+      resolution:
+        'Marketers could describe the audience they meant — including (A and B) or (C and D) — without writing SQL, and could still read the logic after the block was closed.',
+    },
+  ],
+}
+
 export const caseStudyContent: Record<string, CaseStudyContent> = {
   automl,
   dotds: designSystem,
   museum,
+  campaign,
+  filters,
 }

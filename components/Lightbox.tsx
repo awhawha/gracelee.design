@@ -73,7 +73,7 @@ export function Lightbox({ src, alt, onClose }: LightboxProps) {
           className="block max-h-[90vh] max-w-[92vw] rounded-[12px] object-contain"
         />
       </div>
-      <div className="pointer-events-none absolute bottom-[22px] left-0 right-0 text-center font-mono-ui text-[11px] uppercase tracking-[0.14em] text-white/60">
+      <div className="type-cap pointer-events-none absolute bottom-[22px] left-0 right-0 text-center uppercase text-white/60">
         Click anywhere or press Esc to close
       </div>
     </div>,

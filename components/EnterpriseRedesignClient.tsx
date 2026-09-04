@@ -4,8 +4,9 @@ import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { SectionHeading } from '@/components/SectionHeading'
+import { Icon } from '@/components/Icon'
 import { LightboxImage } from '@/components/LightboxImage'
+import { SectionHeading } from '@/components/SectionHeading'
 
 // ─── small helpers ────────────────────────────────────────────────────────────
 
@@ -95,9 +96,10 @@ export default function EnterpriseRedesignClient() {
       <div className="px-6 pt-8">
         <Link
           href="/"
-          className="font-mono text-xs text-[var(--color-muted)] transition-opacity hover:opacity-70"
+          className="inline-flex items-center gap-1.5 font-mono text-xs text-[var(--color-muted)] transition-opacity hover:opacity-70"
         >
-          ← Back
+          <Icon name="fa-arrow-left" />
+          Back
         </Link>
       </div>
 
@@ -448,7 +450,8 @@ export default function EnterpriseRedesignClient() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 border border-[var(--color-border)] px-5 py-3 font-sans text-sm font-medium text-[var(--color-text)] transition-colors hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
             >
-              Try the prototype →
+              Try the prototype
+              <Icon name="fa-arrow-right" />
             </a>
           </div>
         </section>

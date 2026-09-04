@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { Icon } from '@/components/Icon'
 
 export const metadata: Metadata = {
   title: 'Experiments',
@@ -23,7 +24,7 @@ const experiments = [
     tags: ['Side Project', 'Web'],
     type: 'link' as const,
     mediaSrc: '/images/forest-soup-house.png',
-    cta: { label: 'Visit the site →', href: 'https://forest-soup-house.vercel.app' },
+    cta: { label: 'Visit the site', href: 'https://forest-soup-house.vercel.app' },
   },
   {
     number: '03',
@@ -33,7 +34,7 @@ const experiments = [
     tags: ['Agentic AI', 'Prototype', 'dotData'],
     type: 'link' as const,
     mediaSrc: null,
-    cta: { label: 'Try the prototype →', href: '/prototypes/ai-modeling-advisor.html' },
+    cta: { label: 'Try the prototype', href: '/prototypes/ai-modeling-advisor.html' },
   },
 ]
 
@@ -85,9 +86,10 @@ export default function ExperimentsPage() {
                       href={exp.cta.href}
                       target={exp.cta.href.startsWith('http') ? '_blank' : undefined}
                       rel={exp.cta.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                      className="mt-8 inline-block font-mono text-xs uppercase tracking-[0.1em] text-[var(--color-accent)] underline underline-offset-4 hover:opacity-70"
+                      className="mt-8 inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-[0.1em] text-[var(--color-accent)] underline underline-offset-4 hover:opacity-70"
                     >
                       {exp.cta.label}
+                      <Icon name="fa-arrow-right" />
                     </a>
                   )}
                 </div>

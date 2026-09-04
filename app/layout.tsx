@@ -1,48 +1,23 @@
 import type { Metadata } from 'next'
-import {
-  IBM_Plex_Mono,
-  IBM_Plex_Sans,
-  Inter,
-  Playfair_Display,
-  Space_Grotesk,
-} from 'next/font/google'
+import { Domine, Open_Sans } from 'next/font/google'
 import Script from "next/script"
+import { GraceLLM, GraceLLMProvider } from '@/components/grace-llm/GraceLLM'
+import { HomeCursor } from '@/components/portfolio/HomeCursor'
 import { SiteFooter } from '@/components/portfolio/SiteFooter'
 import { SiteNav } from '@/components/portfolio/SiteNav'
 
+import '@/styles/tokens.css'
 import '@/styles/globals.css'
 
-const spaceGrotesk = Space_Grotesk({
-  weight: ['400', '500', '600', '700'],
+const domine = Domine({
   subsets: ['latin'],
-  variable: '--font-space-grotesk',
+  variable: '--font-domine',
   display: 'swap',
 })
 
-// Reading face for case-study body copy; Space Grotesk stays on headings.
-const inter = Inter({
+const openSans = Open_Sans({
   subsets: ['latin'],
-  variable: '--font-inter',
-  display: 'swap',
-})
-
-const playfair = Playfair_Display({
-  subsets: ['latin'],
-  variable: '--font-playfair',
-  display: 'swap',
-})
-
-const plexSans = IBM_Plex_Sans({
-  weight: ['400', '500', '600'],
-  subsets: ['latin'],
-  variable: '--font-plex-sans',
-  display: 'swap',
-})
-
-const plexMono = IBM_Plex_Mono({
-  weight: ['400', '500'],
-  subsets: ['latin'],
-  variable: '--font-plex-mono',
+  variable: '--font-open-sans',
   display: 'swap',
 })
 
@@ -72,12 +47,26 @@ export default function RootLayout({
     <html lang="en">
      
       <body
-        className={`${spaceGrotesk.variable} ${inter.variable} ${playfair.variable} ${plexSans.variable} ${plexMono.variable} min-h-screen font-grotesk text-pf-ink antialiased`}
+        className={`${domine.variable} ${openSans.variable} min-h-screen font-sans text-primary antialiased`}
       >
-        <SiteNav />
-        <main>{children}</main>
-        <SiteFooter />
+        <GraceLLMProvider>
+          <HomeCursor />
+          <div className="flex min-h-screen">
+            <div className="flex min-h-screen min-w-0 flex-1 flex-col">
+              <SiteNav />
+              <main className="flex-1">{children}</main>
+              <SiteFooter />
+            </div>
+            <GraceLLM />
+          </div>
+        </GraceLLMProvider>
 
+        <Script
+          src="https://kit.fontawesome.com/934fe6c160.js"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+          data-auto-replace-svg="nest"
+        />
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-YDFFENJ86V"
           strategy="afterInteractive"

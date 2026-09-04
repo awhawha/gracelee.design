@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
+import { Icon } from '@/components/Icon'
 import { MetadataRow } from '@/components/MetadataRow'
 import { SectionHeading } from '@/components/SectionHeading'
 
@@ -14,9 +15,10 @@ export default function DesignSystemPage() {
       <div className="px-6 pt-8">
         <Link
           href="/"
-          className="font-mono text-xs text-[var(--color-muted)] transition-opacity hover:opacity-70"
+          className="inline-flex items-center gap-1.5 font-mono text-xs text-[var(--color-muted)] transition-opacity hover:opacity-70"
         >
-          ← Back
+          <Icon name="fa-arrow-left" />
+          Back
         </Link>
       </div>
 
@@ -308,8 +310,10 @@ export default function DesignSystemPage() {
           <SectionHeading>Impact</SectionHeading>
           <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3">
             <div>
-              <p className="font-mono text-[32px] text-[var(--color-accent)]">
-                5 → 2
+              <p className="flex items-center gap-2 font-mono text-[32px] text-[var(--color-accent)]">
+                5
+                <Icon name="fa-arrow-right" className="text-[20px]" />
+                2
               </p>
               <p className="mt-3 font-sans text-sm leading-snug text-[var(--color-muted)]">
                 steps in the handoff workflow
@@ -321,7 +325,7 @@ export default function DesignSystemPage() {
             </div>
             <div>
               <p className="font-mono text-[32px] text-[var(--color-accent)]">
-              ↓
+                <Icon name="fa-arrow-down" />
               </p>
               <p className="mt-3 font-sans text-sm leading-snug text-[var(--color-muted)]">
                 engineering questions per month
@@ -332,7 +336,9 @@ export default function DesignSystemPage() {
               </p>
             </div>
             <div>
-              <p className="font-mono text-[32px] text-[var(--color-accent)]">↑</p>
+              <p className="font-mono text-[32px] text-[var(--color-accent)]">
+                <Icon name="fa-arrow-up" />
+              </p>
               <p className="mt-3 font-sans text-sm leading-snug text-[var(--color-muted)]">
                 architectural scalability
               </p>
