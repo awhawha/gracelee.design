@@ -1,9 +1,9 @@
 'use client'
 
-import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { GraceLlmToggle, useGraceLlmUi } from '@/components/grace-llm/GraceLLM'
-import { Icon } from '@/components/Icon'
+import { Icon, SparkleIcon } from '@/components/Icon'
+import { TransitionLink } from '@/components/portfolio/PageTransition'
 
 const glassPill =
   'pf-liquid-glass inline-flex items-center rounded-full font-sans text-[14px] font-medium tracking-[0.01em] max-[640px]:text-[13px]'
@@ -65,17 +65,20 @@ function SiteDock() {
             )
           }
           return (
-            <Link key={item.id} href={item.href} className={linkClass}>
+            <TransitionLink key={item.id} href={item.href} className={linkClass}>
               {item.label}
-            </Link>
+            </TransitionLink>
           )
         })}
       </nav>
       <GraceLlmToggle
         className={`${glassPill} pointer-events-auto gap-2 px-4 py-3 text-white/70 hover:text-white max-[640px]:gap-1.5 max-[640px]:px-3 max-[640px]:py-2.5`}
       >
-        <Icon name="fa-wand-magic-sparkles" className="text-[12px]" />
+        <SparkleIcon />
         Ask Grace
+        {state === 'open' ? (
+          <Icon name="fa-xmark" className="text-[12px] opacity-70" />
+        ) : null}
       </GraceLlmToggle>
     </div>
   )
@@ -85,12 +88,12 @@ export function SiteNav() {
   return (
     <>
       <div className="relative z-20 flex w-full items-center px-10 py-6 max-[640px]:px-6 max-[640px]:py-5">
-        <Link
+        <TransitionLink
           href="/"
           className="font-sans text-[19px] font-semibold tracking-[-0.01em] text-primary"
         >
           Grace Lee
-        </Link>
+        </TransitionLink>
       </div>
       <SiteDock />
     </>

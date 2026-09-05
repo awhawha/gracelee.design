@@ -158,7 +158,7 @@ function formatRoleFit(): DemoAnswer {
 function formatRecommend(): DemoAnswer {
   return answer(
     [
-      'Start with [AutoML workflow redesign](/work/automl) — configuration time down 50% in usability testing.',
+      'Start with [AutoML workflow redesign](/work/automl) — 20+ configuration actions became 5 guided steps, with faster iteration and clearer decisions.',
       '',
       'Then [Analytics design system](/work/dotds) if you care about design–eng alignment, or [Campaign performance dashboard](/work/campaign) for data-viz and research.',
     ].join('\n'),

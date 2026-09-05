@@ -164,7 +164,7 @@ export const portfolioKb: PortfolioKnowledgeBase = {
       collaboration:
         'Worked across product and engineering to shape the canvas model, defaults, and validation behavior so business analysts could complete a runnable setup with confidence.',
       impact:
-        'Usability testing showed a 50% reduction in model-task configuration time. Business analysts became more able to complete a runnable setup independently.',
+        'Reduced 20+ configuration actions to 5 guided steps. Supported faster iteration. Improved decision clarity.',
       tools: ['Figma', 'Usability testing', 'Prototyping'],
       links: [{ href: '/work/automl', label: 'AutoML case study' }],
       relatedProjectIds: ['dotds', 'kahuna'],

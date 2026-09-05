@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
-import Link from 'next/link'
 import { Icon } from '@/components/Icon'
+import { TransitionLink } from '@/components/portfolio/PageTransition'
 
 /** One label/value pair in the sticky rail, e.g. "Role — Lead Product Designer". */
 export type CaseMetaItem = { label: string; value: string }
@@ -25,15 +25,18 @@ export function CaseStudyShell({
 }) {
   return (
     <div className="mx-auto grid max-w-[1280px] grid-cols-[264px_minmax(0,1fr)] gap-x-16 px-10 max-[1080px]:grid-cols-1 max-[1080px]:gap-x-0 max-[640px]:px-6">
-      <div className="border-r border-surface-tertiary max-[1080px]:border-b max-[1080px]:border-r-0 max-[520px]:border-b-0">
+      <div
+        data-stagger
+        className="border-r border-surface-tertiary max-[1080px]:border-b max-[1080px]:border-r-0 max-[520px]:border-b-0"
+      >
         <div className="sticky top-[92px] pb-16 pr-10 pt-10 max-[1080px]:static max-[1080px]:pb-8 max-[1080px]:pr-0">
-          <Link
+          <TransitionLink
             href="/"
             className="type-cap inline-flex items-center gap-1.5 font-medium text-tertiary transition-colors hover:text-primary"
           >
             <Icon name="fa-arrow-left" />
             All projects
-          </Link>
+          </TransitionLink>
 
           {meta && (
             <dl className="mt-8 max-[1080px]:grid max-[1080px]:grid-cols-3 max-[1080px]:gap-x-10 max-[760px]:grid-cols-2 max-[520px]:block">
@@ -67,7 +70,9 @@ export function CaseStudyShell({
         </div>
       </div>
 
-      <div className="min-w-0 pt-10 max-[1080px]:pt-9">{children}</div>
+      <div data-stagger-group className="min-w-0 pt-10 max-[1080px]:pt-9">
+        {children}
+      </div>
     </div>
   )
 }

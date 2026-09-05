@@ -5,6 +5,7 @@ import { Icon } from '@/components/Icon'
 import { CaseStudyGallery } from '@/components/portfolio/CaseStudyGallery'
 import { CaseStudyShell } from '@/components/portfolio/CaseStudyShell'
 import { ChapteredCaseStudy } from '@/components/portfolio/ChapteredCaseStudy'
+import { TransitionLink } from '@/components/portfolio/PageTransition'
 import { ScrollytellingCaseStudy } from '@/components/portfolio/ScrollytellingCaseStudy'
 import { caseStudyContent } from '@/lib/caseStudyContent'
 import type { Project } from '@/lib/projects'
@@ -46,16 +47,18 @@ export default function CaseStudyPage({
     /* Scrollytelling: pinned media swaps to match the section being read */
     return (
       <div className="font-sans text-primary">
-        <div className="mx-auto max-w-pf px-10 pt-12 max-[640px]:px-6">
-          <Link
+        <div data-stagger className="mx-auto max-w-pf px-10 pt-12 max-[640px]:px-6">
+          <TransitionLink
             href="/"
             className="type-cap inline-flex items-center gap-1.5 text-tertiary transition-colors hover:text-primary"
           >
             <Icon name="fa-arrow-left" />
             All projects
-          </Link>
+          </TransitionLink>
         </div>
-        <ScrollytellingCaseStudy project={project} />
+        <div data-stagger>
+          <ScrollytellingCaseStudy project={project} />
+        </div>
         <AdjacentProjects prev={prev} next={next} />
       </div>
     )

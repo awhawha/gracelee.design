@@ -3,6 +3,10 @@ import { Domine, Open_Sans } from 'next/font/google'
 import Script from "next/script"
 import { GraceLLM, GraceLLMProvider } from '@/components/grace-llm/GraceLLM'
 import { HomeCursor } from '@/components/portfolio/HomeCursor'
+import {
+  PageTransition,
+  PageTransitionProvider,
+} from '@/components/portfolio/PageTransition'
 import { SiteFooter } from '@/components/portfolio/SiteFooter'
 import { SiteNav } from '@/components/portfolio/SiteNav'
 
@@ -53,9 +57,13 @@ export default function RootLayout({
           <HomeCursor />
           <div className="flex min-h-screen">
             <div className="flex min-h-screen min-w-0 flex-1 flex-col">
-              <SiteNav />
-              <main className="flex-1">{children}</main>
-              <SiteFooter />
+              <PageTransitionProvider>
+                <SiteNav />
+                <main className="flex-1">
+                  <PageTransition>{children}</PageTransition>
+                </main>
+                <SiteFooter />
+              </PageTransitionProvider>
             </div>
             <GraceLLM />
           </div>

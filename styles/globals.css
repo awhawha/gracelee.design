@@ -50,6 +50,44 @@ body {
   }
 }
 
+@keyframes pf-page-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pf-page-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+}
+
+.pf-page.is-exiting {
+  pointer-events: none;
+  animation: pf-page-out 0.24s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.pf-page.is-entering [data-stagger],
+.pf-page.is-entering [data-stagger-group] > * {
+  opacity: 0;
+}
+
+.pf-page.is-entering .pf-stagger-item {
+  animation: pf-page-in 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: calc(var(--pf-i, 0) * 160ms);
+}
+
+
 @keyframes grace-llm-in {
   from {
     opacity: 0;
@@ -126,6 +164,16 @@ body {
   [class*='pf-drift'],
   [style*='pf-drift'] {
     animation: none !important;
+  }
+
+  .pf-page.is-exiting,
+  .pf-page.is-entering .pf-stagger-item,
+  .pf-page.is-entering [data-stagger],
+  .pf-page.is-entering [data-stagger-group] > * {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1;
+    transform: none;
   }
 
   .grace-llm-in,

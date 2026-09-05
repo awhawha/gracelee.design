@@ -64,6 +64,8 @@ export type Project = {
   homeSubtitle?: string
   /** Mesh-gradient palette for the homepage project tile. */
   homeShader?: { colors: string[]; fallback: string }
+  /** Homepage tile image. When set, replaces the mesh shader and sizes to the asset. */
+  homeThumb?: { img: string; width: number; height: number }
   tags: string[]
   /**
    * Label/value pairs for the case study's sticky sidebar rail. Kept short —
@@ -93,9 +95,10 @@ export const projects: Project[] = [
     // Mirrors the case study's H1, so the index row and the page agree.
     homeSubtitle:
       'Making AutoML self-serve: from fragmented data setup to confident model runs',
-    homeShader: {
-      colors: ['#E6E4CD', '#41874E', '#D5C32C', '#39CFD3'],
-      fallback: '#41874E',
+    homeThumb: {
+      img: '/images/automl/home-thumb.jpg',
+      width: 1024,
+      height: 536,
     },
     tags: ['Workflow redesign', 'Complex systems UX', 'Prototyping', 'Enterprise AI'],
     paras: [
@@ -337,9 +340,10 @@ export const projects: Project[] = [
     homeTitle: 'Campaign performance dashboard',
     homeSubtitle:
       'Redesigning a dashboard so marketers could see if a campaign was working',
-    homeShader: {
-      colors: ['#E8E6F4', '#7E74E5', '#6ED0F5', '#2DD5B4'],
-      fallback: '#7E74E5',
+    homeThumb: {
+      img: '/images/kahuna/home-thumb.png',
+      width: 1440,
+      height: 754,
     },
     tags: ['B2B SaaS', 'Data viz', 'Dashboards'],
     meta: [
@@ -393,9 +397,10 @@ export const projects: Project[] = [
     homeTitle: 'Audience filter editor',
     homeSubtitle:
       'Turning nested AND/OR targeting into blocks marketers could build without SQL',
-    homeShader: {
-      colors: ['#E8F1F8', '#2D7AF6', '#7E74E5', '#6ED0F5'],
-      fallback: '#2D7AF6',
+    homeThumb: {
+      img: '/images/filter/home-thumb.jpg',
+      width: 1024,
+      height: 536,
     },
     tags: ['Interaction', 'Complex forms', 'UX'],
     meta: [

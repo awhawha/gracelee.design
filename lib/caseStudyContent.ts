@@ -136,7 +136,7 @@ const automl: CaseStudyContent = {
   title:
     'Making AutoML Self-Serve: From Fragmented Data Setup to Confident Model Runs',
   // Tags and metric cards are intentionally empty: the rail carries the framing
-  // and the Outcomes chapter carries the numbers.
+  // and the Outcomes chapter carries the design-change results.
   tags: [],
   meta: [
     { label: 'Company', value: 'dotData' },
@@ -151,7 +151,7 @@ const automl: CaseStudyContent = {
   heroCompact: true,
   tldr: [
     'I led the end-to-end design of an AutoML setup experience that enabled Business Analysts to configure and run their first experiment with less reliance on Customer Support.',
-    'The work consolidated a fragmented, three-page workflow into a guided, single-surface flow that inferred data schemas, suggested table relationships, and made time-aware data configuration approachable through sensible defaults and just-in-time explanations. By balancing automation with user validation and editability, the experience reduced initial model setup from roughly 30 minutes to 10 minutes while giving non-technical users more confidence to build and rerun models independently.',
+    'The work consolidated a fragmented, three-page workflow into a guided, single-surface flow that inferred data schemas, suggested table relationships, and made time-aware data configuration approachable through sensible defaults and just-in-time explanations. Automation stayed inspectable: users could validate, adjust, and rerun a configuration without starting over.',
   ],
   metrics: [],
   heroImage: {
@@ -371,13 +371,11 @@ const automl: CaseStudyContent = {
       list: {
         title: 'What changed',
         items: [
-          'Consolidated a fragmented three-page setup process into one guided AutoML workflow.',
-          'Enabled Business Analysts to validate data, configure table relationships, and run a first model with less reliance on Customer Support.',
-          'Made iteration more efficient by allowing users to edit and rerun a configuration without starting over.',
+          'Reduced 20+ configuration actions to 5 guided steps.',
+          'Supported faster iteration.',
+          'Improved decision clarity.',
         ],
       },
-      resolution:
-        'This work established a more scalable foundation for self-serve AutoML — translating expert configuration knowledge into an experience that non-technical users could understand, validate, and act on.',
     },
   ],
 }

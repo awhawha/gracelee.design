@@ -18,7 +18,7 @@ import { getDemoReplyForRequest } from '@/lib/graceLlm/demo'
 import { splitFollowUps } from '@/lib/graceLlm/followUps'
 import { isInternalHref, linkifyProjectTitles } from '@/lib/graceLlm/linkify'
 import type { ChatTurn, GraceLlmRequest, GraceLlmSuccess } from '@/lib/graceLlm/types'
-import { Icon } from '@/components/Icon'
+import { Icon, SparkleIcon } from '@/components/Icon'
 import {
   getQuickPrompts,
   getWelcomeMessage,
@@ -59,7 +59,7 @@ export function useGraceLlmUi() {
   return ctx
 }
 
-/** Shown in the site nav when the sidebar is not visible. */
+/** Dock control: opens the sidebar, or closes it when already open. */
 export function GraceLlmToggle({
   className,
   children,
@@ -68,12 +68,14 @@ export function GraceLlmToggle({
   children?: ReactNode
 }) {
   const { state, setState } = useGraceLlmUi()
-  if (state === 'open') return null
+  const isOpen = state === 'open'
 
   return (
     <button
       type="button"
-      onClick={() => setState('open')}
+      onClick={() => setState(isOpen ? 'closed' : 'open')}
+      aria-expanded={isOpen}
+      aria-controls="grace-llm-panel"
       className={`${state === 'default' ? 'md:hidden' : ''} ${
         className ?? 'transition-colors hover:text-primary'
       }`}
@@ -492,8 +494,9 @@ export function GraceLLM() {
         <div className="min-w-0">
           <p
             id={titleId}
-            className="font-sans text-[15px] font-semibold tracking-[-0.02em] text-primary"
+            className="flex items-center gap-1.5 font-sans text-[15px] font-semibold tracking-[-0.02em] text-primary"
           >
+            <SparkleIcon className="size-3.5" />
             GraceLLM
           </p>
           <p className="mt-0.5 truncate text-[12px] text-tertiary">
@@ -615,7 +618,7 @@ export function GraceLLM() {
           <label htmlFor="grace-llm-input" className="sr-only">
             Message GraceLLM
           </label>
-          <div className="flex items-end gap-2 border-b border-surface-tertiary pb-2 focus-within:border-primary">
+          <div className="flex items-end gap-2 rounded-xl border border-surface-tertiary bg-[#f8f7f4] px-3 py-1.5 focus-within:border-primary">
             <textarea
               ref={inputRef}
               id="grace-llm-input"
@@ -627,12 +630,12 @@ export function GraceLLM() {
               placeholder="Ask about Grace…"
               enterKeyHint="send"
               autoComplete="off"
-              className="max-h-28 min-h-[36px] flex-1 resize-none bg-transparent py-1.5 font-sans text-[14.5px] leading-[1.45] text-primary placeholder:text-tertiary focus:outline-none"
+              className="max-h-28 min-h-[32px] flex-1 resize-none bg-transparent py-1 font-sans text-[14.5px] leading-[1.45] text-primary placeholder:text-tertiary focus:outline-none"
             />
             <button
               type="submit"
               disabled={!canSend}
-              className="mb-1 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary text-white transition-opacity focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary disabled:cursor-not-allowed disabled:opacity-25"
+              className="mb-px flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary text-white transition-opacity focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary disabled:cursor-not-allowed disabled:opacity-25"
               aria-label="Send message"
             >
               <Icon name="fa-arrow-up" className="text-[12px]" />
