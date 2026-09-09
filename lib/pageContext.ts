@@ -120,7 +120,7 @@ const AUTOML_PROMPTS = [
 ]
 
 const DOTDS_PROMPTS = [
-  'Tell me about the analytics design system',
+  'Tell me about the dotData design system',
   'Why did the design system need a redesign?',
   'What was wrong with the old handoff?',
   'How did the token-driven library work?',

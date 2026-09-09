@@ -8,7 +8,7 @@ export default function HomePage() {
       <section className="grid grid-cols-2 items-start gap-16 px-10 pb-20 pt-10 max-[900px]:grid-cols-1 max-[900px]:gap-10 max-[640px]:px-6 max-[640px]:pb-12 max-[640px]:pt-6">
         <h1 data-stagger className="type-header m-0 max-w-[11em]">
           I&apos;m Grace, a product designer who{' '}
-          <em className="font-normal italic">builds systems</em>.
+          <em className="font-normal italic">builds Enterprise AI products</em>.
         </h1>
         <ul
           data-stagger
@@ -17,7 +17,18 @@ export default function HomePage() {
           {experience.map((e) => (
             <li key={e.company} className="contents">
               <span className="text-tertiary">{e.dates}</span>
-              <span className="text-primary">{e.company}</span>
+              {e.url ? (
+                <a
+                  href={e.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary underline-offset-[3px] hover:underline"
+                >
+                  {e.company}
+                </a>
+              ) : (
+                <span className="text-primary">{e.company}</span>
+              )}
               <span className="max-[640px]:col-span-2 max-[640px]:col-start-2 max-[640px]:-mt-1">
                 {e.role}
               </span>

@@ -88,7 +88,7 @@ export const projects: Project[] = [
   {
     id: 'automl',
     company: 'dotData',
-    client: 'Enterprise AI · dotData · Senior Product Designer',
+    client: 'Enterprise AI · dotData',
     title: 'AutoML workflow redesign',
     headline:
       'Redesigning enterprise AutoML: reducing time-to-value for business analysts by 50%',
@@ -265,15 +265,16 @@ export const projects: Project[] = [
   {
     id: 'dotds',
     company: 'dotData',
-    client: 'Design Systems · dotData · Solo Product Designer',
-    title: 'Analytics design system',
+    client: 'Design Systems · dotData',
+    title: 'dotData design system',
     headline: 'A design system with logic-driven, three-layer tokens',
     desc: 'Logic-driven tokens that align design and engineering',
-    homeTitle: 'Analytics design system',
+    homeTitle: 'dotData design system',
     homeSubtitle: 'Building a design system people could use consistently',
-    homeShader: {
-      colors: ['#F4F1E4', '#5C6B4A', '#C5C9A6', '#8B9E6A'],
-      fallback: '#5C6B4A',
+    homeThumb: {
+      img: '/images/ds/ds-hero.png',
+      width: 4400,
+      height: 2200,
     },
     tags: ['Design systems', 'Token architecture', 'Design–dev alignment', 'Governance'],
     paras: [

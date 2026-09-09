@@ -171,7 +171,7 @@ export const portfolioKb: PortfolioKnowledgeBase = {
     },
     {
       id: 'dotds',
-      title: 'Analytics design system V1 / V2',
+      title: 'dotData design system V1 / V2',
       company: 'dotData',
       dates: '2019–2025',
       role: 'Led the V1.0 and V2.0 design-system re-architecture.',

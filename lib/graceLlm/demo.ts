@@ -161,7 +161,7 @@ function formatRecommend(): DemoAnswer {
     [
       'Start with [AutoML workflow redesign](/work/automl) — 20+ configuration actions became 5 guided steps, with faster iteration and clearer decisions.',
       '',
-      'Then [Analytics design system](/work/dotds) if you care about design–eng alignment, or [Campaign performance dashboard](/work/campaign) for data-viz and research.',
+      'Then [dotData design system](/work/dotds) if you care about design–eng alignment, or [Campaign performance dashboard](/work/campaign) for data-viz and research.',
     ].join('\n'),
     [
       "What was Grace's role on AutoML?",

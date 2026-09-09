@@ -166,7 +166,7 @@ const automl: CaseStudyContent = {
   involvement:
     'I led design across research, prototyping, visualization, and interaction design, partnering with product and data science teams to define a trustworthy, intuitive configuration feature.',
   prev: { label: 'Audience filter editor', href: '/work/filters' },
-  next: { label: 'Analytics design system', href: '/work/dotds' },
+  next: { label: 'dotData design system', href: '/work/dotds' },
   chapters: [
     {
       heading: 'The problem',
@@ -369,7 +369,7 @@ const automl: CaseStudyContent = {
 }
 
 const designSystem: CaseStudyContent = {
-  eyebrow: 'Analytics design system',
+  eyebrow: 'dotData design system',
   title: 'Building a design system people could use consistently',
   tags: ['Design systems', 'Design–engineering workflow'],
   meta: [
@@ -401,15 +401,15 @@ const designSystem: CaseStudyContent = {
     },
   ],
   heroImage: {
-    label: '[ design-system-1.png + component.png — tokens ↔ code ]',
+    label: '[ ds/ds-hero.png — the component library ]',
     caption:
-      'The system surface: design tokens and components on one side, the front-end variables they map to on the other.',
-    img: '/images/ds/ds-hero-flat.png',
-    alt: 'Design tokens mapping to components and front-end variables',
-    ratio: '1912 / 1113',
-    fit: 'contain',
-    bg: 'gradient',
+      'The component library: buttons, inputs, tabs, and form controls on a shared system surface.',
+    img: '/images/ds/ds-hero.png',
+    alt: 'Design system component library showing buttons, inputs, tabs, and form controls',
+    ratio: '2 / 1',
+    fit: 'cover',
   },
+  heroImageFirst: true,
   involvement:
     'As design system owner, I led the V1.0 and V2.0 re-architecture: defining token and library architecture, aligning with front-end engineering, and evolving governance as adoption exposed gaps.',
   prev: { label: 'AutoML workflow redesign', href: '/work/automl' },
@@ -716,7 +716,7 @@ const campaign: CaseStudyContent = {
   heroImageFirst: true,
   involvement:
     'I led UX for the campaign performance dashboard — research synthesis, information architecture, data visualization, and visual design — partnering with product and front-end engineering. Tara led development; David was the senior designer on the team; Justin oversaw the project.',
-  prev: { label: 'Analytics design system', href: '/work/dotds' },
+  prev: { label: 'dotData design system', href: '/work/dotds' },
   next: { label: 'Audience filter editor', href: '/work/filters' },
   chapters: [
     {
