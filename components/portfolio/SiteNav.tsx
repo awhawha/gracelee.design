@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation'
 import { GraceLlmToggle, useGraceLlmUi } from '@/components/grace-llm/GraceLLM'
 import { Icon, SparkleIcon } from '@/components/Icon'
 import { TransitionLink } from '@/components/portfolio/PageTransition'
+import { GRACE_LLM_ENABLED } from '@/lib/visibility'
 
 const glassPill =
   'pf-liquid-glass inline-flex items-center rounded-full font-sans text-[14px] font-medium tracking-[0.01em] max-[640px]:text-[13px]'
@@ -36,7 +37,7 @@ function isActive(
 function SiteDock() {
   const pathname = usePathname() || '/'
   const { state } = useGraceLlmUi()
-  const sidebarInset = state !== 'closed'
+  const sidebarInset = GRACE_LLM_ENABLED && state !== 'closed'
 
   return (
     <div
@@ -71,15 +72,17 @@ function SiteDock() {
           )
         })}
       </nav>
-      <GraceLlmToggle
-        className={`${glassPill} pointer-events-auto gap-2 px-4 py-3 text-white/70 hover:text-white max-[640px]:gap-1.5 max-[640px]:px-3 max-[640px]:py-2.5`}
-      >
-        <SparkleIcon />
-        Ask Grace
-        {state === 'open' ? (
-          <Icon name="fa-xmark" className="text-[12px] opacity-70" />
-        ) : null}
-      </GraceLlmToggle>
+      {GRACE_LLM_ENABLED ? (
+        <GraceLlmToggle
+          className={`${glassPill} pointer-events-auto gap-2 px-4 py-3 text-white/70 hover:text-white max-[640px]:gap-1.5 max-[640px]:px-3 max-[640px]:py-2.5`}
+        >
+          <SparkleIcon />
+          Ask Grace
+          {state === 'open' ? (
+            <Icon name="fa-xmark" className="text-[12px] opacity-70" />
+          ) : null}
+        </GraceLlmToggle>
+      ) : null}
     </div>
   )
 }

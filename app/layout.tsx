@@ -9,6 +9,7 @@ import {
 } from '@/components/portfolio/PageTransition'
 import { SiteFooter } from '@/components/portfolio/SiteFooter'
 import { SiteNav } from '@/components/portfolio/SiteNav'
+import { GRACE_LLM_ENABLED } from '@/lib/visibility'
 
 import '@/styles/tokens.css'
 import '@/styles/globals.css'
@@ -65,7 +66,7 @@ export default function RootLayout({
                 <SiteFooter />
               </PageTransitionProvider>
             </div>
-            <GraceLLM />
+            {GRACE_LLM_ENABLED ? <GraceLLM /> : null}
           </div>
         </GraceLLMProvider>
 

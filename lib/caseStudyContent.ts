@@ -150,8 +150,7 @@ const automl: CaseStudyContent = {
   ],
   heroCompact: true,
   tldr: [
-    'I led the end-to-end design of an AutoML setup experience that enabled Business Analysts to configure and run their first experiment with less reliance on Customer Support.',
-    'The work consolidated a fragmented, three-page workflow into a guided, single-surface flow that inferred data schemas, suggested table relationships, and made time-aware data configuration approachable through sensible defaults and just-in-time explanations. Automation stayed inspectable: users could validate, adjust, and rerun a configuration without starting over.',
+    'When I started this project, my goal was to simplify the AutoML setup experience for Business Analysts and reduce reliance on Customer Support. I redesigned the fragmented three-page workflow into a guided, single-surface flow that helps users configure and run their first experiment with intelligent defaults and recommendations. My focus was on making complex data configuration more approachable through product, visual, and interaction design.',
   ],
   metrics: [],
   heroImage: {
@@ -166,20 +165,9 @@ const automl: CaseStudyContent = {
   heroImageFirst: true,
   involvement:
     'I led design across research, prototyping, visualization, and interaction design, partnering with product and data science teams to define a trustworthy, intuitive configuration feature.',
-  prev: { label: 'Designing with AI Agents', href: '/work/museum' },
+  prev: { label: 'Audience filter editor', href: '/work/filters' },
   next: { label: 'Analytics design system', href: '/work/dotds' },
   chapters: [
-    {
-      heading: 'The context',
-      body: [
-        'Business Analysts were expected to use AutoML with limited machine-learning expertise, yet configuring a first model required navigating three disconnected workflows and often relying on Customer Support for guidance. The hardest parts were understanding how tables related to one another and defining time-aware data settings correctly.',
-        'To make AutoML truly self-serve, we needed to turn this expert-led setup process into a guided workflow that users could validate, adjust, and rerun with confidence.',
-      ],
-      conflict: {
-        label: 'Design challenge',
-        text: 'Design a scalable AutoML configuration experience that enables non-technical Business Analysts to prepare data, validate table relationships, and configure time-aware prediction settings with clarity and control — turning an expert-led workflow into a confident path to a first model run.',
-      },
-    },
     {
       heading: 'The problem',
       body: [
@@ -559,15 +547,16 @@ const museum: CaseStudyContent = {
     },
   ],
   heroImage: {
-    label: '[ museum-hero.png — the reading experience ]',
+    label: '[ museum/admin-draft.png — draft in the admin ]',
     caption:
-      'The museum itself: a visual-first archive of children’s-book illustration and craft.',
-    img: '/images/museum/hero.png',
-    alt: 'Museum of Children’s Books — the Book of the Day feature, showing Where the Wild Things Are',
-    ratio: '3704 / 1854',
-    fit: 'cover',
+      'A draft in the admin: structured cards for Polar Express, still unpublished. The agent filled the fields; a human is reviewing before anything goes live.',
+    img: '/images/museum/admin-draft.png',
+    alt: 'Admin editor for Polar Express in draft status, showing design-deconstruction cards for oil pastel technique and the bell motif',
+    ratio: '1024 / 548',
+    fit: 'contain',
     bg: 'white',
   },
+  heroImageFirst: true,
   involvement:
     'Solo, end to end. I defined the product concept, designed and built the experience directly in code, tested AI/CMS workflow models, and developed the Claude Code Skills behind the draft-production pipeline. My focus was designing where automation should act, where human judgment should intervene, and how the handoff between them should work.',
   prev: { label: 'Audience filter editor', href: '/work/filters' },
@@ -673,6 +662,18 @@ const museum: CaseStudyContent = {
       bodyAfter: [
         'The agent handles research, synthesis, and draft production. The admin interface makes drafts visible in context for review and correction. Human judgment remains responsible for resolving ambiguity and publishing approved content.',
         'The same pipeline supports specialized skills—such as illustrator research and cover color-palette extraction—without a separate orchestration layer.',
+      ],
+      figures: [
+        {
+          label: '[ museum-hero.png — the published museum ]',
+          caption:
+            'What visitors see after a human publishes: the public museum, not the draft. Book of the Day is an output of the pipeline, not the product being designed.',
+          img: '/images/museum/hero.png',
+          alt: 'Museum of Children’s Books — the Book of the Day feature, showing Where the Wild Things Are',
+          ratio: '3704 / 1854',
+          fit: 'cover',
+          bg: 'white',
+        },
       ],
       callout: {
         label: 'Where it stands',
@@ -1122,7 +1123,7 @@ const filters: CaseStudyContent = {
   involvement:
     'I led the interaction redesign — competitive analysis, prototyping, and iteration with product and internal marketers — then paired with a front-end engineer to specify the micro-interactions for implementation.',
   prev: { label: 'Campaign performance dashboard', href: '/work/campaign' },
-  next: { label: 'Designing with AI Agents', href: '/work/museum' },
+  next: { label: 'AutoML workflow redesign', href: '/work/automl' },
   chapters: [
     {
       heading: 'The context',

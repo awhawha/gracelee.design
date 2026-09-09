@@ -3,7 +3,8 @@
  *
  * Keep `projectId` in sync with `data/portfolioContext.ts`. When a live
  * case-study slug does not have its own KB entry (e.g. Kahuna's two pages
- * share `kahuna`), point both paths at the shared id.
+ * share `kahuna`), point both paths at the shared id. Project-page prompt
+ * pools are keyed by path in `PROJECT_PROMPT_POOLS`.
  */
 
 import { getPortfolioProject, type ContextType } from '@/data/portfolioContext'
@@ -21,8 +22,8 @@ export const PAGE_CONTEXT_MAP: Record<string, PageContextMapping> = {
   '/experiments': { type: 'portfolio' },
   '/work/automl': { type: 'project', projectId: 'automl' },
   '/work/dotds': { type: 'project', projectId: 'dotds' },
-  '/work/campaign': { type: 'project', projectId: 'kahuna' },
-  '/work/filters': { type: 'project', projectId: 'kahuna' },
+  '/work/campaign': { type: 'project', projectId: 'kahuna', title: 'Campaign performance dashboard' },
+  '/work/filters': { type: 'project', projectId: 'kahuna', title: 'Audience filter editor' },
   '/work/pivot': { type: 'project', projectId: 'pivot', title: 'In-product pivot analysis' },
   '/work/museum': { type: 'project', projectId: 'museum', title: 'Designing with AI Agents' },
   '/enterprise-redesign': { type: 'project', projectId: 'automl' },
@@ -57,7 +58,7 @@ export function resolvePageContext(pathname: string): ResolvedPageContext {
   const projectId = mapped?.projectId ?? (type === 'project' ? slug : undefined)
 
   const kbProject = projectId ? getPortfolioProject(projectId) : undefined
-  const projectTitle = kbProject?.title ?? mapped?.title ?? undefined
+  const projectTitle = mapped?.title ?? kbProject?.title ?? undefined
   const hasKnowledgeBase = type === 'project' ? Boolean(kbProject) : true
 
   if (type === 'project') {
@@ -98,7 +99,7 @@ export function getWelcomeMessage(ctx: ResolvedPageContext): string {
     return `Hi — I’m GraceLLM. This chat is focused on ${ctx.projectTitle}. Ask about the problem, Grace’s role, the process, or the outcome.`
   }
   if (ctx.type === 'project' && ctx.projectTitle) {
-    return `Hi — I’m GraceLLM. ${ctx.projectTitle} isn’t fully indexed yet. I can still answer from Grace’s documented work — AutoML, the design system, Kahuna, or her background.`
+    return `Hi — I’m GraceLLM. ${ctx.projectTitle} isn’t fully indexed yet. I can still answer from Grace’s documented work — AutoML, the design system, Kahuna, Designing with AI Agents, or her background.`
   }
   if (ctx.type === 'profile') {
     return 'Hi — I’m GraceLLM. Ask about Grace’s career path, how she works with product and engineering, or what she’s strongest at.'
@@ -106,47 +107,129 @@ export function getWelcomeMessage(ctx: ResolvedPageContext): string {
   return 'Hi — I’m GraceLLM. Ask which project to read first, or how she works with engineering.'
 }
 
-export function getQuickPrompts(ctx: ResolvedPageContext): string[] {
-  if (ctx.type === 'project' && ctx.hasKnowledgeBase) {
-    if (ctx.projectId === 'dotds') {
-      return [
-        'Why did the design system need a redesign?',
-        "What was Grace's role?",
-        'How did design and engineering stay aligned?',
-        'What changed after launch?',
-      ]
-    }
-    if (ctx.projectId === 'kahuna') {
-      return [
-        'What problem were marketers facing?',
-        'How did research shape the solution?',
-        'How did she make complex targeting usable?',
-        'What was the outcome?',
-      ]
-    }
-    if (ctx.projectId === 'wislite') {
-      return [
-        'What did Grace do at Wislite?',
-        'How does this engineering background show up now?',
-        'What kinds of products did she build?',
-        'Which later projects should I read next?',
-      ]
-    }
-    return [
-      'What problem did this project solve?',
-      "What was Grace's role?",
-      'How did she approach the process?',
-      'What was the impact?',
-    ]
-  }
+const AUTOML_PROMPTS = [
+  'Tell me about the AutoML workflow redesign',
+  'What problem were business analysts facing?',
+  'Why did the old multi-page setup fail?',
+  'How did the model-design canvas work?',
+  "What was Grace's role on AutoML?",
+  'How did she work with product and engineering?',
+  'What was the outcome of the AutoML redesign?',
+  'How did auto-schema and table connections help?',
+  'How did the redesign help analysts run a first model?',
+]
 
+const DOTDS_PROMPTS = [
+  'Tell me about the analytics design system',
+  'Why did the design system need a redesign?',
+  'What was wrong with the old handoff?',
+  'How did the token-driven library work?',
+  "What was Grace's role?",
+  'How did design and engineering stay aligned?',
+  'How did semantic tokens map to CSS variables?',
+  'What changed after launch?',
+  'What was the impact on spec questions?',
+]
+
+const CAMPAIGN_PROMPTS = [
+  'Tell me about the campaign performance dashboard',
+  'What problem were marketers facing?',
+  'How did research with campaign managers shape the solution?',
+  'Why move filters to a left rail?',
+  'How did she make KPIs scannable?',
+  "What was Grace's role?",
+  'What was the outcome of the dashboard redesign?',
+  'How did Attritions keep the trend chart readable?',
+  'How could marketers tell if a campaign was working?',
+]
+
+const FILTERS_PROMPTS = [
+  'Tell me about the audience filter editor',
+  'Why was complex targeting hard for marketers?',
+  'How did nested AND/OR become visual blocks?',
+  'What did competitive analysis show?',
+  'How could marketers build targeting without SQL?',
+  "What was Grace's role?",
+  'What was the outcome of the filter editor?',
+  'How did collapsible blocks make logic readable?',
+  'How did she work with engineering on the interactions?',
+]
+
+const MUSEUM_PROMPTS = [
+  'Tell me about Designing with AI Agents',
+  'What is the Museum of Children’s Books?',
+  'How did agents participate in content production?',
+  'Where did human judgment stay in the loop?',
+  'Why design and build this in code?',
+  'What workflow models did she test?',
+  "What was Grace's role?",
+  'What did she learn about human–AI collaboration?',
+]
+
+const PIVOT_PROMPTS = [
+  'Tell me about in-product pivot analysis',
+  'Why were analysts exporting to spreadsheets?',
+  'How did the pivot manipulation model work?',
+  'How did drag-to-group change exploration?',
+  "What was Grace's role?",
+  'What was the outcome?',
+  'How did she get to a first insight quickly?',
+  'Why keep exploration inside the product?',
+]
+
+const WISLITE_PROMPTS = [
+  'What did Grace do at Wislite?',
+  'How does this engineering background show up now?',
+  'What kinds of products did she build?',
+  'How did she work as both designer and engineer?',
+  'What was the outcome of that chapter?',
+  'Which later projects should I read next?',
+  'How does data modeling still shape her work?',
+  'What roles is she a strong fit for because of this?',
+]
+
+const PROJECT_PROMPT_POOLS: Record<string, string[]> = {
+  '/work/automl': AUTOML_PROMPTS,
+  '/enterprise-redesign': AUTOML_PROMPTS,
+  '/work/dotds': DOTDS_PROMPTS,
+  '/design-system': DOTDS_PROMPTS,
+  '/work/campaign': CAMPAIGN_PROMPTS,
+  '/work/filters': FILTERS_PROMPTS,
+  '/work/museum': MUSEUM_PROMPTS,
+  '/work/pivot': PIVOT_PROMPTS,
+}
+
+function genericProjectPrompts(title: string): string[] {
+  return [
+    `Tell me about ${title}`,
+    `What problem did ${title} solve?`,
+    `What was Grace's role?`,
+    `How did she approach the process?`,
+    `What was the outcome of ${title}?`,
+    `How did she work with engineering on this?`,
+    'What made this project distinctive?',
+    'Which related project should I read next?',
+  ]
+}
+
+function projectPromptKey(ctx: ResolvedPageContext): string | undefined {
+  if (PROJECT_PROMPT_POOLS[ctx.currentPage]) return ctx.currentPage
+  if (ctx.projectId === 'automl') return '/work/automl'
+  if (ctx.projectId === 'dotds') return '/work/dotds'
+  if (ctx.projectId === 'kahuna') return '/work/campaign'
+  if (ctx.projectId === 'wislite') return 'wislite'
+  if (ctx.projectId === 'museum') return '/work/museum'
+  if (ctx.projectId === 'pivot') return '/work/pivot'
+  return undefined
+}
+
+export function getQuickPromptPool(ctx: ResolvedPageContext): string[] {
   if (ctx.type === 'project') {
-    return [
-      "What's Grace's background?",
-      'Which documented projects should I read?',
-      'How does she work with engineering?',
-      'What roles is she a strong fit for?',
-    ]
+    const key = projectPromptKey(ctx)
+    if (key === 'wislite') return WISLITE_PROMPTS
+    if (key && PROJECT_PROMPT_POOLS[key]) return PROJECT_PROMPT_POOLS[key]
+    if (ctx.projectTitle) return genericProjectPrompts(ctx.projectTitle)
+    return genericProjectPrompts('this project')
   }
 
   if (ctx.type === 'profile') {
@@ -165,3 +248,28 @@ export function getQuickPrompts(ctx: ResolvedPageContext): string[] {
     'What roles is she a strong fit for?',
   ]
 }
+
+function shuffle<T>(items: T[]): T[] {
+  const next = [...items]
+  for (let i = next.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1))
+    const current = next[i]
+    next[i] = next[j]
+    next[j] = current
+  }
+  return next
+}
+
+/** Pick 6–8 prompts from a pool, shuffled. Smaller pools return everything. */
+export function sampleQuickPrompts(
+  pool: string[],
+  min = 6,
+  max = 8,
+): string[] {
+  if (pool.length <= min) return shuffle(pool)
+  const hi = Math.min(max, pool.length)
+  const lo = Math.min(min, hi)
+  const count = lo + Math.floor(Math.random() * (hi - lo + 1))
+  return shuffle(pool).slice(0, count)
+}
+

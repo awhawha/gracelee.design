@@ -209,6 +209,28 @@ export const portfolioKb: PortfolioKnowledgeBase = {
       relatedProjectIds: ['automl', 'dotds'],
     },
     {
+      id: 'museum',
+      title: 'Designing with AI Agents',
+      company: 'Museum of Children’s Books (self-initiated)',
+      role: 'Solo, end to end: product concept, AI workflow design, and front-end build in code.',
+      challenge:
+        'AI could generate structured metadata (author, year, ISBN) reliably, but open-ended research on medium and technique was vague, inconsistent, or hard to verify. A closed knowledge base improved grounding, then broke at a manual copy-paste into the CMS. The design problem was not how to generate content, but where AI could be trusted and where human judgment had to intervene.',
+      process:
+        'The museum is a visual archive of children’s-book illustration, organized around craft. Grace used it to test how far AI could participate in product design and implementation by designing in code. She tested three workflow models: CMS auto-fill, a closed knowledge base, and an agentic draft-production pipeline. A custom Claude Code Skill researches a book, synthesizes findings, and writes structured fields as a draft. The pipeline is research → draft → human review → admin edit → manual publish, with two human checkpoints so unreviewed content cannot go live. The same pipeline supports specialized skills such as illustrator research and cover color-palette extraction.',
+      collaboration:
+        'Solo project. AI was a production partner across research and drafting, not a teammate. There was no product or engineering team; Grace defined where the agent acts, where the admin interface shows drafts in context, and where a human still publishes.',
+      impact:
+        'The work showed that treating AI as an agent across the production workflow is more trustworthy than a generate button inside a CMS form. The review experience is still evolving: agent output needs a purpose-built validation flow, not only a standard CMS form, to make editorial review fast and reliable. No numeric launch metrics are documented.',
+      tools: [
+        'Claude Code Skills',
+        'Agentic drafting pipeline',
+        'Code-first prototyping',
+        'CMS / admin interface',
+      ],
+      links: [{ href: '/work/museum', label: 'Designing with AI Agents case study' }],
+      relatedProjectIds: ['automl'],
+    },
+    {
       id: 'wislite',
       title: 'Enterprise applications at Wislite Technology',
       company: 'Wislite Technology',

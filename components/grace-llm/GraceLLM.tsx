@@ -20,9 +20,10 @@ import { isInternalHref, linkifyProjectTitles } from '@/lib/graceLlm/linkify'
 import type { ChatTurn, GraceLlmRequest, GraceLlmSuccess } from '@/lib/graceLlm/types'
 import { Icon, SparkleIcon } from '@/components/Icon'
 import {
-  getQuickPrompts,
+  getQuickPromptPool,
   getWelcomeMessage,
   resolvePageContext,
+  sampleQuickPrompts,
   type ResolvedPageContext,
 } from '@/lib/pageContext'
 
@@ -325,7 +326,10 @@ export function GraceLLM() {
   const inflightRef = useRef(false)
 
   const welcome = getWelcomeMessage(context)
-  const prompts = getQuickPrompts(context)
+  const [prompts, setPrompts] = useState(() => {
+    const pool = getQuickPromptPool(context)
+    return context.type === 'project' ? pool.slice(0, 7) : pool
+  })
   const canSend = input.trim().length > 0 && !loading
   const empty = messages.length === 0
   const presented = state === 'open' || (state === 'default' && isDesktop)
@@ -335,6 +339,12 @@ export function GraceLLM() {
     if (contextTimerRef.current) window.clearTimeout(contextTimerRef.current)
     contextTimerRef.current = window.setTimeout(() => setContextNotice(null), 4200)
   }, [])
+
+  useEffect(() => {
+    const ctx = resolvePageContext(pathname)
+    const pool = getQuickPromptPool(ctx)
+    setPrompts(ctx.type === 'project' ? sampleQuickPrompts(pool, 6, 8) : pool)
+  }, [pathname])
 
   useEffect(() => {
     if (prevContextRef.current === context.currentPage) return
@@ -367,9 +377,9 @@ export function GraceLLM() {
 
   useEffect(() => {
     const node = logRef.current
-    if (!node) return
+    if (!node || empty) return
     node.scrollTop = node.scrollHeight
-  }, [messages, loading, contextNotice])
+  }, [messages, loading, contextNotice, empty])
 
   useEffect(() => {
     const onKeyDown = (event: globalThis.KeyboardEvent) => {
@@ -479,6 +489,10 @@ export function GraceLLM() {
     setMessages([])
     setError(null)
     lastUserRef.current = null
+    const pool = getQuickPromptPool(context)
+    setPrompts(
+      context.type === 'project' ? sampleQuickPrompts(pool, 6, 8) : pool,
+    )
   }
 
   return (
@@ -540,7 +554,21 @@ export function GraceLLM() {
         aria-relevant="additions"
         aria-busy={loading}
       >
-        {empty ? null : (
+        {empty ? (
+          <div className="pb-2">
+            <p className="font-sans text-[22px] font-medium leading-snug tracking-[-0.02em] text-primary">
+              Ask away.
+            </p>
+            <p className="mt-2 text-[13.5px] leading-relaxed text-tertiary">
+              {welcome}
+            </p>
+            <PromptList
+              prompts={prompts}
+              onSelect={(prompt) => void send(prompt)}
+              className="mt-5 space-y-1"
+            />
+          </div>
+        ) : (
           <ul className="space-y-4 pb-4">
             {messages.map((message) => (
               <li key={message.id} className="flex flex-col">
@@ -598,22 +626,6 @@ export function GraceLLM() {
       </div>
 
       <div className="px-5 pb-[max(1rem,env(safe-area-inset-bottom))] pt-2">
-        {empty ? (
-          <div className="mb-5">
-            <p className="font-sans text-[22px] font-medium leading-snug tracking-[-0.02em] text-primary">
-              Ask away.
-            </p>
-            <p className="mt-2 text-[13.5px] leading-relaxed text-tertiary">
-              {welcome}
-            </p>
-            <PromptList
-              prompts={prompts}
-              onSelect={(prompt) => void send(prompt)}
-              className="mt-5 space-y-1"
-            />
-          </div>
-        ) : null}
-
         <form onSubmit={onSubmit}>
           <label htmlFor="grace-llm-input" className="sr-only">
             Message GraceLLM
@@ -627,7 +639,11 @@ export function GraceLLM() {
               value={input}
               onChange={(event) => setInput(event.target.value)}
               onKeyDown={onComposerKeyDown}
-              placeholder="Ask about Grace…"
+              placeholder={
+                context.type === 'project' && context.projectTitle
+                  ? `Ask about ${context.projectTitle}…`
+                  : 'Ask about Grace…'
+              }
               enterKeyHint="send"
               autoComplete="off"
               className="max-h-28 min-h-[32px] flex-1 resize-none bg-transparent py-1 font-sans text-[14.5px] leading-[1.45] text-primary placeholder:text-tertiary focus:outline-none"

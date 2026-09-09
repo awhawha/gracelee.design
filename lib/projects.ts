@@ -5,6 +5,8 @@
 // prototype. Structured so it can later move to MDX/CMS without touching the
 // view layer — see the README "State Management" section.
 
+import { isProjectHidden } from '@/lib/visibility'
+
 export type MediaItem = {
   kind: 'image' | 'video'
   /** Box height in px (from the design data). */
@@ -512,12 +514,16 @@ const byId: Record<string, Project> = Object.fromEntries(
   projects.map((p) => [p.id, p]),
 )
 
+const visibleProjects: Project[] = projects.filter((p) => !isProjectHidden(p.id))
+
 /** Home work-index groups, derived from `company` (per the README). */
-export const groups: CompanyGroup[] = groupDefs.map((g) => ({
-  company: g.company,
-  meta: g.meta,
-  projects: g.ids.map((id) => byId[id]),
-}))
+export const groups: CompanyGroup[] = groupDefs
+  .map((g) => ({
+    company: g.company,
+    meta: g.meta,
+    projects: g.ids.map((id) => byId[id]).filter((p) => p && !isProjectHidden(p.id)),
+  }))
+  .filter((g) => g.projects.length > 0)
 
 /**
  * Home "Selected work" list — a single flat list (no per-company grouping),
@@ -530,17 +536,17 @@ export function getProject(slug: string): Project | undefined {
 }
 
 export function getAllSlugs(): string[] {
-  return projects.map((p) => p.id)
+  return visibleProjects.map((p) => p.id)
 }
 
 /** The next project in order, wrapping around (for the case-study footer). */
 export function getNextProject(slug: string): Project {
-  const idx = Math.max(0, projects.findIndex((p) => p.id === slug))
-  return projects[(idx + 1) % projects.length]
+  const idx = Math.max(0, visibleProjects.findIndex((p) => p.id === slug))
+  return visibleProjects[(idx + 1) % visibleProjects.length]
 }
 
 /** The previous project in order, wrapping around (for the case-study footer). */
 export function getPreviousProject(slug: string): Project {
-  const idx = Math.max(0, projects.findIndex((p) => p.id === slug))
-  return projects[(idx - 1 + projects.length) % projects.length]
+  const idx = Math.max(0, visibleProjects.findIndex((p) => p.id === slug))
+  return visibleProjects[(idx - 1 + visibleProjects.length) % visibleProjects.length]
 }

@@ -4,7 +4,7 @@ import {
   type PortfolioProject,
 } from '@/data/portfolioContext'
 import {
-  getQuickPrompts,
+  getQuickPromptPool,
   resolvePageContext,
   type ResolvedPageContext,
 } from '@/lib/pageContext'
@@ -32,9 +32,9 @@ function notInKb(question: string, ctx: ResolvedPageContext): DemoAnswer {
   const zh = looksChinese(question)
   const opener = zh ? NOT_IN_KB_ZH : NOT_IN_KB_EN
   const next = zh
-    ? '你可以改問 Grace 的背景、AutoML 重設計、設計系統，或 Kahuna 行銷分析。'
-    : 'I can tell you about Grace’s background, the AutoML redesign, the design system, or Kahuna marketing analytics.'
-  return answer(`${opener} ${next}`, getQuickPrompts(ctx).slice(0, 3))
+    ? '你可以改問 Grace 的背景、AutoML 重設計、設計系統、Kahuna 行銷分析，或 Designing with AI Agents。'
+    : 'I can tell you about Grace’s background, the AutoML redesign, the design system, Kahuna marketing analytics, or Designing with AI Agents.'
+  return answer(`${opener} ${next}`, getQuickPromptPool(ctx).slice(0, 3))
 }
 
 function relatedFollowUps(project: PortfolioProject): string[] {
@@ -72,6 +72,7 @@ function matchProjectFromQuestion(q: string): PortfolioProject | undefined {
     { id: 'automl', keys: ['automl', 'auto ml', 'auto-ml', 'model-design', 'model design', 'canvas', 'workflow redesign'] },
     { id: 'dotds', keys: ['design system', 'token', 'handoff', 'v1', 'v2', 'css variable'] },
     { id: 'kahuna', keys: ['kahuna', 'marketing', 'campaign', 'targeting', 'audience', 'dashboard'] },
+    { id: 'museum', keys: ['museum', 'ai agent', 'agentic', "children's book", 'childrens book', 'claude code'] },
     { id: 'wislite', keys: ['wislite', 'banking', 'credit-review', '2007'] },
   ]
   const hit = aliases.find((alias) => alias.keys.some((key) => q.includes(key)))
@@ -233,7 +234,7 @@ export function getDemoReply(question: string, ctx: ResolvedPageContext): DemoAn
   if (!q) {
     return answer(
       'Ask a question about Grace’s work, or pick one of the prompts above.',
-      getQuickPrompts(ctx),
+      getQuickPromptPool(ctx).slice(0, 3),
     )
   }
 

@@ -304,19 +304,26 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
         {/* Photographic hero: sits directly under the title, unframed — the
             shot carries its own edges, so a border would read as a second one */}
         {content.heroImage && content.heroImageFirst && (
-          <div className="mt-9 overflow-hidden rounded-[16px]">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={content.heroImage.img}
-              alt={content.heroImage.alt ?? content.heroImage.caption}
-              onClick={() =>
-                setZoom({
-                  src: content.heroImage!.img as string,
-                  alt: content.heroImage!.alt ?? content.heroImage!.caption,
-                })
-              }
-              className="block w-full cursor-zoom-in"
-            />
+          <div className="mt-9">
+            <div className="overflow-hidden rounded-[16px]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={content.heroImage.img}
+                alt={content.heroImage.alt ?? content.heroImage.caption}
+                onClick={() =>
+                  setZoom({
+                    src: content.heroImage!.img as string,
+                    alt: content.heroImage!.alt ?? content.heroImage!.caption,
+                  })
+                }
+                className="block w-full cursor-zoom-in"
+              />
+            </div>
+            {content.heroImage.caption && (
+              <p className="type-cap mt-3 text-tertiary">
+                {content.heroImage.caption}
+              </p>
+            )}
           </div>
         )}
 
