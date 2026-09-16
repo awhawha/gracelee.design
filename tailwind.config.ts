@@ -8,10 +8,10 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        display: ['var(--font-domine)', 'Georgia', 'serif'],
-        sans: ['var(--font-open-sans)', 'system-ui', 'sans-serif'],
-        // Legacy `font-mono` (dates, tokens) maps to Open Sans.
-        mono: ['var(--font-open-sans)', 'system-ui', 'sans-serif'],
+        display: ['var(--font-playfair)', 'Georgia', 'serif'],
+        sans: ['var(--font-fira)', 'system-ui', 'sans-serif'],
+        // Legacy `font-mono` (dates, tokens) maps to Fira Sans.
+        mono: ['var(--font-fira)', 'system-ui', 'sans-serif'],
       },
       colors: {
         // Values live in styles/tokens.css — change them there.

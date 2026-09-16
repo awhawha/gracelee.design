@@ -1,7 +1,7 @@
 /*
   Portfolio design tokens — edit values here to restyle the live site
-  and /styleguide together. Typefaces: Domine (display + headers),
-  Open Sans (body, cap, meta).
+  and /styleguide together. Typefaces: Playfair Display (display + headers),
+  Fira Sans (body, cap, meta).
 */
 
 :root {
@@ -24,22 +24,32 @@
 
   /* --- Type --- */
 
+  /* Homepage bands (Figma Portfolio mockup). */
+  --home-cream: #faf9ef;
+  --home-lime: #e8ffb3;
+  --home-sky: #d5e7ff;
+  --home-ink: #35480b;
+  --home-ink-body: #595b56;
+  --home-stroke: #3c510b;
+  --home-hero-max: 900px;
+  --home-work-max: 1420px;
+
   /* Display — 1. Home + About heroes. Was display + page-title. */
   --type-display-size: 72px;
   --type-display-leading: 0.96;
-  --type-display-tracking: -0.03em;
+  --type-display-tracking: 0.01em;
 
   /* Header — 3. */
   --type-header-size: 50px; /* case H1s. Was case-title + case-title-sm */
   --type-header-leading: 1.05;
-  --type-header-tracking: -0.03em;
+  --type-header-tracking: 0.01em;
 
   --type-header-md-size: 28px; /* chapters, index, next. Was h2 + index-title + next-title */
   --type-header-md-leading: 1.14;
-  --type-header-md-tracking: -0.02em;
+  --type-header-md-tracking: 0.01em;
 
   --type-header-sm-size: 20px; /* subheads. Was h3 + h4 */
-  --type-header-sm-tracking: -0.01em;
+  --type-header-sm-tracking: 0.01em;
 
   /* Body — 3. */
   --type-body-lg-size: 22px; /* hero dek. Was lede */
@@ -60,33 +70,33 @@
 .type-header,
 .type-header-md,
 .type-header-sm {
-  font-family: var(--font-domine), Georgia, serif;
+  font-family: var(--font-playfair), Georgia, serif;
 }
 
 .type-display {
   font-size: var(--type-display-size);
-  font-weight: 600;
+  font-weight: 700;
   line-height: var(--type-display-leading);
   letter-spacing: var(--type-display-tracking);
 }
 
 .type-header {
   font-size: var(--type-header-size);
-  font-weight: 600;
+  font-weight: 700;
   line-height: var(--type-header-leading);
   letter-spacing: var(--type-header-tracking);
 }
 
 .type-header-md {
   font-size: var(--type-header-md-size);
-  font-weight: 600;
+  font-weight: 700;
   line-height: var(--type-header-md-leading);
   letter-spacing: var(--type-header-md-tracking);
 }
 
 .type-header-sm {
   font-size: var(--type-header-sm-size);
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: var(--type-header-sm-tracking);
 }
 
@@ -94,7 +104,7 @@
 .type-body,
 .type-body-sm,
 .type-cap {
-  font-family: var(--font-open-sans), system-ui, sans-serif;
+  font-family: var(--font-fira), system-ui, sans-serif;
 }
 
 .type-body-lg {

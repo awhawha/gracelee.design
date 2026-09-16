@@ -130,11 +130,10 @@ export type CaseStudyContent = {
 }
 
 const automl: CaseStudyContent = {
-  // Eyebrow repeats the name the Home index uses, so a project reads the same
-  // in both places; the title below carries the descriptive line.
-  eyebrow: 'AutoML workflow redesign',
+  // Matches the Home selected-works card: company kicker + homepage title.
+  eyebrow: 'dotData',
   title:
-    'Making AutoML Self-Serve: From Fragmented Data Setup to Confident Model Runs',
+    'Enabling Business Analysts to turn complex data into confident model runs with a guided AutoML workflow',
   // Tags and metric cards are intentionally empty: the rail carries the framing
   // and the Outcomes chapter carries the design-change results.
   tags: [],
@@ -369,8 +368,9 @@ const automl: CaseStudyContent = {
 }
 
 const designSystem: CaseStudyContent = {
-  eyebrow: 'dotData design system',
-  title: 'Building a design system people could use consistently',
+  eyebrow: 'dotData',
+  title:
+    'Empowering Designers and Engineers with a shareable library and token system for consistent, scalable product experiences',
   tags: ['Design systems', 'Design–engineering workflow'],
   meta: [
     { label: 'Company', value: 'dotData' },

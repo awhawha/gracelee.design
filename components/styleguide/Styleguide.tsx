@@ -283,7 +283,7 @@ export function Styleguide() {
         <h2 className="type-header-md border-t border-surface-tertiary pt-10">Type</h2>
         <p className="type-body mt-3 mb-10 max-w-[640px] text-tertiary">
           Eight roles: one display, three headers, three bodies, one cap.
-          Faces: Domine on display and headers, Open Sans on body, cap, and meta.
+          Faces: Playfair Display on display and headers, Fira Sans on body, cap, and meta.
         </p>
         <div className="divide-y divide-surface-tertiary border-y border-surface-tertiary">
           {typeRoles.map((t) => (

@@ -35,7 +35,7 @@ export function CaseStudyShell({
             className="type-cap inline-flex items-center gap-1.5 font-medium text-tertiary transition-colors hover:text-primary"
           >
             <Icon name="fa-arrow-left" />
-            All projects
+            Back to home
           </TransitionLink>
 
           {meta && (

@@ -1,12 +1,14 @@
 /**
- * The global footer, rendered from the root layout: a slim copyright bar on the
- * deep-green ground. Contact lives in the site nav, so nothing else sits here.
+ * The global footer, rendered from the root layout.
+ * Contact lives in the site nav, so nothing else sits here.
  */
 export function SiteFooter() {
   return (
-    <footer className="bg-accent-secondary">
-      <div className="mx-auto max-w-pf px-10 py-4 max-[640px]:px-6">
-        <div className="font-sans text-[13px] text-accent-tertiary">© 2026 Grace Lee</div>
+    <footer>
+      <div className="flex justify-center px-10 py-4 max-[640px]:px-6">
+        <div className="font-sans text-[12px] tracking-[0.01em] text-[#b0aea8]">
+          @2026 Grace Lee
+        </div>
       </div>
     </footer>
   )

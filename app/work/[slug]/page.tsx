@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { Icon } from '@/components/Icon'
 import { CaseStudyGallery } from '@/components/portfolio/CaseStudyGallery'
@@ -8,8 +7,7 @@ import { ChapteredCaseStudy } from '@/components/portfolio/ChapteredCaseStudy'
 import { TransitionLink } from '@/components/portfolio/PageTransition'
 import { ScrollytellingCaseStudy } from '@/components/portfolio/ScrollytellingCaseStudy'
 import { caseStudyContent } from '@/lib/caseStudyContent'
-import type { Project } from '@/lib/projects'
-import { getAllSlugs, getNextProject, getPreviousProject, getProject } from '@/lib/projects'
+import { getAllSlugs, getProject } from '@/lib/projects'
 
 export function generateStaticParams() {
   return getAllSlugs().map((slug) => ({ slug }))
@@ -40,9 +38,6 @@ export default function CaseStudyPage({
   const chaptered = caseStudyContent[params.slug]
   if (chaptered) return <ChapteredCaseStudy content={chaptered} />
 
-  const next = getNextProject(project.id)
-  const prev = getPreviousProject(project.id)
-
   if (project.sections) {
     /* Scrollytelling: pinned media swaps to match the section being read */
     return (
@@ -53,13 +48,12 @@ export default function CaseStudyPage({
             className="type-cap inline-flex items-center gap-1.5 text-tertiary transition-colors hover:text-primary"
           >
             <Icon name="fa-arrow-left" />
-            All projects
+            Back to home
           </TransitionLink>
         </div>
         <div data-stagger>
           <ScrollytellingCaseStudy project={project} />
         </div>
-        <AdjacentProjects prev={prev} next={next} />
       </div>
     )
   }
@@ -77,7 +71,7 @@ export default function CaseStudyPage({
         }
       >
         {/* No client eyebrow here — the rail already carries company and context */}
-        <h1 className="type-header mb-6">
+        <h1 className="mb-6 font-display text-[28px] font-bold leading-normal tracking-[0.01em] text-black">
           {project.headline ?? project.title}
         </h1>
         <div className="mb-9 flex flex-wrap gap-2">
@@ -129,44 +123,6 @@ export default function CaseStudyPage({
           </p>
         </section>
       </CaseStudyShell>
-
-      <AdjacentProjects prev={prev} next={next} />
     </div>
-  )
-}
-
-/** Light band between the case study and the dark site footer. */
-function AdjacentProjects({
-  prev,
-  next,
-}: {
-  prev: Project
-  next: Project
-}) {
-  return (
-    <nav className="border-t border-surface-tertiary">
-      <div className="mx-auto flex max-w-[1280px] items-start justify-between gap-8 px-10 py-12 max-[640px]:flex-col max-[640px]:gap-8 max-[640px]:px-6">
-        <Link
-          href={`/work/${prev.id}`}
-          className="group min-w-0 max-w-[22rem] max-[640px]:max-w-none"
-        >
-          <span className="type-cap block text-tertiary">Previous project</span>
-          <span className="type-header-md mt-2 inline-flex items-center gap-2 text-primary transition-colors group-hover:text-accent-primary">
-            <Icon name="fa-arrow-left" />
-            {prev.homeTitle ?? prev.title}
-          </span>
-        </Link>
-        <Link
-          href={`/work/${next.id}`}
-          className="group min-w-0 max-w-[22rem] text-right max-[640px]:max-w-none max-[640px]:self-end"
-        >
-          <span className="type-cap block text-tertiary">Next project</span>
-          <span className="type-header-md mt-2 inline-flex items-center justify-end gap-2 text-primary transition-colors group-hover:text-accent-primary">
-            {next.homeTitle ?? next.title}
-            <Icon name="fa-arrow-right" />
-          </span>
-        </Link>
-      </div>
-    </nav>
   )
 }

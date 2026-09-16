@@ -68,6 +68,12 @@ export type Project = {
   homeShader?: { colors: string[]; fallback: string }
   /** Homepage tile image. When set, replaces the mesh shader and sizes to the asset. */
   homeThumb?: { img: string; width: number; height: number }
+  /** Full-bleed homepage band color (Figma selected-works rows). */
+  homeBand?: string
+  /** Short homepage band description; falls back to `desc`. */
+  homeBlurb?: string
+  /** Homepage band screenshot. When set, replaces `homeThumb` in the band layout. */
+  homeBandImage?: { img: string; width: number; height: number }
   tags: string[]
   /**
    * Label/value pairs for the case study's sticky sidebar rail. Kept short —
@@ -91,9 +97,10 @@ export const projects: Project[] = [
     client: 'Enterprise AI · dotData',
     title: 'AutoML workflow redesign',
     headline:
-      'Redesigning enterprise AutoML: reducing time-to-value for business analysts by 50%',
+      'Enabling Business Analysts to turn complex data into confident model runs with a guided AutoML workflow',
     desc: 'Reimagining the automated ML workflow',
-    homeTitle: 'AutoML workflow redesign',
+    homeTitle:
+      'Enabling Business Analysts to turn complex data into confident model runs with a guided AutoML workflow',
     // Mirrors the case study's H1, so the index row and the page agree.
     homeSubtitle:
       'Making AutoML self-serve: from fragmented data setup to confident model runs',
@@ -101,6 +108,14 @@ export const projects: Project[] = [
       img: '/images/automl/home-thumb.jpg',
       width: 1024,
       height: 536,
+    },
+    homeBand: '#e8ffb3',
+    homeBlurb:
+      'I led the redesign of the AutoML configuration workflow, transforming prediction task creation into a clear, self-serve experience.',
+    homeBandImage: {
+      img: '/images/home/automl-band.png',
+      width: 2200,
+      height: 1452,
     },
     tags: ['Workflow redesign', 'Complex systems UX', 'Prototyping', 'Enterprise AI'],
     paras: [
@@ -267,11 +282,21 @@ export const projects: Project[] = [
     company: 'dotData',
     client: 'Design Systems · dotData',
     title: 'dotData design system',
-    headline: 'A design system with logic-driven, three-layer tokens',
+    headline:
+      'Empowering Designers and Engineers with a shareable library and token system for consistent, scalable product experiences',
     desc: 'Logic-driven tokens that align design and engineering',
-    homeTitle: 'dotData design system',
+    homeTitle:
+      'Empowering Designers and Engineers with a shareable library and token system for consistent, scalable product experiences',
     homeSubtitle: 'Building a design system people could use consistently',
     homeThumb: {
+      img: '/images/ds/ds-hero.png',
+      width: 4400,
+      height: 2200,
+    },
+    homeBand: '#d5e7ff',
+    homeBlurb:
+      'I built a shareable design library and token system to reduce the design inconsistency and improve the hand-off process',
+    homeBandImage: {
       img: '/images/ds/ds-hero.png',
       width: 4400,
       height: 2200,
@@ -527,10 +552,11 @@ export const groups: CompanyGroup[] = groupDefs
   .filter((g) => g.projects.length > 0)
 
 /**
- * Home "Selected work" list — a single flat list (no per-company grouping),
- * in the same order the grouped index previously rendered.
+ * Home "Selected work" list — featured bands from the homepage mockup.
  */
-export const homeProjects: Project[] = groups.flatMap((g) => g.projects)
+export const homeProjects: Project[] = ['automl', 'dotds']
+  .map((id) => byId[id])
+  .filter((p): p is Project => Boolean(p) && !isProjectHidden(p.id))
 
 export function getProject(slug: string): Project | undefined {
   return byId[slug]

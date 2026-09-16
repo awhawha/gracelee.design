@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Domine, Open_Sans } from 'next/font/google'
+import { Fira_Sans, Playfair_Display } from 'next/font/google'
 import Script from "next/script"
 import { GraceLLM, GraceLLMProvider } from '@/components/grace-llm/GraceLLM'
 import { HomeCursor } from '@/components/portfolio/HomeCursor'
@@ -14,15 +14,17 @@ import { GRACE_LLM_ENABLED } from '@/lib/visibility'
 import '@/styles/tokens.css'
 import '@/styles/globals.css'
 
-const domine = Domine({
+const playfair = Playfair_Display({
   subsets: ['latin'],
-  variable: '--font-domine',
+  style: ['normal', 'italic'],
+  variable: '--font-playfair',
   display: 'swap',
 })
 
-const openSans = Open_Sans({
+const firaSans = Fira_Sans({
   subsets: ['latin'],
-  variable: '--font-open-sans',
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-fira',
   display: 'swap',
 })
 
@@ -52,7 +54,7 @@ export default function RootLayout({
     <html lang="en">
      
       <body
-        className={`${domine.variable} ${openSans.variable} min-h-screen font-sans text-primary antialiased`}
+        className={`${playfair.variable} ${firaSans.variable} min-h-screen font-sans text-primary antialiased`}
       >
         <GraceLLMProvider>
           <HomeCursor />

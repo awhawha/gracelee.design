@@ -198,7 +198,7 @@ export function ScrollytellingCaseStudy({ project }: { project: Project }) {
         <div className="type-cap mb-4 text-tertiary">
           {project.client}
         </div>
-        <h1 className="type-header mb-6">
+        <h1 className="mb-6 font-display text-[28px] font-bold leading-normal tracking-[0.01em] text-black">
           {project.headline ?? project.title}
         </h1>
         <div className="mb-9 flex flex-wrap gap-2">

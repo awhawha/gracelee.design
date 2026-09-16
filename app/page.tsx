@@ -1,50 +1,65 @@
 import { HomeProjectCard } from '@/components/portfolio/HomeProjectCard'
-import { experience } from '@/lib/experience'
+import { TransitionLink } from '@/components/portfolio/PageTransition'
 import { homeProjects } from '@/lib/projects'
 
 export default function HomePage() {
   return (
-    <div className="font-sans text-primary">
-      <section className="grid grid-cols-2 items-start gap-16 px-10 pb-20 pt-10 max-[900px]:grid-cols-1 max-[900px]:gap-10 max-[640px]:px-6 max-[640px]:pb-12 max-[640px]:pt-6">
-        <h1 data-stagger className="type-header m-0 max-w-[11em]">
-          I&apos;m Grace, a product designer who{' '}
-          <em className="font-normal italic">builds Enterprise AI products</em>.
-        </h1>
-        <ul
-          data-stagger
-          className="m-0 grid list-none grid-cols-[6.75rem_minmax(0,1fr)_minmax(0,1.4fr)] gap-x-5 gap-y-3 p-0 text-[13px] leading-snug text-secondary max-[640px]:grid-cols-[5.75rem_1fr] max-[640px]:gap-x-3"
-        >
-          {experience.map((e) => (
-            <li key={e.company} className="contents">
-              <span className="text-tertiary">{e.dates}</span>
-              {e.url ? (
-                <a
-                  href={e.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary underline-offset-[3px] hover:underline"
-                >
-                  {e.company}
-                </a>
-              ) : (
-                <span className="text-primary">{e.company}</span>
-              )}
-              <span className="max-[640px]:col-span-2 max-[640px]:col-start-2 max-[640px]:-mt-1">
-                {e.role}
-              </span>
-            </li>
-          ))}
-        </ul>
+    <div className="home-page font-sans text-black">
+      <section className="bg-[var(--home-cream)] px-6 pb-16 pt-28 max-[640px]:pb-12 md:px-10 md:pb-20 md:pt-[195px]">
+        <div className="mx-auto flex max-w-[var(--home-hero-max)] items-start gap-6 max-[640px]:flex-col">
+          <div
+            data-stagger
+            className="shrink-0 rounded-full bg-[rgba(191,183,183,0.22)] p-[5px]"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/profile.jpg"
+              alt="Grace Lee"
+              width={80}
+              height={80}
+              className="size-20 rounded-full object-cover"
+            />
+          </div>
+          <div className="flex min-w-0 flex-1 flex-col gap-6">
+            <h1
+              data-stagger
+              className="m-0 max-w-[622px] font-display text-[32px] font-normal leading-normal tracking-[0.01em] text-[var(--home-ink)]"
+            >
+              <span className="font-bold">Senior Product Designer </span>
+              making complex B2B workflows clearer for users and scalable for
+              teams.
+            </h1>
+            <p
+              data-stagger
+              className="m-0 text-[18px] leading-[30px] text-[var(--home-ink-body)]"
+            >
+              With 9+ years of experience across enterprise analytics, data, and
+              AI products, I turn technical complexity into trusted experiences.
+              My work spans data visualization and complex interaction design,
+              guided AutoML workflows and design systems—all grounded in an
+              engineering mindset and close collaboration with product and
+              engineering.
+            </p>
+            <TransitionLink
+              data-stagger
+              href="/about"
+              className="home-about-link text-[16px] font-medium text-[var(--home-ink)]"
+            >
+              More about me
+            </TransitionLink>
+          </div>
+        </div>
       </section>
 
-      <section
-        id="work"
-        data-stagger-group
-        className="grid grid-cols-2 gap-2 p-2 max-[900px]:grid-cols-1 max-[640px]:gap-1.5 max-[640px]:p-1.5"
-      >
-        {homeProjects.map((p) => (
-          <HomeProjectCard key={p.id} project={p} />
-        ))}
+      <section id="work" className="px-6 py-[60px] max-[640px]:px-6 md:px-10">
+        <div className="mx-auto flex w-full max-w-[var(--home-work-max)] flex-col gap-[60px]">
+          <p className="m-0 text-[24px] font-medium text-black">Selected works</p>
+          <div data-stagger-group className="flex flex-col gap-[60px]">
+            {homeProjects.map((p) => (
+              <HomeProjectCard key={p.id} project={p} />
+            ))}
+          </div>
+        </div>
       </section>
     </div>
   )

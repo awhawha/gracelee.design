@@ -8,7 +8,6 @@ import {
   useState,
   type ReactNode,
 } from 'react'
-import Link from 'next/link'
 import { Icon } from '@/components/Icon'
 import { Lightbox } from '@/components/Lightbox'
 import { CaseStudyShell } from '@/components/portfolio/CaseStudyShell'
@@ -293,11 +292,11 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
       <CaseStudyShell meta={content.meta} link={content.link}>
         {/* Hero */}
         {content.eyebrow && (
-          <div className="type-cap mb-[26px] font-medium text-secondary">
+          <div className="mb-2 text-[13px] font-medium tracking-[0.04em] text-[var(--home-ink-body)]">
             {content.eyebrow}
           </div>
         )}
-        <h1 className="type-header m-0">
+        <h1 className="m-0 font-display text-[28px] font-bold leading-normal tracking-[0.01em] text-black">
           {content.title}
         </h1>
 
@@ -677,36 +676,6 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
           </p>
         </section>
       </CaseStudyShell>
-
-      {/* Prev / next — light band, so the dark footer stays the only CTA */}
-      <nav className="border-t border-surface-tertiary">
-        <div className="mx-auto flex max-w-[1280px] items-start justify-between gap-8 px-10 py-12 max-[640px]:flex-col max-[640px]:gap-8 max-[640px]:px-6">
-          <Link
-            href={content.prev.href}
-            className="group min-w-0 max-w-[22rem] max-[640px]:max-w-none"
-          >
-            <span className="type-cap block text-tertiary">
-              Previous project
-            </span>
-            <span className="type-header-md mt-2 inline-flex items-center gap-2 text-primary transition-colors group-hover:text-accent-primary">
-              <Icon name="fa-arrow-left" />
-              {content.prev.label}
-            </span>
-          </Link>
-          <Link
-            href={content.next.href}
-            className="group min-w-0 max-w-[22rem] text-right max-[640px]:max-w-none max-[640px]:self-end"
-          >
-            <span className="type-cap block text-tertiary">
-              Next project
-            </span>
-            <span className="type-header-md mt-2 inline-flex items-center justify-end gap-2 text-primary transition-colors group-hover:text-accent-primary">
-              {content.next.label}
-              <Icon name="fa-arrow-right" />
-            </span>
-          </Link>
-        </div>
-      </nav>
 
       {zoom && (
         <Lightbox src={zoom.src} alt={zoom.alt} onClose={() => setZoom(null)} />

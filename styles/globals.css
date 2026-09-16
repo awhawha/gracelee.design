@@ -3,14 +3,14 @@
 @tailwind utilities;
 
 /* Tailwind's font utilities can stay cached against old --font-* names.
-   Pin them to the current faces so nav/footer/body actually get Open Sans. */
+   Pin them to the current faces so nav/footer/body actually get Fira Sans. */
 .font-sans,
 .font-mono {
-  font-family: var(--font-open-sans), system-ui, sans-serif;
+  font-family: var(--font-fira), system-ui, sans-serif;
 }
 
 .font-display {
-  font-family: var(--font-domine), Georgia, serif;
+  font-family: var(--font-playfair), Georgia, serif;
 }
 
 /* Tokens: styles/tokens.css (imported from app/layout.tsx). */
@@ -126,6 +126,10 @@ body {
   .grace-llm-panel {
     transition: none;
   }
+
+  .home-about-link:hover::after {
+    animation: none;
+  }
 }
 
 @layer utilities {
@@ -196,6 +200,38 @@ body {
   }
 }
 
+@keyframes home-about-draw {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.home-about-link {
+  position: relative;
+  display: inline-block;
+  width: fit-content;
+  text-decoration: none;
+}
+
+.home-about-link::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: 1px;
+  left: 0;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+.home-about-link:hover::after {
+  animation: home-about-draw 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
 /* Homepage custom cursor — fine pointers only. Touch keeps the system cursor. */
 @media (hover: hover) and (pointer: fine) {
   body.home-cursor-on,
@@ -221,7 +257,7 @@ body {
   overflow: hidden;
   interpolate-size: allow-keywords;
   border-radius: 999px;
-  background: #41874e;
+  background: #000;
   pointer-events: none;
   opacity: 0;
   transition:

@@ -33,7 +33,10 @@ export default function AboutPage() {
   return (
     <div className="font-sans text-primary">
       <div className="mx-auto max-w-pf px-10 pb-14 pt-10 max-[640px]:px-6 max-[640px]:pb-12 max-[640px]:pt-6">
-        <h1 data-stagger className="type-header m-0 max-w-[14em]">
+        <h1
+          data-stagger
+          className="m-0 max-w-[14em] font-display text-[32px] font-normal leading-normal tracking-[0.01em] text-[var(--home-ink)]"
+        >
           A senior product designer who{' '}
           <em className="font-normal italic">builds systems</em> with craft.
         </h1>
