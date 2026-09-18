@@ -70,6 +70,68 @@ function Reveal({
 
 // ── Striped image placeholder ───────────────────────────────────────────────
 
+function FigureSlider({ items }: { items: CaseMedia[] }) {
+  const scroller = useRef<HTMLDivElement | null>(null)
+  const onZoom = useContext(ZoomContext)
+
+  const scrollByPage = (dir: number) => {
+    const el = scroller.current
+    if (!el) return
+    el.scrollBy({ left: dir * Math.round(el.clientWidth * 0.72), behavior: 'smooth' })
+  }
+
+  return (
+    <div className="mt-[6px]">
+      <div className="flex items-center gap-2">
+        <button
+          type="button"
+          aria-label="Previous panel"
+          onClick={() => scrollByPage(-1)}
+          className="shrink-0 text-[16px] text-tertiary transition-colors hover:text-primary"
+        >
+          <Icon name="fa-arrow-left" />
+        </button>
+        <div
+          ref={scroller}
+          className="flex snap-x snap-mandatory items-stretch gap-3 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        >
+          {items.map((item) => (
+            <figure
+              key={item.img ?? item.label}
+              className="m-0 flex w-[min(340px,78vw)] shrink-0 snap-start flex-col"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={item.img}
+                alt={item.alt ?? item.caption}
+                onClick={
+                  onZoom && item.img
+                    ? () => onZoom(item.img as string, item.alt ?? item.caption)
+                    : undefined
+                }
+                className={`block h-auto w-full${onZoom && item.img ? ' cursor-zoom-in' : ''}`}
+              />
+              {item.caption && (
+                <figcaption className="type-cap mt-2 text-tertiary">
+                  {item.caption}
+                </figcaption>
+              )}
+            </figure>
+          ))}
+        </div>
+        <button
+          type="button"
+          aria-label="Next panel"
+          onClick={() => scrollByPage(1)}
+          className="shrink-0 text-[16px] text-tertiary transition-colors hover:text-primary"
+        >
+          <Icon name="fa-arrow-right" />
+        </button>
+      </div>
+    </div>
+  )
+}
+
 function Figure({
   media,
   ratio = '16 / 10',
@@ -82,17 +144,13 @@ function Figure({
   const onZoom = useContext(ZoomContext)
   const frameRatio = media.ratio ?? ratio
   const bgClass = media.img
-    ? media.bg === 'white'
-      ? 'bg-surface-primary'
-      : media.bg === 'gradient'
-        ? 'bg-[#dddfae] bg-pf-paper'
-        : 'bg-[#d8dac9]'
+    ? 'bg-surface-primary'
     : 'bg-pf-stripes'
 
   return (
     <div style={{ maxWidth: media.maxW }}>
       {media.title && (
-        <div className="type-body-sm mb-2 font-medium text-secondary">
+        <div className="type-header-sm mb-4 text-primary">
           {media.title}
         </div>
       )}
@@ -170,7 +228,7 @@ function BeforeAfterSide({
         {media.label}
       </div>
       <div
-        className="relative flex w-full items-center justify-center overflow-hidden rounded-[12px] border border-surface-tertiary bg-[#dddfae] bg-pf-paper"
+        className="relative flex w-full items-center justify-center overflow-hidden rounded-[12px] border border-surface-tertiary bg-surface-primary"
         style={{ aspectRatio: '5760 / 3380' }}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -448,7 +506,14 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
 
         {/* Chapters — single column: label → title → body → callout → visuals */}
         {content.chapters.map((ch, i) => (
-          <section key={i} className="mt-14 border-t border-surface-tertiary pb-2 pt-12">
+          <section
+            key={i}
+            className={`mt-14 border-t border-surface-tertiary pt-12 ${
+              !content.involvement && i === content.chapters.length - 1
+                ? 'pb-20'
+                : 'pb-2'
+            }`}
+          >
             {ch.kicker && (
               <div className="type-cap font-medium text-secondary">
                 {ch.kicker}
@@ -512,7 +577,7 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
                   </Reveal>
                 )}
 
-                {ch.overview && (
+                {ch.overview && !ch.decisionsTitle && (
                   <Reveal className="mt-[14px]">
                     <Figure media={ch.overview} />
                   </Reveal>
@@ -541,40 +606,112 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
 
                 {ch.decisions && (
                   <div className="mt-[14px]">
-                    {/* Group label sits a level above the item names: 20 → 18 */}
                     {ch.decisionsTitle && (
-                      <h3 className="type-header-sm m-0 mt-9">
+                      <h3
+                        className={
+                          ch.decisionsLayout === 'cards' && ch.overview
+                            ? 'm-0 mt-9 font-sans text-[18px] font-semibold leading-snug tracking-[0.01em] text-primary'
+                            : ch.decisionsLayout === 'cards' ||
+                                ch.decisionsLayout === 'numbered'
+                              ? 'type-cap m-0 mt-9 font-medium text-secondary'
+                              : 'type-header-sm m-0 mt-9'
+                        }
+                      >
                         {ch.decisionsTitle}
                       </h3>
                     )}
-                    {ch.decisions.map((d, k) => (
-                      <Reveal
-                        key={d.num}
-                        /* The rule separates items, so the first one goes without */
-                        className={
-                          k === 0
-                            ? 'mt-5'
-                            : 'mt-6 border-t border-surface-tertiary pt-6'
-                        }
-                      >
-                        <h4 className="type-header-sm m-0 mb-[6px]">
-                          {d.name}
-                        </h4>
-                        <p
-                          className={`type-body-sm m-0 max-w-[900px] text-secondary${
-                            d.media ? ' mb-[18px]' : ''
-                          }`}
-                        >
-                          {d.text}
-                        </p>
-                        {d.media && <Figure media={d.media} />}
-                        {d.media2 && (
-                          <div className="mt-[18px]">
-                            <Figure media={d.media2} />
-                          </div>
-                        )}
+                    {ch.decisionsIntro && (
+                      <p className="type-body-sm m-0 mt-3 max-w-[900px] text-secondary">
+                        {ch.decisionsIntro}
+                      </p>
+                    )}
+                    {ch.overview && ch.decisionsTitle && (
+                      <Reveal className="mt-4">
+                        <Figure media={ch.overview} />
                       </Reveal>
-                    ))}
+                    )}
+                    {ch.decisionsLayout === 'cards' ? (
+                      <div
+                        className={`mt-4 grid gap-3 max-[800px]:grid-cols-1 ${
+                          ch.decisions.length === 4
+                            ? 'grid-cols-2'
+                            : 'grid-cols-3'
+                        }`}
+                      >
+                        {ch.decisions.map((d) => (
+                          <Reveal
+                            key={d.num}
+                            className="rounded-[12px] bg-[#f7f6f3] px-5 py-5"
+                          >
+                            <h4 className="m-0 font-sans text-[15px] font-semibold leading-snug tracking-[0.01em] text-primary">
+                              {d.name}
+                            </h4>
+                            <p className="type-body-sm m-0 mt-2 text-secondary">
+                              {d.text}
+                            </p>
+                          </Reveal>
+                        ))}
+                      </div>
+                    ) : ch.decisionsLayout === 'numbered' ? (
+                      <div className="mt-4 flex flex-col gap-3">
+                        {ch.decisions.map((d) => (
+                          <Reveal
+                            key={d.num}
+                            className="flex gap-4 rounded-[12px] bg-[#f7f6f3] px-5 py-5"
+                          >
+                            <div
+                              className="flex h-6 min-w-6 shrink-0 items-center justify-center rounded-[4px] bg-[#e11d1d] px-1 font-sans text-[12px] font-semibold leading-none text-white"
+                              aria-hidden
+                            >
+                              {d.num}
+                            </div>
+                            <div className="min-w-0">
+                              <h4 className="m-0 font-sans text-[15px] font-semibold leading-snug tracking-[0.01em] text-primary">
+                                {d.name}
+                              </h4>
+                              <p className="type-body-sm m-0 mt-2 text-secondary">
+                                {d.text}
+                              </p>
+                            </div>
+                          </Reveal>
+                        ))}
+                      </div>
+                    ) : (
+                      ch.decisions.map((d, k) => (
+                        <Reveal
+                          key={d.num}
+                          /* The rule separates items, so the first one goes without */
+                          className={
+                            k === 0
+                              ? 'mt-10'
+                              : 'mt-12 border-t border-surface-tertiary pt-12'
+                          }
+                        >
+                          <h4 className="type-header-sm m-0 mb-[10px]">
+                            {d.name}
+                          </h4>
+                          <p
+                            className={`type-body-sm m-0 max-w-[900px] text-secondary${
+                              d.media || d.gallery ? ' mb-7' : ''
+                            }`}
+                          >
+                            {d.text}
+                          </p>
+                          {d.gallery && d.gallery.length > 0 ? (
+                            <FigureSlider items={d.gallery} />
+                          ) : (
+                            <>
+                              {d.media && <Figure media={d.media} />}
+                              {d.media2 && (
+                                <div className="mt-[18px]">
+                                  <Figure media={d.media2} />
+                                </div>
+                              )}
+                            </>
+                          )}
+                        </Reveal>
+                      ))
+                    )}
                   </div>
                 )}
 
@@ -598,7 +735,7 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
                         ? 'grid grid-cols-2 items-start gap-[22px] max-[700px]:grid-cols-1'
                         : 'flex flex-col gap-[22px]'
                     } ${
-                      ch.decisions && !ch.bodyAfter ? 'mt-[26px]' : 'mt-[14px]'
+                      ch.decisions && !ch.bodyAfter ? 'mt-16' : 'mt-10'
                     }`}
                   >
                     {ch.figures.map((f, j) => (
@@ -666,15 +803,16 @@ export function ChapteredCaseStudy({ content }: { content: CaseStudyContent }) {
           </section>
         ))}
 
-        {/* My involvement */}
-        <section className="mt-12 border-t border-surface-tertiary pb-20 pt-14">
-          <h3 className="type-header-sm m-0">
-            My involvement
-          </h3>
-          <p className="type-body-sm m-0 mt-4 max-w-[900px] text-secondary">
-            {content.involvement}
-          </p>
-        </section>
+        {content.involvement && (
+          <section className="mt-12 border-t border-surface-tertiary pb-20 pt-14">
+            <h3 className="type-header-sm m-0">
+              My involvement
+            </h3>
+            <p className="type-body-sm m-0 mt-4 max-w-[900px] text-secondary">
+              {content.involvement}
+            </p>
+          </section>
+        )}
       </CaseStudyShell>
 
       {zoom && (

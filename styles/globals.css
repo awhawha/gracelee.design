@@ -130,6 +130,10 @@ body {
   .home-about-link:hover::after {
     animation: none;
   }
+
+  .home-cta::before {
+    transition: none;
+  }
 }
 
 @layer utilities {
@@ -232,6 +236,37 @@ body {
   animation: home-about-draw 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* Homepage project CTA — left-to-right black fill on card hover. */
+.home-cta {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background-color: #fff;
+}
+
+.home-cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: #000;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.group:hover .home-cta::before,
+.group:focus-visible .home-cta::before {
+  transform: scaleX(1);
+}
+
+.home-cta-label {
+  position: relative;
+  z-index: 1;
+  color: #fff;
+  mix-blend-mode: difference;
+}
+
 /* Homepage custom cursor — fine pointers only. Touch keeps the system cursor. */
 @media (hover: hover) and (pointer: fine) {
   body.home-cursor-on,
@@ -249,13 +284,8 @@ body {
   top: 0;
   left: 0;
   z-index: 10050;
-  display: flex;
   height: 12px;
   width: 12px;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  interpolate-size: allow-keywords;
   border-radius: 999px;
   background: #000;
   pointer-events: none;
@@ -263,7 +293,6 @@ body {
   transition:
     width 0.32s cubic-bezier(0.22, 1, 0.36, 1),
     height 0.32s cubic-bezier(0.22, 1, 0.36, 1),
-    padding 0.32s cubic-bezier(0.22, 1, 0.36, 1),
     opacity 0.15s ease;
   will-change: transform;
 }
@@ -278,33 +307,6 @@ body {
   opacity: 0.6;
 }
 
-.home-cursor.is-case-study {
-  width: max-content;
-  height: max-content;
-  justify-content: flex-start;
-  padding: 1rem;
-  opacity: 1;
-}
-
 .home-cursor.is-reduced {
-  transition: none;
-}
-
-.home-cursor-label {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  color: #fff;
-  line-height: 1;
-  white-space: nowrap;
-  opacity: 0;
-  transition: opacity 0.18s ease 0.06s;
-}
-
-.home-cursor.is-case-study .home-cursor-label {
-  opacity: 1;
-}
-
-.home-cursor.is-reduced .home-cursor-label {
   transition: none;
 }

@@ -110,7 +110,7 @@ export default function EnterpriseRedesignClient() {
             Enterprise AI · dotData · Senior Product Designer
           </p>
           <h1 className="mt-5 font-display text-4xl leading-tight tracking-tight text-[var(--color-text)] md:text-5xl">
-            Redesigning Enterprise AutoML: Reducing Time-to-Value for business analysts by 40%
+            Redesigning Enterprise AutoML: from fragmented setup to a self-serve canvas
           </h1>
 
           <div className="mt-8 flex flex-wrap gap-2">
@@ -146,26 +146,26 @@ export default function EnterpriseRedesignClient() {
         <div className="mx-auto max-w-wide grid grid-cols-1 divide-y divide-[var(--color-border)] md:grid-cols-3 md:divide-x md:divide-y-0">
           <div className="px-10 py-12">
             <p className="font-sans text-2xl leading-none tracking-tight text-[var(--color-text)]">
-              -50% Setup Time
+              20+ → 5 steps
             </p>
             <p className="mt-3 font-sans text-sm text-[var(--color-muted)]">
-              From 10 to 5 minutes avg. configuration.
+              Configuration actions collapsed into a guided setup.
             </p>
           </div>
           <div className="px-10 py-12">
             <p className="font-sans text-2xl leading-none tracking-tight text-[var(--color-text)]">
-              Zero DS Dependency
+              Self-serve iteration
             </p>
             <p className="mt-3 font-sans text-sm text-[var(--color-muted)]">
-              Empowered business analysts to run models independently without data science teams.
+              Analysts can revise one setting and rerun without restarting setup.
             </p>
           </div>
           <div className="px-10 py-12">
             <p className="font-sans text-2xl leading-none tracking-tight text-[var(--color-text)]">
-              +40% Time-to-Value
+              After customer upgrade
             </p>
             <p className="mt-3 font-sans text-sm text-[var(--color-muted)]">
-              Significantly accelerated the workflow for enterprise users.
+              Tracking task completion, support requests, and time to first experiment.
             </p>
           </div>
         </div>
@@ -180,8 +180,8 @@ export default function EnterpriseRedesignClient() {
           <div className="mt-8 grid grid-cols-1 gap-12">
             <div className="space-y-5 font-sans leading-[1.75] text-[var(--color-text)] max-w-[680px]">
               <p>
-                A partner trained 80 business analysts on our AutoML platform, but <b>fewer than 5 
-                remained active</b>. The product growth in the US market had frozen.
+                A partner trained 50+ business analysts on our AutoML platform, but <b>fewer than 5
+                created a prediction task independently</b>. The product growth in the US market had frozen.
               </p>
               <h2 className="mt-2 font-sans text-base font-semibold text-[var(--color-text)]">
                 Key Insights from Support Tickets & User Research:
@@ -361,26 +361,20 @@ export default function EnterpriseRedesignClient() {
               Driving Both User and Business Success
             </h3>
             <p>
-              We validated the single-canvas workspace and the guided configuration pipeline through usability 
-              testing with business analytics students, alongside tracking post-launch enterprise telemetry:
+              We validated the single-canvas workspace and the guided configuration pipeline through usability
+              testing. Launch telemetry waits on enterprise customers upgrading; these are the design changes
+              and the metrics I will track after rollout:
             </p>
             <ul>
               <li>
-                <b>45% Friction Reduction:</b> Data import and configuration support tickets—which previously made up 
-                over half of all incoming volume—dropped significantly after release.   
+                <b>20+ actions to 5 guided steps:</b> Setup moved from a fragmented wizard to one canvas.
               </li>
               <li>
-                <b>50% Faster Time-to-Value:</b> Average configuration time for a multi-table 
-                schema dropped from 10 minutes to just 5 minutes.  
-              </li> 
-              <li>
-                <b>100% Unassisted Completion:</b> Users completed complex, non-linear model configurations 
-                entirely on their own for the first time, without relying on data science intervention. 
+                <b>Iteration without a restart:</b> Users can revise one setting and rerun.
               </li>
               <li>
-                <b>Commercial Re-engagement:</b> Sales teams, who had previously stopped demoing the data onboarding 
-                module due to its high friction, proactively integrated the new canvas experience back into key 
-                enterprise sales cycles.
+                <b>To measure after upgrade:</b> Task completion rate, support requests per customer,
+                and time to first successful experiment.
               </li>
             </ul>
             <blockquote className="mt-4 border-l-2 border-[var(--color-accent)] pl-6 font-display text-xl italic leading-[1.5] text-[var(--color-text)] md:text-2xl">

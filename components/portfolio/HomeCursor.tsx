@@ -2,12 +2,10 @@
 
 import { useEffect, useRef, useState } from 'react'
 
-import { Icon } from '@/components/Icon'
-
 const HOVERABLE =
-  'a, button, [role="button"], input, textarea, select, summary, label, [data-cursor]'
+  'a, button, [role="button"], input, textarea, select, summary, label'
 
-type CursorMode = 'default' | 'hover' | 'case-study'
+type CursorMode = 'default' | 'hover'
 
 function cursorMode(target: EventTarget | null): CursorMode {
   const hitRoot =
@@ -17,7 +15,6 @@ function cursorMode(target: EventTarget | null): CursorMode {
         ? target.parentElement
         : null
   if (!hitRoot) return 'default'
-  if (hitRoot.closest('[data-cursor="case-study"]')) return 'case-study'
   if (hitRoot.closest(HOVERABLE)) return 'hover'
   return 'default'
 }
@@ -80,14 +77,9 @@ export function HomeCursor() {
   return (
     <div
       ref={nodeRef}
-      className={`home-cursor${visible ? ' is-visible' : ''}${mode === 'case-study' ? ' is-case-study' : ''}${mode === 'hover' ? ' is-hover' : ''}${reduced ? ' is-reduced' : ''}`}
+      className={`home-cursor${visible ? ' is-visible' : ''}${mode === 'hover' ? ' is-hover' : ''}${reduced ? ' is-reduced' : ''}`}
       hidden={!enabled}
       aria-hidden
-    >
-      <span className="home-cursor-label type-cap">
-        <Icon name="fa-eye" className="text-[12px]" />
-        VIEW CASE STUDY
-      </span>
-    </div>
+    />
   )
 }

@@ -74,6 +74,13 @@ export type Project = {
   homeBlurb?: string
   /** Homepage band screenshot. When set, replaces `homeThumb` in the band layout. */
   homeBandImage?: { img: string; width: number; height: number }
+  /**
+   * Homepage card destination. When set, the Selected works row links here
+   * instead of `/work/[id]` — used for live sites with no public case study.
+   */
+  homeHref?: string
+  /** Optional homepage status chip, e.g. "Case study in progress". */
+  homeStatus?: string
   tags: string[]
   /**
    * Label/value pairs for the case study's sticky sidebar rail. Kept short —
@@ -119,7 +126,7 @@ export const projects: Project[] = [
     },
     tags: ['Workflow redesign', 'Complex systems UX', 'Prototyping', 'Enterprise AI'],
     paras: [
-      'At dotData, I led the end-to-end redesign of the multi-table data onboarding and configuration experience to transform the platform from a service-heavy tool into a true self-service SaaS product. The urgency was clear: out of 80 business analysts trained on our legacy platform, fewer than five remained active, effectively freezing market growth. Qualitative discovery revealed that while machine learning workflows are inherently non-linear and iterative, our rigid, 3-step legacy wizard hid critical schema dependencies, trapping users in frustrating “debugging loops” and causing catastrophic compute-time waste.',
+      'At dotData, I led the end-to-end redesign of the multi-table data onboarding and configuration experience to transform the platform from a service-heavy tool into a true self-service SaaS product. The urgency was clear: fewer than five of 50+ business analysts trained on the legacy platform created a prediction task independently, effectively freezing market growth. Qualitative discovery revealed that while machine learning workflows are inherently non-linear and iterative, our rigid, 3-step legacy wizard hid critical schema dependencies, trapping users in frustrating “debugging loops” and causing catastrophic compute-time waste.',
       'To realign our technical and product roadmap, I leveraged Object-Oriented Design (OOD) to map out every systemic data relationship. This foundational shift allowed me to partner deeply with lead engineers to remove legacy configuration noise (such as manual data-type mapping) and replace our fragmented structure with a single canvas workspace. By introducing an interactive spatial layout, we eliminated invisible dependencies, providing non-technical analysts with full contextual visibility over table relationships and preventing late-stage configuration failures.',
       'To make the high-density canvas intuitive, I established three scalable interaction patterns:',
       {
@@ -134,12 +141,12 @@ export const projects: Project[] = [
         lead: 'Semantic Auto-Connect',
         text: 'A knowledge-free data linking system utilizing system intelligence, pre-filled smart defaults, and concrete, real-data configuration pipelines embedded directly in place.',
       },
-      'We validated the canvas architecture through usability testing and post-launch telemetry, achieving immediate business and user validation: a 45% reduction in import configuration support tickets, a 50% acceleration in time-to-value (slashing configuration time from 10 to 5 minutes), and a 100% unassisted completion rate for complex ML schemas. Crucially, the experience re-engaged our enterprise sales pipeline, empowering account executives to proactively demo the data onboarding module as a key competitive moat in major sales cycles.',
+      'The redesign reduced 20+ configuration actions to 5 guided steps and made iteration possible without restarting setup. Enterprise customers still need to upgrade before launch telemetry lands; the metrics I will track are task completion rate, support requests per customer, and time to first successful experiment.',
     ],
     metrics: [
-      { value: '−45%', label: 'import config support tickets' },
-      { value: '−50%', label: 'config time (10→5 min)' },
-      { value: '100%', label: 'unassisted completion' },
+      { value: '20+ → 5', label: 'configuration actions to guided steps' },
+      { value: 'After upgrade', label: 'task completion, support load, time to first experiment' },
+      { value: 'Self-serve', label: 'analysts can iterate without restarting setup' },
     ],
     involvement:
       'As the Lead Product Designer, I drove the full platform lifecycle from systemic problem reframing and workflow segmentation to defining our cross-product interaction patterns. By utilizing OOD as a cross-functional alignment artifact, I actively simplified the platform’s underlying technical architecture alongside engineering and product management stakeholders, establishing a scalable, vision-led interaction foundation that paved the way for all subsequent predictive intelligence properties across the platform.',
@@ -477,8 +484,18 @@ export const projects: Project[] = [
     client: 'Side project · Museum of Children’s Books',
     title: 'Designing with AI Agents',
     desc: 'A human–AI production system for a children’s book museum',
-    homeTitle: 'Designing with AI Agents',
-    homeSubtitle: 'Designing a human–AI content production system',
+    homeTitle: 'Museum of Children’s Books',
+    homeSubtitle: 'A digital museum of classic children’s books and illustration',
+    homeBlurb:
+      'I designed and built a digital museum for exploring the stories, visual language, and craft behind children’s books—paired with an AI-assisted CMS that reduced producing a publish-ready book analysis from 2–3 days to about 30 minutes.',
+    homeThumb: {
+      img: '/images/museum/in-a-nutshell-books-hero.png',
+      width: 2880,
+      height: 1628,
+    },
+    homeHref: 'https://inanutshellbooks.studio/',
+    liveUrl: 'https://inanutshellbooks.studio/',
+    homeStatus: 'Case study in progress',
     homeShader: {
       colors: ['#F3E4D4', '#C4785A', '#E8C9A0', '#7A8B6A'],
       fallback: '#C4785A',
@@ -553,10 +570,11 @@ export const groups: CompanyGroup[] = groupDefs
 
 /**
  * Home "Selected work" list — featured bands from the homepage mockup.
+ * Explicitly curated; a project can appear here even if its case study is hidden.
  */
-export const homeProjects: Project[] = ['automl', 'dotds']
+export const homeProjects: Project[] = ['automl', 'dotds', 'museum']
   .map((id) => byId[id])
-  .filter((p): p is Project => Boolean(p) && !isProjectHidden(p.id))
+  .filter((p): p is Project => Boolean(p))
 
 export function getProject(slug: string): Project | undefined {
   return byId[slug]
