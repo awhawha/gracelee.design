@@ -6,7 +6,7 @@
 
 export const GRACE_LLM_ENABLED = false
 
-export const HIDDEN_PROJECT_IDS = ['museum'] as const
+export const HIDDEN_PROJECT_IDS = [] as const
 
 export function isProjectHidden(id: string): boolean {
   return (HIDDEN_PROJECT_IDS as readonly string[]).includes(id)
