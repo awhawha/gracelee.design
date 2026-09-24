@@ -24,7 +24,7 @@ export function CaseStudyShell({
   children: ReactNode
 }) {
   return (
-    <div className="mx-auto grid max-w-[1280px] grid-cols-[264px_minmax(0,1fr)] gap-x-16 px-10 max-[1080px]:grid-cols-1 max-[1080px]:gap-x-0 max-[640px]:px-6">
+    <div className="grid w-full max-w-[1280px] grid-cols-[264px_minmax(0,1fr)] gap-x-16 px-[clamp(1.5rem,3.8vw,66px)] max-[1080px]:grid-cols-1 max-[1080px]:gap-x-0 max-[640px]:px-6">
       <div
         data-stagger
         className="border-r border-surface-tertiary max-[1080px]:border-b max-[1080px]:border-r-0 max-[520px]:border-b-0"

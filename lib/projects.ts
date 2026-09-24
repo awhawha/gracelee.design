@@ -103,11 +103,9 @@ export const projects: Project[] = [
     company: 'dotData',
     client: 'Enterprise AI · dotData',
     title: 'AutoML workflow redesign',
-    headline:
-      'Enabling Business Analysts to turn complex data into confident model runs with a guided AutoML workflow',
+    headline: 'Simplifying AutoML setup for business analysts',
     desc: 'Reimagining the automated ML workflow',
-    homeTitle:
-      'Enabling Business Analysts to turn complex data into confident model runs with a guided AutoML workflow',
+    homeTitle: 'Simplifying AutoML setup for business analysts',
     // Mirrors the case study's H1, so the index row and the page agree.
     homeSubtitle:
       'Making AutoML self-serve: from fragmented data setup to confident model runs',
@@ -120,7 +118,7 @@ export const projects: Project[] = [
     homeBlurb:
       'I led the redesign of the AutoML configuration workflow, transforming prediction task creation into a clear, self-serve experience.',
     homeBandImage: {
-      img: '/images/home/automl-band.png',
+      img: '/images/automl/automl-home.png',
       width: 2200,
       height: 1452,
     },
@@ -289,11 +287,9 @@ export const projects: Project[] = [
     company: 'dotData',
     client: 'Design Systems · dotData',
     title: 'dotData design system',
-    headline:
-      'Empowering Designers and Engineers with a shareable library and token system for consistent, scalable product experiences',
+    headline: 'Creating a token-driven system for product teams',
     desc: 'Logic-driven tokens that align design and engineering',
-    homeTitle:
-      'Empowering Designers and Engineers with a shareable library and token system for consistent, scalable product experiences',
+    homeTitle: 'Creating a token-driven system for product teams',
     homeSubtitle: 'Building a design system people could use consistently',
     homeThumb: {
       img: '/images/ds/ds-hero.png',
@@ -480,43 +476,42 @@ export const projects: Project[] = [
   },
   {
     id: 'museum',
-    company: 'Side project',
-    client: 'Side project · Museum of Children’s Books',
-    title: 'Designing with AI Agents',
-    desc: 'A human–AI production system for a children’s book museum',
-    homeTitle: 'Museum of Children’s Books',
-    homeSubtitle: 'A digital museum of classic children’s books and illustration',
+    company: 'In a Nutshell Books',
+    client: 'Side project · In a Nutshell Books',
+    title: 'In a Nutshell Books',
+    desc: 'An AI-assisted research and curation workflow for a personal children’s-book museum',
+    homeTitle: 'Designing a human-in-the-loop AI content workflow',
+    homeSubtitle:
+      'A living collection of picture books, and a sourced workflow for researching what to add next',
     homeBlurb:
-      'I designed and built a digital museum for exploring the stories, visual language, and craft behind children’s books—paired with an AI-assisted CMS that reduced producing a publish-ready book analysis from 2–3 days to about 30 minutes.',
+      'I designed and built a bilingual personal museum of children’s books — 65 books, 32 illustrators, and 7 exhibition rooms — then turned acquisition research into a sourced, reviewable AI workflow.',
     homeThumb: {
       img: '/images/museum/in-a-nutshell-books-hero.png',
       width: 2880,
       height: 1628,
     },
-    homeHref: 'https://inanutshellbooks.studio/',
     liveUrl: 'https://inanutshellbooks.studio/',
-    homeStatus: 'Case study in progress',
     homeShader: {
       colors: ['#F3E4D4', '#C4785A', '#E8C9A0', '#7A8B6A'],
       fallback: '#C4785A',
     },
     tags: [
-      'AI-Driven Design',
-      'Prototyping in the Browser',
-      'Human-AI Interaction',
-      'CMS UX Redesign',
+      'AI-assisted research',
+      'Curation workflow',
+      'Content model',
+      'Human review',
     ],
     paras: [
-      "A self-initiated concept: a digital museum celebrating children's book illustration. I wanted to design something warm and tactile — a counterweight to the dense enterprise work I do by day.",
-      'I built the brand, the exhibition structure, and a reading experience that lets the artwork breathe, treating each illustrator like a gallery show rather than a catalog entry.',
+      'In a Nutshell Books is a living personal museum of children’s books. Over three months I designed and built a bilingual collection — 65 books, 32 illustrators, and 7 emerging exhibition rooms — and an AI-assisted workflow for researching and curating new acquisitions.',
+      'The public museum came first. A reusable /new-book skill then drafts sourced research for review: it matches editorial voice without treating it as evidence, searches existing notes, follows a source hierarchy, keeps a URL on every factual claim, refuses invented visual analysis, and updates an existing draft instead of creating a duplicate.',
     ],
     metrics: [
-      { value: '24', label: 'illustrators featured' },
-      { value: '6', label: 'curated exhibitions' },
-      { value: '∞', label: 'bedtime re-reads' },
+      { value: '65', label: 'books' },
+      { value: '32', label: 'illustrators' },
+      { value: '7', label: 'emerging exhibition rooms' },
     ],
     involvement:
-      'Everything — concept, brand identity, art direction, and the full web experience. A playground for craft on my own terms.',
+      'End to end: product strategy, UX/UI, content model, research workflow, frontend, backend, database, and AI workflows. I review every draft before a book enters the museum.',
     media: [
       {
         kind: 'image',

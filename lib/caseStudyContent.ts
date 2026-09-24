@@ -138,8 +138,7 @@ export type CaseStudyContent = {
 const automl: CaseStudyContent = {
   // Matches the Home selected-works card: company kicker + homepage title.
   eyebrow: 'dotData',
-  title:
-    'Enabling Business Analysts to turn complex data into confident model runs with a guided AutoML workflow',
+  title: 'Simplifying AutoML setup for business analysts',
   // Tags and metric cards are intentionally empty: the rail carries the framing
   // and the Outcomes chapter carries the design-change results.
   tags: [],
@@ -152,7 +151,7 @@ const automl: CaseStudyContent = {
       value: 'Research, prototyping, visualization, interaction design',
     },
     { label: 'Team', value: '1 PM, 4 Engineers, 1 Data Scientist' },
-    { label: 'Timeline', value: '6 months focused / longer rollout' },
+    { label: 'Timeline', value: '6 months' },
   ],
   heroCompact: true,
   tldr: [
@@ -229,7 +228,8 @@ const automl: CaseStudyContent = {
       kicker: '03 — Diagnosis',
       heading: 'Three disconnected pages hid the cost of every decision',
       body: [
-        'I found three problems in the existing setup.',
+        'The issue was not simply that setup happened across three pages. Each page asked Business Analysts to make a data decision without enough context to understand its downstream effect. They could not see how target selection, table relationships, and time settings worked together; they learned about invalid choices only after a run; and advanced controls appeared before they had built a working mental model.',
+        'The design challenge was to make a technically connected workflow understandable and recoverable without hiding the controls people needed to trust their model setup.',
       ],
       overview: {
         label: '[ automl/old-design.png — the existing task screen ]',
@@ -445,9 +445,7 @@ const automl: CaseStudyContent = {
     {
       kicker: '07 — Outcomes',
       heading: 'From 20+ configuration actions to 5 guided steps',
-      body: [
-        'No launch telemetry yet — this is an enterprise product, and numbers land after customers upgrade. What changed in the design is below; what I will measure after rollout follows.',
-      ],
+      body: [],
       decisionsTitle: 'What changed',
       decisionsLayout: 'cards',
       decisions: [
@@ -511,8 +509,7 @@ const automl: CaseStudyContent = {
 
 const designSystem: CaseStudyContent = {
   eyebrow: 'dotData',
-  title:
-    'Empowering Designers and Engineers with a shareable library and token system for consistent, scalable product experiences',
+  title: 'Creating a token-driven system for product teams',
   tags: ['Design systems', 'Design–engineering workflow'],
   meta: [
     { label: 'Company', value: 'dotData' },
@@ -660,89 +657,119 @@ const designSystem: CaseStudyContent = {
 }
 
 const museum: CaseStudyContent = {
-  eyebrow: 'Designing with AI Agents',
-  title: 'Designing a human–AI content production system',
-  tags: ['Agentic workflows', 'Human-in-the-loop AI', 'AI product design'],
+  eyebrow: 'In a Nutshell Books',
+  title: 'Designing a human-in-the-loop AI content workflow',
+  tags: [],
   meta: [
-    { label: 'Project', value: 'Museum of Children’s Books (self-initiated)' },
-    { label: 'Role', value: 'Solo — design and build' },
+    { label: 'Project', value: 'In a Nutshell Books' },
+    { label: 'Role', value: 'End-to-end product designer and builder' },
+    { label: 'Timeline', value: '3 months' },
     {
       label: 'Scope',
-      value: 'Product concept, AI workflow design, front-end build',
+      value:
+        'Product strategy, UX/UI, content model, research workflow, frontend, backend, database, and AI workflows',
     },
-    { label: 'Built with', value: 'Claude Code Skills, agentic drafting pipeline' },
+    {
+      label: 'Tools',
+      value:
+        'Cursor, Claude Code, Claude, Gemini, NotebookLM, Supabase, Vercel, GitHub',
+    },
   ],
-  subhead:
-    'A draft-first workflow for a children’s-book museum: agents research and generate structured drafts, while editors review, revise, and manually publish content.',
+  link: { label: 'Visit the museum', href: 'https://inanutshellbooks.studio/' },
+  heroCompact: true,
+  tldr: [
+    'In a Nutshell Books is a living personal museum of children’s books. It began after my daughter was born and I started collecting picture books—not only as books to read together, but as objects of illustration, visual storytelling, and creative practice.',
+    'Most available book reviews are written for parents and focus on what children can learn. I wanted a different kind of resource: one that could help me understand why an illustrator made particular choices, how a book’s visual language works, and what makes it worth returning to.',
+    'Over three months, I designed and built a bilingual collection experience that now includes 65 books, 32 illustrators, and 7 emerging exhibition rooms. As the collection grew, the project evolved from a public-facing museum into an AI-assisted workflow for researching, analyzing, and curating new acquisitions.',
+  ],
   metrics: [
-    {
-      label: 'Code-first design',
-      desc: 'Designed and built the product directly in code, with AI as a design and engineering collaborator.',
-    },
-    {
-      label: '3 workflow models tested',
-      desc: 'Tested CMS generation, a closed knowledge base, and an agentic draft-production workflow.',
-    },
-    {
-      label: '2 human checkpoints',
-      desc: 'Drafts are reviewed in conversation and again in the admin interface before anyone publishes.',
-    },
+    { value: '65', label: 'books' },
+    { value: '32', label: 'illustrators' },
+    { value: '7', label: 'emerging exhibition rooms' },
   ],
   heroImage: {
-    label: '[ museum/admin-draft.png — draft in the admin ]',
+    label: '[ museum/in-a-nutshell-books-hero.png — the museum and its collection admin ]',
     caption:
-      'A draft in the admin: structured cards for Polar Express, still unpublished. The agent filled the fields; a human is reviewing before anything goes live.',
-    img: '/images/museum/admin-draft.png',
-    alt: 'Admin editor for Polar Express in draft status, showing design-deconstruction cards for oil pastel technique and the bell motif',
-    ratio: '1024 / 548',
-    fit: 'contain',
-    bg: 'white',
+      'The public museum beside the collection admin: Book of the Day on the site, and the book records behind it.',
+    img: '/images/museum/in-a-nutshell-books-hero.png',
+    alt: 'In a Nutshell Books: the collection admin beside the public Book of the Day on desktop and mobile',
   },
   heroImageFirst: true,
-  involvement:
-    'Solo, end to end. I defined the product concept, designed and built the experience directly in code, tested AI/CMS workflow models, and developed the Claude Code Skills behind the draft-production pipeline. My focus was designing where automation should act, where human judgment should intervene, and how the handoff between them should work.',
   prev: { label: 'Audience filter editor', href: '/work/filters' },
   next: { label: 'AutoML workflow redesign', href: '/work/automl' },
   chapters: [
     {
-      kicker: '01 — The opportunity',
-      heading: 'Building a visual archive with AI as a production partner',
+      kicker: '01 — The problem',
+      heading: 'Researching one picture book deeply is slow and fragmented',
       body: [
-        'The museum is a visual reference for illustrators and designers, organized around craft: medium, technique, style, and influence.',
-        'I used the project to explore a second question: how far could AI participate directly in product design and implementation? Designing in code with the product context, working UI, and codebase in one environment created a tighter loop between design reasoning and implementation.',
+        'I used web search, author interviews, publisher pages, museum archives, book reviews, and tools like ChatGPT and NotebookLM. The outputs were often interesting, but difficult to trust, inconsistent in depth, and disconnected from the rest of my collection. I also had to repeatedly copy information between tools and manually check whether a suggested book already existed in the museum.',
       ],
-      overview: {
-        label: '[ tool-convergence.png — chat → design surface → code ]',
-        caption:
-          'Concepting, design, and implementation collapsed into one continuous loop.',
-        img: '/images/museum/process.png',
-        ratio: '1214 / 434',
-        fit: 'cover',
-        bg: 'white',
-        maxW: '760px',
+      list: {
+        title: 'Two opportunities',
+        items: [
+          'A public experience: create a better way to browse, read, and return to a growing collection.',
+          'A research workflow: turn behind-the-scenes research and acquisition work into a more reliable AI-assisted process.',
+        ],
       },
     },
     {
-      kicker: '02 — The problem',
-      heading: 'AI could generate content, but not earn trust',
+      kicker: '02 — The museum',
+      heading: 'Building the museum before adding AI',
       body: [
-        'Structured metadata, such as author, year, and ISBN, was easy for AI to generate and validate. Open-ended research on medium and technique was less reliable: outputs could be vague, inconsistent, or difficult to verify.',
-        'A closed knowledge base improved grounding, but introduced a manual copy-paste bridge back to the CMS. The design problem was not simply how to generate content, but where AI could be trusted and where human judgment needed to intervene.',
+        'I first focused on the collection experience: browsing books, discovering recent acquisitions, finding illustrators, and reading visual analysis in a format that feels editorial rather than instructional.',
+        'As the collection grew, I changed the information architecture in response to my own use.',
+      ],
+      decisions: [
+        {
+          num: '01',
+          name: 'From a timeline to a searchable collection',
+          text: 'A chronological view was attractive at first, but it did not scale with a collection designed to keep growing. I moved toward browsing and search patterns that support discovery across books, illustrators, and exhibition contexts.',
+        },
+        {
+          num: '02',
+          name: 'From a split analysis layout to a long-form reading experience',
+          text: 'Early AI-generated analyses were short and generic, so a two-column layout felt sufficient. Once I developed deeper, sourced analysis, the content needed more room. I redesigned the book page with a focused hero and a longer editorial reading flow beneath it.',
+        },
+      ],
+      bodyAfter: [
+        'The public museum gave the AI workflows a real destination: research was no longer an isolated answer in a chat window; it became material that could be reviewed, structured, and preserved in the collection.',
+      ],
+      figures: [
+        {
+          label: '[ museum/hero.png — Book of the Day ]',
+          caption:
+            'The public reading surface: a focused book hero, then room underneath for a longer editorial analysis.',
+          img: '/images/museum/hero.png',
+          alt: 'Book of the Day for Where the Wild Things Are, with the cover, bilingual title, and a short prompt to enter the book',
+          ratio: '3704 / 1854',
+          fit: 'cover',
+          bg: 'white',
+        },
+      ],
+    },
+    {
+      kicker: '03 — The workflow',
+      heading: 'Designing a research workflow that earns trust',
+      body: [
+        'My first attempt was an “AI generate” button in the editor. It could fill factual fields reasonably well, but it produced vague analysis and made it hard to tell which claims were grounded in evidence.',
+        'I tried NotebookLM next. The output quality improved when I supplied source material, but the research setup had to be repeated for every book.',
       ],
       figuresRow: true,
       figures: [
         {
-          label: '[ admin-ai-refill.mp4 — CMS auto-fill ]',
-          caption: 'Experiment A — an AI refill button inside the CMS form.',
+          label: '[ museum/experimentA-AI-refill.mp4 — AI generate in the editor ]',
+          caption:
+            'The first attempt: an AI generate control in the editor. Factual fields filled in; the analysis stayed vague.',
           img: '/images/museum/experimentA-AI-refill.mp4',
           isVideo: true,
           ratio: '16 / 10',
         },
         {
-          label: '[ notebooklm-workflow.png — the copy-paste break ]',
+          label: '[ museum/experimentB-NotebookLM.png — NotebookLM ]',
           caption:
-            'Experiment B — a closed knowledge base, grounded but disconnected from the CMS.',
+            'NotebookLM improved the writing when I supplied sources, but the setup had to be repeated for every book.',
           img: '/images/museum/experimentB-NotebookLM.png',
+          alt: 'A NotebookLM notebook used to research a picture book before pasting findings back into the museum',
           ratio: '16 / 10',
           fit: 'contain',
           bg: 'white',
@@ -750,77 +777,138 @@ const museum: CaseStudyContent = {
       ],
     },
     {
-      kicker: '03 — The system',
-      heading: 'Agent produces, interface validates, human decides',
+      heading: 'A reusable /new-book skill',
       body: [
-        'Rather than treating AI as a feature inside a CMS, I designed it as an agent operating across the production workflow. A custom Claude Code Skill researches a book, synthesizes findings, and generates structured content as a draft.',
-        'The workflow moves from research to draft generation, human review, admin editing, and manual publishing. This preserves speed without allowing unreviewed content to become public.',
+        'The final approach was a reusable /new-book skill. Its goal is not to make every book page sound complete. Its goal is to build a trustworthy draft that a curator can review.',
       ],
-      pipeline: {
-        lanes: [
-          { key: 'agent', name: 'AI agent', tone: 'agent' },
-          { key: 'interface', name: 'Admin interface', tone: 'surface' },
-          { key: 'human', name: 'Human', tone: 'human' },
-        ],
-        steps: [
-          {
-            name: 'Research',
-            acts: [{ lane: 'agent', text: 'Researches with sources' }],
-          },
-          {
-            name: 'Generate draft',
-            acts: [{ lane: 'agent', text: 'Creates structured fields' }],
-          },
-          {
-            name: 'Human review',
-            checkpoint: 'Human gate',
-            acts: [
-              { lane: 'human', text: 'Verifies claims and refines the draft' },
-            ],
-          },
-          {
-            name: 'Save to admin',
-            acts: [
-              { lane: 'agent', text: 'Saves a draft' },
-              { lane: 'interface', text: 'Draft appears in workspace' },
-            ],
-          },
-          {
-            name: 'Editor review/edit',
-            checkpoint: 'Human gate',
-            acts: [
-              { lane: 'interface', text: 'Shows draft in context' },
-              { lane: 'human', text: 'Corrects facts and wording' },
-            ],
-          },
-          {
-            name: 'Manual publish',
-            acts: [{ lane: 'human', text: 'Publishes deliberately' }],
-          },
-        ],
-        caption:
-          'The workflow makes source grounding, draft status, and human publishing control explicit at each handoff.',
-      },
+      decisionsTitle: 'The workflow',
+      decisions: [
+        {
+          num: '01',
+          name: 'Match voice, not facts',
+          text: 'The workflow reads my existing writing to align with the museum’s editorial voice. These examples guide tone only; they are never treated as factual evidence.',
+        },
+        {
+          num: '02',
+          name: 'Search existing research first',
+          text: 'It searches my research notes using the Chinese title, English title, author, and illustrator. Existing observations are given priority.',
+        },
+        {
+          num: '03',
+          name: 'Research with an explicit source hierarchy',
+          text: 'It prioritizes author interviews, official publishers, museums, research institutions, and award organizations. Retail pages and Wikipedia may support basic bibliographic details, but not analysis or claims about artistic intention.',
+        },
+        {
+          num: '04',
+          name: 'Ground every factual claim',
+          text: 'Each factual statement added to a draft keeps a source URL. If sources conflict, the workflow marks the item as uncertain instead of choosing a convenient answer.',
+        },
+        {
+          num: '05',
+          name: 'Avoid invented visual analysis',
+          text: 'If I have not seen a book’s interior pages, the system does not describe a specific spread, composition, or colour decision. If an image resembles a technique, it uses effect-based language rather than claiming an unverified production method.',
+        },
+        {
+          num: '06',
+          name: 'Check for duplicates before creating a record',
+          text: 'The workflow checks the authenticated collection database, including drafts and unpublished books. If a record already exists, it updates that draft instead of producing a duplicate.',
+        },
+        {
+          num: '07',
+          name: 'Keep a human approval step',
+          text: 'The output is a draft, not a published page. I review it before the book enters the museum.',
+        },
+      ],
       bodyAfter: [
-        'The agent handles research, synthesis, and draft production. The admin interface makes drafts visible in context for review and correction. Human judgment remains responsible for resolving ambiguity and publishing approved content.',
-        'The same pipeline supports specialized skills—such as illustrator research and cover color-palette extraction—without a separate orchestration layer.',
+        'This changed my relationship with AI. Instead of asking it to write an authoritative interpretation, I designed it to reveal evidence, preserve uncertainty, and make a repeatable research process easier to review.',
       ],
       figures: [
         {
-          label: '[ museum-hero.png — the published museum ]',
+          label: '[ museum/admin-draft.png — a draft awaiting review ]',
           caption:
-            'What visitors see after a human publishes: the public museum, not the draft. Book of the Day is an output of the pipeline, not the product being designed.',
-          img: '/images/museum/hero.png',
-          alt: 'Museum of Children’s Books — the Book of the Day feature, showing Where the Wild Things Are',
-          ratio: '3704 / 1854',
-          fit: 'cover',
+            'The output of the workflow: a draft in the admin, still unpublished, waiting for a curator to review it.',
+          img: '/images/museum/admin-draft.png',
+          alt: 'Admin editor showing a picture-book draft with structured analysis cards, not yet published',
+          ratio: '1024 / 548',
+          fit: 'contain',
           bg: 'white',
         },
       ],
-      callout: {
-        label: 'Where it stands',
-        text: 'The review experience is still evolving. The project revealed that agent output needs a purpose-built validation flow—not just a standard CMS form—to make editorial review fast and reliable.',
+    },
+    {
+      kicker: '04 — An example',
+      heading: 'From a thin recommendation to a grounded book record',
+      body: [
+        'When I asked the Curatorial Advisor to recommend books similar to Leo Lionni, it returned titles connected by broad stylistic language such as “bright colours” or “cut-paper collage.”',
+        'That was not enough. A collector does not only need to know whether a book resembles another book; they need to know why it belongs in this particular collection.',
+        'For example, the workflow for Have You Seen My Duckling? identified that an existing draft already existed, corrected the Chinese title, avoided creating an unsupported illustrator record, and prepared a sourced research draft rather than pretending to know unverified details.',
+      ],
+      list: {
+        title: 'Distinctions it preserved',
+        items: [
+          'It did not claim to have seen specific interior spreads when it had not.',
+          'It did not label a material when the source terminology did not match the museum’s taxonomy.',
+          'It used the official Caldecott record when it conflicted with an autobiographical date.',
+          'It separated documented author intent from visual interpretation.',
+        ],
       },
+      resolution:
+        'The result was not merely a richer page. It was a research trail that could be reviewed, edited, and retained with the collection.',
+    },
+    {
+      kicker: '05 — Curatorial Advisor',
+      heading: 'Designing the Curatorial Advisor',
+      body: [
+        'The Curatorial Advisor helps identify books to consider for the museum and adds selected titles to a review queue.',
+        'Its current interface lets me ask for recommendations, inspect brief rationales, select titles, and send them into a draft workflow. This was a meaningful improvement over searching across the web and manually copying suggestions into my database.',
+        'Building it exposed an important product limitation: the agent currently receives a thin, flat list of book records—title, year, author, category, and a one-sentence introduction—plus the current conversation. With this limited context, it can reliably identify surface similarities, but it cannot make a strong curatorial argument about what the museum is missing.',
+        'The next version should help the curator specify an acquisition lens—such as a missing medium, period, narrative device, illustrator lineage, or exhibition contrast—and show the rationale in a structured way.',
+      ],
+      quote: {
+        text: 'What role could this book play in the collection?',
+        who: 'The question the next version should answer, beyond “Which books are similar to Leo Lionni?”',
+      },
+      list: {
+        title: 'Structured rationale',
+        items: [
+          'What it connects to',
+          'What gap it fills',
+          'What it would add or challenge',
+          'What evidence supports the recommendation',
+          'What remains uncertain',
+        ],
+      },
+    },
+    {
+      kicker: '06 — Validation',
+      heading: 'What I have validated',
+      body: [
+        'A collection-first experience can make deeper picture-book research feel worth preserving.',
+        'Structured, sourced drafts are substantially more useful than one-off generated articles.',
+        'AI is most useful when it reduces research and duplicate-checking work without hiding uncertainty.',
+        'Human review is essential when writing about artistic intention, visual technique, and editorial interpretation.',
+        'This project is currently a self-directed, live prototype rather than a tested product for external users.',
+      ],
+    },
+    {
+      heading: 'What I would validate next',
+      body: [],
+      list: {
+        title: 'Next',
+        items: [
+          'Test the Curatorial Advisor with 3–5 picture-book collectors to learn how they define a meaningful “collection gap.”',
+          'Add richer collection metadata and an explicit acquisition brief, so recommendations can be justified by curatorial value rather than stylistic similarity.',
+          'Bring the research skill into the product workflow, so a curator does not need to switch between the website and an external coding environment.',
+          'Test whether parents and collectors value the same forms of analysis, reading guidance, and discovery.',
+        ],
+      },
+    },
+    {
+      heading: 'Reflection',
+      body: [
+        'This project taught me that AI-native product design is not about adding a chat interface to an existing workflow.',
+        'The harder and more valuable work is deciding what the system may claim, what evidence it needs, where uncertainty should remain visible, and when a person must make the final judgment. I designed In a Nutshell Books as both a museum and a working system: a place to discover children’s books, and a way to research and curate them with more care.',
+      ],
     },
   ],
 }

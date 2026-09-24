@@ -25,7 +25,7 @@ export const PAGE_CONTEXT_MAP: Record<string, PageContextMapping> = {
   '/work/campaign': { type: 'project', projectId: 'kahuna', title: 'Campaign performance dashboard' },
   '/work/filters': { type: 'project', projectId: 'kahuna', title: 'Audience filter editor' },
   '/work/pivot': { type: 'project', projectId: 'pivot', title: 'In-product pivot analysis' },
-  '/work/museum': { type: 'project', projectId: 'museum', title: 'Designing with AI Agents' },
+  '/work/museum': { type: 'project', projectId: 'museum', title: 'In a Nutshell Books' },
   '/enterprise-redesign': { type: 'project', projectId: 'automl' },
   '/design-system': { type: 'project', projectId: 'dotds' },
 }
@@ -99,7 +99,7 @@ export function getWelcomeMessage(ctx: ResolvedPageContext): string {
     return `Hi — I’m GraceLLM. This chat is focused on ${ctx.projectTitle}. Ask about the problem, Grace’s role, the process, or the outcome.`
   }
   if (ctx.type === 'project' && ctx.projectTitle) {
-    return `Hi — I’m GraceLLM. ${ctx.projectTitle} isn’t fully indexed yet. I can still answer from Grace’s documented work — AutoML, the design system, Kahuna, Designing with AI Agents, or her background.`
+    return `Hi — I’m GraceLLM. ${ctx.projectTitle} isn’t fully indexed yet. I can still answer from Grace’s documented work — AutoML, the design system, Kahuna, In a Nutshell Books, or her background.`
   }
   if (ctx.type === 'profile') {
     return 'Hi — I’m GraceLLM. Ask about Grace’s career path, how she works with product and engineering, or what she’s strongest at.'
@@ -156,14 +156,14 @@ const FILTERS_PROMPTS = [
 ]
 
 const MUSEUM_PROMPTS = [
-  'Tell me about Designing with AI Agents',
-  'What is the Museum of Children’s Books?',
-  'How did agents participate in content production?',
-  'Where did human judgment stay in the loop?',
-  'Why design and build this in code?',
-  'What workflow models did she test?',
+  'Tell me about In a Nutshell Books',
+  'Why was picture-book research hard to trust?',
+  'How does the /new-book skill earn trust?',
+  'What can the Curatorial Advisor do today?',
+  'What would the next version of recommendations need?',
+  'What did she validate, and what is still untested?',
   "What was Grace's role?",
-  'What did she learn about human–AI collaboration?',
+  'Where does human review stay in the workflow?',
 ]
 
 const PIVOT_PROMPTS = [

@@ -210,24 +210,29 @@ export const portfolioKb: PortfolioKnowledgeBase = {
     },
     {
       id: 'museum',
-      title: 'Designing with AI Agents',
-      company: 'Museum of Children’s Books (self-initiated)',
-      role: 'Solo, end to end: product concept, AI workflow design, and front-end build in code.',
+      title: 'In a Nutshell Books',
+      company: 'In a Nutshell Books (self-initiated)',
+      dates: '3 months',
+      role: 'End-to-end product designer and builder: product strategy, UX/UI, content model, research workflow, frontend, backend, database, and AI workflows.',
       challenge:
-        'AI could generate structured metadata (author, year, ISBN) reliably, but open-ended research on medium and technique was vague, inconsistent, or hard to verify. A closed knowledge base improved grounding, then broke at a manual copy-paste into the CMS. The design problem was not how to generate content, but where AI could be trusted and where human judgment had to intervene.',
+        'Researching one picture book deeply was slow and fragmented. Web search, interviews, publisher pages, archives, reviews, ChatGPT, and NotebookLM produced interesting but hard-to-trust output, inconsistent in depth and disconnected from the rest of the collection. Suggested books also had to be checked by hand for duplicates.',
       process:
-        'The museum is a visual archive of children’s-book illustration, organized around craft. Grace used it to test how far AI could participate in product design and implementation by designing in code. She tested three workflow models: CMS auto-fill, a closed knowledge base, and an agentic draft-production pipeline. A custom Claude Code Skill researches a book, synthesizes findings, and writes structured fields as a draft. The pipeline is research → draft → human review → admin edit → manual publish, with two human checkpoints so unreviewed content cannot go live. The same pipeline supports specialized skills such as illustrator research and cover color-palette extraction.',
+        'Grace first built the public museum: browsing, recent acquisitions, illustrators, and editorial visual analysis. A timeline gave way to search across books, illustrators, and exhibitions; short two-column analyses gave way to a long-form book page once the writing was sourced and deep. She then replaced an “AI generate” button and a repeated NotebookLM setup with a reusable /new-book skill. The skill matches her editorial voice without treating it as evidence, searches existing notes first, follows a source hierarchy (interviews, publishers, museums, research institutions, and award organizations above retail and Wikipedia), keeps a source URL on every factual claim, marks conflicts as uncertain, refuses to describe unseen interior pages, checks drafts and unpublished records for duplicates, and leaves a human approval step before publish. The Curatorial Advisor can recommend titles and queue them, but it only sees a thin book list, so it argues from surface similarity. The next version should answer what role a book could play in the collection.',
       collaboration:
-        'Solo project. AI was a production partner across research and drafting, not a teammate. There was no product or engineering team; Grace defined where the agent acts, where the admin interface shows drafts in context, and where a human still publishes.',
+        'Solo, self-initiated project. AI drafts research; Grace reviews every book before it enters the museum. Tools included Cursor, Claude Code, Claude, Gemini, NotebookLM, Supabase, Vercel, and GitHub.',
       impact:
-        'The work showed that treating AI as an agent across the production workflow is more trustworthy than a generate button inside a CMS form. The review experience is still evolving: agent output needs a purpose-built validation flow, not only a standard CMS form, to make editorial review fast and reliable. No numeric launch metrics are documented.',
+        'The live prototype now holds 65 books, 32 illustrators, and 7 emerging exhibition rooms. Sourced drafts proved more useful than one-off generated articles, and AI was most useful when it reduced research and duplicate-checking without hiding uncertainty. It is not yet tested with external collectors or parents. A worked example, Have You Seen My Duckling?, updated an existing draft, corrected the Chinese title, avoided an unsupported illustrator record, preferred the official Caldecott date over an autobiographical one, and separated documented intent from visual interpretation.',
       tools: [
-        'Claude Code Skills',
-        'Agentic drafting pipeline',
-        'Code-first prototyping',
-        'CMS / admin interface',
+        'Cursor',
+        'Claude Code',
+        'Claude',
+        'Gemini',
+        'NotebookLM',
+        'Supabase',
+        'Vercel',
+        'GitHub',
       ],
-      links: [{ href: '/work/museum', label: 'Designing with AI Agents case study' }],
+      links: [{ href: '/work/museum', label: 'In a Nutshell Books case study' }],
       relatedProjectIds: ['automl'],
     },
     {

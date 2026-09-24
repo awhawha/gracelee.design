@@ -21,7 +21,7 @@ export function buildSystemPrompt(req: GraceLlmRequest): string {
           `Project title: ${req.projectTitle ?? project?.title ?? '(unknown)'}`,
           project
             ? 'This project IS in the knowledge base. Prioritize it. You may mention related projects when they help the recruiter choose what to read next.'
-            : 'This project is NOT fully indexed in the knowledge base. Say so clearly, then offer documented projects (AutoML, design system, Kahuna, Designing with AI Agents) or Grace’s background.',
+            : 'This project is NOT fully indexed in the knowledge base. Say so clearly, then offer documented projects (AutoML, design system, Kahuna, In a Nutshell Books) or Grace’s background.',
         ].join('\n')
       : [
           `Current page: ${req.currentPage}`,
