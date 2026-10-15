@@ -71,6 +71,10 @@ const pills = [
   { icon: 'code', label: 'BUILDER' },
 ] as const
 
+// More rows than a tall window can show (12px type × 2.2 leading). The list is
+// taken out of flow and clipped, so extra rows never grow the hero or scroll.
+const GUTTER_LINE_COUNT = 200
+
 function fadeStyle(play: boolean, visible: boolean): CSSProperties {
   return {
     opacity: visible ? 1 : 0,
@@ -162,13 +166,15 @@ export function TerminalHero() {
         <div className="grid min-h-0 grid-cols-1 font-space text-[15px] leading-[1.75] text-[#e8d8e3] min-[641px]:grid-cols-[40px_minmax(0,1fr)] min-[1001px]:grid-cols-[52px_minmax(0,1fr)_minmax(300px,26%)]">
           <div
             aria-hidden
-            className="hidden overflow-hidden bg-brand-gutter pt-7 text-right font-space text-[12px] leading-[2.2] text-[#5e4457] min-[641px]:block min-[1001px]:px-3"
+            className="relative hidden min-h-0 overflow-hidden bg-brand-gutter min-[641px]:block"
           >
-            {Array.from({ length: 18 }, (_, i) => (
-              <div key={i} className="px-3 min-[1001px]:px-0">
-                {i + 1}
-              </div>
-            ))}
+            <div className="absolute inset-0 overflow-hidden pt-7 text-right font-space text-[12px] leading-[2.2] text-[#5e4457] min-[1001px]:px-3">
+              {Array.from({ length: GUTTER_LINE_COUNT }, (_, i) => (
+                <div key={i} className="px-3 min-[1001px]:px-0">
+                  {i + 1}
+                </div>
+              ))}
+            </div>
           </div>
 
           <div className="flex max-w-[1100px] flex-col justify-center px-[18px] py-7 min-[641px]:px-[clamp(28px,5vw,96px)] min-[641px]:py-10">
