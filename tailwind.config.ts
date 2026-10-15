@@ -12,6 +12,9 @@ const config: Config = {
         sans: ['var(--font-fira)', 'system-ui', 'sans-serif'],
         // Legacy `font-mono` (dates, tokens) maps to Fira Sans.
         mono: ['var(--font-fira)', 'system-ui', 'sans-serif'],
+        grotesk: ['var(--font-grotesk)', 'system-ui', 'sans-serif'],
+        inter: ['var(--font-inter)', 'system-ui', 'sans-serif'],
+        space: ['var(--font-space-mono)', 'ui-monospace', 'monospace'],
       },
       colors: {
         // Values live in styles/tokens.css — change them there.
@@ -28,6 +31,23 @@ const config: Config = {
           primary: 'var(--accent-primary)',
           secondary: 'var(--accent-secondary)',
           tertiary: 'var(--accent-tertiary)',
+        },
+        brand: {
+          accent: 'var(--brand-accent)',
+          soft: 'var(--brand-accent-2)',
+          lav: 'var(--brand-lav)',
+          bg: 'var(--brand-bg)',
+          dark: 'var(--brand-dark)',
+          dark2: 'var(--brand-dark-2)',
+          pink: 'var(--brand-pink)',
+          line: 'var(--brand-line)',
+          muted: 'var(--brand-muted)',
+          dim: 'var(--brand-muted-d)',
+          ink: 'var(--brand-ink)',
+          bar: 'var(--brand-bar)',
+          side: 'var(--brand-side)',
+          gutter: 'var(--brand-gutter)',
+          body: 'var(--brand-body)',
         },
       },
       maxWidth: {

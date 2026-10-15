@@ -64,6 +64,27 @@
   /* Cap — 1. Section labels. Was eyebrow */
   --type-cap-size: 12px;
   --type-cap-tracking: 0.04em;
+
+  /*
+    Terminal homepage brand. Scoped names so the case-study palette
+    (--home-ink, Playfair, Fira) stays intact on /about, /work, and friends.
+    Faces: --font-grotesk, --font-inter, --font-space-mono from next/font.
+  */
+  --brand-accent: #ab5998;
+  --brand-accent-2: #e59bd3;
+  --brand-lav: #b48ce0;
+  --brand-bg: #fdfafc;
+  --brand-dark: #281022;
+  --brand-dark-2: #3a1a32;
+  --brand-pink: #f6e4f1;
+  --brand-line: #eedde8;
+  --brand-muted: #7a5a70;
+  --brand-muted-d: #cbb3c4;
+  --brand-ink: #281022;
+  --brand-bar: #1f0c1a;
+  --brand-side: #2e1428;
+  --brand-gutter: #22101d;
+  --brand-body: #4a3644;
 }
 
 .type-display,
