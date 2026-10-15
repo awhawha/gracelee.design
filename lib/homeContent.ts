@@ -23,28 +23,30 @@ export type FeaturedWork = {
   image: { img: string; width: number; height: number; alt: string } | null
 }
 
-function firstParagraph(value: string | string[] | undefined): string | null {
-  if (!value) return null
-  return Array.isArray(value) ? value[0] ?? null : value
+/** Homepage-only featured copy. Case-study pages keep their own title and tags. */
+const featuredCopy = {
+  title:
+    'I turned a data-scientist-only setup into 5 guided steps business analysts run themselves.',
+  summary:
+    "dotData's AutoML setup took 20+ configuration actions and a data scientist on call. I redesigned it into 5 guided steps so analysts can create and iterate on prediction tasks themselves.",
+  tags: ['Workflow Redesign', 'Complex Systems UX', 'Enterprise AI', 'Prototyping'],
 }
 
-/** Featured homepage project: AutoML, from the case study and project record. */
+/** Featured homepage project: AutoML media and role from the project record. */
 export function getFeaturedWork(): FeaturedWork | null {
   const project = getProject('automl')
   if (!project) return null
   const study = caseStudyContent.automl
-  const summary =
-    firstParagraph(study.tldr) ?? project.homeBlurb ?? project.homeSubtitle ?? project.desc
   const image = project.homeBandImage ?? project.homeThumb
 
   return {
     href: caseStudyHref(project.id),
     eyebrow: project.client,
-    title: study.title || project.homeTitle || project.headline || project.title,
-    summary,
+    title: featuredCopy.title,
+    summary: featuredCopy.summary,
     role: study.meta?.find((item) => item.label === 'Role')?.value ?? null,
     metric: project.metrics[0] ?? null,
-    tags: project.tags.length ? project.tags : study.tags,
+    tags: featuredCopy.tags,
     image: image
       ? {
           img: image.img,

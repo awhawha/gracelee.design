@@ -56,12 +56,12 @@ const cards: {
   {
     // No project id on main, so caseStudyHref stays null and the card is not a link.
     id: 'error-analysis',
-    badge: 'Data Visualization',
+    badge: 'Model Explainability',
     title: 'Prediction Error Analysis',
-    body: 'A pivot table that takes users from a weak segment to action. Guidance turned out to depend on segmentation, so we built that foundation first.',
+    body: "Designed a pivot table that takes users from 'the model is weak here' to what to do about it — and found that guidance depended on segmentation, so the team shipped that foundation first.",
     statLead: 'v11.1',
     statRest: ' shipped as MVP',
-    chips: ['Data Visualization', 'AI/ML UX', 'Pivot Table'],
+    chips: ['Data Visualization', 'AI/ML UX', 'Explainability'],
     video: {
       src: '/home/pivot-captioned.mp4',
       label: 'Building a pivot table',
@@ -72,10 +72,10 @@ const cards: {
     id: 'museum',
     badge: '0 → 1 · AI Workflow',
     title: 'Museum of Children’s Books',
-    body: 'A picture-book museum built solo. AI Studio gathers evidence and drafts inside the admin; I review each paragraph before it’s published.',
+    body: 'Designed and built a picture-book museum solo — with an AI Studio that gathers evidence and drafts while I review every paragraph — cutting each book from 7–11h to ~2–3h.',
     statLead: '7–11h → ~2–3h',
-    statRest: ' per book · 33 of 71 live',
-    chips: ['AI Product', 'Design + Build', '328 visitors · ~5 min'],
+    statRest: ' per book · 33 of 71 live · 328 visitors · ~5 min',
+    chips: ['AI Product', 'Human-in-the-Loop', 'Design + Build'],
     image: {
       src: '/home/museum.jpg',
       alt: 'Museum of Children’s Books homepage',
@@ -89,10 +89,10 @@ const cards: {
     id: 'dotds',
     badge: 'Design System',
     title: 'dotData Design System',
-    body: 'Reusable table, selection, and feedback states backed by a 3-tier token system that engineering could build from directly.',
+    body: 'Consolidated handoff scattered across Sketch, Zeplin, and InVision into one token-driven Figma system — so engineers could self-serve specs in Dev Mode, and spec questions dropped from weekly to monthly.',
     statLead: 'Weekly → monthly',
     statRest: ' spec questions',
-    chips: ['Tokens', 'Components', 'Figma Dev Mode'],
+    chips: ['Design Systems', 'Design Tokens', 'Design–Eng Handoff'],
     image: {
       src: '/home/design-system.jpg',
       alt: 'Table card states and token system',
