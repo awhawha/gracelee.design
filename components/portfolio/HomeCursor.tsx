@@ -1,5 +1,6 @@
 'use client'
 
+import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 
 const HOVERABLE =
@@ -20,6 +21,8 @@ function cursorMode(target: EventTarget | null): CursorMode {
 }
 
 export function HomeCursor() {
+  const pathname = usePathname() || '/'
+  const isHome = pathname === '/'
   const nodeRef = useRef<HTMLDivElement>(null)
   const [enabled, setEnabled] = useState(false)
   const [reduced, setReduced] = useState(false)
@@ -43,13 +46,13 @@ export function HomeCursor() {
   }, [])
 
   useEffect(() => {
-    if (!enabled) return
+    if (!enabled || isHome) return
     document.body.classList.add('home-cursor-on')
     return () => document.body.classList.remove('home-cursor-on')
-  }, [enabled])
+  }, [enabled, isHome])
 
   useEffect(() => {
-    if (!enabled) return
+    if (!enabled || isHome) return
     const el = nodeRef.current
     if (!el) return
 
@@ -72,13 +75,13 @@ export function HomeCursor() {
       window.removeEventListener('mousemove', onMove)
       document.documentElement.removeEventListener('mouseleave', onLeave)
     }
-  }, [enabled])
+  }, [enabled, isHome])
 
   return (
     <div
       ref={nodeRef}
       className={`home-cursor${visible ? ' is-visible' : ''}${mode === 'hover' ? ' is-hover' : ''}${reduced ? ' is-reduced' : ''}`}
-      hidden={!enabled}
+      hidden={!enabled || isHome}
       aria-hidden
     />
   )
