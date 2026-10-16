@@ -35,6 +35,15 @@ export function ContactSection() {
               yahuilee0618@gmail.com
             </a>
             <a
+              href="https://www.linkedin.com/in/yahuilee/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 border-b border-white/25 pb-1 text-white transition-colors hover:border-brand-soft hover:text-brand-soft"
+            >
+              <LineIcon name="linkedin" />
+              LinkedIn
+            </a>
+            <a
               href="/images/yahui-grace-lee-resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
