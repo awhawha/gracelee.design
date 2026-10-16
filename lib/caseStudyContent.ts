@@ -129,6 +129,10 @@ export type CaseStudyContent = {
    * for photographic openers. Otherwise it sits framed below the metrics.
    */
   heroImageFirst?: boolean
+  /** Compact outcomes shown directly below the summary. */
+  summaryHighlights?: { name: string; text: string }[]
+  /** Insert the AutoML four-slide interaction showcase after the summary. */
+  experienceCarousel?: boolean
   chapters: CaseChapter[]
   involvement?: string
   prev: { label: string; href: string }
@@ -145,19 +149,34 @@ const automl: CaseStudyContent = {
   meta: [
     { label: 'Company', value: 'dotData' },
     { label: 'Industry', value: 'Enterprise AI, AutoML platform' },
-    { label: 'Role', value: 'Sr Product Designer' },
+    { label: 'Role', value: 'Senior Product Designer, design lead' },
     {
       label: 'Scope',
       value: 'Research, prototyping, visualization, interaction design',
     },
-    { label: 'Team', value: '1 PM, 4 Engineers, 1 Data Scientist' },
+    { label: 'Team', value: '1 PM, 6 Engineers, 1 Data Scientist' },
     { label: 'Timeline', value: '6 months' },
   ],
   heroCompact: true,
   tldr: [
-    'dotData Enterprise is an AutoML platform for business analysts with limited data-science expertise. I redesigned the configuration workflow so they could create and iterate on prediction tasks themselves — reducing reliance on the Data Science team, and making post-training adoption possible.',
+    'dotData Enterprise is an AutoML platform for business analysts. I redesigned its setup workflow to help analysts create and revise prediction tasks with less reliance on data scientists.',
   ],
   metrics: [],
+  summaryHighlights: [
+    {
+      name: 'Fewer configuration actions',
+      text: '20+ actions reduced to 5 guided steps.',
+    },
+    {
+      name: 'Faster iteration',
+      text: 'Revise settings and rerun without rebuilding the setup.',
+    },
+    {
+      name: 'Clearer decisions',
+      text: 'See each setting alongside the data it affects.',
+    },
+  ],
+  experienceCarousel: true,
   heroImage: {
     label: '[ automl/hero-desk.png — the guided setup in place ]',
     caption:
@@ -531,7 +550,7 @@ const designSystem: CaseStudyContent = {
       desc: 'Sketch, Zeplin, and InVision consolidated into Figma.',
     },
     {
-      label: 'Weekly → monthly spec questions',
+      label: '−2/3 design-spec and audit tickets',
       desc: 'Engineers could inspect tokens directly in Figma Dev Mode.',
     },
     {

@@ -10,7 +10,10 @@
     "dev:clean": "rm -rf .next && next dev",
     "build": "node scripts/next-build.js",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "encrypt:protected": "node scripts/encrypt-protected.js",
+    "encrypt:automl": "node scripts/encrypt-protected.js",
+    "encrypt:error-analysis": "node scripts/encrypt-protected.js"
   },
   "dependencies": {
     "@paper-design/shaders-react": "^0.0.80",

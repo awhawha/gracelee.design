@@ -1,8 +1,7 @@
 import type { Metadata } from 'next'
-import { Fira_Sans, Playfair_Display } from 'next/font/google'
+import { Fira_Sans, Inter, Playfair_Display, Space_Grotesk, Space_Mono } from 'next/font/google'
 import Script from "next/script"
 import { GraceLLM, GraceLLMProvider } from '@/components/grace-llm/GraceLLM'
-import { HomeCursor } from '@/components/portfolio/HomeCursor'
 import {
   PageTransition,
   PageTransitionProvider,
@@ -28,9 +27,30 @@ const firaSans = Fira_Sans({
   display: 'swap',
 })
 
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  weight: ['500', '700'],
+  variable: '--font-grotesk',
+  display: 'swap',
+})
+
+const inter = Inter({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-inter',
+  display: 'swap',
+})
+
+const spaceMono = Space_Mono({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  variable: '--font-space-mono',
+  display: 'swap',
+})
+
 export const metadata: Metadata = {
   title: {
-    default: 'Grace Lee — Product Designer',
+    default: 'Grace Lee — Senior Product Designer',
     template: '%s — Grace Lee',
   },
   description:
@@ -54,10 +74,9 @@ export default function RootLayout({
     <html lang="en">
      
       <body
-        className={`${playfair.variable} ${firaSans.variable} min-h-screen font-sans text-primary antialiased`}
+        className={`${playfair.variable} ${firaSans.variable} ${spaceGrotesk.variable} ${inter.variable} ${spaceMono.variable} min-h-screen font-sans text-primary antialiased`}
       >
         <GraceLLMProvider>
-          <HomeCursor />
           <div className="flex min-h-screen">
             <div className="flex min-h-screen min-w-0 flex-1 flex-col">
               <PageTransitionProvider>

@@ -122,6 +122,11 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
   useLayoutEffect(() => {
     const root = pageRef.current
     if (!root || !entering) return
+    // The terminal homepage runs its own type-on and scroll reveals.
+    if (root.querySelector('[data-page-motion="none"]')) {
+      staggerCount.current = 1
+      return
+    }
     const { items, count } = markStaggerItems(root)
     staggerCount.current = count
     return () => unmarkStaggerItems(items)

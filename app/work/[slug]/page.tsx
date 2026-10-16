@@ -10,7 +10,10 @@ import { caseStudyContent } from '@/lib/caseStudyContent'
 import { getAllSlugs, getProject } from '@/lib/projects'
 
 export function generateStaticParams() {
-  return getAllSlugs().map((slug) => ({ slug }))
+  // /work/automl, /work/pivot, /work/museum and /work/dotds have their own static routes (app/work/<slug>/page.tsx).
+  return getAllSlugs()
+    .filter((slug) => !['automl', 'pivot', 'museum', 'dotds'].includes(slug))
+    .map((slug) => ({ slug }))
 }
 
 export function generateMetadata({

@@ -28,6 +28,11 @@ export function SiteNav() {
   const isHome = pathname === '/'
   const { state } = useGraceLlmUi()
 
+  // The homepage ships its own file-tab bar. About, work, and the rest keep this nav.
+  // /work/automl, /work/pivot, /work/museum and /work/dotds ship their own case-study tab bar (CaseStudyNav).
+  const bare = pathname.replace(/\/$/, '')
+  if (isHome || bare === '/work/automl' || bare === '/work/pivot' || bare === '/work/museum' || bare === '/work/dotds') return null
+
   return (
     <header
       className={`z-20 flex w-full items-center justify-between px-[clamp(1.5rem,3.8vw,66px)] py-6 max-[640px]:px-6 max-[640px]:py-5 ${

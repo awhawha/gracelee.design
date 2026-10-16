@@ -30,3 +30,8 @@ yarn-error.log*
 
 # local tooling
 /.claude/
+
+# Confidential AutoML case study: plaintext source/media and its password.
+# Only the ciphertext in public/protected/automl/ is committed (npm run encrypt:automl).
+/private/
+.env.automl

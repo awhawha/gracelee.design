@@ -312,7 +312,7 @@ export const projects: Project[] = [
     ],
     metrics: [
       { value: '5→2', label: 'steps in design→dev handoff' },
-      { value: '↓', label: 'eng spec questions (weekly→monthly)' },
+      { value: '−2/3', label: 'design-spec and audit tickets' },
       { value: '3-layer', label: 'token architecture' },
     ],
     involvement:
