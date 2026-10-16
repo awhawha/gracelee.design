@@ -14,6 +14,8 @@ export function Key({ children }: { children: ReactNode }) {
 
 export const prose = 'mb-7 text-[17px] leading-[1.75] text-brand-body last:mb-0'
 export const caption = 'text-[14px] leading-[1.5] text-[#6B5F68]'
+/** Alias so components with a `caption` text prop can still use the caption class. */
+const captionClass = caption
 export const frame = 'overflow-hidden rounded-[12px] border border-[#ECE6EE]'
 /** Breaks out of the 680px column to up to 880px, centred. */
 export const wide = 'relative left-1/2 w-[min(880px,calc(100vw-40px))] -translate-x-1/2'
@@ -56,7 +58,7 @@ export function Frame({ src, alt, onZoom, caption }: { src: string; alt: string;
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={src} alt={alt} loading="lazy" className="block h-auto w-full" />
       </button>
-      {caption && <figcaption className={`mt-3 ${caption}`}>{caption}</figcaption>}
+      {caption && <figcaption className={`mt-3 ${captionClass}`}>{caption}</figcaption>}
     </figure>
   )
 }
@@ -184,7 +186,7 @@ export function Clip({ src, poster, label, caption }: { src: string; poster?: st
           className="block h-auto w-full"
         />
       </div>
-      {caption && <figcaption className={`mt-3 ${caption}`}>{caption}</figcaption>}
+      {caption && <figcaption className={`mt-3 ${captionClass}`}>{caption}</figcaption>}
     </figure>
   )
 }

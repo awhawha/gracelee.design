@@ -44,7 +44,7 @@ const career: {
     now: true,
   },
   {
-    hash: 'AutoML: days → minutes',
+    hash: 'design enterprise AI tools',
     version: 'v4.0 Senior Product Designer',
     detail: 'dotData · 2019–2025',
   },
