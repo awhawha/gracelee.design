@@ -41,7 +41,7 @@ const steps: {
     stage: 'SHIP',
     title: 'AI in the product',
     body: 'Designing AI features, not just using them',
-    note: 'Museum AI Studio, dotData ML',
+    note: 'Museum AI Studio',
     ship: true,
     delay: 3,
   },

@@ -31,14 +31,12 @@ const READY: Boot = {
 
 const career: {
   hash: string
-  meta?: string
   version: string
   detail: string
   now?: boolean
 }[] = [
   {
-    hash: 'ship AI museum',
-    meta: '(HEAD → main)',
+    hash: 'build an AI-native museum site',
     version: 'v5.0 Side project',
     detail: 'Museum of Children’s Books · 2026–now',
     now: true,
@@ -224,9 +222,6 @@ export function TerminalHero() {
                   className="whitespace-normal min-[1001px]:whitespace-nowrap"
                 >
                   <span className="text-[#e6c07b]">{row.hash}</span>{' '}
-                  {row.meta ? (
-                    <span className="text-[#8c6f84]">{row.meta} </span>
-                  ) : null}
                   <span className="font-bold text-white">{row.version}</span>
                   {' · '}
                   {row.detail}

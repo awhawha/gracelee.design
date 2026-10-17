@@ -77,7 +77,7 @@ const cards: {
   },
   {
     id: 'museum',
-    badge: '0→1 AI Product',
+    badge: 'AI-native · 0→1',
     title: 'Museum of Children’s Books',
     body: 'Designed and shipped an AI-assisted museum solo, giving one curator the capacity to publish each book in 2–3 hours instead of 7–11.',
     chips: ['Human-in-the-Loop', 'Design + Build', 'Content Systems'],
