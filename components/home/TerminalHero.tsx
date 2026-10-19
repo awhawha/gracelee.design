@@ -1,6 +1,6 @@
 'use client'
 
-import { useLayoutEffect, useState, type CSSProperties } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from 'react'
 
 import { LineIcon } from '@/components/home/icons'
 import { scrollToHomeSection } from '@/components/home/scroll'
@@ -8,25 +8,25 @@ import { displayFont } from '@/components/home/FileHead'
 
 const LINE_1 = 'whoami'
 const LINE_2 = 'git log --oneline career'
+const RUN_LABEL = 'Run git log career to show my career timeline'
+const LINE_MS = 80
 
 type Boot = {
   play: boolean
   line1: string
-  line2: string
   out: boolean
   prompt2: boolean
-  log: boolean
-  cursor: boolean
+  line2: string
+  ready: boolean
 }
 
 const READY: Boot = {
   play: false,
   line1: LINE_1,
-  line2: LINE_2,
   out: true,
   prompt2: true,
-  log: true,
-  cursor: true,
+  line2: LINE_2,
+  ready: true,
 }
 
 const career: {
@@ -118,15 +118,7 @@ export function TerminalHero() {
       await wait(250)
     }
 
-    setBoot({
-      play: true,
-      line1: '',
-      line2: '',
-      out: false,
-      prompt2: false,
-      log: false,
-      cursor: false,
-    })
+    setBoot({ play: true, line1: '', out: false, prompt2: false, line2: '', ready: false })
 
     const run = async () => {
       await wait(400)
@@ -139,10 +131,7 @@ export function TerminalHero() {
       setBoot((prev) => ({ ...prev, prompt2: true }))
       await type('line2', LINE_2)
       if (cancelled) return
-      setBoot((prev) => ({ ...prev, log: true }))
-      await wait(300)
-      if (cancelled) return
-      setBoot((prev) => ({ ...prev, cursor: true }))
+      setBoot((prev) => ({ ...prev, ready: true }))
     }
     void run()
 
@@ -151,6 +140,43 @@ export function TerminalHero() {
       timers.forEach((id) => window.clearTimeout(id))
     }
   }, [])
+
+  // shown: -1 = not run yet; otherwise number of timeline rows revealed.
+  const [shown, setShown] = useState(-1)
+  const runTimers = useRef<number[]>([])
+  const canRun = boot.ready && shown < 0
+  const runRef = useRef<() => void>(() => {})
+
+  runRef.current = () => {
+    if (!canRun) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setShown(career.length)
+      return
+    }
+    setShown(0)
+    for (let i = 1; i <= career.length; i += 1) {
+      runTimers.current.push(window.setTimeout(() => setShown(i), i * LINE_MS))
+    }
+  }
+
+  useEffect(() => {
+    const timers = runTimers.current
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key !== 'Enter' || event.repeat) return
+      if (event.metaKey || event.ctrlKey || event.altKey || event.shiftKey) return
+      const el = event.target as HTMLElement | null
+      if (el && (el.closest('input, textarea, select, button, a, [contenteditable="true"]'))) return
+      runRef.current()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => {
+      window.removeEventListener('keydown', onKey)
+      timers.forEach((id) => window.clearTimeout(id))
+    }
+  }, [])
+
+  const ran = shown >= 0
+  const done = shown >= career.length
 
   return (
     <header id="top" className="bg-brand-dark pt-12">
@@ -161,7 +187,7 @@ export function TerminalHero() {
           </div>
         </div>
 
-        <div className="grid min-h-0 grid-cols-1 font-space text-[15px] leading-[1.75] text-[#e8d8e3] min-[641px]:grid-cols-[40px_minmax(0,1fr)] min-[1001px]:grid-cols-[52px_minmax(0,1fr)_minmax(300px,26%)]">
+        <div className="grid min-h-0 grid-cols-1 font-space text-[15px] leading-[1.75] text-[#e8d8e3] min-[641px]:grid-cols-[40px_minmax(0,1fr)] min-[1001px]:grid-cols-[52px_minmax(0,1fr)]">
           <div
             aria-hidden
             className="relative hidden min-h-0 overflow-hidden bg-brand-gutter min-[641px]:block"
@@ -175,18 +201,26 @@ export function TerminalHero() {
             </div>
           </div>
 
-          <div className="flex max-w-[1100px] flex-col justify-center px-[18px] py-7 min-[641px]:px-[clamp(28px,5vw,96px)] min-[641px]:py-10">
+          <div className="flex w-full max-w-[1100px] flex-col justify-center px-[18px] min-[1001px]:max-w-none min-[1001px]:pl-[max(20px,calc(50%-654px))] min-[1001px]:pr-10 py-7 min-[641px]:px-[clamp(28px,5vw,96px)] min-[641px]:py-10">
             <div className="shrink-0 text-brand-soft">
               <PromptPrefix />
               <span>{boot.line1}</span>
             </div>
 
             <div className="mb-[22px] mt-1.5" style={fadeStyle(boot.play, boot.out)}>
-              <h1
-                className={`${displayFont} mb-4 mt-1.5 text-[clamp(52px,6vw,96px)] text-white`}
-              >
-                Hi, I’m <span className="brand-grad">Grace Lee</span>
-              </h1>
+              <div className="mb-4 mt-1.5 flex flex-col items-start gap-3 min-[641px]:flex-row min-[641px]:items-center min-[641px]:gap-6">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/home/grace.jpg"
+                  alt="Grace Lee"
+                  width={496}
+                  height={496}
+                  className="size-14 shrink-0 rounded-full border-[3px] border-brand-accent object-cover shadow-[0_0_24px_rgba(171,89,152,0.45)] min-[641px]:size-20"
+                />
+                <h1 className={`${displayFont} m-0 text-[clamp(52px,6vw,96px)] text-white min-[1001px]:whitespace-nowrap`}>
+                  Hi, I’m <span className="brand-grad">Grace Lee</span>
+                </h1>
+              </div>
               <p className="max-w-[720px] font-inter text-[18px] leading-[1.6] text-[#d9c6d3]">
                 I’m a senior product designer who started as a software engineer. I bring
                 structure to complex data and AI workflows and stay curious about how people
@@ -207,80 +241,55 @@ export function TerminalHero() {
               </div>
             </div>
 
-            <div className="text-brand-soft" style={fadeStyle(boot.play, boot.prompt2)}>
-              <PromptPrefix />
-              <span>{boot.line2}</span>
+            <div style={fadeStyle(boot.play, boot.prompt2)}>
+              <button
+                type="button"
+                onClick={() => runRef.current()}
+                disabled={ran}
+                aria-label={RUN_LABEL}
+                aria-expanded={ran}
+                className="-mx-2 block w-[calc(100%+16px)] px-2 text-left text-brand-soft transition-colors enabled:hover:bg-white/[0.06] focus-visible:bg-white/[0.06] focus-visible:outline focus-visible:outline-1 focus-visible:outline-brand-soft disabled:cursor-default"
+              >
+                <PromptPrefix />
+                <span>{boot.line2}</span>
+                {!ran ? (
+                  <span aria-hidden className="home-caret ml-0.5 inline-block h-[19px] w-[9px] align-[-3px] bg-brand-soft" />
+                ) : null}
+                {boot.ready && !ran ? (
+                  <span aria-hidden className="ml-3 inline-block whitespace-nowrap font-space text-[12px] text-[#8c6f84]">
+                    ↵ press enter
+                  </span>
+                ) : null}
+              </button>
             </div>
 
-            <div
-              className="mb-[22px] mt-1.5 text-[15px]"
-              style={fadeStyle(boot.play, boot.log)}
-            >
-              {career.map((row) => (
-                <div
-                  key={row.hash}
-                  className="whitespace-normal min-[1001px]:whitespace-nowrap"
-                >
-                  <span className="text-[#e6c07b]">{row.hash}</span>{' '}
-                  <span className="font-bold text-white">{row.version}</span>
-                  {' · '}
-                  {row.detail}
-                  {row.now ? (
-                    <span className="ml-1.5 inline-block rounded-full bg-brand-accent px-[9px] py-0.5 align-[2px] font-inter text-[10px] font-bold leading-none text-white">
-                      Now
-                    </span>
-                  ) : null}
+            {ran ? (
+              <div aria-live="polite">
+                <div className="mb-[22px] mt-1.5 text-[15px]">
+                  {career.slice(0, shown).map((row) => (
+                    <div key={row.hash} className="whitespace-normal">
+                      <span className="text-[#e6c07b]">{row.hash}</span>{' '}
+                      <span className="font-bold text-white">{row.version}</span>
+                      {' · '}
+                      {row.detail}
+                      {row.now ? (
+                        <span className="ml-1.5 inline-block rounded-full bg-brand-accent px-[9px] py-0.5 align-[2px] font-inter text-[10px] font-bold leading-none text-white">
+                          Now
+                        </span>
+                      ) : null}
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-
-            <div className="text-brand-soft" style={fadeStyle(boot.play, boot.cursor)}>
-              <PromptPrefix />
-              <span className="home-caret inline-block h-[19px] w-[9px] align-[-3px] bg-brand-soft" />
-            </div>
+                {done ? (
+                  <div className="text-brand-soft">
+                    <PromptPrefix />
+                    <span className="home-caret inline-block h-[19px] w-[9px] align-[-3px] bg-brand-soft" />
+                  </div>
+                ) : null}
+              </div>
+            ) : null}
           </div>
 
-          <aside className="hidden flex-col justify-center border-l border-white/[0.06] bg-brand-side px-9 py-10 min-[1001px]:flex">
-            <h2 className="mb-3.5 font-space text-[11px] font-normal tracking-[0.14em] text-[#8c6f84]">
-              ABOUT.JSON
-            </h2>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/home/grace.jpg"
-              alt="Grace Lee"
-              width={496}
-              height={496}
-              className="mb-[22px] mt-1 size-[180px] rounded-full border-[3px] border-brand-accent object-cover shadow-[0_0_40px_rgba(171,89,152,0.45)]"
-            />
-            <div className="font-space text-[13px] leading-[1.8]">
-              {'{'}
-              <br />
-              &nbsp;&nbsp;
-              <span className="text-brand-soft">&quot;role&quot;</span>
-              {': '}
-              <span className="text-[#a8d8a0]">&quot;Senior Product Designer&quot;</span>,
-              <br />
-              &nbsp;&nbsp;
-              <span className="text-brand-soft">&quot;started_as&quot;</span>
-              {': '}
-              <span className="text-[#a8d8a0]">&quot;Software Engineer&quot;</span>,
-              <br />
-              &nbsp;&nbsp;
-              <span className="text-brand-soft">&quot;focus&quot;</span>
-              {': ['}
-              <span className="text-[#a8d8a0]">&quot;data&quot;</span>
-              {', '}
-              <span className="text-[#a8d8a0]">&quot;AI workflows&quot;</span>
-              {'],'}
-              <br />
-              &nbsp;&nbsp;
-              <span className="text-brand-soft">&quot;builds&quot;</span>
-              {': '}
-              <span className="text-[#a8d8a0]">&quot;what she designs&quot;</span>
-              <br />
-              {'}'}
-            </div>
-          </aside>
         </div>
 
         <div className="flex items-center gap-5 overflow-x-auto whitespace-nowrap bg-brand-accent px-4 font-space text-[11px] text-white [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
