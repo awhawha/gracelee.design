@@ -26,16 +26,16 @@ export type FeaturedWork = {
 
 /** Homepage-only featured copy. Case-study pages keep their own title and tags. */
 const featuredCopy = {
-  title:
-    'I stopped designing around the ML pipeline and started designing around how analysts think.',
+  title: 'Making AutoML setup self-serve',
   summary:
-    'As lead designer on dotData’s AutoML, I rebuilt its setup around the one thing every step was configuring: the training table. My biggest contribution was defining the interaction model, a single canvas where analysts see every table relationship and catch errors before they run. Analysts could now configure prediction tasks on their own instead of waiting days for expert help.',
+    'I replaced fragmented setup pages with one canvas, helping business analysts configure prediction tasks with table relationships in view and validation before a run.',
   role: null,
   metrics: [
-    { value: '20+ → 5', label: 'setup actions' },
-    { value: 'Days → minutes', label: 'to configure a task' },
+    { value: '3 pages → 1 canvas', label: '' },
+    { value: 'Guided setup', label: 'with flexible navigation' },
   ],
-  quote: { text: 'I don\'t know what\'s my next step.', source: 'Customer support ticket, before the redesign' },
+  // quote: { text: 'I don\'t know what\'s my next step.', source: 'Customer support ticket, before the redesign' },
+  quote: null,
   tags: ['Research-Led Design', 'Systems Thinking', 'AI/ML UX', 'Interaction Design'],
 }
 

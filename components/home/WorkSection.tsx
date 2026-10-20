@@ -199,7 +199,7 @@ function FeaturedWork() {
         {featured.metrics.length ? (
           <p className="mb-7 mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1.5 text-[13px] text-[#b9a3b3]">
             {featured.metrics.map((m, i) => (
-              <span key={m.label} className="flex items-baseline gap-x-3.5">
+              <span key={m.value} className="flex items-baseline gap-x-3.5">
                 {i > 0 ? (
                   <span className="text-white/30" aria-hidden>
                     ·

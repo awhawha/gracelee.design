@@ -222,11 +222,10 @@ export function TerminalHero() {
                 </h1>
               </div>
               <p className="max-w-[720px] font-inter text-[18px] leading-[1.6] text-[#d9c6d3]">
-                I’m a senior product designer who started as a software engineer. I bring
-                structure to complex data and AI workflows and stay curious about how people
-                actually work. I’ve designed AI-powered machine learning tools at dotData, and I
-                build my own too, like a museum of picture books where AI helps research the
-                stories behind the illustrations.
+                I’m a Senior Product Designer with a software engineering background. I make
+                complex data and AI workflows easier to understand and use. My engineering
+                experience helps me work through technical constraints while keeping the focus
+                on what people need.
               </p>
               <div className="mt-[18px] flex flex-wrap gap-2.5">
                 {pills.map((pill) => (
