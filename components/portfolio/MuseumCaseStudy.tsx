@@ -7,7 +7,6 @@ import {
   Clip,
   Decision,
   Frame,
-  Key,
   Kicker,
   PairVideo,
   Section,
@@ -30,9 +29,12 @@ import { MUSEUM_CASE_TITLE as CASE_TITLE } from '@/lib/museumCaseTitle'
 const TABS: CaseStudyNavTab[] = [
   { id: 'overview', label: 'Overview', color: '#a8d8a0' },
   { id: 'problem', label: 'The problem', color: '#e6c07b' },
-  { id: 'decisions', label: 'Key decisions', color: '#E59BD3' },
+  { id: 'reading', label: 'Reading experience', color: '#E59BD3' },
+  { id: 'production', label: 'Production', color: '#f0a58a' },
+  { id: 'workflow', label: 'AI workflow', color: '#E59BD3' },
+  { id: 'evidence', label: 'Evidence & review', color: '#a8d8a0' },
   { id: 'outcome', label: 'Outcome', color: '#B48CE0' },
-  { id: 'learned', label: 'What I learned', color: '#7fc4e8' },
+  { id: 'learned', label: 'Reflection', color: '#7fc4e8' },
 ]
 
 const META = [
@@ -43,7 +45,7 @@ const META = [
 const CALLOUTS = [
   {
     value: '7–11h → 2–3h',
-    label: 'Research time per book',
+    label: 'Per book, research to publish',
     context: 'AI Studio gathers evidence and drafts inside the admin, so one curator can keep publishing.',
   },
   {
@@ -64,26 +66,6 @@ const TIME = [
   { step: 'Find sources', hours: '1–2 h' },
   { step: 'Write', hours: '2–3 h' },
   { step: 'Fact-check', hours: '1 h' },
-]
-
-const OUTCOMES: [string, string][] = [
-  ['Shipped.', '33 of 71 books published, each with a sourced close reading.'],
-  ['One workspace.', 'AI Studio finds, researches and drafts books in one place.'],
-  ['Pages take their color from the cover.', 'Each book page is tinted from its cover\u2019s palette, so every visit feels like a different book.'],
-  ['Covers keep their real proportions.', 'Unlike shopping sites with identical thumbnails, list widths follow each book\u2019s shape, so readers sense its size before opening it.'],
-  ['There\u2019s always something next.', 'Similar books and illustrator profiles at the bottom keep readers exploring.'],
-]
-
-const LEARNED: [string, string][] = [
-  [
-    'Context beats prompts.',
-    'A button per field failed because the AI saw one field at a time. It became useful only once it could see the whole book and its sources.',
-  ],
-  ['Design the workflow, not just the feature.', 'Removing the hand-offs between tools mattered more than any prompt change.'],
-  [
-    'Keep facts and opinions apart.',
-    'Sourcing every claim and flagging what can’t be verified is what lets AI handle the volume while the judgment stays mine.',
-  ],
 ]
 
 function TimeBreakdown() {
@@ -112,19 +94,18 @@ function TimeBreakdown() {
 }
 
 /**
- * Decision 2 before/after, stacked full width. The before screenshot gets an HTML overlay
+ * Attempt 01: the per-field Generate screen, full width. The before screenshot gets an HTML overlay
  * (positions in % of the 1748×703 image): outlines on the regenerate button and the AI output
  * field, plus an Expected vs Received callout pair below.
  */
-function BeforeAfterAi({ onZoom }: { onZoom: ZoomFn }) {
+function BeforeAi({ onZoom }: { onZoom: ZoomFn }) {
   const beforeSrc = '/images/museum/experimentA-AI-refill-failed.png'
   const beforeAlt = 'A Generate with AI button on a single field producing generic commentary'
   const outline =
     'pointer-events-none absolute rounded-[6px] border-2 border-brand-accent shadow-[0_0_0_4px_rgba(180,80,150,0.12)]'
   return (
-    <div className="space-y-14">
+    <div>
       <figure className={`m-0 ${wide}`}>
-        <div className="mb-3 text-[13px] font-semibold text-brand-muted">Before</div>
         <button
           type="button"
           onClick={() => onZoom(beforeSrc, beforeAlt)}
@@ -155,24 +136,6 @@ function BeforeAfterAi({ onZoom }: { onZoom: ZoomFn }) {
             <p className="m-0 mt-1 text-[14px] leading-[1.5] text-brand-ink">General commentary, not visual analysis</p>
           </div>
         </div>
-      </figure>
-
-      <p className={prose}>
-        I merged both into AI Studio inside the admin, where AI drafts with the whole book and its sources
-        in view. <Key>The biggest gain came from removing the copy-paste between tools</Key>, not from a
-        better prompt.
-      </p>
-
-      <figure className={`m-0 ${wide}`}>
-        <div className="mb-3 text-[13px] font-semibold text-brand-accent">After</div>
-        <div className={frame} style={{ aspectRatio: '1760 / 1070' }}>
-          <PairVideo
-            src="/images/museum/ai-studio.mp4"
-            poster="/images/museum/ai-studio-poster.jpg"
-            label="AI Studio: asking the advisor for books, then AI researching a selected book with sources"
-          />
-        </div>
-        <figcaption className={`mt-3 ${caption}`}>After: AI Studio drafts with the whole book in view.</figcaption>
       </figure>
     </div>
   )
@@ -305,11 +268,13 @@ export function MuseumCaseStudy() {
             {CASE_TITLE}
           </h1>
           <p className={`${prose} mt-7`}>
-            Picture books tell their stories through pictures, but good writing about the illustrations
-            was scattered and scarce in Chinese. Working solo as designer, developer and editor, I built a
-            bilingual picture-book museum for Taiwanese readers, then an AI research workflow inside its
-            admin. <Key>I review every paragraph before it’s published</Key>, and research time dropped
-            from 7–11 hours to about 2–3 hours per book.
+            Picture books tell stories through images, but writing about their illustrations was scattered
+            and scarce in Chinese. Working solo as designer, developer and editor, I built a Traditional
+            Chinese picture-book museum that connects historical context, visual analysis and sources.
+          </p>
+          <p className={prose}>
+            To sustain that experience, I also built an AI research workspace inside the admin, with
+            source-linked drafts and human review before publication.
           </p>
 
           <dl className={`m-0 mt-10 grid grid-cols-2 gap-x-8 gap-y-5 min-[761px]:grid-cols-3 ${wide}`}>
@@ -341,109 +306,145 @@ export function MuseumCaseStudy() {
           </div>
         </section>
 
-        <Section id="problem" label="The problem" title="Finding information was only the beginning">
+        <Section id="problem" label="The problem" title="Finding sources wasn’t enough to understand the pictures">
           <p className={prose}>
-            I wanted to understand how the pictures tell the story. <Key>The material was scattered</Key>{' '}
-            across interviews, exhibition pages and articles; Chinese-language writing on illustration was
-            thin; and references I saved on Facebook and Instagram were hard to find again.
+            I wanted to understand how the pictures tell the story. Interviews, exhibition pages and articles
+            were scattered across platforms, Chinese-language writing on illustration was limited, and
+            references I saved on Facebook and Instagram were hard to find again.
           </p>
           <p className={prose}>
-            Each close reading needed research, visual study, sourcing, writing and fact-checking, about
-            7–11 hours per book. With 38 books waiting and a team of one,{' '}
-            <Key>writing alone couldn’t keep up</Key>.
+            I built the museum to bring historical context, visual analysis and sources into one reading
+            experience.
+          </p>
+        </Section>
+
+        <Section id="reading" label="Reading experience" title="Designing the reading experience">
+          <Decision
+            num=""
+            title="Give each book its own visual lens"
+            media={
+              <div className={wide}>
+                <Frame
+                  src="/images/museum/alice-visual-lens.png"
+                  alt="Left: a wood-engraving close reading of an Alice in Wonderland illustration. Right: a book page whose background and highlights take their colors from the cover palette"
+                  onZoom={onZoom}
+                  caption="Each book page is tinted from its cover’s palette, so every visit feels like a different book."
+                />
+              </div>
+            }
+          >
+            <p className={prose}>
+              Each entry focuses on how the illustrations tell the story. For Alice in Wonderland, I explored
+              how wood engraving creates texture and depth through line. Cover-based palettes carry each
+              book’s visual character into the page.
+            </p>
+          </Decision>
+
+          <Decision
+            num=""
+            title="Guide attention, then let readers explore"
+            media={
+              <div className={wide}>
+                <Clip
+                  src="/images/museum/close-reading-zoom.mp4"
+                  poster="/images/museum/close-reading-zoom-poster.jpg"
+                  label="Close-read mode: zooming into an illustration and stepping through annotations tied to details"
+                  caption="After testing, I added close-read mode: zoom into an illustration and step through annotated details."
+                />
+              </div>
+            }
+          >
+            <p className={prose}>
+              Testing with five readers highlighted a need for more visual analysis and help discussing books
+              with children. I added close-read mode, focusing each illustration on three or four selected
+              details. Readers can jump to an annotation, zoom freely and move between observations without
+              finding each marker again.
+            </p>
+          </Decision>
+        </Section>
+
+        <Section id="production" label="Production" title="The reading experience created a production challenge">
+          <p className={prose}>
+            Producing each sourced close reading required research, visual study, writing and
+            fact-checking—about 7–11 hours per book. With 38 books waiting and a team of one, I needed a way
+            to keep publishing without giving up that level of care.
           </p>
           <div className="mt-10">
             <TimeBreakdown />
           </div>
         </Section>
 
-        <Section id="decisions" label="Key decisions" title="Four decisions that made the museum sustainable">
-          <Decision
-            num="01"
-            title="Make visual storytelling the product, and one book a day the front door"
-            media={
-              <div className={wide}>
-                <Clip
-                  src="/images/museum/homepage-concepts.mp4"
-                  poster="/images/museum/homepage-concepts-poster.jpg"
-                  label="Switching between three homepage concepts; the selected Daily Selection opens on one featured book"
-                  caption="I prototyped three homepage concepts with Claude and tested them; Option A (Book of the Day) won."
-                />
-              </div>
-            }
-          >
+        <Section id="workflow" label="AI workflow" title="From isolated generation to an integrated workflow">
+          <Decision num="01" title="A “Generate” button on every field wasn’t enough" media={<BeforeAi onZoom={onZoom} />}>
             <p className={prose}>
-              Each entry focuses on how the images tell the story, with visual analysis. A timeline gave historical context but broke down at
-              around 20 books, when titles from the same year overlapped. I prototyped three homepages;{' '}
-              <Key>Option A, one featured book a day, gave visitors a reason to come back</Key>, so the museum became a
-              destination worth researching for, before any AI was added.
+              Each field was written in isolation, so AI produced generic commentary about friendship and
+              childhood instead of analyzing the illustrations. I still had to find sources and refocus the
+              draft on visual storytelling.
             </p>
           </Decision>
 
           <Decision
             num="02"
-            title="Give the AI the whole book, not one field"
+            title="Better research, but manual transfers"
             media={
-              <BeforeAfterAi onZoom={onZoom} />
+              <div className={wide}>
+                <Frame
+                  src="/images/museum/advisor-cursor-handoff.png"
+                  alt="The curation advisor in the admin beside the writing skill in Cursor: copy the book title into Cursor, then paste the draft back into the admin"
+                  onZoom={onZoom}
+                  caption="Curation advisor in the admin, writing skill in Cursor, and the manual copy and paste between them."
+                />
+              </div>
             }
           >
             <p className={prose}>
-              Per-field generation wrote generic commentary about friendship and childhood instead of
-              reading the pictures. Splitting the work between an admin advisor and a Cursor skill improved
-              the research, but I still copied every draft in by hand.
+              I split the work between a curation advisor in the admin and a writing skill in Cursor. The
+              research improved, but drafts still lived outside the admin, and I copied them back by hand.
             </p>
           </Decision>
 
           <Decision
             num="03"
-            title="Keep facts and opinions apart"
+            title="Research, draft and review in one place"
             media={
-              <div className={wide}>
-                <div className="mx-auto max-w-[440px]">
-                  <Clip
-                    src="/images/museum/evidence-chip.mp4"
-                    poster="/images/museum/evidence-chip-poster.jpg"
-                    label="Clicking a citation chip opens its evidence card under the paragraph, then jumping to it in the full evidence list"
-                    caption="Click a citation to open its evidence, then jump to the full list."
+              <figure className={`m-0 ${wide}`}>
+                <div className={frame} style={{ aspectRatio: '1760 / 1070' }}>
+                  <PairVideo
+                    src="/images/museum/ai-studio.mp4"
+                    poster="/images/museum/ai-studio-poster.jpg"
+                    label="AI Studio: asking the advisor for books, then AI researching a selected book with sources"
                   />
                 </div>
-              </div>
+                <figcaption className={`mt-3 ${caption}`}>AI Studio drafts with the whole book in view.</figcaption>
+              </figure>
             }
           >
             <p className={prose}>
-              Every AI paragraph links to numbered evidence, a source or a visual observation.{" "}
-              <Key>Claims with only one source are flagged, not cited</Key>, so I can check them before
-              anything goes live.
-            </p>
-          </Decision>
-
-
-          <Decision
-            num="04"
-            title="Turn reader feedback into visual close reading"
-            media={
-              <div className="space-y-10">
-                <div className={wide}>
-                  <Clip
-                    src="/images/museum/close-reading-zoom.mp4"
-                    poster="/images/museum/close-reading-zoom-poster.jpg"
-                    label="Close-read mode: zooming into an illustration and stepping through annotations tied to details"
-                    caption="After testing, I added close-read mode: zoom into an illustration and step through annotated details."
-                  />
-                </div>
-              </div>
-            }
-          >
-            <p className={prose}>
-              <Key>I tested with 5 readers</Key>: parents, picture-book fans and people who promote picture
-              books. They wanted more visual analysis and help talking with their kids,{' '}
-              <Key>so I added close-read mode and an age guide</Key>. Requests for post-reading activities
-              shape what’s next.
+              I merged both tools into AI Studio inside the admin. AI gathers evidence and drafts with the
+              book’s context and sources available in one workspace, reducing manual transfers between tools.
             </p>
           </Decision>
         </Section>
 
-        <Section id="outcome" label="Outcome" title="Live with 33 books, and still being built">
+        <Section id="evidence" label="Evidence & review" title="Keep evidence visible and publication under human control">
+          <p className={prose}>
+            AI-generated paragraphs link to numbered evidence, including sources and visual observations. I
+            can open the evidence beside a paragraph, check the claim and review the text before approving it
+            for publication.
+          </p>
+          <div className={`mt-10 ${wide}`}>
+            <div className="mx-auto max-w-[440px]">
+              <Clip
+                src="/images/museum/evidence-chip.mp4"
+                poster="/images/museum/evidence-chip-poster.jpg"
+                label="Clicking a citation chip opens its evidence card under the paragraph, then jumping to it in the full evidence list"
+                caption="Click a citation to open its evidence, then jump to the full list."
+              />
+            </div>
+          </div>
+        </Section>
+
+        <Section id="outcome" label="Outcome" title="Live with 33 books, supported by a repeatable workflow">
           <div className="mb-10">
             <BrowserVideo
               src="/images/museum/museum-outcome.mp4"
@@ -454,25 +455,11 @@ export function MuseumCaseStudy() {
             />
           </div>
           <p className={prose}>
-            <Key>Research time dropped from 7–11 hours to about 2–3 hours per book</Key>, so one curator can
-            keep the museum growing.
+            The museum has 33 published books, each with a sourced visual close reading. AI Studio brings
+            research and drafting into the admin, while paragraph-level review keeps publication decisions
+            with me.
           </p>
-          <ul className="m-0 mt-7 list-none space-y-4 p-0">
-            {OUTCOMES.map(([lead, text]) => (
-              <li key={lead} className="flex gap-3 text-[17px] leading-[1.75] text-brand-body">
-                <span className="mt-[12px] inline-block size-1.5 shrink-0 rounded-full bg-brand-muted" aria-hidden />
-                <span>
-                  <span className="font-semibold text-brand-ink">{lead}</span> {text}
-                </span>
-              </li>
-            ))}
-          </ul>
-          <p className={`${prose} mt-7`}>
-            <span className="font-semibold text-brand-ink">Next:</span> I choose the angle of analysis before
-            AI writes, my photos of the physical book feed the visual analysis, and research gaps get flagged
-            instead of producing failed drafts. I&rsquo;m also bringing editing into AI Studio, so I can revise and
-            approve each paragraph right in the draft without going back to the book page.
-          </p>
+          <p className={prose}>Producing an entry now takes about 2–3 hours, compared with 7–11 hours before.</p>
           <a
             href="https://inanutshellbooks.studio"
             target="_blank"
@@ -483,14 +470,12 @@ export function MuseumCaseStudy() {
           </a>
         </Section>
 
-        <Section id="learned" label="What I learned" title="AI handled the volume. The judgment stayed mine.">
-          <ul className="m-0 list-none space-y-7 p-0">
-            {LEARNED.map(([lead, text]) => (
-              <li key={lead} className="text-[17px] leading-[1.75] text-brand-body">
-                <span className="font-semibold text-brand-ink">{lead}</span> {text}
-              </li>
-            ))}
-          </ul>
+        <Section id="learned" label="Reflection" title="AI handled the volume. The judgment stayed mine.">
+          <p className={prose}>
+            The useful shift was from generating isolated fields to supporting the whole editorial workflow.
+            Shared context and fewer manual transfers made the process more workable; visible evidence and
+            human review kept the final judgment with me.
+          </p>
         </Section>
       </div>
 
