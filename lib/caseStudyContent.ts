@@ -463,63 +463,59 @@ const automl: CaseStudyContent = {
     },
     {
       kicker: '07 — Outcomes',
-      heading: 'From 20+ configuration actions to 5 guided steps',
-      body: [],
-      decisionsTitle: 'What changed',
-      decisionsLayout: 'cards',
-      decisions: [
-        {
-          num: '01',
-          name: 'Fewer configuration actions',
-          text: 'Reduced 20+ configuration actions to 5 guided steps.',
-        },
-        {
-          num: '02',
-          name: 'Faster iteration',
-          text: 'Users could revise one setting and rerun, instead of rebuilding the setup.',
-        },
-        {
-          num: '03',
-          name: 'Clearer decisions',
-          text: 'Each choice sat next to the table it affected.',
-        },
-      ],
-      list: {
-        title: 'What I will measure after customers upgrade',
-        items: [
-          'Task completion rate',
-          'Support requests per customer',
-          'Time to first successful experiment',
-        ],
-      },
-    },
-    {
-      kicker: '08 — What I learned',
-      heading: 'Involving engineering early made the canvas possible',
+      heading: 'From support-dependent workflows to self-service prediction',
       body: [
-        'This was a highly collaborative project. Bringing engineering in early mattered in both directions.',
+        'The redesign gave business analysts a way to set up prediction tasks on their own, cut configuration time in testing, and gave leadership a version they started demoing to customers.',
       ],
       decisionsLayout: 'cards',
       decisions: [
         {
           num: '01',
-          name: 'Align on the pain before the solution',
-          text: 'Sharing research findings early meant we agreed on the user problems — unclear next steps, unfamiliar terms, errors after the run — before anyone committed to a layout.',
+          name: '~60% faster setup in testing',
+          text: 'Configuration time dropped from 18 to 7 minutes in usability testing.',
         },
         {
           num: '02',
-          name: 'Learn the limits and the possibilities in time to change course',
-          text: 'Knowing technical constraints and what was newly possible let me adjust the design quickly, instead of discovering a blocker in handoff.',
+          name: '12 sections → 4 steps on 1 canvas',
+          text: 'Replaced the scattered setup with a single canvas where users can revisit any configuration anytime.',
         },
         {
           num: '03',
-          name: 'Give engineering time to plan the hard change',
-          text: 'The canvas was a large architectural shift. Early alignment let engineers plan for it, rather than treating it as a late UI request.',
+          name: 'Leadership demos & positive feedback',
+          text: 'After launch, leadership began demoing the new workflow to customers, and a customer noted it was much easier to set up experiments than the previous version.',
         },
         {
           num: '04',
-          name: 'Ship one flow in slices',
-          text: 'This stayed one configuration flow. We did not wait for a perfect canvas: concept and workshop first, then an internal MVP broken into features, then ticketed iteration, then a customer-upgrade release.',
+          name: 'US sales resumed',
+          text: 'The US sales team resumed promoting the product during the redesign, after pausing earlier due to usability issues.',
+        },
+        {
+          num: '05',
+          name: 'Shared design principles & components',
+          text: 'The design principles and components established here, such as table selection and the configuration modal, were adopted across other product areas.',
+        },
+      ],
+    },
+    {
+      kicker: '08 — What I learned',
+      heading: 'What I learned',
+      body: [],
+      decisionsLayout: 'cards',
+      decisions: [
+        {
+          num: '01',
+          name: 'Test the structure against real workflows early',
+          text: 'Modeling turned out to be iterative, not linear—testing that earlier would have caught the mismatch before committing to a wizard.',
+        },
+        {
+          num: '02',
+          name: 'Build metrics into v1 from day one',
+          text: "Next time, I'd align with PM and engineering upfront on post-launch metrics like time to first experiment.",
+        },
+        {
+          num: '03',
+          name: 'If I built it again — decision support over guided setup',
+          text: 'AI would inspect the data and propose a setup, while analysts review, adjust, and approve—keeping it explainable and editable.',
         },
       ],
     },
