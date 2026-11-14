@@ -46,7 +46,7 @@ const CALLOUTS = [
   {
     value: '7–11h → 2–3h',
     label: 'Per book, research to publish',
-    context: 'AI Studio gathers evidence and drafts inside the admin, so one curator can keep publishing.',
+    context: 'An AI research workflow gathers evidence and drafts each entry, so one curator can keep publishing.',
   },
   {
     value: '33 books live',
@@ -87,7 +87,7 @@ function TimeBreakdown() {
         </ol>
       </div>
       <figcaption className="mt-3 text-[14px] leading-[1.5] text-[#6B5F68]">
-        Where the time went on each close reading, before AI Studio.
+        Where the time went on each close reading, before the AI workflow.
       </figcaption>
     </figure>
   )
@@ -385,27 +385,48 @@ export function MuseumCaseStudy() {
 
           <Decision
             num="02"
-            title="Better research, but manual transfers"
+            title="Grounded in sources, but outside the admin"
             media={
               <div className={wide}>
                 <Frame
-                  src="/images/museum/advisor-cursor-handoff.png"
-                  alt="The curation advisor in the admin beside the writing skill in Cursor: copy the book title into Cursor, then paste the draft back into the admin"
+                  src="/images/museum/notebooklm.png"
+                  alt="NotebookLM analyzing a picture book from a list of grounded sources, with the answer copied back to the CMS by hand"
                   onZoom={onZoom}
-                  caption="Curation advisor in the admin, writing skill in Cursor, and the manual copy and paste between them."
+                  caption="NotebookLM grounded the analysis in chosen sources, but every result was copied back to the CMS by hand."
                 />
               </div>
             }
           >
             <p className={prose}>
-              I split the work between a curation advisor in the admin and a writing skill in Cursor. The
-              research improved, but drafts still lived outside the admin, and I copied them back by hand.
+              I moved the research to NotebookLM, which grounded the analysis in sources I chose. The analysis
+              improved, but every result had to be copied back into the CMS by hand.
             </p>
           </Decision>
 
           <Decision
             num="03"
-            title="Research, draft and review in one place"
+            title="A workflow that worked, but only for me"
+            media={
+              <div className={wide}>
+                <Frame
+                  src="/images/museum/advisor-cursor-handoff.png"
+                  alt="The curation advisor in the admin beside the writing skill in Cursor, which saves the draft straight to the book's page"
+                  onZoom={onZoom}
+                  caption="Curation advisor in the admin, and a writing skill in Cursor that saves drafts straight to the book’s page."
+                />
+              </div>
+            }
+          >
+            <p className={prose}>
+              I split the work between a curation advisor in the admin and a writing skill in Cursor, with the
+              whole book in context. Cursor could save drafts straight into the project, bringing each entry
+              from about 7–11 hours to 2–3. But it depended on my own setup, so no one else could use it.
+            </p>
+          </Decision>
+
+          <Decision
+            num="04"
+            title="Next: research, draft and review in one place"
             media={
               <figure className={`m-0 ${wide}`}>
                 <div className={frame} style={{ aspectRatio: '1760 / 1070' }}>
@@ -415,13 +436,14 @@ export function MuseumCaseStudy() {
                     label="AI Studio: asking the advisor for books, then AI researching a selected book with sources"
                   />
                 </div>
-                <figcaption className={`mt-3 ${caption}`}>AI Studio drafts with the whole book in view.</figcaption>
+                <figcaption className={`mt-3 ${caption}`}>AI Studio, in testing: drafting with the whole book in view.</figcaption>
               </figure>
             }
           >
             <p className={prose}>
-              I merged both tools into AI Studio inside the admin. AI gathers evidence and drafts with the
-              book’s context and sources available in one workspace, reducing manual transfers between tools.
+              I’m now testing AI Studio, which brings research, drafting and review into the admin so the
+              workflow isn’t tied to my setup. It’s still in testing, and the model still makes things up,
+              which is why evidence and review sit at the center of the design.
             </p>
           </Decision>
         </Section>
@@ -455,9 +477,8 @@ export function MuseumCaseStudy() {
             />
           </div>
           <p className={prose}>
-            The museum has 33 published books, each with a sourced visual close reading. AI Studio brings
-            research and drafting into the admin, while paragraph-level review keeps publication decisions
-            with me.
+            The museum has 33 published books, each with a sourced visual close reading. An AI research
+            workflow supports each entry, while paragraph-level review keeps publication decisions with me.
           </p>
           <p className={prose}>Producing an entry now takes about 2–3 hours, compared with 7–11 hours before.</p>
           <a
