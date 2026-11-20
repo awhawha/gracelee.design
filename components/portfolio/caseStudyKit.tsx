@@ -153,11 +153,24 @@ export function PairFigure({
   )
 }
 
-/** Muted looping clip; plays only while in view and never autoplays under reduced motion. */
-export function Clip({ src, poster, label, caption }: { src: string; poster?: string; label: string; caption?: string }) {
+/** Muted looping clip; plays only while in view and never autoplays under reduced motion. Pass autoPlay={false} to wait for the play button. */
+export function Clip({
+  src,
+  poster,
+  label,
+  caption,
+  autoPlay = true,
+}: {
+  src: string
+  poster?: string
+  label: string
+  caption?: string
+  autoPlay?: boolean
+}) {
   const ref = useRef<HTMLVideoElement>(null)
   useEffect(() => {
     const v = ref.current
+    if (!autoPlay) return
     if (!v || typeof IntersectionObserver === 'undefined') return
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
     const io = new IntersectionObserver(
@@ -169,7 +182,7 @@ export function Clip({ src, poster, label, caption }: { src: string; poster?: st
     )
     io.observe(v)
     return () => io.disconnect()
-  }, [])
+  }, [autoPlay])
   return (
     <figure className="m-0 w-full">
       <div className={frame}>
