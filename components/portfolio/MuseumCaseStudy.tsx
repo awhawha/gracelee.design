@@ -44,7 +44,7 @@ const META = [
 
 const CALLOUTS = [
   {
-    value: '7–11h → 2–3h',
+    value: '7–8h → 1h',
     label: 'Per book, research to publish',
     context: 'An AI research workflow gathers evidence and drafts each entry, so one curator can keep publishing.',
   },
@@ -73,7 +73,7 @@ function TimeBreakdown() {
     <figure className={`m-0 ${wide}`}>
       <div className="rounded-[12px] border border-[#ECE6EE] p-6 min-[641px]:p-8">
         <div className="flex flex-wrap items-baseline justify-between gap-2">
-          <div className="font-grotesk text-[28px] font-bold leading-[1.1] text-brand-ink">≈ 7–11 hours per book</div>
+          <div className="font-grotesk text-[28px] font-bold leading-[1.1] text-brand-ink">≈ 7–8 hours per book</div>
           <div className="text-[15px] text-brand-body">38 books waiting · 33 of 71 published</div>
         </div>
         <ol className="m-0 mt-6 grid list-none gap-3 p-0 min-[761px]:grid-cols-5">
@@ -324,19 +324,21 @@ export function MuseumCaseStudy() {
             title="Give each book its own visual lens"
             media={
               <div className={wide}>
-                <Frame
-                  src="/images/museum/alice-visual-lens.png"
-                  alt="Left: a wood-engraving close reading of an Alice in Wonderland illustration. Right: a book page whose background and highlights take their colors from the cover palette"
-                  onZoom={onZoom}
+                <Clip
+                  src="/images/museum/book-page-scroll.mp4"
+                  poster="/images/museum/book-page-scroll-poster.jpg"
+                  autoPlay={false}
+                  label="Scrolling The Very Hungry Caterpillar book page: a green cover-tinted hero, the close reading, the cover palette, and similar books"
                   caption="Each book page is tinted from its cover’s palette, so every visit feels like a different book."
                 />
               </div>
             }
           >
             <p className={prose}>
-              Each entry focuses on how the illustrations tell the story. For Alice in Wonderland, I explored
-              how wood engraving creates texture and depth through line. Cover-based palettes carry each
-              book’s visual character into the page.
+              Each entry focuses on how the illustrations tell the story. For The Very Hungry Caterpillar,
+              the page takes its greens and reds from the cover, and the close reading looks at how
+              painted-paper collage builds the caterpillar. Every book gets its own palette, so each page
+              carries that book’s visual character.
             </p>
           </Decision>
 
@@ -366,7 +368,7 @@ export function MuseumCaseStudy() {
         <Section id="production" label="Production" title="The reading experience created a production challenge">
           <p className={prose}>
             Producing each sourced close reading required research, visual study, writing and
-            fact-checking—about 7–11 hours per book. With 38 books waiting and a team of one, I needed a way
+            fact-checking—about 7–8 hours per book. With 38 books waiting and a team of one, I needed a way
             to keep publishing without giving up that level of care.
           </p>
           <div className="mt-10">
@@ -420,7 +422,7 @@ export function MuseumCaseStudy() {
             <p className={prose}>
               I split the work between a curation advisor in the admin and a writing skill in Cursor, with the
               whole book in context. Cursor could save drafts straight into the project, bringing each entry
-              from about 7–11 hours to 2–3. But it depended on my own setup, so no one else could use it.
+              from about 7–8 hours to 1. But it depended on my own setup, so no one else could use it.
             </p>
           </Decision>
 
@@ -480,7 +482,7 @@ export function MuseumCaseStudy() {
             The museum has 33 published books, each with a sourced visual close reading. An AI research
             workflow supports each entry, while paragraph-level review keeps publication decisions with me.
           </p>
-          <p className={prose}>Producing an entry now takes about 2–3 hours, compared with 7–11 hours before.</p>
+          <p className={prose}>Producing an entry now takes about 1 hour, compared with 7–8 hours before.</p>
           <a
             href="https://inanutshellbooks.studio"
             target="_blank"
