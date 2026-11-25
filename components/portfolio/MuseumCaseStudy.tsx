@@ -61,10 +61,10 @@ const CALLOUTS = [
 ]
 
 const TIME = [
-  { step: 'Research background', hours: '2–3 h' },
-  { step: 'Study the illustrations', hours: '1–2 h' },
-  { step: 'Find sources', hours: '1–2 h' },
-  { step: 'Write', hours: '2–3 h' },
+  { step: 'Research background', hours: '1.5 h' },
+  { step: 'Study the illustrations', hours: '1 h' },
+  { step: 'Find sources', hours: '1 h' },
+  { step: 'Write', hours: '2.5 h' },
   { step: 'Fact-check', hours: '1 h' },
 ]
 
@@ -74,7 +74,6 @@ function TimeBreakdown() {
       <div className="rounded-[12px] border border-[#ECE6EE] p-6 min-[641px]:p-8">
         <div className="flex flex-wrap items-baseline justify-between gap-2">
           <div className="font-grotesk text-[28px] font-bold leading-[1.1] text-brand-ink">≈ 7–8 hours per book</div>
-          <div className="text-[15px] text-brand-body">38 books waiting · 33 of 71 published</div>
         </div>
         <ol className="m-0 mt-6 grid list-none gap-3 p-0 min-[761px]:grid-cols-5">
           {TIME.map((t, i) => (
@@ -335,7 +334,16 @@ export function MuseumCaseStudy() {
             }
           >
             <p className={prose}>
-              Each entry focuses on how the illustrations tell the story. For The Very Hungry Caterpillar,
+              Each entry focuses on how the illustrations tell the story. For{" "}
+              <a
+                href="https://inanutshellbooks.studio/books/8"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline underline-offset-2"
+              >
+                The Very Hungry Caterpillar
+              </a>
+              ,
               the page takes its greens and reds from the cover, and the close reading looks at how
               painted-paper collage builds the caterpillar. Every book gets its own palette, so each page
               carries that book’s visual character.
@@ -358,7 +366,16 @@ export function MuseumCaseStudy() {
           >
             <p className={prose}>
               Testing with five readers highlighted a need for more visual analysis and help discussing books
-              with children. I added close-read mode, focusing each illustration on three or four selected
+              with children. I added{" "}
+              <a
+                href="https://inanutshellbooks.studio/books/39#sec-visual"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline underline-offset-2"
+              >
+                close-read mode
+              </a>
+              , focusing each illustration on three or four selected
               details. Readers can jump to an annotation, zoom freely and move between observations without
               finding each marker again.
             </p>
@@ -411,11 +428,19 @@ export function MuseumCaseStudy() {
             media={
               <div className={wide}>
                 <Frame
-                  src="/images/museum/advisor-cursor-handoff.png"
-                  alt="The curation advisor in the admin beside the writing skill in Cursor, which saves the draft straight to the book's page"
+                  src="/images/museum/new-book-skill.png"
+                  alt="The New-book skill in five steps: check the collection, gather sources, match my voice, draft for my review, then human review and publish"
                   onZoom={onZoom}
-                  caption="Curation advisor in the admin, and a writing skill in Cursor that saves drafts straight to the book’s page."
+                  caption="The New-book skill: from a title to a draft I review, then human review and publish in the admin."
                 />
+                <div className="mt-8">
+                  <Frame
+                    src="/images/museum/cursor-writing-skill.png"
+                    alt="Running the New-book skill in Cursor with a book title, and the draft it saves straight to the book's page"
+                    onZoom={onZoom}
+                    caption="Running the skill in Cursor. The draft is saved straight to the book’s page."
+                  />
+                </div>
               </div>
             }
           >
